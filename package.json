@@ -6,19 +6,37 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "eslint": "eslint --ignore-path .gitignore './src/**/*.{js,jsx,ts,tsx}'",
+    "stylelint": "stylelint --ignore-path .gitignore './src/**/*.{css,scss,ts,tsx}'"
   },
   "dependencies": {
+    "@emotion/react": "^11.9.3",
+    "@emotion/styled": "^11.9.3",
+    "@mui/icons-material": "^5.8.4",
+    "@mui/material": "^5.9.0",
     "next": "12.2.2",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "recoil": "^0.7.4"
   },
   "devDependencies": {
+    "@stylelint/postcss-css-in-js": "^0.38.0",
     "@types/node": "18.0.4",
     "@types/react": "18.0.15",
     "@types/react-dom": "18.0.6",
+    "@typescript-eslint/eslint-plugin": "^5.30.6",
+    "@typescript-eslint/parser": "^5.30.6",
     "eslint": "8.19.0",
     "eslint-config-next": "12.2.2",
+    "eslint-config-prettier": "^8.5.0",
+    "prettier": "^2.7.1",
+    "sass": "^1.53.0",
+    "stylelint": "^14.9.1",
+    "stylelint-config-prettier": "^9.0.3",
+    "stylelint-config-recess-order": "^3.0.0",
+    "stylelint-config-standard-scss": "^5.0.0",
+    "stylelint-prettier": "^2.0.0",
     "typescript": "4.7.4"
   }
 }
