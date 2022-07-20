@@ -18,5 +18,7 @@
     },
     "project": "./tsconfig.json"
   },
-  "rules": {}
+  "rules": {
+    "react/display-name": "off"
+  }
 }

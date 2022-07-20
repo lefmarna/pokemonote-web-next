@@ -1,9 +1,42 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
+import { useRouter } from 'next/router'
+import { SyntheticEvent, useState } from 'react'
+import { useRecoilValue } from 'recoil'
+import { SearchField } from '../components/molecules/SearchField'
+import { pokemonDataState } from '../store'
 import styles from '../styles/Home.module.scss'
+import { PokemonData } from '../types'
 
 const Home: NextPage = () => {
+  const pokemonData = useRecoilValue(pokemonDataState)
+
+  const router = useRouter()
+
+  const [currentPokemon, setCurrentPokemon] = useState<PokemonData>({
+    no: 567,
+    name: 'アーケオス',
+    form: '',
+    ranks: [],
+    evolutions: [],
+    types: ['いわ', 'ひこう'],
+    abilities: ['よわき'],
+    hiddenAbilities: [],
+    stats: [75, 140, 65, 112, 65, 110],
+  })
+
+  const onChangeCurrentPokemon = (
+    event: SyntheticEvent<Element, Event>,
+    value: PokemonData | null
+  ) => {
+    if (value === null) return
+    setCurrentPokemon(value)
+  }
+
+  const onClickRouterPush = () => {
+    router.push('/test')
+  }
   return (
     <div className={styles.container}>
       <Head>
@@ -12,10 +45,21 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
+      <SearchField
+        options={pokemonData}
+        label="ポケモン名"
+        itemName="ポケモン"
+        onChange={onChangeCurrentPokemon}
+        selectedItem={currentPokemon}
+        clearable={true}
+      />
+
       <main className={styles.main}>
         <h1 className={styles.title}>
           Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>
+
+        <button onClick={onClickRouterPush}>Testへ</button>
 
         <p className={styles.description}>
           Get started by editing <code className={styles.code}>pages/index.tsx</code>
