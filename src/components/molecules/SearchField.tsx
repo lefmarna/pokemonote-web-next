@@ -2,10 +2,10 @@ import { Autocomplete, FilterOptionsState, TextField } from '@mui/material'
 import { SyntheticEvent } from 'react'
 
 type Props<T extends { name: string }> = {
-  options: []
+  options: T[]
   label: string
   itemName: string
-  selectedItem: T
+  selectedItem: T | null
   clearable?: boolean
   onChange: (event: SyntheticEvent<Element, Event>, value: T | null) => void
 }
@@ -285,6 +285,7 @@ export const SearchField = <T extends { name: string }>(props: Props<T>) => {
       value={selectedItem}
       onChange={onChange}
       getOptionLabel={<T extends { name: string }>(option: T) => option.name}
+      isOptionEqualToValue={(option, value) => option.name === value.name}
       noOptionsText={`${itemName}が見つかりません。`}
       filterOptions={filterOptions}
       options={options}

@@ -12,7 +12,7 @@ init:
 setup:
 	@make up
 	@make open
-	@make
+	@make dev
 
 .PHONY: up
 up:

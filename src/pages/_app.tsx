@@ -2,9 +2,10 @@ import '../styles/globals.scss'
 import type { AppProps } from 'next/app'
 import { RecoilRoot, useSetRecoilState } from 'recoil'
 import { memo, useEffect } from 'react'
-import axios from 'axios'
+import axios, { AxiosError } from 'axios'
 import { authUserState, natureDataState, pokemonDataState } from '../store'
 import useSWR, { SWRConfig } from 'swr'
+import { Header } from '../components/organisms/Header'
 
 const AppInit = memo(() => {
   const setAuthUser = useSetRecoilState(authUserState)
@@ -29,12 +30,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
 
   const swrConfigValue = {
     fetcher: (url: string) => axios.get(url).then((res) => res.data),
-    onError: (error: unknown) => {
-      if (!axios.isAxiosError(error)) {
-        console.log(error)
-        return
-      }
-
+    onError: (error: AxiosError<unknown, any>) => {
       switch (error.status) {
         case '404':
           console.log('404')
@@ -53,8 +49,11 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
   return (
     <RecoilRoot>
       <SWRConfig value={swrConfigValue}>
+        <Header />
         <AppInit />
-        <Component {...pageProps} />
+        <main>
+          <Component {...pageProps} />
+        </main>
       </SWRConfig>
     </RecoilRoot>
   )
