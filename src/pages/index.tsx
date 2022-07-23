@@ -1,27 +1,41 @@
+import { Box, Container, Grid, TextField } from '@mui/material'
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { SyntheticEvent } from 'react'
 import { useRecoilState, useRecoilValue } from 'recoil'
+import { CalcButton } from '../components/molecules/CalcButton'
 import { SearchField } from '../components/molecules/SearchField'
-import { pokemonDataState, selectedPokemonState } from '../store'
+import {
+  natureDataState,
+  pokemonDataState,
+  selectedNatureState,
+  selectedPokemonState,
+} from '../store'
 import styles from '../styles/Home.module.scss'
-import { PokemonData } from '../types'
+import { Nature, PokemonData } from '../types'
 
 const Home: NextPage = () => {
   const pokemonData = useRecoilValue(pokemonDataState)
+  const natureData = useRecoilValue(natureDataState)
 
   const [selectedPokemon, setSelectedPokemon] = useRecoilState(selectedPokemonState)
+  const [selectedNature, setSelectedNature] = useRecoilState(selectedNatureState)
 
   const router = useRouter()
 
-  const onChangeCurrentPokemon = (
+  const onChangeSelectedPokemon = (
     event: SyntheticEvent<Element, Event>,
     value: PokemonData | null
   ) => {
     if (value === null) return
     setSelectedPokemon(value)
+  }
+
+  const onChangeSelectedNature = (event: SyntheticEvent<Element, Event>, value: Nature | null) => {
+    if (value === null) return
+    setSelectedNature(value)
   }
 
   const onClickRouterPush = () => {
@@ -35,14 +49,51 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <SearchField
-        options={pokemonData}
-        label="ポケモン名"
-        itemName="ポケモン"
-        onChange={onChangeCurrentPokemon}
-        selectedItem={selectedPokemon}
-        clearable={true}
-      />
+      <Container>
+        <Grid container spacing={{ md: 4, lg: 8, xl: 12 }}>
+          <Grid item xs={12} md={6}>
+            <SearchField
+              options={pokemonData}
+              label="ポケモン名"
+              itemName="ポケモン"
+              onChange={onChangeSelectedPokemon}
+              selectedItem={selectedPokemon}
+            />
+            <Grid container>
+              <Grid item xs={4}>
+                <Box sx={{ display: 'flex' }}>
+                  <Box>
+                    <TextField
+                      type="tel"
+                      label="レベル"
+                      placeholder="1"
+                      variant="standard"
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                    />
+                  </Box>
+                  <Box>
+                    <CalcButton>100</CalcButton>
+                    <CalcButton>1</CalcButton>
+                  </Box>
+                </Box>
+              </Grid>
+              <Grid item xs={8}>
+                <SearchField
+                  options={natureData}
+                  label="性格"
+                  itemName="性格"
+                  onChange={onChangeSelectedNature}
+                  selectedItem={selectedNature}
+                  disableClearable={true}
+                />
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid item xs={12} md={6}></Grid>
+        </Grid>
+      </Container>
 
       <main className={styles.main}>
         <h1 className={styles.title}>

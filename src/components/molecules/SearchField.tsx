@@ -1,4 +1,5 @@
-import { Autocomplete, FilterOptionsState, TextField } from '@mui/material'
+import ClearIcon from '@mui/icons-material/Clear'
+import { Autocomplete, Box, FilterOptionsState, TextField } from '@mui/material'
 import { SyntheticEvent } from 'react'
 
 type Props<T extends { name: string }> = {
@@ -6,12 +7,12 @@ type Props<T extends { name: string }> = {
   label: string
   itemName: string
   selectedItem: T | null
-  clearable?: boolean
+  disableClearable?: boolean
   onChange: (event: SyntheticEvent<Element, Event>, value: T | null) => void
 }
 
 export const SearchField = <T extends { name: string }>(props: Props<T>) => {
-  const { options, label, itemName, selectedItem, onChange, clearable = false } = props
+  const { options, label, itemName, selectedItem, onChange, disableClearable = false } = props
 
   /**
    * ローマ字の変換表
@@ -282,6 +283,7 @@ export const SearchField = <T extends { name: string }>(props: Props<T>) => {
   return (
     <Autocomplete
       autoHighlight
+      disableClearable={disableClearable}
       value={selectedItem}
       onChange={onChange}
       getOptionLabel={<T extends { name: string }>(option: T) => option.name}
