@@ -1,5 +1,4 @@
-import ClearIcon from '@mui/icons-material/Clear'
-import { Autocomplete, Box, FilterOptionsState, TextField } from '@mui/material'
+import { Autocomplete, FilterOptionsState, TextField } from '@mui/material'
 import { SyntheticEvent } from 'react'
 
 type Props<T extends { name: string }> = {
