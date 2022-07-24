@@ -1,8 +1,5 @@
 version: '3.9'
 
-volumes:
-  node_modules:
-
 services:
   node:
     build:
@@ -13,8 +10,7 @@ services:
     ports:
       - 3000:3000
     volumes:
-      - .:/pokemonote
-      - node_modules:/pokemonote/node_modules
+      - .:/pokemonote:cached
     environment:
       IS_CONTAINER: 'true'
     stdin_open: true

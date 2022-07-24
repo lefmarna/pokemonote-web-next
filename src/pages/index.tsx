@@ -1,43 +1,13 @@
-import { Box, Container, Grid, TextField } from '@mui/material'
+import { Container, Grid } from '@mui/material'
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-import { SyntheticEvent } from 'react'
-import { useRecoilState, useRecoilValue } from 'recoil'
-import { CalcButton } from '../components/molecules/CalcButton'
-import { SearchField } from '../components/molecules/SearchField'
-import { LvField } from '../components/organisms/LvField'
-import {
-  natureDataState,
-  pokemonDataState,
-  selectedNatureState,
-  selectedPokemonState,
-} from '../store'
+import { StatsTableHeader } from '../components/organisms/StatsTableHeader'
 import styles from '../styles/Home.module.scss'
-import { Nature, PokemonData } from '../types'
 
 const Home: NextPage = () => {
-  const pokemonData = useRecoilValue(pokemonDataState)
-  const natureData = useRecoilValue(natureDataState)
-
-  const [selectedPokemon, setSelectedPokemon] = useRecoilState(selectedPokemonState)
-  const [selectedNature, setSelectedNature] = useRecoilState(selectedNatureState)
-
   const router = useRouter()
-
-  const onChangeSelectedPokemon = (
-    event: SyntheticEvent<Element, Event>,
-    value: PokemonData | null
-  ) => {
-    if (value === null) return
-    setSelectedPokemon(value)
-  }
-
-  const onChangeSelectedNature = (event: SyntheticEvent<Element, Event>, value: Nature | null) => {
-    if (value === null) return
-    setSelectedNature(value)
-  }
 
   const onClickRouterPush = () => {
     router.push('/test')
@@ -52,30 +22,7 @@ const Home: NextPage = () => {
 
       <Container sx={{ pt: 2 }}>
         <Grid container spacing={{ md: 4, lg: 8, xl: 12 }}>
-          <Grid item xs={12} md={6}>
-            <SearchField
-              options={pokemonData}
-              label="ポケモン名"
-              itemName="ポケモン"
-              onChange={onChangeSelectedPokemon}
-              selectedItem={selectedPokemon}
-            />
-            <Grid container sx={{ pt: 2 }}>
-              <Grid item xs={4}>
-                <LvField />
-              </Grid>
-              <Grid item xs={8} sx={{ pl: 3 }}>
-                <SearchField
-                  options={natureData}
-                  label="性格"
-                  itemName="性格"
-                  onChange={onChangeSelectedNature}
-                  selectedItem={selectedNature}
-                  disableClearable={true}
-                />
-              </Grid>
-            </Grid>
-          </Grid>
+          <StatsTableHeader />
           <Grid item xs={12} md={6}></Grid>
         </Grid>
       </Container>
