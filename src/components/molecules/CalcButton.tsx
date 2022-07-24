@@ -1,10 +1,10 @@
 import { Button } from '@mui/material'
-import { ReactNode } from 'react'
+import { MouseEvent } from 'react'
 
 type Props = {
-  children: ReactNode
+  children: number
   disabled?: boolean
-  onClick?: () => void
+  onClick: (event: MouseEvent<HTMLElement>, children: number) => void
 }
 
 export const CalcButton = (props: Props) => {
@@ -15,7 +15,7 @@ export const CalcButton = (props: Props) => {
       centerRipple
       color="secondary"
       disabled={disabled}
-      onClick={onClick}
+      onClick={(e) => onClick(e, children)}
       size="small"
       sx={{ px: 0 }}
       variant="contained"

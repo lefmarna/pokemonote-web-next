@@ -7,6 +7,7 @@ import { SyntheticEvent } from 'react'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import { CalcButton } from '../components/molecules/CalcButton'
 import { SearchField } from '../components/molecules/SearchField'
+import { LvField } from '../components/organisms/LvField'
 import {
   natureDataState,
   pokemonDataState,
@@ -61,23 +62,7 @@ const Home: NextPage = () => {
             />
             <Grid container sx={{ pt: 2 }}>
               <Grid item xs={4}>
-                <Box sx={{ display: 'flex' }}>
-                  <Box>
-                    <TextField
-                      type="tel"
-                      label="レベル"
-                      placeholder="1"
-                      variant="standard"
-                      InputLabelProps={{
-                        shrink: true,
-                      }}
-                    />
-                  </Box>
-                  <Box>
-                    <CalcButton>100</CalcButton>
-                    <CalcButton>1</CalcButton>
-                  </Box>
-                </Box>
+                <LvField />
               </Grid>
               <Grid item xs={8} sx={{ pl: 3 }}>
                 <SearchField
