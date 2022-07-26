@@ -43,7 +43,9 @@ export const LvField = () => {
         />
       </Box>
       <Box>
-        <CalcButton onClick={assignLevel}>{MAX_LEVEL}</CalcButton>
+        <CalcButton onClick={assignLevel} sx={{ mb: 0.5 }}>
+          {MAX_LEVEL}
+        </CalcButton>
         <CalcButton onClick={assignLevel}>{MIN_LEVEL}</CalcButton>
       </Box>
     </Box>
