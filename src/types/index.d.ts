@@ -15,3 +15,10 @@ export type PokemonData = {
   stats: number[]
   total?: number
 }
+
+export type Stat = {
+  name: string
+  initial: string
+  individualValue: number | null
+  effortValue: number | null
+}

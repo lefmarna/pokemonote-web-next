@@ -1,16 +1,14 @@
-import { Container, Grid } from '@mui/material'
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-import { StatsTableHeader } from '../components/organisms/StatsTableHeader'
 import styles from '../styles/Home.module.scss'
 
 const Home: NextPage = () => {
   const router = useRouter()
 
   const onClickRouterPush = () => {
-    router.push('/test')
+    router.push('/calc-stats')
   }
   return (
     <>
@@ -20,19 +18,12 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Container sx={{ pt: 2 }}>
-        <Grid container spacing={{ md: 4, lg: 8, xl: 12 }}>
-          <StatsTableHeader />
-          <Grid item xs={12} md={6}></Grid>
-        </Grid>
-      </Container>
-
       <main className={styles.main}>
         <h1 className={styles.title}>
           Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>
 
-        <button onClick={onClickRouterPush}>Testへ</button>
+        <button onClick={onClickRouterPush}>calc-statsへ</button>
 
         <p className={styles.description}>
           Get started by editing <code className={styles.code}>pages/index.tsx</code>
