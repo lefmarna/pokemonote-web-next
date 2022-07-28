@@ -1,5 +1,4 @@
-import { Box, Container, Grid } from '@mui/material'
-import { useMemo } from 'react'
+import { Container, Grid } from '@mui/material'
 import { Nature, PokemonData, Stat } from '../../types'
 import {
   ATTACK_INDEX,
