@@ -32,6 +32,7 @@
     "eslint": "8.19.0",
     "eslint-config-next": "12.2.2",
     "eslint-config-prettier": "^8.5.0",
+    "postcss-syntax": "^0.36.2",
     "prettier": "^2.7.1",
     "sass": "^1.53.0",
     "stylelint": "^14.9.1",

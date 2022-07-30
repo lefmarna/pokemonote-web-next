@@ -32,7 +32,7 @@ export const StatsTableHeader = () => {
   }
 
   return (
-    <Grid item xs={12} md={6}>
+    <>
       <SearchField
         options={pokemonData}
         label="ポケモン名"
@@ -55,6 +55,6 @@ export const StatsTableHeader = () => {
           />
         </Grid>
       </Grid>
-    </Grid>
+    </>
   )
 }

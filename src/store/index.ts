@@ -1,5 +1,5 @@
 import { atom } from 'recoil'
-import { Nature, PokemonData } from '../types'
+import { Nature, PokemonData, Stat } from '../types'
 
 export const authUserState = atom({
   key: 'authUserState',
@@ -48,4 +48,46 @@ export const selectedNatureState = atom<Nature>({
 export const levelState = atom<number | ''>({
   key: 'levelState',
   default: 50,
+})
+
+export const statsState = atom<Stat[]>({
+  key: 'statsState',
+  default: [
+    {
+      name: 'ＨＰ',
+      initial: 'H',
+      individualValue: 31,
+      effortValue: null,
+    },
+    {
+      name: 'こうげき',
+      initial: 'A',
+      individualValue: 31,
+      effortValue: null,
+    },
+    {
+      name: 'ぼうぎょ',
+      initial: 'B',
+      individualValue: 31,
+      effortValue: null,
+    },
+    {
+      name: 'とくこう',
+      initial: 'C',
+      individualValue: 31,
+      effortValue: null,
+    },
+    {
+      name: 'とくぼう',
+      initial: 'D',
+      individualValue: 31,
+      effortValue: null,
+    },
+    {
+      name: 'すばやさ',
+      initial: 'S',
+      individualValue: 31,
+      effortValue: null,
+    },
+  ],
 })
