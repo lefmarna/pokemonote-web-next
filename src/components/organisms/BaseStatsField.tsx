@@ -29,7 +29,7 @@ export const BaseStatsField = (props: Props) => {
   })
 
   return (
-    <Grid xs={3} spacing={3}>
+    <Grid item xs={3}>
       <CustomTextField
         className={styles.dander}
         label="種族値"

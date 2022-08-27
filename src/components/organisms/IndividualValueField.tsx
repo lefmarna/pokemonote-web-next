@@ -18,7 +18,7 @@ export const IndividualValueField = (props: Props) => {
   }
 
   return (
-    <Grid xs={5} sx={{ pl: { xs: 2, md: 4 } }}>
+    <Grid item xs={5} sx={{ pl: { xs: 2, md: 4 } }}>
       <TextField
         type="tel"
         label="個体値"
