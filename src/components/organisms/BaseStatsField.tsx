@@ -24,7 +24,7 @@ export const BaseStatsField = (props: Props) => {
 
   const CustomTextField = styled(TextField)({
     input: {
-      '-webkit-text-fill-color': `${getTextFieldColor()} !important`,
+      WebkitTextFillColor: `${getTextFieldColor()} !important`,
     },
   })
 
