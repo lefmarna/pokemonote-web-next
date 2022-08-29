@@ -25,8 +25,8 @@ export const convertToInteger = (
 /**
  * 小数点を切り捨てる、また、nullや負の数には初期値を返していく
  */
-export const numberToInt = (value: number | null, defaultValue = 0): number => {
-  if (String(value) === '' || Number(value) < defaultValue) {
+export const numberToInt = (value: number | undefined, defaultValue = 0) => {
+  if (value === undefined || value < defaultValue) {
     return defaultValue
   } else {
     return Math.floor(Number(value))
