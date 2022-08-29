@@ -19,6 +19,6 @@ export type PokemonData = {
 export type Stat = {
   name: string
   initial: string
-  individualValue: number | undefined
-  effortValue: number | undefined
+  individualValue: number | ''
+  effortValue: number | ''
 }
