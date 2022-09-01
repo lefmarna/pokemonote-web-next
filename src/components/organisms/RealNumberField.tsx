@@ -19,7 +19,7 @@ export const RealNumberField = (props: Props) => {
   }
 
   return (
-    <Grid xs={5} sx={{ pl: { xs: 2, sm: 3 } }}>
+    <Grid item xs={5} sx={{ pl: { xs: 2, sm: 3 } }}>
       <TextField
         type="tel"
         label={stats[statsIndex].name}
