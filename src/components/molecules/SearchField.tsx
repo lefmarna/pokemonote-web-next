@@ -1,7 +1,7 @@
 import { Autocomplete, FilterOptionsState, TextField } from '@mui/material'
 import { SyntheticEvent } from 'react'
 
-type Props<T extends { name: string }> = {
+type Props<T> = {
   options: T[]
   label: string
   itemName: string
