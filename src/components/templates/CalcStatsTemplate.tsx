@@ -76,6 +76,16 @@ export const CalcStatsTemplate = (props: Props) => {
     getStat(SPEED_INDEX),
   ]
 
+  const updateEffortValue = (effortValue: number | '', statsIndex: number) => {
+    const newStats = stats.map((stat, index) => {
+      if (index === statsIndex) {
+        return { ...stat, effortValue }
+      }
+      return stat
+    })
+    updateStats(newStats)
+  }
+
   return (
     <Container sx={{ pt: 2 }}>
       <Grid container spacing={{ md: 4, lg: 8, xl: 12 }} columns={{ xs: 9, md: 18 }}>
@@ -89,7 +99,11 @@ export const CalcStatsTemplate = (props: Props) => {
                 natureStat={selectedNature.stats[index]}
               />
               <IndividualValueField stats={stats} statsIndex={index} />
-              <EffortValueField stats={stats} statsIndex={index} />
+              <EffortValueField
+                stats={stats}
+                statsIndex={index}
+                updateEffortValue={updateEffortValue}
+              />
               <RealNumberField realNumber={realNumbers[index]} stats={stats} statsIndex={index} />
             </Grid>
           ))}
