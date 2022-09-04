@@ -14,12 +14,17 @@ const CalcStats: NextPage = () => {
     setStats(stats)
   }
 
+  const updateLevel = (level: number | '') => {
+    setLevel(level)
+  }
+
   return (
     <CalcStatsTemplate
       selectedPokemon={selectedPokemon}
       selectedNature={selectedNature}
       level={level}
       stats={stats}
+      updateLevel={updateLevel}
       updateStats={updateStats}
     />
   )

@@ -11,7 +11,13 @@ import { Nature, PokemonData } from '../../types'
 import { SearchField } from '../molecules/SearchField'
 import { LvField } from './LvField'
 
-export const StatsTableHeader = () => {
+type Props = {
+  level: number | ''
+  updateLevel: (level: number | '') => void
+}
+
+export const StatsTableHeader = (props: Props) => {
+  const { level, updateLevel } = props
   const pokemonData = useRecoilValue(pokemonDataState)
   const natureData = useRecoilValue(natureDataState)
 
@@ -42,7 +48,7 @@ export const StatsTableHeader = () => {
       />
       <Grid container sx={{ pt: 2 }}>
         <Grid item xs={4}>
-          <LvField />
+          <LvField level={level} updateLevel={updateLevel} />
         </Grid>
         <Grid item xs={8} sx={{ pl: 3 }}>
           <SearchField

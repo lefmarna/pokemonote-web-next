@@ -20,11 +20,12 @@ type Props = {
   selectedNature: Nature
   level: number | ''
   stats: Stat[]
+  updateLevel: (level: number | '') => void
   updateStats: (stats: Stat[]) => void
 }
 
 export const CalcStatsTemplate = (props: Props) => {
-  const { selectedPokemon, selectedNature, stats, level, updateStats } = props
+  const { selectedPokemon, selectedNature, stats, level, updateLevel, updateStats } = props
 
   const getStat = (index: number, tmpEv = 0): number => {
     const formatLv = numberToInt(Number(level), 1)
@@ -90,7 +91,7 @@ export const CalcStatsTemplate = (props: Props) => {
     <Container sx={{ pt: 2 }}>
       <Grid container spacing={{ md: 4, lg: 8, xl: 12 }} columns={{ xs: 9, md: 18 }}>
         <Grid item md={9} xs={18}>
-          <StatsTableHeader />
+          <StatsTableHeader level={level} updateLevel={updateLevel} />
           {stats.map((stat, index) => (
             <Grid container columns={18} key={stat.name}>
               <BaseStatsField
