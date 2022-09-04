@@ -1,7 +1,9 @@
 import { Grid, TextField } from '@mui/material'
 import { Box } from '@mui/system'
-import { FormEvent, MouseEvent, useRef } from 'react'
+import { ChangeEvent, MouseEvent, useRef } from 'react'
 import { Stat } from '../../types'
+import { MAX_EV } from '../../utils/constants'
+import { convertToInteger } from '../../utils/utilities'
 import { CalcButton } from '../molecules/CalcButton'
 
 type Props = {
@@ -20,9 +22,14 @@ export const EffortValueField = (props: Props) => {
     effortValueRef.current.select()
   }
 
+  const onChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const formatValue = convertToInteger(event.target.value, MAX_EV)
+    updateEffortValue(formatValue, statsIndex)
+  }
+
   const onClickCalcButton = (event: MouseEvent<HTMLElement>, effortValue: number) => {
-    const value = effortValue !== 0 ? effortValue : ''
-    updateEffortValue(value, statsIndex)
+    const formatValue = effortValue !== 0 ? effortValue : ''
+    updateEffortValue(formatValue, statsIndex)
   }
 
   return (
@@ -34,6 +41,7 @@ export const EffortValueField = (props: Props) => {
         value={stats[statsIndex].effortValue}
         inputRef={effortValueRef}
         onClick={onSelected}
+        onChange={onChange}
         variant="standard"
         InputLabelProps={{
           shrink: true,
