@@ -235,8 +235,7 @@ export const SearchField = <T extends { name: string }>(props: Props<T>) => {
     let result = '' // 最終的に返すテキストを格納していく変数
     let tmp = '' // 子音のみが入力されている状態など、カタカナに変換できない場合に一時的に格納しておくための変数
 
-    // FIXME: 適切な型をつけよう
-    let node: any = romanConversionTable
+    let node: { [key: string]: typeof node | string } = romanConversionTable
 
     const push = (char: string, toRoot = true) => {
       result += char
