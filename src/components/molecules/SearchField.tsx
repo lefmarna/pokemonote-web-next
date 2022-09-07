@@ -7,11 +7,15 @@ type Props<T> = {
   itemName: string
   selectedItem: T | null
   disableClearable?: boolean
-  onChange: (event: SyntheticEvent<Element, Event>, value: T | null) => void
+  setState: (value: T | null) => void
 }
 
 export const SearchField = <T extends { name: string }>(props: Props<T>) => {
-  const { options, label, itemName, selectedItem, onChange, disableClearable = false } = props
+  const { options, label, itemName, selectedItem, setState, disableClearable = false } = props
+
+  const onChange = (event: SyntheticEvent<Element, Event>, value: T | null) => {
+    setState(value)
+  }
 
   /**
    * ローマ字の変換表

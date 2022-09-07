@@ -1,6 +1,5 @@
 import { Grid } from '@mui/material'
-import { SyntheticEvent } from 'react'
-import { useRecoilState, useRecoilValue } from 'recoil'
+import { useRecoilValue } from 'recoil'
 import {
   natureDataState,
   pokemonDataState,
@@ -13,28 +12,27 @@ import { LvField } from './LvField'
 
 type Props = {
   level: number | ''
+  updatePokemon: (pokemon: PokemonData) => void
+  updateNature: (nature: Nature) => void
   updateLevel: (level: number | '') => void
 }
 
 export const StatsTableHeader = (props: Props) => {
-  const { level, updateLevel } = props
+  const { level, updatePokemon, updateNature, updateLevel } = props
   const pokemonData = useRecoilValue(pokemonDataState)
   const natureData = useRecoilValue(natureDataState)
 
-  const [selectedPokemon, setSelectedPokemon] = useRecoilState(selectedPokemonState)
-  const [selectedNature, setSelectedNature] = useRecoilState(selectedNatureState)
+  const selectedPokemon = useRecoilValue(selectedPokemonState)
+  const selectedNature = useRecoilValue(selectedNatureState)
 
-  const onChangeSelectedPokemon = (
-    event: SyntheticEvent<Element, Event>,
-    value: PokemonData | null
-  ) => {
+  const onChangeSelectedPokemon = (value: PokemonData | null) => {
     if (value === null) return
-    setSelectedPokemon(value)
+    updatePokemon(value)
   }
 
-  const onChangeSelectedNature = (event: SyntheticEvent<Element, Event>, value: Nature | null) => {
+  const onChangeSelectedNature = (value: Nature | null) => {
     if (value === null) return
-    setSelectedNature(value)
+    updateNature(value)
   }
 
   return (
@@ -43,7 +41,7 @@ export const StatsTableHeader = (props: Props) => {
         options={pokemonData}
         label="ポケモン名"
         itemName="ポケモン"
-        onChange={onChangeSelectedPokemon}
+        setState={onChangeSelectedPokemon}
         selectedItem={selectedPokemon}
       />
       <Grid container sx={{ pt: 2 }}>
@@ -55,7 +53,7 @@ export const StatsTableHeader = (props: Props) => {
             options={natureData}
             label="性格"
             itemName="性格"
-            onChange={onChangeSelectedNature}
+            setState={onChangeSelectedNature}
             selectedItem={selectedNature}
             disableClearable={true}
           />
