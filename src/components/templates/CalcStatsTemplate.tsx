@@ -103,6 +103,8 @@ export const CalcStatsTemplate = (props: Props) => {
       <Grid container spacing={{ md: 4, lg: 8, xl: 12 }} columns={{ xs: 9, md: 18 }}>
         <Grid item md={9} xs={18}>
           <StatsTableHeader
+            selectedPokemon={selectedPokemon}
+            selectedNature={selectedNature}
             level={level}
             updatePokemon={updatePokemon}
             updateNature={updateNature}
