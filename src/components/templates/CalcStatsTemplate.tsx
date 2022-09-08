@@ -88,6 +88,16 @@ export const CalcStatsTemplate = (props: Props) => {
     getStat(SPEED_INDEX),
   ]
 
+  const updateIndividualValue = (individualValue: number | '', statsIndex: number) => {
+    const newStats = stats.map((stat, index) => {
+      if (index === statsIndex) {
+        return { ...stat, individualValue }
+      }
+      return stat
+    })
+    updateStats(newStats)
+  }
+
   const updateEffortValue = (effortValue: number | '', statsIndex: number) => {
     const newStats = stats.map((stat, index) => {
       if (index === statsIndex) {
@@ -117,7 +127,11 @@ export const CalcStatsTemplate = (props: Props) => {
                 statsInitial={stat.initial}
                 natureStat={selectedNature.stats[index]}
               />
-              <IndividualValueField stats={stats} statsIndex={index} />
+              <IndividualValueField
+                stats={stats}
+                statsIndex={index}
+                updateIndividualValue={updateIndividualValue}
+              />
               <EffortValueField
                 stats={stats}
                 statsIndex={index}
