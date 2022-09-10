@@ -140,7 +140,6 @@ export const CalcStatsTemplate = (props: Props) => {
               <RealNumberField realNumber={realNumbers[index]} stats={stats} statsIndex={index} />
             </Grid>
           ))}
-          <Grid></Grid>
         </Grid>
         <Grid item md={9} xs={18}></Grid>
       </Grid>
