@@ -137,7 +137,15 @@ export const CalcStatsTemplate = (props: Props) => {
                 statsIndex={index}
                 updateEffortValue={updateEffortValue}
               />
-              <RealNumberField realNumber={realNumbers[index]} stats={stats} statsIndex={index} />
+              <RealNumberField
+                level={level}
+                realNumber={realNumbers[index]}
+                selectedPokemon={selectedPokemon}
+                selectedNature={selectedNature}
+                stats={stats}
+                statsIndex={index}
+                updateEffortValue={updateEffortValue}
+              />
             </Grid>
           ))}
         </Grid>
