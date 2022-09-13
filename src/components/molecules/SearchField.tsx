@@ -1,17 +1,21 @@
 import { Autocomplete, FilterOptionsState, TextField } from '@mui/material'
 import { SyntheticEvent } from 'react'
 
-type Props<T extends { name: string }> = {
+type Props<T> = {
   options: T[]
   label: string
   itemName: string
   selectedItem: T | null
   disableClearable?: boolean
-  onChange: (event: SyntheticEvent<Element, Event>, value: T | null) => void
+  setState: (value: T | null) => void
 }
 
 export const SearchField = <T extends { name: string }>(props: Props<T>) => {
-  const { options, label, itemName, selectedItem, onChange, disableClearable = false } = props
+  const { options, label, itemName, selectedItem, setState, disableClearable = false } = props
+
+  const onChange = (event: SyntheticEvent<Element, Event>, value: T | null) => {
+    setState(value)
+  }
 
   /**
    * ローマ字の変換表
@@ -235,8 +239,7 @@ export const SearchField = <T extends { name: string }>(props: Props<T>) => {
     let result = '' // 最終的に返すテキストを格納していく変数
     let tmp = '' // 子音のみが入力されている状態など、カタカナに変換できない場合に一時的に格納しておくための変数
 
-    // FIXME: 適切な型をつけよう
-    let node: any = romanConversionTable
+    let node: { [key: string]: typeof node | string } = romanConversionTable
 
     const push = (char: string, toRoot = true) => {
       result += char

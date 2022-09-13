@@ -32,3 +32,12 @@ export const numberToInt = (value: number | '', defaultValue = 0) => {
     return Math.floor(Number(value))
   }
 }
+
+/**
+ * 代入する値を検証して返す
+ */
+export const valueVerification = (value: number, max: number) => {
+  if (value > max) return max
+  if (value <= 0) return ''
+  return Math.floor(value)
+}

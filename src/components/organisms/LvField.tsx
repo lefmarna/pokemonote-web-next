@@ -1,23 +1,26 @@
 import { Box, TextField } from '@mui/material'
 import { ChangeEvent, MouseEvent, useRef } from 'react'
-import { useRecoilState } from 'recoil'
-import { levelState } from '../../store'
 import { MAX_LEVEL, MIN_LEVEL } from '../../utils/constants'
 import { convertToInteger } from '../../utils/utilities'
 import { CalcButton } from '../molecules/CalcButton'
 
-export const LvField = () => {
-  const [level, setLevel] = useRecoilState(levelState)
+type Props = {
+  level: number | ''
+  updateLevel: (level: number | '') => void
+}
+
+export const LvField = (props: Props) => {
+  const { level, updateLevel } = props
   const levelRef = useRef<HTMLInputElement>()
 
-  const updateLevel = (event: ChangeEvent<HTMLInputElement>) => {
+  const onChangeLevel = (event: ChangeEvent<HTMLInputElement>) => {
     if (event === undefined) return
     const formatLevel = convertToInteger(event.target.value, MAX_LEVEL, false)
-    setLevel(formatLevel)
+    updateLevel(formatLevel)
   }
 
   const assignLevel = (event: MouseEvent<HTMLElement>, level: number) => {
-    setLevel(level)
+    updateLevel(level)
   }
 
   const onSelected = () => {
@@ -32,7 +35,7 @@ export const LvField = () => {
           type="tel"
           label="レベル"
           value={level}
-          onChange={updateLevel}
+          onChange={onChangeLevel}
           inputRef={levelRef}
           onClick={onSelected}
           placeholder="1"

@@ -20,11 +20,23 @@ type Props = {
   selectedNature: Nature
   level: number | ''
   stats: Stat[]
+  updatePokemon: (pokemon: PokemonData) => void
+  updateNature: (nature: Nature) => void
+  updateLevel: (level: number | '') => void
   updateStats: (stats: Stat[]) => void
 }
 
 export const CalcStatsTemplate = (props: Props) => {
-  const { selectedPokemon, selectedNature, stats, level, updateStats } = props
+  const {
+    selectedPokemon,
+    selectedNature,
+    stats,
+    level,
+    updatePokemon,
+    updateNature,
+    updateLevel,
+    updateStats,
+  } = props
 
   const getStat = (index: number, tmpEv = 0): number => {
     const formatLv = numberToInt(Number(level), 1)
@@ -76,11 +88,38 @@ export const CalcStatsTemplate = (props: Props) => {
     getStat(SPEED_INDEX),
   ]
 
+  const updateIndividualValue = (individualValue: number | '', statsIndex: number) => {
+    const newStats = stats.map((stat, index) => {
+      if (index === statsIndex) {
+        return { ...stat, individualValue }
+      }
+      return stat
+    })
+    updateStats(newStats)
+  }
+
+  const updateEffortValue = (effortValue: number | '', statsIndex: number) => {
+    const newStats = stats.map((stat, index) => {
+      if (index === statsIndex) {
+        return { ...stat, effortValue }
+      }
+      return stat
+    })
+    updateStats(newStats)
+  }
+
   return (
     <Container sx={{ pt: 2 }}>
       <Grid container spacing={{ md: 4, lg: 8, xl: 12 }} columns={{ xs: 9, md: 18 }}>
         <Grid item md={9} xs={18}>
-          <StatsTableHeader />
+          <StatsTableHeader
+            selectedPokemon={selectedPokemon}
+            selectedNature={selectedNature}
+            level={level}
+            updatePokemon={updatePokemon}
+            updateNature={updateNature}
+            updateLevel={updateLevel}
+          />
           {stats.map((stat, index) => (
             <Grid container columns={18} key={stat.name}>
               <BaseStatsField
@@ -88,12 +127,27 @@ export const CalcStatsTemplate = (props: Props) => {
                 statsInitial={stat.initial}
                 natureStat={selectedNature.stats[index]}
               />
-              <IndividualValueField stats={stats} statsIndex={index} />
-              <EffortValueField stats={stats} statsIndex={index} />
-              <RealNumberField realNumber={realNumbers[index]} stats={stats} statsIndex={index} />
+              <IndividualValueField
+                stats={stats}
+                statsIndex={index}
+                updateIndividualValue={updateIndividualValue}
+              />
+              <EffortValueField
+                stats={stats}
+                statsIndex={index}
+                updateEffortValue={updateEffortValue}
+              />
+              <RealNumberField
+                level={level}
+                realNumber={realNumbers[index]}
+                selectedPokemon={selectedPokemon}
+                selectedNature={selectedNature}
+                stats={stats}
+                statsIndex={index}
+                updateEffortValue={updateEffortValue}
+              />
             </Grid>
           ))}
-          <Grid></Grid>
         </Grid>
         <Grid item md={9} xs={18}></Grid>
       </Grid>
