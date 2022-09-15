@@ -26,8 +26,8 @@ export const IndividualValueField = (props: Props) => {
     updateIndividualValue(formatValue, statsIndex)
   }
 
-  const onClickCalcButton = (event: MouseEvent<HTMLElement>, effortValue: number) => {
-    const formatValue = effortValue !== 0 ? effortValue : ''
+  const onClickCalcButton = (event: MouseEvent<HTMLElement>, individualValue: number) => {
+    const formatValue = individualValue !== 0 ? individualValue : ''
     updateIndividualValue(formatValue, statsIndex)
   }
 
