@@ -1,4 +1,4 @@
-import { Grid, TextField } from '@mui/material'
+import { Box, Button, Grid, TextField } from '@mui/material'
 import { ChangeEvent, useRef } from 'react'
 import { Nature, PokemonData, Stat } from '../../types'
 import {
@@ -96,7 +96,7 @@ export const RealNumberField = (props: Props) => {
   }
 
   return (
-    <Grid item xs={5} sx={{ pl: { xs: 2, sm: 3 } }}>
+    <Grid item xs={5} sx={{ pl: { xs: 2, sm: 3 }, display: 'flex' }}>
       <TextField
         type="tel"
         label={stats[statsIndex].name}
@@ -109,6 +109,10 @@ export const RealNumberField = (props: Props) => {
           shrink: true,
         }}
       />
+      <Box>
+        <Button>▲</Button>
+        <Button>▼</Button>
+      </Box>
     </Grid>
   )
 }
