@@ -110,8 +110,28 @@ export const RealNumberField = (props: Props) => {
         }}
       />
       <Box>
-        <Button>▲</Button>
-        <Button>▼</Button>
+        <Button
+          centerRipple
+          color="secondary"
+          size="small"
+          sx={{
+            px: 0,
+          }}
+          variant="contained"
+        >
+          ▲
+        </Button>
+        <Button
+          centerRipple
+          color="secondary"
+          size="small"
+          sx={{
+            px: 0,
+          }}
+          variant="contained"
+        >
+          ▼
+        </Button>
       </Box>
     </Grid>
   )
