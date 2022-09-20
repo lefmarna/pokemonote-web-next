@@ -1,5 +1,5 @@
-import { Grid, TextField } from '@mui/material'
-import { ChangeEvent, useRef } from 'react'
+import { Box, Button, Grid, TextField } from '@mui/material'
+import { ChangeEvent, MouseEvent, useRef } from 'react'
 import { Nature, PokemonData, Stat } from '../../types'
 import {
   HP_INDEX,
@@ -95,8 +95,13 @@ export const RealNumberField = (props: Props) => {
     updateEffortValue(verifiedSetEffortValue, statsIndex)
   }
 
+  const onClick = (event: MouseEvent<HTMLElement>, realNumber: number) => {
+    const newEffortValue = Number(stats[statsIndex].effortValue) + realNumber
+    updateEffortValue(newEffortValue, statsIndex)
+  }
+
   return (
-    <Grid item xs={5} sx={{ pl: { xs: 2, sm: 3 } }}>
+    <Grid item xs={5} sx={{ pl: { xs: 2, sm: 3 }, display: 'flex' }}>
       <TextField
         type="tel"
         label={stats[statsIndex].name}
@@ -109,6 +114,32 @@ export const RealNumberField = (props: Props) => {
           shrink: true,
         }}
       />
+      <Box>
+        <Button
+          centerRipple
+          color="secondary"
+          onClick={(e) => onClick(e, 1)}
+          size="small"
+          sx={{
+            px: 0,
+          }}
+          variant="contained"
+        >
+          ▲
+        </Button>
+        <Button
+          centerRipple
+          color="secondary"
+          onClick={(e) => onClick(e, -1)}
+          size="small"
+          sx={{
+            px: 0,
+          }}
+          variant="contained"
+        >
+          ▼
+        </Button>
+      </Box>
     </Grid>
   )
 }
