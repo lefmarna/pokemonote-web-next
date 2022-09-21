@@ -39,7 +39,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
 
   const swrConfigValue = {
     fetcher: (url: string) => axios.get(url).then((res) => res.data),
-    onError: (error: AxiosError<unknown, any>) => {
+    onError: (error: AxiosError) => {
       switch (error.status) {
         case '404':
           console.log('404')
