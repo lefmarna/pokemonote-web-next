@@ -42,11 +42,9 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
     onError: (error: AxiosError) => {
       switch (error.status) {
         case '404':
-          console.log('404')
           console.log(error)
           break
         case '403':
-          console.log('403')
           console.log(error)
           break
         default:
