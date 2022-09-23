@@ -121,7 +121,7 @@ export const CalcStatsTemplate = (props: Props) => {
             updateLevel={updateLevel}
           />
           {stats.map((stat, index) => (
-            <Grid container columns={18} key={stat.name}>
+            <Grid container columns={18} key={stat.name} sx={{ mt: 1 }}>
               <BaseStatsField
                 baseStat={selectedPokemon.stats[index]}
                 statsInitial={stat.initial}
