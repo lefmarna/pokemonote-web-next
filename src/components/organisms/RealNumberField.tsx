@@ -1,5 +1,5 @@
 import { Box, Button, Grid, TextField } from '@mui/material'
-import { ChangeEvent, MouseEvent, useRef } from 'react'
+import { ChangeEvent, FocusEvent, MouseEvent, useRef } from 'react'
 import { Nature, PokemonData, Stat } from '../../types'
 import {
   HP_INDEX,
@@ -39,7 +39,7 @@ export const RealNumberField = (props: Props) => {
     realNumberRef.current.select()
   }
 
-  const onChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const onBlur = (event: FocusEvent<HTMLInputElement>) => {
     let setValue = Number(convertToInteger(event.target.value, MAX_REAL_NUMBER))
     const currentPokemonStat = selectedPokemon.stats[statsIndex]
     const formatLv = numberToInt(level, MIN_LEVEL)
@@ -162,9 +162,9 @@ export const RealNumberField = (props: Props) => {
       <TextField
         type="tel"
         label={stats[statsIndex].name}
-        value={realNumber}
+        defaultValue={realNumber}
         inputRef={realNumberRef}
-        onChange={onChange}
+        onBlur={onBlur}
         onClick={onSelected}
         variant="standard"
         InputLabelProps={{
