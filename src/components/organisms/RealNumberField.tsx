@@ -1,5 +1,5 @@
 import { Box, Button, Grid, TextField } from '@mui/material'
-import { ChangeEvent, FocusEvent, MouseEvent, useRef } from 'react'
+import { FocusEvent, useRef } from 'react'
 import { Nature, PokemonData, Stat } from '../../types'
 import {
   HP_INDEX,
