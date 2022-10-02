@@ -162,7 +162,7 @@ export const RealNumberField = (props: Props) => {
       <TextField
         type="tel"
         label={stats[statsIndex].name}
-        value={realNumber}
+        value={stats[statsIndex].realNumber}
         inputRef={realNumberRef}
         onBlur={onBlur}
         onClick={onSelected}
