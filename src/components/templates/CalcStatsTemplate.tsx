@@ -154,7 +154,7 @@ export const CalcStatsTemplate = (props: Props) => {
                 selectedNature={selectedNature}
                 stats={stats}
                 statsIndex={index}
-                updateEffortValue={updateEffortValue}
+                updateRealNumber={updateRealNumber}
               />
             </Grid>
           ))}

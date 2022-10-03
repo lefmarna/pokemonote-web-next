@@ -18,7 +18,7 @@ type Props = {
   selectedNature: Nature
   stats: Stat[]
   statsIndex: number
-  updateEffortValue: (value: number | '', index: number) => void
+  updateRealNumber: (value: number | '', index: number) => void
 }
 
 export const RealNumberField = (props: Props) => {
@@ -29,7 +29,7 @@ export const RealNumberField = (props: Props) => {
     selectedNature,
     stats,
     statsIndex,
-    updateEffortValue,
+    updateRealNumber,
   } = props
 
   const realNumberRef = useRef<HTMLInputElement>()
@@ -96,11 +96,11 @@ export const RealNumberField = (props: Props) => {
   }
 
   const incrementRealNumber = () => {
-    updateRealNumber(realNumber + 1)
+    updateRealNumber(realNumber + 1, statsIndex)
   }
 
   const decrementRealNumber = () => {
-    updateRealNumber(realNumber - 1)
+    updateRealNumber(realNumber - 1, statsIndex)
   }
 
   const updateRealNumber = (realNumber: number) => {
