@@ -113,7 +113,7 @@ export const CalcStatsTemplate = (props: Props) => {
     updateStats(newStats)
   }
 
-  const updateRealNumber = (realNumber: number | '', statsIndex: number) => {
+  const calcEffortValue = (realNumber: number | '', statsIndex: number) => {
     let setValue = Number(convertToInteger(realNumber, MAX_REAL_NUMBER, false))
     const formatLv = numberToInt(level, MIN_LEVEL)
     const formatIndividualValue = numberToInt(stats[statsIndex].individualValue)
@@ -162,8 +162,12 @@ export const CalcStatsTemplate = (props: Props) => {
         4
     }
 
-    // 【共通の処理】計算した値を代入する
-    const effortValue = valueVerification(setValue, MAX_EV)
+    return valueVerification(setValue, MAX_EV)
+  }
+
+  const updateRealNumber = (realNumber: number | '', statsIndex: number) => {
+    // FIXME 何故か型を明示的に書かないとエラーになる
+    const effortValue: number | '' = calcEffortValue(realNumber, statsIndex)
 
     const newStats = stats.map((stat, index) => {
       if (index === statsIndex) {
