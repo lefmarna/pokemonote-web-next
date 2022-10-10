@@ -1,28 +1,17 @@
 import { Box, Button, Grid, TextField } from '@mui/material'
 import { ChangeEvent, useRef } from 'react'
-import { Nature, PokemonData, Stat } from '../../types'
+import { Stat } from '../../types'
 import { convertToInteger } from '../../utils/utilities'
 
 type Props = {
-  level: number | ''
   realNumber: number
-  selectedPokemon: PokemonData
-  selectedNature: Nature
   stats: Stat[]
   statsIndex: number
   updateRealNumber: (value: number | '', index: number) => void
 }
 
 export const RealNumberField = (props: Props) => {
-  const {
-    level,
-    realNumber,
-    selectedPokemon,
-    selectedNature,
-    stats,
-    statsIndex,
-    updateRealNumber,
-  } = props
+  const { realNumber, stats, statsIndex, updateRealNumber } = props
 
   const realNumberRef = useRef<HTMLInputElement>()
 

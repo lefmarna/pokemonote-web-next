@@ -219,10 +219,7 @@ export const CalcStatsTemplate = (props: Props) => {
                 updateEffortValue={updateEffortValue}
               />
               <RealNumberField
-                level={level}
                 realNumber={realNumbers[index]}
-                selectedPokemon={selectedPokemon}
-                selectedNature={selectedNature}
                 stats={stats}
                 statsIndex={index}
                 updateRealNumber={updateRealNumber}
