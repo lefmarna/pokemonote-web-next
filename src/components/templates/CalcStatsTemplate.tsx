@@ -103,6 +103,13 @@ export const CalcStatsTemplate = (props: Props) => {
     updateStats(newStats)
   }
 
+  /**
+   * 努力値を更新する
+   *
+   * @param {number} effortValue 努力値
+   * @param {number} statsIndex ステータス番号
+   * @return {void}
+   */
   const updateEffortValue = (effortValue: number | '', statsIndex: number) => {
     const newStats = stats.map((stat, index) => {
       if (index === statsIndex) {
