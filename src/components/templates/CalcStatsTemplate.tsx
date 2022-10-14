@@ -4,11 +4,16 @@ import {
   ATTACK_INDEX,
   DEFENCE_INDEX,
   HP_INDEX,
+  LOWER_NATURE,
+  MAX_EV,
+  MAX_REAL_NUMBER,
+  MIN_LEVEL,
   SPEED_INDEX,
   SP_ATTACK_INDEX,
   SP_DEFENCE_INDEX,
+  UPPER_NATURE,
 } from '../../utils/constants'
-import { numberToInt } from '../../utils/utilities'
+import { convertToInteger, numberToInt, valueVerification } from '../../utils/utilities'
 import { BaseStatsField } from '../organisms/BaseStatsField'
 import { EffortValueField } from '../organisms/EffortValueField'
 import { IndividualValueField } from '../organisms/IndividualValueField'
@@ -108,6 +113,82 @@ export const CalcStatsTemplate = (props: Props) => {
     updateStats(newStats)
   }
 
+  /**
+   * 実数値から努力値を求める
+   *
+   * @param {number|''} realNumber 実数値
+   * @param {number} statsIndex ステータス番号
+   * @return {number|''} 努力値
+   */
+  const getEffortValue = (realNumber: number | '', statsIndex: number) => {
+    let setValue = Number(convertToInteger(realNumber, MAX_REAL_NUMBER, false))
+    const formatLv = numberToInt(level, MIN_LEVEL)
+    const formatIndividualValue = numberToInt(stats[statsIndex].individualValue)
+
+    // HPのみ計算式が異なる
+    if (statsIndex === HP_INDEX) {
+      setValue =
+        (Math.ceil(((setValue - formatLv - 10) * 100) / formatLv) -
+          selectedPokemon.stats[statsIndex] * 2 -
+          formatIndividualValue) *
+        4
+    }
+    // HP以外の計算では、性格補正を修正してから努力値の逆算を行う必要がある
+    if (statsIndex !== HP_INDEX) {
+      const effortValue = numberToInt(stats[statsIndex].effortValue)
+      const selectedNatureStat = selectedNature.stats[statsIndex]
+      if (setValue % 11 === 10 && selectedNatureStat === UPPER_NATURE) {
+        if (
+          setValue >=
+          Math.floor(
+            (Math.floor(
+              ((selectedPokemon.stats[statsIndex] * 2 +
+                formatIndividualValue +
+                Math.floor(effortValue / 4)) *
+                formatLv) /
+                100
+            ) +
+              5) *
+              selectedNatureStat
+          )
+        ) {
+          setValue += 1
+        } else {
+          setValue -= 1
+        }
+      }
+      if (selectedNatureStat === UPPER_NATURE) {
+        setValue = Math.ceil(setValue / UPPER_NATURE)
+      } else if (selectedNatureStat === LOWER_NATURE) {
+        setValue = Math.ceil(setValue / LOWER_NATURE)
+      }
+      setValue =
+        (Math.ceil(((setValue - 5) * 100) / formatLv) -
+          selectedPokemon.stats[statsIndex] * 2 -
+          formatIndividualValue) *
+        4
+    }
+
+    return valueVerification(setValue, MAX_EV)
+  }
+
+  const updateRealNumber = (realNumber: number | '', statsIndex: number) => {
+    // FIXME 何故か型を明示的に書かないとエラーになる
+    const effortValue: number | '' = getEffortValue(realNumber, statsIndex)
+
+    const newStats = stats.map((stat, index) => {
+      if (index === statsIndex) {
+        return {
+          ...stat,
+          realNumber,
+          effortValue,
+        }
+      }
+      return stat
+    })
+    updateStats(newStats)
+  }
+
   return (
     <Container sx={{ pt: 2 }}>
       <Grid container spacing={{ md: 4, lg: 8, xl: 12 }} columns={{ xs: 9, md: 18 }}>
@@ -138,13 +219,10 @@ export const CalcStatsTemplate = (props: Props) => {
                 updateEffortValue={updateEffortValue}
               />
               <RealNumberField
-                level={level}
                 realNumber={realNumbers[index]}
-                selectedPokemon={selectedPokemon}
-                selectedNature={selectedNature}
                 stats={stats}
                 statsIndex={index}
-                updateEffortValue={updateEffortValue}
+                updateRealNumber={updateRealNumber}
               />
             </Grid>
           ))}
