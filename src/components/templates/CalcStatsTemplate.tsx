@@ -180,15 +180,15 @@ export const CalcStatsTemplate = (props: Props) => {
   }
 
   const updateRealNumber = (realNumber: number | '', statsIndex: number) => {
-    // FIXME 何故か型を明示的に書かないとエラーになる
-    const effortValue: number | '' = getEffortValue(realNumber, statsIndex)
-
     const newStats = stats.map((stat, index) => {
       if (index === statsIndex) {
+        // FIXME 何故か型を明示的に書かないとエラーになる
+        const effortValue: number | '' = getEffortValue(realNumber, statsIndex)
+        const formatRealNumber = getStat(statsIndex)
         return {
           ...stat,
-          realNumber,
           effortValue,
+          realNumber: formatRealNumber,
         }
       }
       return stat
