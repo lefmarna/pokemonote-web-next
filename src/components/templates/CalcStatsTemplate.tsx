@@ -43,7 +43,11 @@ export const CalcStatsTemplate = (props: Props) => {
     updateStats,
   } = props
 
-  const getStat = (index: number, tmpEv = 0): number => {
+  const getStat = (
+    index: number,
+    tmpEv = 0,
+    effortValue = props.stats[index].effortValue
+  ): number => {
     const formatLv = numberToInt(Number(level), 1)
     const formatIndividualValue = numberToInt(stats[index].individualValue)
     let formatEffortValue = 0
@@ -51,7 +55,7 @@ export const CalcStatsTemplate = (props: Props) => {
     if (tmpEv) {
       formatEffortValue = tmpEv
     } else {
-      formatEffortValue = numberToInt(props.stats[index].effortValue)
+      formatEffortValue = numberToInt(effortValue)
     }
     if (index === HP_INDEX) {
       if (selectedPokemon.name === 'ヌケニン') return 1
@@ -184,7 +188,7 @@ export const CalcStatsTemplate = (props: Props) => {
       if (index === statsIndex) {
         // FIXME 何故か型を明示的に書かないとエラーになる
         const effortValue: number | '' = getEffortValue(realNumber, statsIndex)
-        const formatRealNumber = getStat(statsIndex)
+        const formatRealNumber = getStat(statsIndex, 0, effortValue)
         return {
           ...stat,
           effortValue,
