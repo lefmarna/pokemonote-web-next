@@ -36,6 +36,7 @@ export const RealNumberField = (props: Props) => {
   return (
     <Grid item xs={5} sx={{ pl: { xs: 2, sm: 3 }, display: 'flex' }}>
       <TextField
+        id={`real-number-${stats[statsIndex].name}`}
         type="tel"
         label={stats[statsIndex].name}
         value={stats[statsIndex].realNumber}
