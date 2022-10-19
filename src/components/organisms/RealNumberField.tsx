@@ -1,5 +1,5 @@
 import { Box, Button, Grid, TextField } from '@mui/material'
-import { ChangeEvent, useRef } from 'react'
+import { FocusEvent, useRef } from 'react'
 import { Stat } from '../../types'
 import { convertToInteger } from '../../utils/utilities'
 
@@ -20,7 +20,7 @@ export const RealNumberField = (props: Props) => {
     realNumberRef.current.select()
   }
 
-  const onChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const onBlur = (event: FocusEvent<HTMLInputElement>) => {
     const formatValue = convertToInteger(event.target.value, 999)
     updateRealNumber(formatValue, statsIndex)
   }
@@ -39,9 +39,9 @@ export const RealNumberField = (props: Props) => {
         id={`real-number-${stats[statsIndex].name}`}
         type="tel"
         label={stats[statsIndex].name}
-        value={stats[statsIndex].realNumber}
+        defaultValue={stats[statsIndex].realNumber}
         inputRef={realNumberRef}
-        onChange={onChange}
+        onBlur={onBlur}
         onClick={onSelected}
         variant="standard"
         InputLabelProps={{
