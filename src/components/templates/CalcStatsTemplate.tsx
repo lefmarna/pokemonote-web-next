@@ -117,8 +117,7 @@ export const CalcStatsTemplate = (props: Props) => {
   const updateEffortValue = (effortValue: number | '', statsIndex: number) => {
     const newStats = stats.map((stat, index) => {
       if (index === statsIndex) {
-        const formatRealNumber = getStat(statsIndex, 0, effortValue)
-        return { ...stat, realNumber: formatRealNumber, effortValue }
+        return { ...stat, effortValue }
       }
       return stat
     })
