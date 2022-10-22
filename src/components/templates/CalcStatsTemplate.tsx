@@ -188,11 +188,9 @@ export const CalcStatsTemplate = (props: Props) => {
       if (index === statsIndex) {
         // FIXME 何故か型を明示的に書かないとエラーになる
         const effortValue: number | '' = getEffortValue(realNumber, statsIndex)
-        const formatRealNumber = getStat(statsIndex, 0, effortValue)
         return {
           ...stat,
           effortValue,
-          realNumber: formatRealNumber,
         }
       }
       return stat
