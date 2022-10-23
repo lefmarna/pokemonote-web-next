@@ -39,9 +39,8 @@ export const RealNumberField = (props: Props) => {
         id={`real-number-${stats[statsIndex].name}`}
         type="tel"
         label={stats[statsIndex].name}
-        defaultValue={stats[statsIndex].realNumber}
+        defaultValue={realNumber}
         inputRef={realNumberRef}
-        onBlur={onBlur}
         onClick={onSelected}
         variant="standard"
         InputLabelProps={{
