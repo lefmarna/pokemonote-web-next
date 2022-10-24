@@ -1,5 +1,5 @@
 import { Box, Button, Grid, TextField } from '@mui/material'
-import { FocusEvent, useRef } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
 import { Stat } from '../../types'
 import { convertToInteger } from '../../utils/utilities'
 
@@ -14,6 +14,28 @@ export const RealNumberField = (props: Props) => {
   const { realNumber, stats, statsIndex, updateRealNumber } = props
 
   const realNumberRef = useRef<HTMLInputElement>()
+
+  interface HTMLElementEvent<T extends HTMLElement> extends Event {
+    target: T
+  }
+
+  const onChange = useCallback(
+    (e: HTMLElementEvent<HTMLInputElement>) => {
+      const formatValue = convertToInteger(e.target.value, 999)
+      updateRealNumber(formatValue, statsIndex)
+    },
+    [statsIndex, updateRealNumber]
+  )
+
+  const didEffect = useRef(false)
+  useEffect(() => {
+    if (didEffect.current) return
+    didEffect.current = true
+
+    realNumberRef?.current?.addEventListener('change', {
+      handleEvent: onChange,
+    })
+  }, [onChange])
 
   const onSelected = () => {
     if (!realNumberRef || !realNumberRef.current) return
