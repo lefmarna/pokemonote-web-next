@@ -42,11 +42,6 @@ export const RealNumberField = (props: Props) => {
     realNumberRef.current.select()
   }
 
-  const onBlur = (event: FocusEvent<HTMLInputElement>) => {
-    const formatValue = convertToInteger(event.target.value, 999)
-    updateRealNumber(formatValue, statsIndex)
-  }
-
   const incrementRealNumber = () => {
     updateRealNumber(realNumber + 1, statsIndex)
   }
