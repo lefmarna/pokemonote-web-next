@@ -23,6 +23,8 @@ export const RealNumberField = (props: Props) => {
     (e: HTMLElementEvent<HTMLInputElement>) => {
       const formatValue = convertToInteger(e.target.value, 999)
       updateRealNumber(formatValue, statsIndex)
+      if (!realNumberRef || !realNumberRef.current) return
+      realNumberRef.current.value = String(realNumber)
     },
     [statsIndex, updateRealNumber]
   )
