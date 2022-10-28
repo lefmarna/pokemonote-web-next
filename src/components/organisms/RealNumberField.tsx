@@ -26,7 +26,7 @@ export const RealNumberField = (props: Props) => {
       if (!realNumberRef || !realNumberRef.current) return
       realNumberRef.current.value = String(realNumber)
     },
-    [statsIndex, updateRealNumber]
+    [statsIndex, updateRealNumber, realNumber]
   )
 
   const didEffect = useRef(false)
