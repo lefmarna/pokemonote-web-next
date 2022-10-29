@@ -43,11 +43,7 @@ export const CalcStatsTemplate = (props: Props) => {
     updateStats,
   } = props
 
-  const getStat = (
-    index: number,
-    tmpEv = 0,
-    effortValue = props.stats[index].effortValue
-  ): number => {
+  const getStat = (index: number, tmpEv = 0): number => {
     const formatLv = numberToInt(Number(level), 1)
     const formatIndividualValue = numberToInt(stats[index].individualValue)
     let formatEffortValue = 0
@@ -55,7 +51,7 @@ export const CalcStatsTemplate = (props: Props) => {
     if (tmpEv) {
       formatEffortValue = tmpEv
     } else {
-      formatEffortValue = numberToInt(effortValue)
+      formatEffortValue = numberToInt(props.stats[index].effortValue)
     }
     if (index === HP_INDEX) {
       if (selectedPokemon.name === 'ヌケニン') return 1
