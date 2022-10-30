@@ -19,14 +19,17 @@ export const RealNumberField = (props: Props) => {
     target: T
   }
 
+  useEffect(() => {
+    if (!realNumberRef || !realNumberRef.current) return
+    realNumberRef.current.value = String(realNumber)
+  }, [realNumber])
+
   const onChange = useCallback(
     (e: HTMLElementEvent<HTMLInputElement>) => {
       const formatValue = convertToInteger(e.target.value, 999)
       updateRealNumber(formatValue, statsIndex)
-      if (!realNumberRef || !realNumberRef.current) return
-      realNumberRef.current.value = String(realNumber)
     },
-    [statsIndex, updateRealNumber, realNumber]
+    [statsIndex, updateRealNumber]
   )
 
   const didEffect = useRef(false)
