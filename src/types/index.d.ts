@@ -21,5 +21,4 @@ export type Stat = {
   initial: string
   individualValue: number | ''
   effortValue: number | ''
-  realNumber: number | ''
 }
