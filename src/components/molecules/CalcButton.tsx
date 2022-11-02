@@ -24,6 +24,10 @@ export const CalcButton = (props: Props) => {
       size="small"
       sx={{
         px: 0,
+        minWidth: '3em',
+        '@media screen and (max-width: 320x)': {
+          minWidth: '2.8em',
+        },
         ...sx,
       }}
       variant="contained"
