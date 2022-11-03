@@ -28,6 +28,16 @@ export const LvField = (props: Props) => {
     levelRef.current.select()
   }
 
+  const calcButtonStyle = {
+    minWidth: '34px',
+    '@media screen and (max-width: 360px)': {
+      minWidth: '33.4px',
+    },
+    '@media screen and (max-width: 320px)': {
+      minWidth: '31.6px',
+    },
+  }
+
   return (
     <Box sx={{ display: 'flex' }}>
       <Box>
@@ -46,10 +56,12 @@ export const LvField = (props: Props) => {
         />
       </Box>
       <Box>
-        <CalcButton onClick={assignLevel} sx={{ mb: 0.5 }}>
+        <CalcButton onClick={assignLevel} sx={{ mb: 0.5, ...calcButtonStyle }}>
           {MAX_LEVEL}
         </CalcButton>
-        <CalcButton onClick={assignLevel}>{MIN_LEVEL}</CalcButton>
+        <CalcButton onClick={assignLevel} sx={calcButtonStyle}>
+          {MIN_LEVEL}
+        </CalcButton>
       </Box>
     </Box>
   )

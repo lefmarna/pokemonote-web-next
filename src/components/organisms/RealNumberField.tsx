@@ -55,6 +55,16 @@ export const RealNumberField = (props: Props) => {
     updateRealNumber(realNumber - 1, statsIndex)
   }
 
+  const calcButtonStyle = {
+    minWidth: '28px',
+    '@media screen and (max-width: 360px)': {
+      minWidth: '27.5px',
+    },
+    '@media screen and (max-width: 320px)': {
+      minWidth: '26px',
+    },
+  }
+
   return (
     <Grid item xs={5} sx={{ pl: { xs: 2, sm: 3 }, display: 'flex' }}>
       <TextField
@@ -77,6 +87,8 @@ export const RealNumberField = (props: Props) => {
           size="small"
           sx={{
             px: 0,
+            mb: 0.5,
+            ...calcButtonStyle,
           }}
           variant="contained"
         >
@@ -89,6 +101,7 @@ export const RealNumberField = (props: Props) => {
           size="small"
           sx={{
             px: 0,
+            ...calcButtonStyle,
           }}
           variant="contained"
         >

@@ -1,4 +1,4 @@
-import { Button, styled, SxProps, Theme } from '@mui/material'
+import { Button, SxProps, Theme } from '@mui/material'
 import { MouseEvent } from 'react'
 
 type Props = {
@@ -11,12 +11,8 @@ type Props = {
 export const CalcButton = (props: Props) => {
   const { children, disabled = false, sx, onClick } = props
 
-  const StyledButton = styled(Button)({
-    minWidth: '3em',
-  })
-
   return (
-    <StyledButton
+    <Button
       centerRipple
       color="secondary"
       disabled={disabled}
@@ -24,15 +20,11 @@ export const CalcButton = (props: Props) => {
       size="small"
       sx={{
         px: 0,
-        minWidth: '3em',
-        '@media screen and (max-width: 320x)': {
-          minWidth: '2.8em',
-        },
         ...sx,
       }}
       variant="contained"
     >
       {children}
-    </StyledButton>
+    </Button>
   )
 }

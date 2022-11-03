@@ -31,6 +31,16 @@ export const IndividualValueField = (props: Props) => {
     updateIndividualValue(formatValue, statsIndex)
   }
 
+  const calcButtonStyle = {
+    minWidth: '28px',
+    '@media screen and (max-width: 360px)': {
+      minWidth: '27.5px',
+    },
+    '@media screen and (max-width: 320px)': {
+      minWidth: '26px',
+    },
+  }
+
   return (
     <Grid item xs={5} sx={{ pl: { xs: 2, md: 4 }, display: 'flex' }}>
       <TextField
@@ -47,8 +57,12 @@ export const IndividualValueField = (props: Props) => {
         }}
       />
       <Box>
-        <CalcButton onClick={onClickCalcButton}>{31}</CalcButton>
-        <CalcButton onClick={onClickCalcButton}>{0}</CalcButton>
+        <CalcButton onClick={onClickCalcButton} sx={{ mb: 0.5, ...calcButtonStyle }}>
+          {31}
+        </CalcButton>
+        <CalcButton onClick={onClickCalcButton} sx={calcButtonStyle}>
+          {0}
+        </CalcButton>
       </Box>
     </Grid>
   )
