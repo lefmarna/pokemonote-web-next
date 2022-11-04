@@ -7,6 +7,7 @@ import {
   LOWER_NATURE,
   MAX_EV,
   MAX_REAL_NUMBER,
+  MAX_TOTAL_EV,
   MIN_LEVEL,
   SPEED_INDEX,
   SP_ATTACK_INDEX,
@@ -194,6 +195,41 @@ export const CalcStatsTemplate = (props: Props) => {
     updateStats(newStats)
   }
 
+  // 種族値の合計値を計算する
+  const totalBaseStats = () => {
+    return Object.values(props.selectedPokemon.stats).reduce((sum, stat) => {
+      sum += stat
+      return sum
+    }, 0)
+  }
+
+  // 個体値の合計値を計算する
+  const totalIv = () => {
+    return props.stats.reduce((sum, stat) => {
+      sum += numberToInt(stat.individualValue)
+      return sum
+    }, 0)
+  }
+
+  // 努力値の合計値を計算する
+  const totalEv = () => {
+    return props.stats.reduce((sum, stat) => {
+      sum += numberToInt(stat.effortValue)
+      return sum
+    }, 0)
+  }
+
+  const totalStats = () => {
+    return (
+      realNumbers[HP_INDEX] +
+      realNumbers[ATTACK_INDEX] +
+      realNumbers[DEFENCE_INDEX] +
+      realNumbers[SP_ATTACK_INDEX] +
+      realNumbers[SP_DEFENCE_INDEX] +
+      realNumbers[SPEED_INDEX]
+    )
+  }
+
   return (
     <Container sx={{ pt: 2 }}>
       <Grid container spacing={{ md: 4, lg: 8, xl: 12 }} columns={{ xs: 9, md: 18 }}>
@@ -232,7 +268,22 @@ export const CalcStatsTemplate = (props: Props) => {
             </Grid>
           ))}
         </Grid>
-        <Grid item md={9} xs={18}></Grid>
+        <Grid item md={9} xs={18}>
+          <Grid container columns={18} sx={{ mt: 1 }}>
+            <Grid item xs={3} sx={{ pl: { xs: 2, sm: 3 } }}>
+              {totalBaseStats()}
+            </Grid>
+            <Grid item xs={5} sx={{ pl: { xs: 2, sm: 3 } }}>
+              {totalIv()}
+            </Grid>
+            <Grid item xs={5} sx={{ pl: { xs: 2, sm: 3 } }}>
+              <span>{totalEv()}</span>/&nbsp;{MAX_TOTAL_EV}
+            </Grid>
+            <Grid item xs={5} sx={{ pl: { xs: 2, sm: 3 } }}>
+              {totalStats()}
+            </Grid>
+          </Grid>
+        </Grid>
       </Grid>
     </Container>
   )
