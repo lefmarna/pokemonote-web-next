@@ -1,4 +1,5 @@
 import { Container, Grid } from '@mui/material'
+import { useCallback } from 'react'
 import { Nature, PokemonData, Stat } from '../../types'
 import {
   ATTACK_INDEX,
@@ -196,30 +197,30 @@ export const CalcStatsTemplate = (props: Props) => {
   }
 
   // 種族値の合計値を計算する
-  const totalBaseStats = () => {
+  const totalBaseStats = useCallback(() => {
     return Object.values(props.selectedPokemon.stats).reduce((sum, stat) => {
       sum += stat
       return sum
     }, 0)
-  }
+  }, [props.selectedPokemon.stats])
 
   // 個体値の合計値を計算する
-  const totalIv = () => {
+  const totalIv = useCallback(() => {
     return props.stats.reduce((sum, stat) => {
       sum += numberToInt(stat.individualValue)
       return sum
     }, 0)
-  }
+  }, [props.stats])
 
   // 努力値の合計値を計算する
-  const totalEv = () => {
+  const totalEv = useCallback(() => {
     return props.stats.reduce((sum, stat) => {
       sum += numberToInt(stat.effortValue)
       return sum
     }, 0)
-  }
+  }, [props.stats])
 
-  const totalStats = () => {
+  const totalStats = useCallback(() => {
     return (
       realNumbers[HP_INDEX] +
       realNumbers[ATTACK_INDEX] +
@@ -228,7 +229,7 @@ export const CalcStatsTemplate = (props: Props) => {
       realNumbers[SP_DEFENCE_INDEX] +
       realNumbers[SPEED_INDEX]
     )
-  }
+  }, [realNumbers])
 
   return (
     <Container sx={{ pt: 2 }}>
