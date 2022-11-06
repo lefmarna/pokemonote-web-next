@@ -22,7 +22,8 @@ export const RealNumberField = (props: Props) => {
   useEffect(() => {
     if (!realNumberRef || !realNumberRef.current) return
     realNumberRef.current.value = String(realNumber)
-  }, [realNumber])
+    // eslint-disable-next-line
+  }, [realNumber, stats[statsIndex]])
 
   const onChange = useCallback(
     (e: HTMLElementEvent<HTMLInputElement>) => {
