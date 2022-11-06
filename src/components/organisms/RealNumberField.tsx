@@ -38,9 +38,19 @@ export const RealNumberField = (props: Props) => {
     if (didEffect.current) return
     didEffect.current = true
 
-    realNumberRef?.current?.addEventListener('change', {
+    const realNumberDom = realNumberRef?.current
+
+    if (!realNumberDom) return
+
+    realNumberDom.addEventListener('change', {
       handleEvent: onChange,
     })
+
+    return () => {
+      realNumberDom.removeEventListener('change', {
+        handleEvent: onChange,
+      })
+    }
   }, [onChange])
 
   const onSelected = () => {
