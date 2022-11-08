@@ -1,4 +1,5 @@
 import { Container, Grid } from '@mui/material'
+import { useCallback } from 'react'
 import { Nature, PokemonData, Stat } from '../../types'
 import {
   ATTACK_INDEX,
@@ -7,6 +8,7 @@ import {
   LOWER_NATURE,
   MAX_EV,
   MAX_REAL_NUMBER,
+  MAX_TOTAL_EV,
   MIN_LEVEL,
   SPEED_INDEX,
   SP_ATTACK_INDEX,
@@ -103,6 +105,13 @@ export const CalcStatsTemplate = (props: Props) => {
     updateStats(newStats)
   }
 
+  /**
+   * 努力値を更新する
+   *
+   * @param {number} effortValue 努力値
+   * @param {number} statsIndex ステータス番号
+   * @return {void}
+   */
   const updateEffortValue = (effortValue: number | '', statsIndex: number) => {
     const newStats = stats.map((stat, index) => {
       if (index === statsIndex) {
@@ -173,14 +182,12 @@ export const CalcStatsTemplate = (props: Props) => {
   }
 
   const updateRealNumber = (realNumber: number | '', statsIndex: number) => {
-    // FIXME 何故か型を明示的に書かないとエラーになる
-    const effortValue: number | '' = getEffortValue(realNumber, statsIndex)
-
     const newStats = stats.map((stat, index) => {
       if (index === statsIndex) {
+        // FIXME 何故か型を明示的に書かないとエラーになる
+        const effortValue: number | '' = getEffortValue(realNumber, statsIndex)
         return {
           ...stat,
-          realNumber,
           effortValue,
         }
       }
@@ -188,6 +195,41 @@ export const CalcStatsTemplate = (props: Props) => {
     })
     updateStats(newStats)
   }
+
+  // 種族値の合計値を計算する
+  const totalBaseStats = useCallback(() => {
+    return Object.values(props.selectedPokemon.stats).reduce((sum, stat) => {
+      sum += stat
+      return sum
+    }, 0)
+  }, [props.selectedPokemon.stats])
+
+  // 個体値の合計値を計算する
+  const totalIv = useCallback(() => {
+    return props.stats.reduce((sum, stat) => {
+      sum += numberToInt(stat.individualValue)
+      return sum
+    }, 0)
+  }, [props.stats])
+
+  // 努力値の合計値を計算する
+  const totalEv = useCallback(() => {
+    return props.stats.reduce((sum, stat) => {
+      sum += numberToInt(stat.effortValue)
+      return sum
+    }, 0)
+  }, [props.stats])
+
+  const totalStats = useCallback(() => {
+    return (
+      realNumbers[HP_INDEX] +
+      realNumbers[ATTACK_INDEX] +
+      realNumbers[DEFENCE_INDEX] +
+      realNumbers[SP_ATTACK_INDEX] +
+      realNumbers[SP_DEFENCE_INDEX] +
+      realNumbers[SPEED_INDEX]
+    )
+  }, [realNumbers])
 
   return (
     <Container sx={{ pt: 2 }}>
@@ -226,6 +268,20 @@ export const CalcStatsTemplate = (props: Props) => {
               />
             </Grid>
           ))}
+          <Grid container columns={18} sx={{ mt: 1 }}>
+            <Grid item xs={3} sx={{ pl: { xs: 2, sm: 3 } }}>
+              {totalBaseStats()}
+            </Grid>
+            <Grid item xs={5} sx={{ pl: { xs: 2, sm: 3 } }}>
+              {totalIv()}
+            </Grid>
+            <Grid item xs={5} sx={{ pl: { xs: 2, sm: 3 } }}>
+              <span>{totalEv()}</span>/&nbsp;{MAX_TOTAL_EV}
+            </Grid>
+            <Grid item xs={5} sx={{ pl: { xs: 2, sm: 3 } }}>
+              {totalStats()}
+            </Grid>
+          </Grid>
         </Grid>
         <Grid item md={9} xs={18}></Grid>
       </Grid>
