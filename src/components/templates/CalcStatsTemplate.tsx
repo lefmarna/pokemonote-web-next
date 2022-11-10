@@ -95,6 +95,13 @@ export const CalcStatsTemplate = (props: Props) => {
     getStat(SPEED_INDEX),
   ]
 
+  /**
+   * 個体値を更新する
+   *
+   * @param {number|''} individualValue 個体値
+   * @param {number} statsIndex ステータス番号
+   * @return {void}
+   */
   const updateIndividualValue = (individualValue: number | '', statsIndex: number) => {
     const newStats = stats.map((stat, index) => {
       if (index === statsIndex) {
