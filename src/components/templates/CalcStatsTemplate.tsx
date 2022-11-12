@@ -1,5 +1,5 @@
 import { Container, Grid } from '@mui/material'
-import { useCallback, useMemo } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import { Nature, PokemonData, Stat } from '../../types'
 import {
   ATTACK_INDEX,
@@ -17,12 +17,14 @@ import {
 } from '../../utils/constants'
 import { convertToInteger, numberToInt, valueVerification } from '../../utils/utilities'
 import { BaseStatsField } from '../organisms/BaseStatsField'
+import { CalcStatsOptions } from '../organisms/CalcStatsOptions'
 import { EffortValueField } from '../organisms/EffortValueField'
 import { IndividualValueField } from '../organisms/IndividualValueField'
 import { RealNumberField } from '../organisms/RealNumberField'
 import { StatsTableHeader } from '../organisms/StatsTableHeader'
 
 type Props = {
+  buttonText: string
   selectedPokemon: PokemonData
   selectedNature: Nature
   level: number | ''
@@ -35,6 +37,7 @@ type Props = {
 
 export const CalcStatsTemplate = (props: Props) => {
   const {
+    buttonText,
     selectedPokemon,
     selectedNature,
     stats,
@@ -44,6 +47,8 @@ export const CalcStatsTemplate = (props: Props) => {
     updateLevel,
     updateStats,
   } = props
+
+  const [description, setDescription] = useState('')
 
   const getStat = useMemo(
     () =>
@@ -55,7 +60,7 @@ export const CalcStatsTemplate = (props: Props) => {
         if (tmpEv) {
           formatEffortValue = tmpEv
         } else {
-          formatEffortValue = numberToInt(props.stats[index].effortValue)
+          formatEffortValue = numberToInt(stats[index].effortValue)
         }
         if (index === HP_INDEX) {
           if (selectedPokemon.name === 'ヌケニン') return 1
@@ -84,7 +89,7 @@ export const CalcStatsTemplate = (props: Props) => {
           )
         }
       },
-    [level, props.stats, selectedNature.stats, selectedPokemon.name, selectedPokemon.stats, stats]
+    [level, stats, selectedNature.stats, selectedPokemon.name, selectedPokemon.stats]
   )
 
   /**
@@ -105,7 +110,7 @@ export const CalcStatsTemplate = (props: Props) => {
   /**
    * 個体値を更新する
    *
-   * @param {number|''} individualValue 個体値
+   * @param {number | ''} individualValue 個体値
    * @param {number} statsIndex ステータス番号
    * @return {void}
    */
@@ -122,7 +127,7 @@ export const CalcStatsTemplate = (props: Props) => {
   /**
    * 努力値を更新する
    *
-   * @param {number} effortValue 努力値
+   * @param {number | ''} effortValue 努力値
    * @param {number} statsIndex ステータス番号
    * @return {void}
    */
@@ -210,29 +215,49 @@ export const CalcStatsTemplate = (props: Props) => {
     updateStats(newStats)
   }
 
+  // const updateRealNumbers = (realNumbers: { value: number | ''; statsIndex: number }[]) => {
+  //   const newStats = stats.map((stat, index) => {
+  //     const targetRealNumber = realNumbers.some((realNumber) => realNumber.statsIndex === index)
+  //     if (!targetRealNumber) return
+
+  //     const effortValue: number | '' = getEffortValue(targetRealNumber.value, index)
+
+  //     if (index === realNumbers.find) {
+  //       // FIXME 何故か型を明示的に書かないとエラーになる
+  //       const effortValue: number | '' = getEffortValue(realNumber, index)
+  //       return {
+  //         ...stat,
+  //         effortValue,
+  //       }
+  //     }
+  //     return stat
+  //   })
+  //   updateStats(newStats)
+  // }
+
   // 種族値の合計値を計算する
   const totalBaseStats = useCallback(() => {
-    return Object.values(props.selectedPokemon.stats).reduce((sum, stat) => {
+    return Object.values(selectedPokemon.stats).reduce((sum, stat) => {
       sum += stat
       return sum
     }, 0)
-  }, [props.selectedPokemon.stats])
+  }, [selectedPokemon.stats])
 
   // 個体値の合計値を計算する
   const totalIv = useCallback(() => {
-    return props.stats.reduce((sum, stat) => {
+    return stats.reduce((sum, stat) => {
       sum += numberToInt(stat.individualValue)
       return sum
     }, 0)
-  }, [props.stats])
+  }, [stats])
 
   // 努力値の合計値を計算する
   const totalEv = useCallback(() => {
-    return props.stats.reduce((sum, stat) => {
+    return stats.reduce((sum, stat) => {
       sum += numberToInt(stat.effortValue)
       return sum
     }, 0)
-  }, [props.stats])
+  }, [stats])
 
   const totalStats = useCallback(() => {
     return (
@@ -244,6 +269,110 @@ export const CalcStatsTemplate = (props: Props) => {
       realNumbers[SPEED_INDEX]
     )
   }, [realNumbers])
+
+  const durabilityAdjustment = (
+    calcStyle: string,
+    selectDefenceEnhancement: number,
+    selectSpDefenceEnhancement: number
+  ) => {
+    // 攻撃、特攻、素早さの努力値を除いた値を求める
+    const remainderEffortValue =
+      MAX_TOTAL_EV -
+      Number(stats[ATTACK_INDEX].effortValue) -
+      Number(stats[SP_ATTACK_INDEX].effortValue) -
+      Number(stats[SPEED_INDEX].effortValue)
+
+    // 計算に使う努力値を一時的に格納しておくための変数
+    let tmpHpEV = remainderEffortValue // HPから順に計算していくので、最初に余りの努力値をそのまま代入している
+    let tmpDefenceEV = 0
+    let tmpSpDefenceEV = 0
+
+    // 計算に使う実数値を一時的に格納しておくための変数
+    let tmpHp = 0
+    let tmpDefence = 0
+    let tmpSpDefence = 0
+
+    // 実数値の計算は耐久補正込で行うが、代入する際には元の値を使うため、別の変数を用意することにした
+    let tmpDefenceEnhancement = 0
+    let tmpSpDefenceEnhancement = 0
+
+    // 最終的に代入することになる実数値を格納しておくための変数
+    let resultHp = 0
+    let resultDefence = 0
+    let resultSpDefence = 0
+
+    // 計算された耐久指数を比較していくのに用いる変数
+    let oldHBD = 0
+    let newHBD = 0
+
+    // 計算スタイルが H=B+D の際に、BとDの差分を比較するのに用いる変数
+    let tmpDiff: number | null = null
+
+    updateEffortValue('', HP_INDEX)
+    updateEffortValue('', DEFENCE_INDEX)
+    updateEffortValue('', SP_DEFENCE_INDEX)
+
+    // 努力値の余りが最大値より大きかった場合、スタートであるHPの仮努力値を最大値とする
+    if (tmpHpEV > MAX_EV) tmpHpEV = MAX_EV
+
+    // HP→特防→防御の順に総当たりで計算していく
+    while (tmpHpEV >= 0) {
+      tmpHp = getStat(HP_INDEX, tmpHpEV) // HPの努力値からHPの実数値を計算
+      tmpSpDefenceEV = remainderEffortValue - tmpHpEV
+      if (tmpSpDefenceEV > MAX_EV) {
+        tmpSpDefenceEV = MAX_EV
+      }
+      // 防御より先に特防を計算することで、端数が出た場合に特防に割り振られるようになる(ダウンロード対策でB<Dのほうが好まれることから、このような仕様にしている)
+      while (tmpSpDefenceEV >= 0) {
+        tmpSpDefence = getStat(SP_DEFENCE_INDEX, tmpSpDefenceEV) // 特防の努力値から特防の実数値を計算
+        tmpDefenceEV = remainderEffortValue - tmpHpEV - tmpSpDefenceEV
+        // 防御の仮努力値が最大値を超えてしまう場合には値を更新しない
+        if (tmpDefenceEV > MAX_EV) break
+
+        tmpDefence = getStat(DEFENCE_INDEX, tmpDefenceEV) // 防御の努力値から防御の実数値を計算
+
+        // 耐久補正込での耐久値を求める
+        tmpDefenceEnhancement = Math.floor(tmpDefence * selectDefenceEnhancement)
+        tmpSpDefenceEnhancement = Math.floor(tmpSpDefence * selectSpDefenceEnhancement)
+
+        // 耐久指数を計算する（計算スタイルによって結果が異なる）
+        if (calcStyle === 'balance') {
+          newHBD =
+            (tmpHp * tmpDefenceEnhancement * tmpSpDefenceEnhancement) /
+            (tmpDefenceEnhancement + tmpSpDefenceEnhancement)
+        }
+
+        if (calcStyle === 'performance') {
+          newHBD = tmpHp * (tmpDefenceEnhancement + tmpSpDefenceEnhancement)
+
+          // NOTE 結果が同じ時には防御と特防の差が小さい方が好ましいため、最も差分の小さな値を入れるようにしている
+          if (oldHBD === newHBD && resultHp === tmpHp) {
+            const diff = Math.abs(tmpDefenceEnhancement - tmpSpDefenceEnhancement)
+            if (tmpDiff === null || tmpDiff > diff) {
+              tmpDiff = diff
+              resultDefence = tmpDefence
+              resultSpDefence = tmpSpDefence
+            }
+          }
+        }
+
+        // 耐久指数が前回のものより大きければ更新、そうでなければ更新しない
+        if (oldHBD < newHBD) {
+          oldHBD = newHBD
+          resultHp = tmpHp
+          resultDefence = tmpDefence
+          resultSpDefence = tmpSpDefence
+          tmpDiff = null
+        }
+        tmpSpDefenceEV--
+      }
+      tmpHpEV--
+    }
+    // 最も優秀だった結果を代入する
+    updateRealNumber(resultHp, HP_INDEX)
+    updateRealNumber(resultDefence, DEFENCE_INDEX)
+    updateRealNumber(resultSpDefence, SP_DEFENCE_INDEX)
+  }
 
   return (
     <Container sx={{ pt: 2 }}>
@@ -297,7 +426,16 @@ export const CalcStatsTemplate = (props: Props) => {
             </Grid>
           </Grid>
         </Grid>
-        <Grid item md={9} xs={18}></Grid>
+        <Grid item md={9} xs={18}>
+          <CalcStatsOptions
+            description={description}
+            buttonText={buttonText}
+            realNumbers={realNumbers}
+            stats={stats}
+            updateEffortValue={updateEffortValue}
+            durabilityAdjustment={durabilityAdjustment}
+          />
+        </Grid>
       </Grid>
     </Container>
   )

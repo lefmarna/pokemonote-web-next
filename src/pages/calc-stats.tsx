@@ -27,6 +27,7 @@ const CalcStats: NextPage = () => {
 
   return (
     <CalcStatsTemplate
+      buttonText="投稿する"
       selectedPokemon={selectedPokemon}
       selectedNature={selectedNature}
       level={level}
