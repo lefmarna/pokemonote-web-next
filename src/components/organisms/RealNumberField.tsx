@@ -1,5 +1,5 @@
 import { Box, Button, Grid, TextField } from '@mui/material'
-import { useCallback, useEffect, useRef } from 'react'
+import { FocusEvent, KeyboardEvent, useCallback, useEffect, useRef } from 'react'
 import { Stat } from '../../types'
 import { convertToInteger } from '../../utils/utilities'
 
@@ -15,43 +15,30 @@ export const RealNumberField = (props: Props) => {
 
   const realNumberRef = useRef<HTMLInputElement>()
 
-  interface HTMLElementEvent<T extends HTMLElement> extends Event {
-    target: T
-  }
-
   useEffect(() => {
     if (!realNumberRef || !realNumberRef.current) return
     realNumberRef.current.value = String(realNumber)
     // eslint-disable-next-line
   }, [realNumber, stats[statsIndex]])
 
-  const onChange = useCallback(
-    (e: HTMLElementEvent<HTMLInputElement>) => {
+  const onBlur = useCallback(
+    (e: FocusEvent<HTMLInputElement>) => {
       const formatValue = convertToInteger(e.target.value, 999)
       updateRealNumber(formatValue, statsIndex)
     },
     [statsIndex, updateRealNumber]
   )
 
-  const didEffect = useRef(false)
-  useEffect(() => {
-    if (didEffect.current) return
-    didEffect.current = true
+  const onKeydown = useCallback(
+    (e: KeyboardEvent<HTMLInputElement>) => {
+      if (e.key !== 'Enter' || e.nativeEvent.isComposing) return
+      if (!(e.target instanceof HTMLInputElement)) return
 
-    const realNumberDom = realNumberRef?.current
-
-    if (!realNumberDom) return
-
-    realNumberDom.addEventListener('change', {
-      handleEvent: onChange,
-    })
-
-    return () => {
-      realNumberDom.removeEventListener('change', {
-        handleEvent: onChange,
-      })
-    }
-  }, [onChange])
+      const formatValue = convertToInteger(e.target.value, 999)
+      updateRealNumber(formatValue, statsIndex)
+    },
+    [statsIndex, updateRealNumber]
+  )
 
   const onSelected = () => {
     if (!realNumberRef || !realNumberRef.current) return
@@ -84,6 +71,8 @@ export const RealNumberField = (props: Props) => {
         label={stats[statsIndex].name}
         defaultValue={realNumber}
         inputRef={realNumberRef}
+        onBlur={onBlur}
+        onKeyDown={onKeydown}
         onClick={onSelected}
         variant="standard"
         InputLabelProps={{
