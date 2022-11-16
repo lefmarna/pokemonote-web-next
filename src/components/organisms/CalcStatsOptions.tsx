@@ -14,6 +14,7 @@ import {
   RadioGroup,
   Select,
   SelectChangeEvent,
+  TextField,
 } from '@mui/material'
 import { ChangeEvent, useState } from 'react'
 import { Stat } from '../../types'
@@ -160,6 +161,9 @@ export const CalcStatsOptions = (props: Props) => {
             </Button>
           </Box>
         </Grid>
+      </Grid>
+      <Grid container>
+        <TextField value={description} multiline />
       </Grid>
     </Container>
   )
