@@ -1,7 +1,13 @@
 import { Box, Grid, TextField } from '@mui/material'
 import { ChangeEvent, MouseEvent, useRef } from 'react'
 import { Stat } from '../../types'
-import { MAX_IV } from '../../utils/constants'
+import {
+  ATTACK_INDEX,
+  MAX_IV,
+  MAX_TOTAL_EV,
+  SPEED_INDEX,
+  SP_ATTACK_INDEX,
+} from '../../utils/constants'
 import { convertToInteger } from '../../utils/utilities'
 import { CalcButton } from '../molecules/CalcButton'
 
