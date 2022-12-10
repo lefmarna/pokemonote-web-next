@@ -215,6 +215,32 @@ export const CalcStatsTemplate = (props: Props) => {
     updateStats(newStats)
   }
 
+  type RealNumber = {
+    index: number
+    value: number | ''
+  }
+
+  const updateRealNumbers = (realNumbers: RealNumber[]) => {
+    const newStats = stats.map((stat, index) => {
+      const targetRealNumber = realNumbers.find((realNumber) => realNumber.index === index)
+      if (!targetRealNumber) return stat
+
+      if (index === targetRealNumber.index) {
+        // FIXME 何故か型を明示的に書かないとエラーになる
+        const effortValue: number | '' = getEffortValue(
+          targetRealNumber.value,
+          targetRealNumber.index
+        )
+        return {
+          ...stat,
+          effortValue,
+        }
+      }
+      return stat
+    })
+    updateStats(newStats)
+  }
+
   // const updateRealNumbers = (realNumbers: { value: number | ''; statsIndex: number }[]) => {
   //   const newStats = stats.map((stat, index) => {
   //     const targetRealNumber = realNumbers.some((realNumber) => realNumber.statsIndex === index)
@@ -369,9 +395,20 @@ export const CalcStatsTemplate = (props: Props) => {
       tmpHpEV--
     }
     // 最も優秀だった結果を代入する
-    updateRealNumber(resultHp, HP_INDEX)
-    updateRealNumber(resultDefence, DEFENCE_INDEX)
-    updateRealNumber(resultSpDefence, SP_DEFENCE_INDEX)
+    updateRealNumbers([
+      {
+        index: HP_INDEX,
+        value: resultHp,
+      },
+      {
+        index: DEFENCE_INDEX,
+        value: resultDefence,
+      },
+      {
+        index: SP_DEFENCE_INDEX,
+        value: resultSpDefence,
+      },
+    ])
   }
 
   return (
