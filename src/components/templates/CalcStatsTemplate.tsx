@@ -141,6 +141,31 @@ export const CalcStatsTemplate = (props: Props) => {
     updateStats(newStats)
   }
 
+  type EffortValue = {
+    index: number
+    value: number | ''
+  }
+
+  /**
+   * 努力値を更新する
+   *
+   * @param {number | ''} effortValue 努力値
+   * @param {number} statsIndex ステータス番号
+   * @return {void}
+   */
+  const updateEffortValues = (effortValues: EffortValue[]) => {
+    const newStats = stats.map((stat, index) => {
+      const targetStat = effortValues.find((effortValue) => effortValue.index === index)
+      if (!targetStat) return stat
+
+      if (index === targetStat.index) {
+        return { ...stat, effortValue: targetStat.value }
+      }
+      return stat
+    })
+    updateStats(newStats)
+  }
+
   /**
    * 実数値から努力値を求める
    *
@@ -470,6 +495,7 @@ export const CalcStatsTemplate = (props: Props) => {
             realNumbers={realNumbers}
             stats={stats}
             updateEffortValue={updateEffortValue}
+            updateEffortValues={updateEffortValues}
             durabilityAdjustment={durabilityAdjustment}
           />
         </Grid>
