@@ -266,26 +266,6 @@ export const CalcStatsTemplate = (props: Props) => {
     updateStats(newStats)
   }
 
-  // const updateRealNumbers = (realNumbers: { value: number | ''; statsIndex: number }[]) => {
-  //   const newStats = stats.map((stat, index) => {
-  //     const targetRealNumber = realNumbers.some((realNumber) => realNumber.statsIndex === index)
-  //     if (!targetRealNumber) return
-
-  //     const effortValue: number | '' = getEffortValue(targetRealNumber.value, index)
-
-  //     if (index === realNumbers.find) {
-  //       // FIXME 何故か型を明示的に書かないとエラーになる
-  //       const effortValue: number | '' = getEffortValue(realNumber, index)
-  //       return {
-  //         ...stat,
-  //         effortValue,
-  //       }
-  //     }
-  //     return stat
-  //   })
-  //   updateStats(newStats)
-  // }
-
   // 種族値の合計値を計算する
   const totalBaseStats = useCallback(() => {
     return Object.values(selectedPokemon.stats).reduce((sum, stat) => {
