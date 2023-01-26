@@ -22,3 +22,19 @@ export type Stat = {
   individualValue: number | ''
   effortValue: number | ''
 }
+
+export type LoginParams = {
+  email: string
+  password: string
+}
+
+export type User = {
+  nickname: string
+  username: string
+}
+
+export type AuthUser = User & {
+  id: number | null
+  email: string
+  email_verified_at: boolean
+}
