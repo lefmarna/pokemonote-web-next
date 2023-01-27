@@ -18,7 +18,20 @@ import {
 } from '@mui/material'
 import { ChangeEvent, useState } from 'react'
 import { Stat } from '../../types'
-import { DEFENCE_INDEX, HP_INDEX, SP_DEFENCE_INDEX, STATS_LENGTH } from '../../utils/constants'
+import {
+  ATTACK_INDEX,
+  DEFENCE_INDEX,
+  HP_INDEX,
+  SPEED_INDEX,
+  SP_ATTACK_INDEX,
+  SP_DEFENCE_INDEX,
+  STATS_LENGTH,
+} from '../../utils/constants'
+
+type EffortValue = {
+  index: number
+  value: number | ''
+}
 
 type Props = {
   buttonText: string
@@ -26,6 +39,7 @@ type Props = {
   realNumbers: number[]
   stats: Stat[]
   updateEffortValue: (value: number | '', index: number) => void
+  updateEffortValues: (effortValues: EffortValue[]) => void
   durabilityAdjustment: (
     calcStyle: string,
     selectDefenceEnhancement: number,
@@ -34,8 +48,15 @@ type Props = {
 }
 
 export const CalcStatsOptions = (props: Props) => {
-  const { buttonText, description, realNumbers, stats, updateEffortValue, durabilityAdjustment } =
-    props
+  const {
+    buttonText,
+    description,
+    realNumbers,
+    stats,
+    updateEffortValue,
+    updateEffortValues,
+    durabilityAdjustment,
+  } = props
 
   const [selectDefenceEnhancement, setSelectDefenceEnhancement] = useState(1)
   const [selectSpDefenceEnhancement, setSelectSpDefenceEnhancement] = useState(1)
@@ -66,9 +87,32 @@ export const CalcStatsOptions = (props: Props) => {
 
   // 努力値をリセットする
   const resetEffortValue = (): void => {
-    for (let i = 0; i < STATS_LENGTH; i++) {
-      updateEffortValue('', i)
-    }
+    updateEffortValues([
+      {
+        index: HP_INDEX,
+        value: '',
+      },
+      {
+        index: ATTACK_INDEX,
+        value: '',
+      },
+      {
+        index: DEFENCE_INDEX,
+        value: '',
+      },
+      {
+        index: SP_ATTACK_INDEX,
+        value: '',
+      },
+      {
+        index: SP_DEFENCE_INDEX,
+        value: '',
+      },
+      {
+        index: SPEED_INDEX,
+        value: '',
+      },
+    ])
   }
 
   const magnificationItems = [
@@ -164,6 +208,9 @@ export const CalcStatsOptions = (props: Props) => {
       </Grid>
       <Grid container>
         <TextField value={description} multiline />
+        <Grid item>
+          <Button onClick={resetEffortValue}>リセット</Button>
+        </Grid>
       </Grid>
     </Container>
   )

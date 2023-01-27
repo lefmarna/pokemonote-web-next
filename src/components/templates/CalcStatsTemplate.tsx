@@ -141,6 +141,31 @@ export const CalcStatsTemplate = (props: Props) => {
     updateStats(newStats)
   }
 
+  type EffortValue = {
+    index: number
+    value: number | ''
+  }
+
+  /**
+   * 努力値を更新する
+   *
+   * @param {number | ''} effortValue 努力値
+   * @param {number} statsIndex ステータス番号
+   * @return {void}
+   */
+  const updateEffortValues = (effortValues: EffortValue[]) => {
+    const newStats = stats.map((stat, index) => {
+      const targetStat = effortValues.find((effortValue) => effortValue.index === index)
+      if (!targetStat) return stat
+
+      if (index === targetStat.index) {
+        return { ...stat, effortValue: targetStat.value }
+      }
+      return stat
+    })
+    updateStats(newStats)
+  }
+
   /**
    * 実数値から努力値を求める
    *
@@ -215,25 +240,31 @@ export const CalcStatsTemplate = (props: Props) => {
     updateStats(newStats)
   }
 
-  // const updateRealNumbers = (realNumbers: { value: number | ''; statsIndex: number }[]) => {
-  //   const newStats = stats.map((stat, index) => {
-  //     const targetRealNumber = realNumbers.some((realNumber) => realNumber.statsIndex === index)
-  //     if (!targetRealNumber) return
+  type RealNumber = {
+    index: number
+    value: number | ''
+  }
 
-  //     const effortValue: number | '' = getEffortValue(targetRealNumber.value, index)
+  const updateRealNumbers = (realNumbers: RealNumber[]) => {
+    const newStats = stats.map((stat, index) => {
+      const targetRealNumber = realNumbers.find((realNumber) => realNumber.index === index)
+      if (!targetRealNumber) return stat
 
-  //     if (index === realNumbers.find) {
-  //       // FIXME 何故か型を明示的に書かないとエラーになる
-  //       const effortValue: number | '' = getEffortValue(realNumber, index)
-  //       return {
-  //         ...stat,
-  //         effortValue,
-  //       }
-  //     }
-  //     return stat
-  //   })
-  //   updateStats(newStats)
-  // }
+      if (index === targetRealNumber.index) {
+        // FIXME 何故か型を明示的に書かないとエラーになる
+        const effortValue: number | '' = getEffortValue(
+          targetRealNumber.value,
+          targetRealNumber.index
+        )
+        return {
+          ...stat,
+          effortValue,
+        }
+      }
+      return stat
+    })
+    updateStats(newStats)
+  }
 
   // 種族値の合計値を計算する
   const totalBaseStats = useCallback(() => {
@@ -369,9 +400,20 @@ export const CalcStatsTemplate = (props: Props) => {
       tmpHpEV--
     }
     // 最も優秀だった結果を代入する
-    updateRealNumber(resultHp, HP_INDEX)
-    updateRealNumber(resultDefence, DEFENCE_INDEX)
-    updateRealNumber(resultSpDefence, SP_DEFENCE_INDEX)
+    updateRealNumbers([
+      {
+        index: HP_INDEX,
+        value: resultHp,
+      },
+      {
+        index: DEFENCE_INDEX,
+        value: resultDefence,
+      },
+      {
+        index: SP_DEFENCE_INDEX,
+        value: resultSpDefence,
+      },
+    ])
   }
 
   return (
@@ -433,6 +475,7 @@ export const CalcStatsTemplate = (props: Props) => {
             realNumbers={realNumbers}
             stats={stats}
             updateEffortValue={updateEffortValue}
+            updateEffortValues={updateEffortValues}
             durabilityAdjustment={durabilityAdjustment}
           />
         </Grid>
