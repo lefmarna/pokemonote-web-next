@@ -1,14 +1,14 @@
-import { TextField } from '@mui/material'
 import axios from 'axios'
 import { authUserState, rememberRouteState } from '../store'
 import { NextPage } from 'next'
 import { useRouter } from 'next/router'
-import { ChangeEvent } from 'react'
 import { useState } from 'react'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
 import { FormTemplate } from '../components/templates/FormTemplate'
 import { AuthUser } from '../types'
 import { MessageAlert } from '../components/organisms/MessageAlert'
+import { EmailField } from '../components/molecules/EmailField'
+import { PasswordField } from '../components/molecules/PasswordField'
 
 const Login: NextPage = () => {
   const router = useRouter()
@@ -21,14 +21,6 @@ const Login: NextPage = () => {
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-
-  const updateEmail = (event: ChangeEvent<HTMLInputElement>) => {
-    setEmail(event.target.value)
-  }
-
-  const updatePassword = (event: ChangeEvent<HTMLInputElement>) => {
-    setPassword(event.target.value)
-  }
 
   const login = async () => {
     setIsLoading(true)
@@ -62,20 +54,8 @@ const Login: NextPage = () => {
   return (
     <>
       <FormTemplate title="ログイン" buttonText="ログイン" isLoading={isLoading} submit={login}>
-        <TextField
-          required
-          label="メールアドレス"
-          type="email"
-          value={email}
-          onChange={updateEmail}
-        />
-        <TextField
-          required
-          label="パスワード"
-          type="password"
-          value={password}
-          onChange={updatePassword}
-        />
+        <EmailField required setValue={setEmail} />
+        <PasswordField required setValue={setPassword} />
       </FormTemplate>
       <MessageAlert open={isShowAlert} setOpen={setIsShowAlert} />
     </>
