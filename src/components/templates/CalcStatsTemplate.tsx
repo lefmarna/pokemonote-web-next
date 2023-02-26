@@ -1,6 +1,6 @@
 import { Container, Grid } from '@mui/material'
 import { useCallback, useMemo, useState } from 'react'
-import { Nature, PokemonData, Stat } from '../../types'
+import { Nature, PokemonData, Stat } from '@/types'
 import {
   ATTACK_INDEX,
   DEFENCE_INDEX,
@@ -14,14 +14,14 @@ import {
   SP_ATTACK_INDEX,
   SP_DEFENCE_INDEX,
   UPPER_NATURE,
-} from '../../utils/constants'
-import { convertToInteger, numberToInt, valueVerification } from '../../utils/utilities'
-import { BaseStatsField } from '../organisms/BaseStatsField'
-import { CalcStatsOptions } from '../organisms/CalcStatsOptions'
-import { EffortValueField } from '../organisms/EffortValueField'
-import { IndividualValueField } from '../organisms/IndividualValueField'
-import { RealNumberField } from '../organisms/RealNumberField'
-import { StatsTableHeader } from '../organisms/StatsTableHeader'
+} from '@/utils/constants'
+import { convertToInteger, numberToInt, valueVerification } from '@/utils/utilities'
+import { BaseStatsField } from '@/components/organisms/BaseStatsField'
+import { CalcStatsOptions } from '@/components/organisms/CalcStatsOptions'
+import { EffortValueField } from '@/components/organisms/EffortValueField'
+import { IndividualValueField } from '@/components/organisms/IndividualValueField'
+import { RealNumberField } from '@/components/organisms/RealNumberField'
+import { StatsTableHeader } from '@/components/organisms/StatsTableHeader'
 
 type Props = {
   buttonText: string

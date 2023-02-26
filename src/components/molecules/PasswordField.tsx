@@ -1,24 +1,19 @@
 import { EnhancedEncryption, Visibility, VisibilityOff } from '@mui/icons-material'
 import { InputAdornment, TextField } from '@mui/material'
-import { ChangeEvent, useState } from 'react'
+import { ChangeEvent, memo, useState } from 'react'
 
 type Props = {
   name?: string
   label?: string
   value?: string
   required?: boolean
-  setValue: (value: string) => void
+  updatePassword: (event: ChangeEvent<HTMLInputElement>) => void
 }
 
-export const PasswordField = (props: Props) => {
-  const { name, label = 'パスワード', value, required = false, setValue } = props
+export const PasswordField = memo((props: Props) => {
+  const { name, label = 'パスワード', value, required = false, updatePassword } = props
 
   const [isVisibilityIcon, setIsVisibilityIcon] = useState(true)
-  // const [type, setType] = useState('password')
-
-  const onChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setValue(event.target.value)
-  }
 
   const getType = () => {
     if (isVisibilityIcon) return 'password'
@@ -53,7 +48,7 @@ export const PasswordField = (props: Props) => {
           </InputAdornment>
         ),
       }}
-      onChange={onChange}
+      onChange={updatePassword}
     />
   )
-}
+})

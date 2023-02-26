@@ -1,10 +1,10 @@
 import { Grid, TextField } from '@mui/material'
 import { Box } from '@mui/system'
 import { ChangeEvent, MouseEvent, useRef } from 'react'
-import { Stat } from '../../types'
-import { MAX_EV } from '../../utils/constants'
-import { convertToInteger } from '../../utils/utilities'
-import { CalcButton } from '../molecules/CalcButton'
+import { Stat } from '@/types'
+import { MAX_EV } from '@/utils/constants'
+import { convertToInteger } from '@/utils/utilities'
+import { CalcButton } from '@/components/molecules/CalcButton'
 
 type Props = {
   stats: Stat[]

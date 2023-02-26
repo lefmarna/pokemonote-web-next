@@ -1,8 +1,8 @@
 import { Grid } from '@mui/material'
 import { useRecoilValue } from 'recoil'
-import { natureDataState, pokemonDataState } from '../../store'
-import { Nature, PokemonData } from '../../types'
-import { SearchField } from '../molecules/SearchField'
+import { natureDataState, pokemonDataState } from '@/store'
+import { Nature, PokemonData } from '@/types'
+import { SearchField } from '@/components/molecules/SearchField'
 import { LvField } from './LvField'
 
 type Props = {

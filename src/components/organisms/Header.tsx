@@ -1,10 +1,10 @@
 import { AppBar, Avatar, Box, Menu, MenuItem, Toolbar } from '@mui/material'
 import axios from 'axios'
 import Image from 'next/image'
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/navigation'
 import { MouseEvent, useState } from 'react'
 import { useRecoilState } from 'recoil'
-import { authUserState } from '../../store'
+import { authUserState } from '@/store'
 
 export const Header = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)

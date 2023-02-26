@@ -1,8 +1,10 @@
+'use client'
+
 import { NextPage } from 'next'
 import { useRecoilState } from 'recoil'
-import { CalcStatsTemplate } from '../components/templates/CalcStatsTemplate'
-import { levelState, selectedNatureState, selectedPokemonState, statsState } from '../store'
-import { Nature, PokemonData, Stat } from '../types'
+import { CalcStatsTemplate } from '@/components/templates/CalcStatsTemplate'
+import { levelState, selectedNatureState, selectedPokemonState, statsState } from '@/store'
+import { Nature, PokemonData, Stat } from '@/types'
 
 const CalcStats: NextPage = () => {
   const [selectedPokemon, setSelectedPokemon] = useRecoilState(selectedPokemonState)

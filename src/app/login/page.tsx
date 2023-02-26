@@ -1,14 +1,16 @@
+'use client'
+
 import axios from 'axios'
-import { authUserState, rememberRouteState } from '../store'
+import { authUserState, rememberRouteState } from '@/store'
 import { NextPage } from 'next'
-import { useRouter } from 'next/router'
-import { useState } from 'react'
+import { useRouter } from 'next/navigation'
+import { ChangeEvent, useCallback, useState } from 'react'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
-import { FormTemplate } from '../components/templates/FormTemplate'
-import { AuthUser } from '../types'
-import { MessageAlert } from '../components/organisms/MessageAlert'
-import { EmailField } from '../components/molecules/EmailField'
-import { PasswordField } from '../components/molecules/PasswordField'
+import { FormTemplate } from '@/components/templates/FormTemplate'
+import { AuthUser } from '@/types'
+import { MessageAlert } from '@/components/organisms/MessageAlert'
+import { EmailField } from '@/components/molecules/EmailField'
+import { PasswordField } from '@/components/molecules/PasswordField'
 
 const Login: NextPage = () => {
   const router = useRouter()
@@ -21,6 +23,10 @@ const Login: NextPage = () => {
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+
+  const updatePassword = useCallback((event: ChangeEvent<HTMLInputElement>) => {
+    setPassword(event.target.value)
+  }, [])
 
   const login = async () => {
     setIsLoading(true)
@@ -55,7 +61,7 @@ const Login: NextPage = () => {
     <>
       <FormTemplate title="ログイン" buttonText="ログイン" isLoading={isLoading} submit={login}>
         <EmailField required setValue={setEmail} />
-        <PasswordField required setValue={setPassword} />
+        <PasswordField required updatePassword={updatePassword} />
       </FormTemplate>
       <MessageAlert open={isShowAlert} setOpen={setIsShowAlert} />
     </>
