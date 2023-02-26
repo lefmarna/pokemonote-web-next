@@ -1,5 +1,3 @@
-'use client'
-
 import { NextPage } from 'next'
 import { useRecoilState } from 'recoil'
 import { CalcStatsTemplate } from '@/components/templates/CalcStatsTemplate'

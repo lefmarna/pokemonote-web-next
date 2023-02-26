@@ -1,9 +1,6 @@
-'use client'
-
 import axios from 'axios'
 import { authUserState, rememberRouteState } from '@/store'
-import { NextPage } from 'next'
-import { useRouter } from 'next/navigation'
+import { useRouter } from 'next/router'
 import { ChangeEvent, useCallback, useState } from 'react'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
 import { FormTemplate } from '@/components/templates/FormTemplate'
@@ -12,7 +9,7 @@ import { MessageAlert } from '@/components/organisms/MessageAlert'
 import { EmailField } from '@/components/molecules/EmailField'
 import { PasswordField } from '@/components/molecules/PasswordField'
 
-const Login: NextPage = () => {
+export default function Login() {
   const router = useRouter()
   const setAuthUser = useSetRecoilState(authUserState)
   const rememberRoute = useRecoilValue(rememberRouteState)
@@ -67,5 +64,3 @@ const Login: NextPage = () => {
     </>
   )
 }
-
-export default Login

@@ -1,5 +1,5 @@
 import { Grid, styled, TextField } from '@mui/material'
-import styles from '@/app/page.module.scss'
+import styles from '@/styles/Home.module.scss'
 import { LOWER_NATURE, UPPER_NATURE } from '@/utils/constants'
 
 type Props = {

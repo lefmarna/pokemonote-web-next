@@ -1,7 +1,7 @@
 import { AppBar, Avatar, Box, Menu, MenuItem, Toolbar } from '@mui/material'
 import axios from 'axios'
 import Image from 'next/image'
-import { useRouter } from 'next/navigation'
+import { useRouter } from 'next/router'
 import { MouseEvent, useState } from 'react'
 import { useRecoilState } from 'recoil'
 import { authUserState } from '@/store'
@@ -54,52 +54,50 @@ export const Header = () => {
   }
 
   return (
-    <>
-      <Box>
-        <AppBar position="static">
-          <Toolbar>
-            <Box onClick={returnTopPage} sx={{ cursor: 'pointer', ml: 1 }}>
-              <Image height="64" width="240" alt="Pokemonote" src="/images/logo.svg" />
-            </Box>
-            <Box sx={{ flexGrow: 1 }} />
-            <Box>
-              <Avatar
-                onClick={openProfileMenu}
-                aria-controls={profileMenuId}
-                aria-haspopup="true"
-                alt=""
-                sx={{ cursor: 'pointer' }}
-              />
-            </Box>
-          </Toolbar>
-        </AppBar>
-        <Menu
-          id={profileMenuId}
-          anchorEl={anchorEl}
-          anchorOrigin={{
-            vertical: 'top',
-            horizontal: 'right',
-          }}
-          keepMounted
-          transformOrigin={{
-            vertical: 'top',
-            horizontal: 'right',
-          }}
-          open={isMenuOpen}
-          onClose={closeProfileMenu}
-        >
-          {authUser && authUser.email_verified_at ? (
-            <MenuItem onClick={logout} disabled={isLoading}>
-              ログアウト
-            </MenuItem>
-          ) : (
-            <>
-              <MenuItem onClick={goLogin}>ログイン</MenuItem>
-              <MenuItem onClick={goRegister}>新規登録</MenuItem>
-            </>
-          )}
-        </Menu>
-      </Box>
-    </>
+    <Box>
+      <AppBar position="static">
+        <Toolbar>
+          <Box onClick={returnTopPage} sx={{ cursor: 'pointer', ml: 1 }}>
+            <Image height="64" width="240" alt="Pokemonote" src="/images/logo.svg" />
+          </Box>
+          <Box sx={{ flexGrow: 1 }} />
+          <Box>
+            <Avatar
+              onClick={openProfileMenu}
+              aria-controls={profileMenuId}
+              aria-haspopup="true"
+              alt=""
+              sx={{ cursor: 'pointer' }}
+            />
+          </Box>
+        </Toolbar>
+      </AppBar>
+      <Menu
+        id={profileMenuId}
+        anchorEl={anchorEl}
+        anchorOrigin={{
+          vertical: 'top',
+          horizontal: 'right',
+        }}
+        keepMounted
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'right',
+        }}
+        open={isMenuOpen}
+        onClose={closeProfileMenu}
+      >
+        {authUser && authUser.email_verified_at ? (
+          <MenuItem onClick={logout} disabled={isLoading}>
+            ログアウト
+          </MenuItem>
+        ) : (
+          <Box>
+            <MenuItem onClick={goLogin}>ログイン</MenuItem>
+            <MenuItem onClick={goRegister}>新規登録</MenuItem>
+          </Box>
+        )}
+      </Menu>
+    </Box>
   )
 }
