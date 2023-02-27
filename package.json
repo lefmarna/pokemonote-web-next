@@ -9,7 +9,8 @@
     "lint": "next lint",
     "eslint": "eslint --ignore-path .gitignore './src/**/*.{js,jsx,ts,tsx}'",
     "stylelint": "stylelint --fix --ignore-path .gitignore './src/**/*.{css,scss}'",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "lint-staged": "lint-staged"
   },
   "lint-staged": {
     "src/**/*.{js,ts,jsx,tsx}": "eslint --fix",
