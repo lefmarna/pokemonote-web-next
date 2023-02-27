@@ -14,22 +14,24 @@ export const FormTemplate = (props: Props) => {
   const { children, title, buttonText, isLoading = false, submit, errors = [] } = props
 
   return (
-    <Container maxWidth="sm" sx={{ pt: 5 }}>
-      <Stack spacing={4}>
-        <Typography align="center" variant="h5">
-          Pokemonote - {title}
-        </Typography>
-        {children}
-        <Button
-          onClick={submit}
-          color="primary"
-          variant="contained"
-          size="large"
-          disabled={isLoading}
-        >
-          {buttonText}
-        </Button>
-      </Stack>
-    </Container>
+    <form>
+      <Container maxWidth="sm" sx={{ pt: 5 }}>
+        <Stack spacing={4}>
+          <Typography align="center" variant="h5">
+            Pokemonote - {title}
+          </Typography>
+          {children}
+          <Button
+            onClick={submit}
+            color="primary"
+            variant="contained"
+            size="large"
+            disabled={isLoading}
+          >
+            {buttonText}
+          </Button>
+        </Stack>
+      </Container>
+    </form>
   )
 }

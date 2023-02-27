@@ -7,11 +7,19 @@ type Props = {
   label?: string
   value?: string
   required?: boolean
+  autoComplete?: 'current-password' | 'new-password'
   updatePassword: (event: ChangeEvent<HTMLInputElement>) => void
 }
 
 export const PasswordField = memo((props: Props) => {
-  const { name, label = 'パスワード', value, required = false, updatePassword } = props
+  const {
+    name,
+    label = 'パスワード',
+    value,
+    required = false,
+    autoComplete = 'current-password',
+    updatePassword,
+  } = props
 
   const [isVisibilityIcon, setIsVisibilityIcon] = useState(true)
 
@@ -32,6 +40,7 @@ export const PasswordField = memo((props: Props) => {
       value={value}
       required={required}
       variant="standard"
+      autoComplete={autoComplete}
       InputProps={{
         startAdornment: (
           <InputAdornment position="start">
