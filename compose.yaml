@@ -10,7 +10,7 @@ services:
     ports:
       - 3000:3000
     volumes:
-      - .:/pokemonote:cached
+      - .:/pokemonote:consistent
     environment:
       IS_CONTAINER: 'true'
     stdin_open: true

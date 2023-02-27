@@ -42,9 +42,9 @@ ps:
 .PHONY: install
 install:
 ifeq (${IS_CONTAINER}, true)
-	yarn install
+	npm install
 else
-	docker-compose exec node yarn install
+	docker-compose exec node npm install
 endif
 
 .PHONY: node
@@ -54,33 +54,33 @@ node:
 .PHONY: dev
 dev:
 ifeq (${IS_CONTAINER}, true)
-	yarn dev
+	npm run dev
 else
-	docker-compose exec node yarn dev
+	docker-compose exec node npm run dev
 endif
 
 .PHONY: build
 build:
 ifeq (${IS_CONTAINER}, true)
-	yarn build
+	npm run build
 else
-	docker-compose exec node yarn build
+	docker-compose exec node npm run build
 endif
 
 .PHONY: start
 start:
 ifeq (${IS_CONTAINER}, true)
-	yarn start
+	npm run start
 else
-	docker-compose exec node yarn start
+	docker-compose exec node npm run start
 endif
 
 .PHONY: lint
 lint:
 ifeq (${IS_CONTAINER}, true)
-	yarn lint
+	npm run lint
 else
-	docker-compose exec node yarn lint
+	docker-compose exec node npm run lint
 endif
 
 .PHONY: open
