@@ -10,7 +10,8 @@
     "eslint": "eslint --ignore-path .gitignore './src/**/*.{js,jsx,ts,tsx}'",
     "stylelint": "stylelint --fix --ignore-path .gitignore './src/**/*.{css,scss}'",
     "prepare": "husky install",
-    "lint-staged": "lint-staged"
+    "lint-staged": "lint-staged",
+    "commitlint": "commitlint --edit $1"
   },
   "lint-staged": {
     "src/**/*.{js,ts,jsx,tsx}": "eslint --fix",
@@ -31,6 +32,8 @@
     "swr": "^2.0.4"
   },
   "devDependencies": {
+    "@commitlint/cli": "^17.4.4",
+    "@commitlint/config-conventional": "^17.4.4",
     "@types/node": "18.14.1",
     "@types/react": "18.0.28",
     "@types/react-dom": "18.0.11",
