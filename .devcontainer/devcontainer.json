@@ -17,32 +17,34 @@
   "workspaceFolder": "/pokemonote",
 
   "customizations": {
-    // Set *default* container specific settings.json values on container create.
-    "settings": {},
+    "vscode": {
+      // Set *default* container specific settings.json values on container create.
+      "settings": {},
 
-    // Add the IDs of extensions you want installed when the container is created.
-    "extensions": [
-      "aaron-bond.better-comments",
-      "bradlc.vscode-tailwindcss",
-      "christian-kohler.path-intellisense",
-      "dbaeumer.vscode-eslint",
-      "donjayamanne.githistory",
-      "dsznajder.es7-react-js-snippets",
-      "eamodio.gitlens",
-      "EditorConfig.EditorConfig",
-      "esbenp.prettier-vscode",
-      "formulahendry.auto-close-tag",
-      "ms-azuretools.vscode-docker",
-      "redhat.vscode-yaml",
-      "ryu1kn.partial-diff",
-      "streetsidesoftware.code-spell-checker",
-      "stylelint.vscode-stylelint",
-      "vincaslt.highlight-matching-tag",
-      "VisualStudioExptTeam.vscodeintellicode",
-      "wmaurer.change-case",
-      "xabikos.JavaScriptSnippets",
-      "yzhang.markdown-all-in-one"
-    ]
+      // Add the IDs of extensions you want installed when the container is created.
+      "extensions": [
+        "aaron-bond.better-comments",
+        "bradlc.vscode-tailwindcss",
+        "christian-kohler.path-intellisense",
+        "dbaeumer.vscode-eslint",
+        "donjayamanne.githistory",
+        "dsznajder.es7-react-js-snippets",
+        "eamodio.gitlens",
+        "EditorConfig.EditorConfig",
+        "esbenp.prettier-vscode",
+        "formulahendry.auto-close-tag",
+        "ms-azuretools.vscode-docker",
+        "redhat.vscode-yaml",
+        "ryu1kn.partial-diff",
+        "streetsidesoftware.code-spell-checker",
+        "stylelint.vscode-stylelint",
+        "vincaslt.highlight-matching-tag",
+        "VisualStudioExptTeam.vscodeintellicode",
+        "wmaurer.change-case",
+        "xabikos.JavaScriptSnippets",
+        "yzhang.markdown-all-in-one"
+      ]
+    }
   }
 
   // Use 'forwardPorts' to make a list of ports inside the container available locally.
