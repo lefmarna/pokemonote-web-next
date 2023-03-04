@@ -9,8 +9,12 @@ const inter = Inter({ subsets: ['latin'] })
 export default function Home() {
   const router = useRouter()
 
-  const onClickRouterPush = () => {
+  const routerPushCalcStats = () => {
     router.push('/calc-stats')
+  }
+
+  const routerPushPokemons = () => {
+    router.push('/pokemons')
   }
 
   return (
@@ -46,7 +50,8 @@ export default function Home() {
           </div>
         </div>
 
-        <button onClick={onClickRouterPush}>calc-statsへ</button>
+        <button onClick={routerPushCalcStats}>calc-statsへ</button>
+        <button onClick={routerPushPokemons}>pokemonsへ</button>
 
         <div className={styles.center}>
           <Image
