@@ -1,6 +1,7 @@
-import { EnhancedEncryption, Visibility, VisibilityOff } from '@mui/icons-material'
-import { InputAdornment, TextField } from '@mui/material'
-import { ChangeEvent, memo, useState } from 'react'
+import { passwordValidation } from '@/utils/regex'
+import { Lock, Visibility, VisibilityOff } from '@mui/icons-material'
+import { IconButton, InputAdornment, TextField } from '@mui/material'
+import { ChangeEvent, FocusEvent, memo, useState } from 'react'
 
 type Props = {
   name?: string
@@ -21,21 +22,36 @@ export const PasswordField = memo((props: Props) => {
     updatePassword,
   } = props
 
-  const [isVisibilityIcon, setIsVisibilityIcon] = useState(true)
+  const [showPassword, setShowPassword] = useState(false)
+  const [localValidateMessage, setLocalValidateMessage] = useState<string>()
 
-  const getType = () => {
-    if (isVisibilityIcon) return 'password'
-    return 'text'
+  const handleTogglePasswordVisibility = () => {
+    setShowPassword(!showPassword)
   }
 
-  const toggleVisibilityIcon = () => {
-    setIsVisibilityIcon(!isVisibilityIcon)
+  const validatePassword = (e: FocusEvent<HTMLInputElement>) => {
+    const password = e.target.value
+    if (password.length === 0) {
+      setLocalValidateMessage('この項目は必須です')
+    } else if (!passwordValidation.test(password)) {
+      setLocalValidateMessage(
+        'パスワードは、英数それぞれ1種類以上含む、8〜64文字で入力してください'
+      )
+    } else {
+      setLocalValidateMessage(undefined)
+    }
   }
+
+  const isError = () => {
+    return localValidateMessage !== undefined
+  }
+
+  const togglePasswordIcon = showPassword ? <Visibility /> : <VisibilityOff />
 
   return (
     <TextField
       name={name}
-      type={getType()}
+      type={showPassword ? 'text' : 'password'}
       label={label}
       value={value}
       required={required}
@@ -44,20 +60,22 @@ export const PasswordField = memo((props: Props) => {
       InputProps={{
         startAdornment: (
           <InputAdornment position="start">
-            <EnhancedEncryption />
+            <Lock />
           </InputAdornment>
         ),
         endAdornment: (
-          <InputAdornment position="start">
-            {isVisibilityIcon ? (
-              <VisibilityOff onClick={toggleVisibilityIcon} />
-            ) : (
-              <Visibility onClick={toggleVisibilityIcon} />
-            )}
+          <InputAdornment position="end">
+            <IconButton onClick={handleTogglePasswordVisibility}>{togglePasswordIcon}</IconButton>
           </InputAdornment>
         ),
       }}
+      InputLabelProps={{
+        required: false,
+      }}
+      error={isError()}
+      helperText={localValidateMessage}
       onChange={updatePassword}
+      onBlur={validatePassword}
     />
   )
 })
