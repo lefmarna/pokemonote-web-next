@@ -1,3 +1,4 @@
+import { PokemonTableTemplate } from '@/components/templates/PokemonTableTemplate'
 import useSWR from 'swr'
 
 export default function Pokemons() {
@@ -9,7 +10,7 @@ export default function Pokemons() {
 
   return (
     <>
-      <div>ポケモン一覧</div>
+      <PokemonTableTemplate title="ポケモン一覧" />
     </>
   )
 }

@@ -16,6 +16,16 @@ export type PokemonData = {
   total?: number
 }
 
+export type Pokemon = {
+  id: number
+  lv: number
+  name: string
+  nature: string
+  stats: string
+  sum_effort_value: number
+  user: User
+}
+
 export type Stat = {
   name: string
   initial: string
