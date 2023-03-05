@@ -8,6 +8,7 @@ import { AuthUser } from '@/types'
 import { MessageAlert } from '@/components/organisms/MessageAlert'
 import { EmailField } from '@/components/molecules/EmailField'
 import { PasswordField } from '@/components/molecules/PasswordField'
+import { exceptionErrorToArray } from '@/utils/utilities'
 
 export default function Login() {
   const router = useRouter()
@@ -48,6 +49,7 @@ export default function Login() {
 
       setIsShowAlert(true)
     } catch (error) {
+      setErrors(exceptionErrorToArray(error))
       console.log(error)
     } finally {
       setIsLoading(false)
@@ -56,7 +58,13 @@ export default function Login() {
 
   return (
     <>
-      <FormTemplate title="ログイン" buttonText="ログイン" isLoading={isLoading} submit={login}>
+      <FormTemplate
+        title="ログイン"
+        buttonText="ログイン"
+        isLoading={isLoading}
+        errors={errors}
+        submit={login}
+      >
         <EmailField required setValue={setEmail} />
         <PasswordField required updatePassword={updatePassword} />
       </FormTemplate>
