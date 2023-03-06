@@ -33,6 +33,9 @@ export const EmailField = (props: Props) => {
           </InputAdornment>
         ),
       }}
+      InputLabelProps={{
+        required: false,
+      }}
       onChange={onChange}
     />
   )
