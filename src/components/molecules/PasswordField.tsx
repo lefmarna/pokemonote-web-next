@@ -75,6 +75,7 @@ export const PasswordField = memo((props: Props) => {
       error={isError()}
       helperText={localValidateMessage}
       onChange={updatePassword}
+      onFocus={() => setLocalValidateMessage(undefined)}
       onBlur={validatePassword}
     />
   )
