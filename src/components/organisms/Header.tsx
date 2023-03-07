@@ -70,7 +70,7 @@ export const Header = (props: Props) => {
             aria-label="menu"
             onClick={toggleDrawer}
             size="large"
-            sx={{ '&:hover': { bgcolor: '#2B81D6' }, '&:focus': { bgcolor: '#5097DD' } }}
+            sx={{ '&:hover': { bgcolor: '#2B81D6' } }}
           >
             <MenuIcon />
           </IconButton>
