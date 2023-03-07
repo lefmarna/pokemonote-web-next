@@ -1,4 +1,5 @@
-import { AppBar, Avatar, Box, Menu, MenuItem, Toolbar } from '@mui/material'
+import MenuIcon from '@mui/icons-material/Menu'
+import { AppBar, Avatar, Box, IconButton, Menu, MenuItem, Toolbar } from '@mui/material'
 import axios from 'axios'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
@@ -6,7 +7,13 @@ import { MouseEvent, useState } from 'react'
 import { useRecoilState } from 'recoil'
 import { authUserState } from '@/store'
 
-export const Header = () => {
+type Props = {
+  toggleDrawer: () => void
+}
+
+export const Header = (props: Props) => {
+  const { toggleDrawer } = props
+
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const isMenuOpen = Boolean(anchorEl)
   const profileMenuId = 'profile-menu'
@@ -55,9 +62,19 @@ export const Header = () => {
 
   return (
     <Box>
-      <AppBar position="static">
-        <Toolbar>
-          <Box onClick={returnTopPage} sx={{ cursor: 'pointer', ml: 1 }}>
+      <AppBar position="static" color="primary">
+        <Toolbar sx={{ display: 'flex', maxHeight: '64px' }}>
+          <IconButton
+            edge="start"
+            color="inherit"
+            aria-label="menu"
+            onClick={toggleDrawer}
+            size="large"
+            sx={{ '&:hover': { bgcolor: '#2B81D6' }, '&:focus': { bgcolor: '#5097DD' } }}
+          >
+            <MenuIcon />
+          </IconButton>
+          <Box onClick={returnTopPage} sx={{ cursor: 'pointer', px: 2, ml: 2 }}>
             <Image height="64" width="240" alt="Pokemonote" src="/images/logo.svg" />
           </Box>
           <Box sx={{ flexGrow: 1 }} />

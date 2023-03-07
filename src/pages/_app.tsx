@@ -1,12 +1,13 @@
 import { createTheme, ThemeProvider } from '@mui/material'
 import axios, { AxiosError } from 'axios'
-import { memo, useEffect } from 'react'
+import { memo, useEffect, useState } from 'react'
 import { RecoilRoot, useSetRecoilState } from 'recoil'
 import useSWR, { SWRConfig } from 'swr'
 import '@/styles/globals.scss'
 import { authUserState, natureDataState, pokemonDataState } from '@/store'
 import { AppProps } from 'next/app'
 import { Header } from '@/components/organisms/Header'
+import { Sidebar } from '@/components/organisms/SideBar'
 
 const AppInit = memo(() => {
   const setAuthUser = useSetRecoilState(authUserState)
@@ -53,11 +54,22 @@ export default function App({ Component, pageProps }: AppProps) {
     },
   }
 
+  const [drawer, setDrawer] = useState(false)
+
+  const toggleDrawer = () => {
+    setDrawer(!drawer)
+  }
+
+  const onCloseDrawer = () => {
+    setDrawer(false)
+  }
+
   return (
     <ThemeProvider theme={theme}>
       <RecoilRoot>
         <SWRConfig value={swrConfigValue}>
-          <Header />
+          <Header toggleDrawer={toggleDrawer} />
+          <Sidebar drawer={drawer} onCloseDrawer={onCloseDrawer} />
           <AppInit />
           <main>
             <Component {...pageProps} />
