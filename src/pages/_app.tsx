@@ -68,10 +68,10 @@ export default function App({ Component, pageProps }: AppProps) {
     <ThemeProvider theme={theme}>
       <RecoilRoot>
         <SWRConfig value={swrConfigValue}>
-          <Header toggleDrawer={toggleDrawer} />
           <Sidebar drawer={drawer} onCloseDrawer={onCloseDrawer} />
           <AppInit />
-          <main>
+          <main style={{ marginLeft: drawer ? '256px' : 0 }}>
+            <Header toggleDrawer={toggleDrawer} />
             <Component {...pageProps} />
           </main>
         </SWRConfig>

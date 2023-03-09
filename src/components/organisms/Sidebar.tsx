@@ -111,8 +111,14 @@ export const Sidebar = (props: Props) => {
   }
 
   return (
-    <Drawer anchor="left" open={drawer} onClose={onCloseDrawer}>
-      <Box sx={{ px: 1.5 }}>
+    <Drawer
+      anchor="left"
+      variant="permanent"
+      open={drawer}
+      onClose={onCloseDrawer}
+      PaperProps={{ sx: { borderRight: drawer ? 'inherit' : 'none' } }}
+    >
+      <Box width={drawer ? 256 : 0} sx={{ px: drawer ? 1.5 : 0 }}>
         <Divider />
         <ListItem>
           <ListItemText primary="Menu" />
