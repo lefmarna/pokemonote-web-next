@@ -7,7 +7,7 @@ import '@/styles/globals.scss'
 import { authUserState, natureDataState, pokemonDataState } from '@/store'
 import { AppProps } from 'next/app'
 import { Header } from '@/components/organisms/Header'
-import { Sidebar } from '@/components/organisms/SideBar'
+import { Sidebar } from '@/components/organisms/Sidebar'
 
 const AppInit = memo(() => {
   const setAuthUser = useSetRecoilState(authUserState)
