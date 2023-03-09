@@ -1,5 +1,18 @@
 import { authUserState } from '@/store'
 import {
+  Announcement,
+  Calculate,
+  DirectionsRun,
+  Email,
+  Favorite,
+  Person,
+  Settings,
+  TrendingUp,
+} from '@mui/icons-material'
+import CatchingPokemonIcon from '@mui/icons-material/CatchingPokemon'
+import HomeIcon from '@mui/icons-material/Home'
+import {
+  Box,
   Divider,
   Drawer,
   Icon,
@@ -9,8 +22,8 @@ import {
   ListItemIcon,
   ListItemText,
 } from '@mui/material'
-import { useState } from 'react'
-import { useRecoilState } from 'recoil'
+import Link from 'next/link'
+import { useRecoilValue } from 'recoil'
 
 type Props = {
   drawer: boolean
@@ -20,63 +33,74 @@ type Props = {
 export const Sidebar = (props: Props) => {
   const { drawer, onCloseDrawer } = props
 
-  const [authUser, setAuthUser] = useRecoilState(authUserState)
+  const authUser = useRecoilValue(authUserState)
 
   const siteMenuLists = [
     {
+      id: 1,
       name: 'Home',
-      icon: 'mdi-home',
+      icon: <HomeIcon />,
       link: '/',
     },
     {
+      id: 2,
       name: 'みんなの投稿',
-      icon: 'mdi-pokemon-go',
+      icon: <CatchingPokemonIcon />,
       link: '/pokemons',
     },
   ]
 
   const tools = [
     {
+      id: 1,
       name: 'ステータス計算機',
-      icon: 'mdi-calculator',
+      icon: <Calculate />,
       link: '/calc-stats',
     },
     {
+      id: 2,
       name: '素早さ計算機',
-      icon: 'mdi-run-fast',
+      icon: <DirectionsRun />,
       link: '/calc-speed',
     },
     {
+      id: 3,
       name: '種族値ランキング',
-      icon: 'mdi-finance',
+      icon: <TrendingUp />,
       link: '/base-stats-ranking',
     },
-  ]
+  ] as const
 
   const otherMenuLists = [
     // {
+    //   id: 1,
     //   name: 'チップを贈る',
-    //   icon: 'mdi-heart',
+    //   icon: <Favorite />,
     //   link: '/give-tip',
     //   requireAuth: true,
     // },
     {
+      id: 2,
       name: '利用規約',
-      icon: 'mdi-comment-alert',
+      icon: <Announcement />,
       link: '/privacy-policy',
+      requireAuth: false,
     },
     {
+      id: 3,
       name: 'お問い合わせ',
-      icon: 'mdi-email',
+      icon: <Email />,
       link: '/lefmarna-otoiawase',
+      requireAuth: false,
     },
     {
+      id: 4,
       name: '設定',
-      icon: 'mdi-cog',
+      icon: <Settings />,
       link: '/settings',
       requireAuth: true,
     },
-  ]
+  ] as const
 
   const otherMenuListsFiltered = () => {
     if (authUser) {
@@ -88,30 +112,32 @@ export const Sidebar = (props: Props) => {
 
   return (
     <Drawer anchor="left" open={drawer} onClose={onCloseDrawer}>
-      <List>
+      <Box sx={{ px: 1.5 }}>
         <Divider />
         <ListItem>
           <ListItemText primary="Menu" />
         </ListItem>
+
         <Divider />
         <List dense>
           {siteMenuLists.map((siteMenuList) => (
-            <ListItemButton key={siteMenuList.name} component="a" href={siteMenuList.link}>
-              <ListItemIcon>
-                <Icon>{siteMenuList.icon}</Icon>
-              </ListItemIcon>
-              <ListItemText primary={siteMenuList.name} />
-            </ListItemButton>
+            <Link href={siteMenuList.link} key={siteMenuList.id}>
+              <ListItemButton key={siteMenuList.name}>
+                <ListItemIcon>
+                  <Icon>{siteMenuList.icon}</Icon>
+                </ListItemIcon>
+                <ListItemText primary={siteMenuList.name} />
+              </ListItemButton>
+            </Link>
           ))}
           {/* ログイン時のみマイページを表示する */}
           {authUser && (
             <ListItemButton
-              key="mypage"
-              component="a"
-              // href={`/users/${$store.getters.authUser.username}`}
+
+            // href={`/users/${$store.getters.authUser.username}`}
             >
               <ListItemIcon>
-                <Icon>mdi-account</Icon>
+                <Person />
               </ListItemIcon>
               <ListItemText primary="マイページ" />
             </ListItemButton>
@@ -124,12 +150,14 @@ export const Sidebar = (props: Props) => {
         <Divider />
         <List dense>
           {tools.map((tool) => (
-            <ListItemButton key={tool.name} component="a" href={tool.link}>
-              <ListItemIcon>
-                <Icon>{tool.icon}</Icon>
-              </ListItemIcon>
-              <ListItemText primary={tool.name} />
-            </ListItemButton>
+            <Link href={tool.link} key={tool.id}>
+              <ListItemButton key={tool.name}>
+                <ListItemIcon>
+                  <Icon>{tool.icon}</Icon>
+                </ListItemIcon>
+                <ListItemText primary={tool.name} />
+              </ListItemButton>
+            </Link>
           ))}
         </List>
         <Divider />
@@ -139,17 +167,19 @@ export const Sidebar = (props: Props) => {
         <Divider />
         <List dense>
           {otherMenuListsFiltered().map((otherMenuList) => (
-            <ListItemButton key={otherMenuList.name} component="a" href={otherMenuList.link}>
-              <ListItemIcon>
-                <Icon>{otherMenuList.icon}</Icon>
-              </ListItemIcon>
-              <ListItemText primary={otherMenuList.name} />
-            </ListItemButton>
+            <Link href={otherMenuList.link} key={otherMenuList.id}>
+              <ListItemButton key={otherMenuList.name}>
+                <ListItemIcon>
+                  <Icon>{otherMenuList.icon}</Icon>
+                </ListItemIcon>
+                <ListItemText primary={otherMenuList.name} />
+              </ListItemButton>
+            </Link>
           ))}
         </List>
         <Divider />
         <ListItem> © Copyright 2021 Pokemonote. </ListItem>
-      </List>
+      </Box>
     </Drawer>
   )
 }
