@@ -1,12 +1,19 @@
-import { AppBar, Avatar, Box, Menu, MenuItem, Toolbar } from '@mui/material'
+import MenuIcon from '@mui/icons-material/Menu'
+import { AppBar, Avatar, Box, IconButton, Menu, MenuItem, Toolbar } from '@mui/material'
 import axios from 'axios'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { MouseEvent, useState } from 'react'
 import { useRecoilState } from 'recoil'
-import { authUserState } from '../../store'
+import { authUserState } from '@/store'
 
-export const Header = () => {
+type Props = {
+  toggleDrawer: () => void
+}
+
+export const Header = (props: Props) => {
+  const { toggleDrawer } = props
+
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const isMenuOpen = Boolean(anchorEl)
   const profileMenuId = 'profile-menu'
@@ -54,52 +61,60 @@ export const Header = () => {
   }
 
   return (
-    <>
-      <Box>
-        <AppBar position="static">
-          <Toolbar>
-            <Box onClick={returnTopPage} sx={{ cursor: 'pointer', ml: 1 }}>
-              <Image height="64" width="240" alt="Pokemonote" src="/images/logo.svg" />
-            </Box>
-            <Box sx={{ flexGrow: 1 }} />
-            <Box>
-              <Avatar
-                onClick={openProfileMenu}
-                aria-controls={profileMenuId}
-                aria-haspopup="true"
-                alt=""
-                sx={{ cursor: 'pointer' }}
-              />
-            </Box>
-          </Toolbar>
-        </AppBar>
-        <Menu
-          id={profileMenuId}
-          anchorEl={anchorEl}
-          anchorOrigin={{
-            vertical: 'top',
-            horizontal: 'right',
-          }}
-          keepMounted
-          transformOrigin={{
-            vertical: 'top',
-            horizontal: 'right',
-          }}
-          open={isMenuOpen}
-          onClose={closeProfileMenu}
-        >
-          {authUser && authUser.email_verified_at ? (
-            <MenuItem onClick={logout} disabled={isLoading}>
-              ログアウト
-            </MenuItem>
-          ) : (
-            <>
-              <MenuItem onClick={goLogin}>ログイン</MenuItem>
-              <MenuItem onClick={goRegister}>新規登録</MenuItem>
-            </>
-          )}
-        </Menu>
-      </Box>
-    </>
+    <Box>
+      <AppBar position="static" color="primary">
+        <Toolbar sx={{ display: 'flex', maxHeight: '64px' }}>
+          <IconButton
+            edge="start"
+            color="inherit"
+            aria-label="menu"
+            onClick={toggleDrawer}
+            size="large"
+            sx={{ '&:hover': { bgcolor: '#2B81D6' } }}
+          >
+            <MenuIcon />
+          </IconButton>
+          <Box onClick={returnTopPage} sx={{ cursor: 'pointer', px: 2, ml: 2 }}>
+            <Image height="64" width="240" alt="Pokemonote" src="/images/logo.svg" />
+          </Box>
+          <Box sx={{ flexGrow: 1 }} />
+          <Box>
+            <Avatar
+              onClick={openProfileMenu}
+              aria-controls={profileMenuId}
+              aria-haspopup="true"
+              alt=""
+              sx={{ cursor: 'pointer' }}
+            />
+          </Box>
+        </Toolbar>
+      </AppBar>
+      <Menu
+        id={profileMenuId}
+        anchorEl={anchorEl}
+        anchorOrigin={{
+          vertical: 'top',
+          horizontal: 'right',
+        }}
+        keepMounted
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'right',
+        }}
+        open={isMenuOpen}
+        onClose={closeProfileMenu}
+      >
+        {authUser && authUser.email_verified_at ? (
+          <MenuItem onClick={logout} disabled={isLoading}>
+            ログアウト
+          </MenuItem>
+        ) : (
+          <Box>
+            <MenuItem onClick={goLogin}>ログイン</MenuItem>
+            <MenuItem onClick={goRegister}>新規登録</MenuItem>
+          </Box>
+        )}
+      </Menu>
+    </Box>
   )
 }

@@ -1,13 +1,13 @@
 {
   "extends": [
-    "stylelint-config-standard-scss",
+    "stylelint-config-standard",
     "stylelint-config-recess-order",
     "stylelint-prettier/recommended"
   ],
+  "plugins": ["stylelint-order", "stylelint-prettier"],
   "overrides": [
     {
-      "files": ["src/**/*.{js,ts,jsx,tsx}"],
-      "customSyntax": "@stylelint/postcss-css-in-js"
+      "files": ["src/**/*.{js,ts,jsx,tsx}"]
     }
   ]
 }

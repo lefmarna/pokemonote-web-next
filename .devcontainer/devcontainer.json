@@ -16,108 +16,36 @@
   // connected. This is typically a file mount in .devcontainer/docker-compose.yml
   "workspaceFolder": "/pokemonote",
 
-  // Set *default* container specific settings.json values on container create.
-  "settings": {
-    "editor.bracketPairColorization.enabled": true,
-    "editor.tabSize": 2,
-    "emmet.variables": {
-      "lang": "ja"
-    },
-    "editor.formatOnSave": true,
-    "editor.formatOnPaste": true,
-    "editor.formatOnType": true,
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.codeActionsOnSave": {
-      "source.fixAll.stylelint": true
-    },
-    "extensions.autoUpdate": true,
-    "files.eol": "\n",
-    "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
+  "customizations": {
+    "vscode": {
+      // Set *default* container specific settings.json values on container create.
+      "settings": {},
 
-    // NOTE: stylelintでのエラーと重複を避けるため、VSCodeデフォルトのLintはOFFにする
-    "stylelint.validate": ["css", "scss"],
-    "css.validate": false,
-    "scss.validate": false,
-
-    // Better Comments でアノテーションコメントにカラーを付与する
-    "better-comments.tags": [
-      {
-        "tag": "TODO",
-        "color": "#FF8C00",
-        "strikethrough": false,
-        "underline": false,
-        "backgroundColor": "transparent",
-        "bold": false,
-        "italic": false
-      },
-      {
-        "tag": "FIXME",
-        "color": "#98C379",
-        "strikethrough": false,
-        "underline": false,
-        "backgroundColor": "transparent",
-        "bold": false,
-        "italic": false
-      },
-      {
-        "tag": "HACK",
-        "color": "#C0C0C0",
-        "strikethrough": false,
-        "underline": false,
-        "backgroundColor": "transparent",
-        "bold": false,
-        "italic": false
-      },
-      {
-        "tag": "XXX",
-        "color": "#FF2D00",
-        "strikethrough": false,
-        "underline": false,
-        "backgroundColor": "transparent",
-        "bold": false,
-        "italic": false
-      },
-      {
-        "tag": "NOTE",
-        "color": "#00BFFF",
-        "strikethrough": false,
-        "underline": false,
-        "backgroundColor": "transparent",
-        "bold": false,
-        "italic": false
-      },
-      {
-        "tag": "WARNING",
-        "color": "#FFC107",
-        "strikethrough": false,
-        "underline": false,
-        "backgroundColor": "transparent",
-        "bold": false,
-        "italic": false
-      }
-    ]
-  },
-
-  // Add the IDs of extensions you want installed when the container is created.
-  "extensions": [
-    "aaron-bond.better-comments",
-    "christian-kohler.path-intellisense",
-    "dbaeumer.vscode-eslint",
-    "donjayamanne.githistory",
-    "dsznajder.es7-react-js-snippets",
-    "eamodio.gitlens",
-    "EditorConfig.EditorConfig",
-    "esbenp.prettier-vscode",
-    "formulahendry.auto-close-tag",
-    "ms-azuretools.vscode-docker",
-    "ryu1kn.partial-diff",
-    "streetsidesoftware.code-spell-checker",
-    "stylelint.vscode-stylelint",
-    "vincaslt.highlight-matching-tag",
-    "VisualStudioExptTeam.vscodeintellicode",
-    "wmaurer.change-case",
-    "yzhang.markdown-all-in-one"
-  ]
+      // Add the IDs of extensions you want installed when the container is created.
+      "extensions": [
+        "aaron-bond.better-comments",
+        "bradlc.vscode-tailwindcss",
+        "christian-kohler.path-intellisense",
+        "dbaeumer.vscode-eslint",
+        "donjayamanne.githistory",
+        "dsznajder.es7-react-js-snippets",
+        "eamodio.gitlens",
+        "EditorConfig.EditorConfig",
+        "esbenp.prettier-vscode",
+        "formulahendry.auto-close-tag",
+        "ms-azuretools.vscode-docker",
+        "redhat.vscode-yaml",
+        "ryu1kn.partial-diff",
+        "streetsidesoftware.code-spell-checker",
+        "stylelint.vscode-stylelint",
+        "vincaslt.highlight-matching-tag",
+        "VisualStudioExptTeam.vscodeintellicode",
+        "wmaurer.change-case",
+        "xabikos.JavaScriptSnippets",
+        "yzhang.markdown-all-in-one"
+      ]
+    }
+  }
 
   // Use 'forwardPorts' to make a list of ports inside the container available locally.
   // "forwardPorts": [],

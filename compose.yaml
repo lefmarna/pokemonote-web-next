@@ -10,7 +10,8 @@ services:
     ports:
       - 3000:3000
     volumes:
-      - .:/pokemonote:cached
+      - ${HOME}/.ssh:/root/.ssh
+      - .:/pokemonote:consistent
     environment:
       IS_CONTAINER: 'true'
     stdin_open: true

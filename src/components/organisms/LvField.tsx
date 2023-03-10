@@ -1,8 +1,8 @@
 import { Box, TextField } from '@mui/material'
 import { ChangeEvent, MouseEvent, useRef } from 'react'
-import { MAX_LEVEL, MIN_LEVEL } from '../../utils/constants'
-import { convertToInteger } from '../../utils/utilities'
-import { CalcButton } from '../molecules/CalcButton'
+import { MAX_LEVEL, MIN_LEVEL } from '@/utils/constants'
+import { convertToInteger } from '@/utils/utilities'
+import { CalcButton } from '@/components/molecules/CalcButton'
 
 type Props = {
   level: number | ''

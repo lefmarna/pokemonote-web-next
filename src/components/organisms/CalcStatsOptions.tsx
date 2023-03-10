@@ -17,7 +17,7 @@ import {
   TextField,
 } from '@mui/material'
 import { ChangeEvent, useState } from 'react'
-import { Stat } from '../../types'
+import { Stat } from '@/types'
 import {
   ATTACK_INDEX,
   DEFENCE_INDEX,
@@ -26,7 +26,7 @@ import {
   SP_ATTACK_INDEX,
   SP_DEFENCE_INDEX,
   STATS_LENGTH,
-} from '../../utils/constants'
+} from '@/utils/constants'
 
 type EffortValue = {
   index: number

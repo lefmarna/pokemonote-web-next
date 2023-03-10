@@ -1,16 +1,16 @@
-import { TextField } from '@mui/material'
 import axios from 'axios'
-import { authUserState, rememberRouteState } from '../store'
-import { NextPage } from 'next'
+import { authUserState, rememberRouteState } from '@/store'
 import { useRouter } from 'next/router'
-import { ChangeEvent } from 'react'
-import { useState } from 'react'
+import { ChangeEvent, useCallback, useState } from 'react'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
-import { FormTemplate } from '../components/templates/FormTemplate'
-import { AuthUser } from '../types'
-import { MessageAlert } from '../components/organisms/MessageAlert'
+import { FormTemplate } from '@/components/templates/FormTemplate'
+import { AuthUser } from '@/types'
+import { MessageAlert } from '@/components/organisms/MessageAlert'
+import { EmailField } from '@/components/molecules/EmailField'
+import { PasswordField } from '@/components/molecules/PasswordField'
+import { exceptionErrorToArray } from '@/utils/utilities'
 
-const Login: NextPage = () => {
+export default function Login() {
   const router = useRouter()
   const setAuthUser = useSetRecoilState(authUserState)
   const rememberRoute = useRecoilValue(rememberRouteState)
@@ -22,13 +22,9 @@ const Login: NextPage = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
-  const updateEmail = (event: ChangeEvent<HTMLInputElement>) => {
-    setEmail(event.target.value)
-  }
-
-  const updatePassword = (event: ChangeEvent<HTMLInputElement>) => {
+  const updatePassword = useCallback((event: ChangeEvent<HTMLInputElement>) => {
     setPassword(event.target.value)
-  }
+  }, [])
 
   const login = async () => {
     setIsLoading(true)
@@ -53,6 +49,7 @@ const Login: NextPage = () => {
 
       setIsShowAlert(true)
     } catch (error) {
+      setErrors(exceptionErrorToArray(error))
       console.log(error)
     } finally {
       setIsLoading(false)
@@ -61,25 +58,17 @@ const Login: NextPage = () => {
 
   return (
     <>
-      <FormTemplate title="ログイン" buttonText="ログイン" isLoading={isLoading} submit={login}>
-        <TextField
-          required
-          label="メールアドレス"
-          type="email"
-          value={email}
-          onChange={updateEmail}
-        />
-        <TextField
-          required
-          label="パスワード"
-          type="password"
-          value={password}
-          onChange={updatePassword}
-        />
+      <FormTemplate
+        title="ログイン"
+        buttonText="ログイン"
+        isLoading={isLoading}
+        errors={errors}
+        submit={login}
+      >
+        <EmailField required setValue={setEmail} />
+        <PasswordField required updatePassword={updatePassword} />
       </FormTemplate>
       <MessageAlert open={isShowAlert} setOpen={setIsShowAlert} />
     </>
   )
 }
-
-export default Login
