@@ -41,7 +41,7 @@ export const Header = (props: Props) => {
 
   const goRegister = () => {
     closeProfileMenu()
-    router.push('register')
+    router.push('/register')
   }
 
   const logout = async () => {
