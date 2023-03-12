@@ -1,4 +1,5 @@
 import { authUserState } from '@/store'
+import { useMediaQueryUp } from '@/utils/theme'
 import {
   Announcement,
   Calculate,
@@ -112,10 +113,12 @@ export const Sidebar = (props: Props) => {
     }
   }
 
+  const isLargeUpScreen = useMediaQueryUp('lg')
+
   return (
     <Drawer
       anchor="left"
-      variant="permanent"
+      variant={isLargeUpScreen ? 'permanent' : 'temporary'}
       open={drawer}
       onClose={onCloseDrawer}
       PaperProps={{
