@@ -1,4 +1,4 @@
-import { createTheme, ThemeProvider } from '@mui/material'
+import { Box, createTheme, ThemeProvider } from '@mui/material'
 import axios, { AxiosError } from 'axios'
 import { memo, useEffect, useState } from 'react'
 import { RecoilRoot, useSetRecoilState } from 'recoil'
@@ -56,6 +56,8 @@ export default function App({ Component, pageProps }: AppProps) {
 
   const [drawer, setDrawer] = useState(false)
 
+  const drawerWidth = 257
+
   const toggleDrawer = () => {
     setDrawer(!drawer)
   }
@@ -70,10 +72,10 @@ export default function App({ Component, pageProps }: AppProps) {
         <SWRConfig value={swrConfigValue}>
           <Sidebar drawer={drawer} onCloseDrawer={onCloseDrawer} />
           <AppInit />
-          <main style={{ marginLeft: drawer ? '256px' : 0 }}>
+          <Box component="main" sx={{ paddingLeft: drawer ? `${drawerWidth}px` : 0 }}>
             <Header toggleDrawer={toggleDrawer} />
             <Component {...pageProps} />
-          </main>
+          </Box>
         </SWRConfig>
       </RecoilRoot>
     </ThemeProvider>
