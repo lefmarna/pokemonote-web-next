@@ -1,4 +1,4 @@
-import { Box, createTheme, ThemeProvider } from '@mui/material'
+import { Box, createTheme, ThemeProvider, useMediaQuery } from '@mui/material'
 import axios, { AxiosError } from 'axios'
 import { memo, useEffect, useState } from 'react'
 import { RecoilRoot, useSetRecoilState } from 'recoil'
@@ -31,6 +31,15 @@ export default function App({ Component, pageProps }: AppProps) {
   axios.defaults.withCredentials = true
 
   const theme = createTheme({
+    breakpoints: {
+      values: {
+        xs: 0,
+        sm: 600,
+        md: 960,
+        lg: 1280,
+        xl: 1920,
+      },
+    },
     palette: {
       secondary: {
         main: '#424242',
@@ -54,6 +63,8 @@ export default function App({ Component, pageProps }: AppProps) {
     },
   }
 
+  const isLargeScreen = useMediaQuery(theme.breakpoints.up('lg'))
+
   const [drawer, setDrawer] = useState(false)
 
   const drawerWidth = 257
@@ -65,6 +76,10 @@ export default function App({ Component, pageProps }: AppProps) {
   const onCloseDrawer = () => {
     setDrawer(false)
   }
+
+  useEffect(() => {
+    setDrawer(isLargeScreen)
+  }, [isLargeScreen])
 
   return (
     <ThemeProvider theme={theme}>
