@@ -22,6 +22,7 @@ import { EffortValueField } from '@/components/organisms/EffortValueField'
 import { IndividualValueField } from '@/components/organisms/IndividualValueField'
 import { RealNumberField } from '@/components/organisms/RealNumberField'
 import { StatsTableHeader } from '@/components/organisms/StatsTableHeader'
+import { useStatsMutators } from '@/store/statsState'
 
 type Props = {
   buttonText: string
@@ -124,22 +125,7 @@ export const CalcStatsTemplate = (props: Props) => {
     updateStats(newStats)
   }
 
-  /**
-   * 努力値を更新する
-   *
-   * @param {number | ''} effortValue 努力値
-   * @param {number} statsIndex ステータス番号
-   * @return {void}
-   */
-  const updateEffortValue = (effortValue: number | '', statsIndex: number) => {
-    const newStats = stats.map((stat, index) => {
-      if (index === statsIndex) {
-        return { ...stat, effortValue }
-      }
-      return stat
-    })
-    updateStats(newStats)
-  }
+  const { updateEffortValue } = useStatsMutators()
 
   type EffortValue = {
     index: number
@@ -440,11 +426,7 @@ export const CalcStatsTemplate = (props: Props) => {
                 statsIndex={index}
                 updateIndividualValue={updateIndividualValue}
               />
-              <EffortValueField
-                stats={stats}
-                statsIndex={index}
-                updateEffortValue={updateEffortValue}
-              />
+              <EffortValueField stats={stats} statsIndex={index} />
               <RealNumberField
                 realNumber={realNumbers[index]}
                 stats={stats}
