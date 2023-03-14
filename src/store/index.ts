@@ -43,8 +43,3 @@ export const selectedNatureState = atom<Nature>({
     stats: [1.0, 1.0, 1.0, 1.0, 1.0, 1.0],
   },
 })
-
-export const levelState = atom<number | ''>({
-  key: 'levelState',
-  default: 50,
-})

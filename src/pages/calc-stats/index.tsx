@@ -1,14 +1,17 @@
 import { NextPage } from 'next'
 import { useRecoilState } from 'recoil'
 import { CalcStatsTemplate } from '@/components/templates/CalcStatsTemplate'
-import { levelState, selectedNatureState, selectedPokemonState } from '@/store'
+import { selectedNatureState, selectedPokemonState } from '@/store'
 import { Nature, PokemonData } from '@/types'
 import { useStatsMutators, useStatsState } from '@/store/statsState'
+import { useLevelMutators, useLevelState } from '@/store/levelState'
 
 const CalcStats: NextPage = () => {
   const [selectedPokemon, setSelectedPokemon] = useRecoilState(selectedPokemonState)
   const [selectedNature, setSelectedNature] = useRecoilState(selectedNatureState)
-  const [level, setLevel] = useRecoilState(levelState)
+
+  const level = useLevelState()
+  const { updateLevel } = useLevelMutators()
 
   const stats = useStatsState()
   const { updateStats } = useStatsMutators()
@@ -18,10 +21,6 @@ const CalcStats: NextPage = () => {
   }
   const updateNature = (nature: Nature) => {
     setSelectedNature(nature)
-  }
-
-  const updateLevel = (level: number | '') => {
-    setLevel(level)
   }
 
   return (
