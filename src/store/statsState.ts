@@ -48,7 +48,6 @@ export const useStatsState = () => {
 }
 
 export const useStatsMutators = () => {
-  const stats = useStatsState()
   const setState = useSetRecoilState(statsRecoilState)
 
   /**
@@ -58,18 +57,5 @@ export const useStatsMutators = () => {
     setState(stats)
   }
 
-  /**
-   * 努力値を更新する
-   */
-  const updateEffortValue = (effortValue: number | '', statsIndex: number) => {
-    const newStats = stats.map((stat, index) => {
-      if (index === statsIndex) {
-        return { ...stat, effortValue }
-      }
-      return stat
-    })
-    updateStats(newStats)
-  }
-
-  return { updateStats, updateEffortValue }
+  return { updateStats }
 }

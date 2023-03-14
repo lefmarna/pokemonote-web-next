@@ -5,16 +5,15 @@ import { Stat } from '@/types'
 import { MAX_EV } from '@/utils/constants'
 import { convertToInteger } from '@/utils/utilities'
 import { CalcButton } from '@/components/molecules/CalcButton'
-import { useStatsMutators } from '@/store/statsState'
 
 type Props = {
   stats: Stat[]
   statsIndex: number
+  updateEffortValue: (value: number | '', index: number) => void
 }
 
 export const EffortValueField = (props: Props) => {
-  const { stats, statsIndex } = props
-  const { updateEffortValue } = useStatsMutators()
+  const { stats, statsIndex, updateEffortValue } = props
 
   const effortValueRef = useRef<HTMLInputElement>()
 
