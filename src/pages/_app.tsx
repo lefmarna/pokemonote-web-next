@@ -1,4 +1,4 @@
-import { createTheme, ThemeProvider } from '@mui/material'
+import { Box, ThemeProvider } from '@mui/material'
 import axios, { AxiosError } from 'axios'
 import { memo, useEffect, useState } from 'react'
 import { RecoilRoot, useSetRecoilState } from 'recoil'
@@ -8,6 +8,7 @@ import { authUserState, natureDataState, pokemonDataState } from '@/store'
 import { AppProps } from 'next/app'
 import { Header } from '@/components/organisms/Header'
 import { Sidebar } from '@/components/organisms/Sidebar'
+import { theme, useMediaQueryUp } from '@/utils/theme'
 
 const AppInit = memo(() => {
   const setAuthUser = useSetRecoilState(authUserState)
@@ -30,14 +31,6 @@ export default function App({ Component, pageProps }: AppProps) {
   axios.defaults.baseURL = process.env.NEXT_PUBLIC_BASE_URL
   axios.defaults.withCredentials = true
 
-  const theme = createTheme({
-    palette: {
-      secondary: {
-        main: '#424242',
-      },
-    },
-  })
-
   const swrConfigValue = {
     fetcher: (url: string) => axios.get(url).then((res) => res.data),
     onError: (error: AxiosError) => {
@@ -54,7 +47,11 @@ export default function App({ Component, pageProps }: AppProps) {
     },
   }
 
+  const isLargeUpScreen = useMediaQueryUp('lg')
+
   const [drawer, setDrawer] = useState(false)
+
+  const drawerWidth = 257
 
   const toggleDrawer = () => {
     setDrawer(!drawer)
@@ -64,16 +61,23 @@ export default function App({ Component, pageProps }: AppProps) {
     setDrawer(false)
   }
 
+  useEffect(() => {
+    setDrawer(isLargeUpScreen)
+  }, [isLargeUpScreen])
+
   return (
     <ThemeProvider theme={theme}>
       <RecoilRoot>
         <SWRConfig value={swrConfigValue}>
           <Sidebar drawer={drawer} onCloseDrawer={onCloseDrawer} />
           <AppInit />
-          <main style={{ marginLeft: drawer ? '256px' : 0 }}>
+          <Box
+            component="main"
+            sx={{ paddingLeft: drawer && isLargeUpScreen ? `${drawerWidth}px` : 0 }}
+          >
             <Header toggleDrawer={toggleDrawer} />
             <Component {...pageProps} />
-          </main>
+          </Box>
         </SWRConfig>
       </RecoilRoot>
     </ThemeProvider>

@@ -23,3 +23,19 @@ export const SPEED_INDEX = 5
 
 // ポケモンのステータスの数
 export const STATS_LENGTH = 6
+
+export const RANKS = [
+  { id: 1, magnification: 6, percent: 400 },
+  { id: 2, magnification: 5, percent: 350 },
+  { id: 3, magnification: 4, percent: 300 },
+  { id: 4, magnification: 3, percent: 250 },
+  { id: 5, magnification: 2, percent: 200 },
+  { id: 6, magnification: 1, percent: 150 },
+  { id: 7, magnification: 0, percent: 100 },
+  { id: 8, magnification: -1, percent: 67 },
+  { id: 9, magnification: -2, percent: 50 },
+  { id: 10, magnification: -3, percent: 40 },
+  { id: 11, magnification: -4, percent: 33 },
+  { id: 12, magnification: -5, percent: 29 },
+  { id: 13, magnification: -6, percent: 25 },
+]
