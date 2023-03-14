@@ -1,4 +1,5 @@
 import { Stat } from '@/types'
+import { useCallback } from 'react'
 import { atom, useRecoilValue, useSetRecoilState } from 'recoil'
 
 const statsRecoilState = atom<Stat[]>({
@@ -53,9 +54,12 @@ export const useStatsMutators = () => {
   /**
    * ステータスを更新する
    */
-  const updateStats = (stats: Stat[]) => {
-    setState(stats)
-  }
+  const updateStats = useCallback(
+    (stats: Stat[]) => {
+      setState(stats)
+    },
+    [setState]
+  )
 
   return { updateStats }
 }
