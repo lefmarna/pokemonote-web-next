@@ -1,10 +1,5 @@
 import { atom } from 'recoil'
-import { AuthUser, Nature, PokemonData, Stat } from '../types'
-
-export const authUserState = atom<AuthUser | null>({
-  key: 'authUserState',
-  default: null,
-})
+import { Nature, PokemonData } from '../types'
 
 export const rememberRouteState = atom({
   key: 'rememberRouteState',
