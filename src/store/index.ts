@@ -1,11 +1,6 @@
 import { atom } from 'recoil'
 import { Nature, PokemonData } from '../types'
 
-export const rememberRouteState = atom({
-  key: 'rememberRouteState',
-  default: '',
-})
-
 export const pokemonDataState = atom<PokemonData[]>({
   key: 'pokemonDataState',
   default: [],

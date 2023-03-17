@@ -1,8 +1,6 @@
 import axios from 'axios'
-import { rememberRouteState } from '@/store'
 import { useRouter } from 'next/router'
 import { ChangeEvent, useCallback, useState } from 'react'
-import { useRecoilValue } from 'recoil'
 import { FormTemplate } from '@/components/templates/FormTemplate'
 import { AuthUser } from '@/types'
 import { MessageAlert } from '@/components/organisms/MessageAlert'
@@ -10,11 +8,12 @@ import { EmailField } from '@/components/molecules/EmailField'
 import { PasswordField } from '@/components/molecules/PasswordField'
 import { exceptionErrorToArray } from '@/utils/utilities'
 import { useAuthUserMutators } from '@/store/authUserState'
+import { useRememberRouteState } from '@/store/rememberRouteState'
 
 export default function Login() {
   const router = useRouter()
   const { updateAuthUser } = useAuthUserMutators()
-  const rememberRoute = useRecoilValue(rememberRouteState)
+  const rememberRoute = useRememberRouteState()
   const [isShowAlert, setIsShowAlert] = useState(false)
 
   const [isLoading, setIsLoading] = useState(false)
