@@ -25,11 +25,3 @@ export const selectedPokemonState = atom<PokemonData>({
     stats: [75, 140, 65, 112, 65, 110],
   },
 })
-
-export const selectedNatureState = atom<Nature>({
-  key: 'selectedNatureState',
-  default: {
-    name: 'がんばりや',
-    stats: [1.0, 1.0, 1.0, 1.0, 1.0, 1.0],
-  },
-})
