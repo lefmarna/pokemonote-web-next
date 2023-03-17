@@ -10,18 +10,3 @@ export const natureDataState = atom<Nature[]>({
   key: 'natureDataState',
   default: [],
 })
-
-export const selectedPokemonState = atom<PokemonData>({
-  key: 'selectedPokemonState',
-  default: {
-    no: 567,
-    name: 'アーケオス',
-    form: '',
-    ranks: [],
-    evolutions: [],
-    types: ['いわ', 'ひこう'],
-    abilities: ['よわき'],
-    hiddenAbilities: [],
-    stats: [75, 140, 65, 112, 65, 110],
-  },
-})
