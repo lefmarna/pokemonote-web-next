@@ -4,8 +4,7 @@ import axios from 'axios'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { MouseEvent, useState } from 'react'
-import { useRecoilState } from 'recoil'
-import { authUserState } from '@/store'
+import { useAuthUserMutators, useAuthUserState } from '@/store/authUserState'
 
 type Props = {
   toggleDrawer: () => void
@@ -20,7 +19,8 @@ export const Header = (props: Props) => {
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
 
-  const [authUser, setAuthUser] = useRecoilState(authUserState)
+  const authUser = useAuthUserState()
+  const { updateAuthUser } = useAuthUserMutators()
 
   const openProfileMenu = (event: MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget)
@@ -49,7 +49,7 @@ export const Header = (props: Props) => {
 
     try {
       await axios.post('/logout')
-      setAuthUser(null)
+      updateAuthUser(null)
     } catch (e) {
       if (!axios.isAxiosError(e) || e.response?.status !== 401) return
       console.log(e)

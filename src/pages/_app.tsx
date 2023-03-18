@@ -4,14 +4,15 @@ import { memo, useEffect, useState } from 'react'
 import { RecoilRoot, useSetRecoilState } from 'recoil'
 import useSWR, { SWRConfig } from 'swr'
 import '@/styles/globals.scss'
-import { authUserState, natureDataState, pokemonDataState } from '@/store'
+import { natureDataState, pokemonDataState } from '@/store'
 import { AppProps } from 'next/app'
 import { Header } from '@/components/organisms/Header'
 import { Sidebar } from '@/components/organisms/Sidebar'
 import { theme, useMediaQueryUp } from '@/utils/theme'
+import { useAuthUserMutators } from '@/store/authUserState'
 
 const AppInit = memo(() => {
-  const setAuthUser = useSetRecoilState(authUserState)
+  const { updateAuthUser } = useAuthUserMutators()
   const setPokemonData = useSetRecoilState(pokemonDataState)
   const setNatureData = useSetRecoilState(natureDataState)
 
@@ -19,10 +20,10 @@ const AppInit = memo(() => {
 
   useEffect(() => {
     if (!data) return
-    setAuthUser(data.data.auth_user)
+    updateAuthUser(data.data.auth_user)
     setPokemonData(data.data.pokemon_data)
     setNatureData(data.data.nature_data)
-  }, [data, setAuthUser, setPokemonData, setNatureData])
+  }, [data, updateAuthUser, setPokemonData, setNatureData])
 
   return <></>
 })

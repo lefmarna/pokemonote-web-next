@@ -36,6 +36,28 @@ const EnhancedCheckbox = styled(Checkbox)({
 })
 
 export default function BaseStatsRanking() {
+  const [page, setPage] = useState(0)
+  const [rowsPerPage, setRowsPerPage] = useState(20)
+
+  const handleChangePage = (_, newPage) => {
+    setPage(newPage)
+  }
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(event.target.value)
+    setPage(0)
+  }
+
+  const [isNotShowStats, setIsNotShowStats] = useState({
+    attack: false,
+    spAttack: false,
+    speed: false,
+  })
+
+  const handleCheckboxChange = (event) => {
+    setIsNotShowStats({ ...isNotShowStats, [event.target.name]: event.target.checked })
+  }
+
   const [isShowRanks, setIsShowRanks] = useState({
     legendary: false,
     mythical: false,
@@ -43,18 +65,16 @@ export default function BaseStatsRanking() {
     sv: false,
   })
 
+  const handleRankChange = (event) => {
+    setIsShowRanks({ ...isShowRanks, [event.target.name]: event.target.checked })
+  }
+
   const ranksCheckboxes = [
     { text: '伝説', value: 'legendary' },
     { text: '幻', value: 'mythical' },
     { text: 'メガシンカ', value: 'mega' },
     { text: 'SVに登場しないポケモン', value: 'sv' },
   ]
-
-  const [isNotShowStats, setIsNotShowStats] = useState({
-    attack: false,
-    spAttack: false,
-    speed: false,
-  })
 
   const statsCheckboxes = [
     { text: '攻撃', value: 'attack' },
@@ -66,52 +86,23 @@ export default function BaseStatsRanking() {
   const isXs = useMediaQueryDown('xs')
 
   // v-data-tableに表示させる内容とオプションの設定
-  const headers = () => {
-    const dataTableList = [
-      { text: 'ポケモン名', value: 'name', align: 'start', width: '30%' },
-      {
-        text: 'ＨＰ',
-        value: `stats[${HP_INDEX}]`,
-        align: 'right',
-        width: '10%',
-      },
-      {
-        text: '攻撃',
-        value: `stats[${ATTACK_INDEX}]`,
-        align: 'right',
-        width: '10%',
-      },
-      {
-        text: '防御',
-        value: `stats[${DEFENCE_INDEX}]`,
-        align: 'right',
-        width: '10%',
-      },
-      {
-        text: '特攻',
-        value: `stats[${SP_ATTACK_INDEX}]`,
-        align: 'right',
-        width: '10%',
-      },
-      {
-        text: '特防',
-        value: `stats[${SP_DEFENCE_INDEX}]`,
-        align: 'right',
-        width: '10%',
-      },
-      {
-        text: '素早',
-        value: `stats[${SPEED_INDEX}]`,
-        align: 'right',
-        width: '10%',
-      },
-      { text: '合計', value: 'total', align: 'right', width: '10%' },
-    ]
-    if (isNotShowStats.attack) dataTableList[ATTACK_INDEX + 1].value = ''
-    if (isNotShowStats.spAttack) dataTableList[SP_ATTACK_INDEX + 1].value = ''
-    if (isNotShowStats.speed) dataTableList[SPEED_INDEX + 1].value = ''
-    return dataTableList
-  }
+  const headers = [
+    { text: 'ポケモン名', value: 'name', align: 'left', width: '30%' },
+    { text: 'ＨＰ', value: `stats[${HP_INDEX}]`, align: 'right', width: '10%' },
+    { text: '攻撃', value: `stats[${ATTACK_INDEX}]`, align: 'right', width: '10%' },
+    { text: '防御', value: `stats[${DEFENCE_INDEX}]`, align: 'right', width: '10%' },
+    { text: '特攻', value: `stats[${SP_ATTACK_INDEX}]`, align: 'right', width: '10%' },
+    { text: '特防', value: `stats[${SP_DEFENCE_INDEX}]`, align: 'right', width: '10%' },
+    { text: '素早', value: `stats[${SPEED_INDEX}]`, align: 'right', width: '10%' },
+    { text: '合計', value: 'total', align: 'right', width: '10%' },
+  ]
+
+  const filteredHeaders = headers.filter((header) => {
+    if (header.text === '攻撃') return !isNotShowStats.attack
+    if (header.text === '特攻') return !isNotShowStats.spAttack
+    if (header.text === '素早さ') return !isNotShowStats.speed
+    return true
+  })
 
   const calculateTotalStats = (pokemon: PokemonData) =>
     pokemon.stats.reduce((sum, value, index) => {
@@ -179,7 +170,7 @@ export default function BaseStatsRanking() {
           <TableContainer>
             <Table>
               <TableHead>
-                {headers().map((header) => (
+                {filteredHeaders.map((header) => (
                   <TableCell key={header.value}>{header.text}</TableCell>
                 ))}
               </TableHead>
@@ -202,14 +193,10 @@ export default function BaseStatsRanking() {
                   rowsPerPageOptions={[20, 50, 100, -1]}
                   component="div"
                   count={pokemonListInTotal.length}
-                  rowsPerPage={20}
-                  page={0}
-                  onPageChange={() => {
-                    console.log('aaa')
-                  }}
-                  onRowsPerPageChange={() => {
-                    console.log('bbb')
-                  }}
+                  rowsPerPage={rowsPerPage}
+                  page={page}
+                  onPageChange={handleChangePage}
+                  onRowsPerPageChange={handleChangeRowsPerPage}
                 />
               </TableFooter>
             </Table>

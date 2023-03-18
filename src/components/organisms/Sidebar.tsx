@@ -1,4 +1,4 @@
-import { authUserState } from '@/store'
+import { useAuthUserState } from '@/store/authUserState'
 import { useMediaQueryUp } from '@/utils/theme'
 import {
   Announcement,
@@ -24,7 +24,6 @@ import {
   useMediaQuery,
 } from '@mui/material'
 import Link from 'next/link'
-import { useRecoilValue } from 'recoil'
 
 type Props = {
   drawer: boolean
@@ -36,7 +35,7 @@ const drawerWidth = 257
 export const Sidebar = (props: Props) => {
   const { drawer, onCloseDrawer } = props
 
-  const authUser = useRecoilValue(authUserState)
+  const authUser = useAuthUserState()
 
   const siteMenuLists = [
     {

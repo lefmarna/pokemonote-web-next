@@ -1,27 +1,22 @@
 import { NextPage } from 'next'
-import { useRecoilState } from 'recoil'
 import { CalcStatsTemplate } from '@/components/templates/CalcStatsTemplate'
-import { selectedNatureState, selectedPokemonState } from '@/store'
-import { Nature, PokemonData } from '@/types'
 import { useStatsMutators, useStatsState } from '@/store/statsState'
 import { useLevelMutators, useLevelState } from '@/store/levelState'
+import { useSelectedNatureMutators, useSelectedNatureState } from '@/store/selectedNatureState'
+import { useSelectedPokemonMutators, useSelectedPokemonState } from '@/store/selectedPokemonState'
 
 const CalcStats: NextPage = () => {
-  const [selectedPokemon, setSelectedPokemon] = useRecoilState(selectedPokemonState)
-  const [selectedNature, setSelectedNature] = useRecoilState(selectedNatureState)
+  const selectedPokemon = useSelectedPokemonState()
+  const { updateSelectedPokemon } = useSelectedPokemonMutators()
+
+  const selectedNature = useSelectedNatureState()
+  const { updateSelectedNature } = useSelectedNatureMutators()
 
   const level = useLevelState()
   const { updateLevel } = useLevelMutators()
 
   const stats = useStatsState()
   const { updateStats } = useStatsMutators()
-
-  const updatePokemon = (pokemon: PokemonData) => {
-    setSelectedPokemon(pokemon)
-  }
-  const updateNature = (nature: Nature) => {
-    setSelectedNature(nature)
-  }
 
   return (
     <CalcStatsTemplate
@@ -30,8 +25,8 @@ const CalcStats: NextPage = () => {
       selectedNature={selectedNature}
       level={level}
       stats={stats}
-      updatePokemon={updatePokemon}
-      updateNature={updateNature}
+      updatePokemon={updateSelectedPokemon}
+      updateNature={updateSelectedNature}
       updateLevel={updateLevel}
       updateStats={updateStats}
     />

@@ -1,19 +1,19 @@
 import axios from 'axios'
-import { authUserState, rememberRouteState } from '@/store'
 import { useRouter } from 'next/router'
 import { ChangeEvent, useCallback, useState } from 'react'
-import { useRecoilValue, useSetRecoilState } from 'recoil'
 import { FormTemplate } from '@/components/templates/FormTemplate'
 import { AuthUser } from '@/types'
 import { MessageAlert } from '@/components/organisms/MessageAlert'
 import { EmailField } from '@/components/molecules/EmailField'
 import { PasswordField } from '@/components/molecules/PasswordField'
 import { exceptionErrorToArray } from '@/utils/utilities'
+import { useAuthUserMutators } from '@/store/authUserState'
+import { useRememberRouteState } from '@/store/rememberRouteState'
 
 export default function Login() {
   const router = useRouter()
-  const setAuthUser = useSetRecoilState(authUserState)
-  const rememberRoute = useRecoilValue(rememberRouteState)
+  const { updateAuthUser } = useAuthUserMutators()
+  const rememberRoute = useRememberRouteState()
   const [isShowAlert, setIsShowAlert] = useState(false)
 
   const [isLoading, setIsLoading] = useState(false)
@@ -39,7 +39,7 @@ export default function Login() {
         return
       }
 
-      setAuthUser(_authUser)
+      updateAuthUser(_authUser)
 
       if (rememberRoute) {
         router.push(rememberRoute)
