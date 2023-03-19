@@ -12,7 +12,7 @@ import {
 } from '@mui/material'
 import { AccountCircle, Email } from '@mui/icons-material'
 
-export default function Contact() {
+export default function LefmarnaOtoiawase() {
   const router = useRouter()
 
   const [name, setName] = useState<string>('')
