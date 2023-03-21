@@ -3,16 +3,7 @@
   "ignorePaths": [".devcontainer", ".github/workflows", "README.md"],
   "dictionaryDefinitions": [],
   "dictionaries": [],
-  "words": [
-    "axios",
-    "cimg",
-    "circleci",
-    "DEFENCE",
-    "devcontainer",
-    "rscss",
-    "stylelint",
-    "Textfield"
-  ],
+  "words": ["axios", "DEFENCE", "devcontainer", "rscss", "stylelint", "Textfield"],
   "ignoreWords": [],
   "import": []
 }
