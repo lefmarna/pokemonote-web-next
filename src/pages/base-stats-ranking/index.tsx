@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { ChangeEvent, useState } from 'react'
 import {
   Container,
   Grid,
@@ -7,7 +7,7 @@ import {
   FormControlLabel,
   TablePagination,
 } from '@mui/material'
-import { PokemonData } from '@/types/index'
+import { PokemonData, RankCheckbox } from '@/types/index'
 import {
   ATTACK_INDEX,
   DEFENCE_INDEX,
@@ -36,13 +36,6 @@ export default function BaseStatsRanking() {
     sv: false,
   })
 
-  const ranksCheckboxes = [
-    { text: '伝説', value: 'legendary' },
-    { text: '幻', value: 'mythical' },
-    { text: 'メガシンカ', value: 'mega' },
-    { text: 'SVに登場しないポケモン', value: 'sv' },
-  ]
-
   // 【除外するステータス】
   const [isNotShowStats, setIsNotShowStats] = useState({
     attack: false,
@@ -56,66 +49,26 @@ export default function BaseStatsRanking() {
     { text: '素早さ', value: 'speed' },
   ]
 
-  // v-data-tableに表示させる内容とオプションの設定
-  const headers = [
-    { text: 'ポケモン名', value: 'name', align: 'start', width: '30%' },
-    {
-      text: 'ＨＰ',
-      value: `stats[${HP_INDEX}]`,
-      align: 'right',
-      width: '10%',
-    },
-    {
-      text: '攻撃',
-      value: `stats[${ATTACK_INDEX}]`,
-      align: 'right',
-      width: '10%',
-    },
-    {
-      text: '防御',
-      value: `stats[${DEFENCE_INDEX}]`,
-      align: 'right',
-      width: '10%',
-    },
-    {
-      text: '特攻',
-      value: `stats[${SP_ATTACK_INDEX}]`,
-      align: 'right',
-      width: '10%',
-    },
-    {
-      text: '特防',
-      value: `stats[${SP_DEFENCE_INDEX}]`,
-      align: 'right',
-      width: '10%',
-    },
-    {
-      text: '素早',
-      value: `stats[${SPEED_INDEX}]`,
-      align: 'right',
-      width: '10%',
-    },
-    { text: '合計', value: 'total', align: 'right', width: '10%' },
+  const ranksCheckboxes: RankCheckbox[] = [
+    { text: '伝説', value: 'legendary' },
+    { text: '幻', value: 'mythical' },
+    { text: 'メガシンカ', value: 'mega' },
+    { text: 'SVに登場しないポケモン', value: 'sv' },
   ]
 
-  const filterPokemonListByRank = (pokemonData: PokemonData[], excludeRank: string) => {
-    return pokemonData.filter((pokemon) => !pokemon.ranks.includes(excludeRank))
-  }
+  const filteredPokemonList = () => {
+    // チェックボックスがオフになっているランクをexcludeRanks配列に追加
+    const excludeRanks = ranksCheckboxes
+      .filter((checkbox) => !isShowRanks[checkbox.value])
+      .map((checkbox) => checkbox.value)
 
-  const pokemonListInTotal = () => {
-    // 直接データを書き換えるわけにはいかないので、フィルター用の変数に格納しておく
-    let result = pokemonList.map((pokemon) => ({ ...pokemon }))
-
-    // 『メガシンカ』にチェックがついていないときは表示させない
-    if (!isShowRanks.mega) result = filterPokemonListByRank(result, 'mega')
-    // 『伝説』にチェックがついていないときは表示させない
-    if (!isShowRanks.legendary) result = filterPokemonListByRank(result, 'legendary')
-    // 『幻』にチェックがついていないときは表示させない
-    if (!isShowRanks.mythical) result = filterPokemonListByRank(result, 'mythical')
-    // 『SVに登場しないポケモン』にチェックがついていないときは表示させない
-    if (!isShowRanks.sv) result = result.filter((pokemon) => pokemon.ranks.includes('sv'))
-
-    return result
+    // pokemonListをフィルタリングして、excludeRanksに含まれるランクを除外
+    return pokemonList.filter((pokemon) =>
+      excludeRanks.every((excludeRank) => {
+        if (excludeRank === 'sv') return pokemon.ranks.includes(excludeRank)
+        return !pokemon.ranks.includes(excludeRank)
+      })
+    )
   }
 
   // 【特別なポケモンを表示する】のオンオフを切り替える
@@ -128,6 +81,7 @@ export default function BaseStatsRanking() {
     setIsNotShowStats({ ...isNotShowStats, [value]: !isNotShowStats[value] })
   }
 
+  // DataGridに表示させる内容とオプションの設定
   const columns = [
     { field: 'name', headerName: 'ポケモン名', minWidth: 150 },
     {
@@ -142,7 +96,9 @@ export default function BaseStatsRanking() {
       headerName: '攻撃',
       type: 'number',
       minWidth: 100,
-      valueGetter: (params: GridValueGetterParams<PokemonData>) => params.row.stats[ATTACK_INDEX],
+      valueGetter: (params: GridValueGetterParams<PokemonData>) => {
+        return isNotShowStats.attack ? '' : params.row.stats[ATTACK_INDEX]
+      },
     },
     {
       field: 'defence',
@@ -156,8 +112,9 @@ export default function BaseStatsRanking() {
       headerName: '特攻',
       type: 'number',
       minWidth: 100,
-      valueGetter: (params: GridValueGetterParams<PokemonData>) =>
-        params.row.stats[SP_ATTACK_INDEX],
+      valueGetter: (params: GridValueGetterParams<PokemonData>) => {
+        return isNotShowStats.spAttack ? '' : params.row.stats[SP_ATTACK_INDEX]
+      },
     },
     {
       field: 'sp_defence',
@@ -172,7 +129,9 @@ export default function BaseStatsRanking() {
       headerName: '素早',
       type: 'number',
       minWidth: 100,
-      valueGetter: (params: GridValueGetterParams<PokemonData>) => params.row.stats[SPEED_INDEX],
+      valueGetter: (params: GridValueGetterParams<PokemonData>) => {
+        return isNotShowStats.speed ? '' : params.row.stats[SPEED_INDEX]
+      },
     },
     {
       field: 'total',
@@ -200,15 +159,11 @@ export default function BaseStatsRanking() {
   const [page, setPage] = useState(0)
   const [rowsPerPage, setRowsPerPage] = useState(20)
 
-  type MyGridPageChangeParams = {
-    page: number
-  }
-
   const handlePageChange = (params: any) => {
     setPage(params.page)
   }
 
-  const handlePageSizeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handlePageSizeChange = (event: ChangeEvent<HTMLInputElement>) => {
     setRowsPerPage(parseInt(event.target.value, 10))
     setPage(0)
   }
@@ -228,8 +183,8 @@ export default function BaseStatsRanking() {
               key={rank.value}
               control={
                 <Checkbox
-                  checked={isShowRanks[rank.value as keyof typeof isShowRanks]}
-                  onChange={() => rankChange(rank.value as keyof typeof isShowRanks)}
+                  checked={isShowRanks[rank.value]}
+                  onChange={() => rankChange(rank.value)}
                   name={rank.value}
                 />
               }
@@ -260,13 +215,13 @@ export default function BaseStatsRanking() {
           <DataGrid
             columns={columns}
             getRowId={getRowId}
-            rows={pokemonListInTotal()}
+            rows={filteredPokemonList()}
             autoPageSize
             sortingOrder={['desc', 'asc']}
           />
           <TablePagination
             component="div"
-            count={pokemonListInTotal().length}
+            count={filteredPokemonList().length}
             page={page}
             onPageChange={handlePageChange}
             rowsPerPage={rowsPerPage}

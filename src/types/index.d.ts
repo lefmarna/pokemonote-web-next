@@ -3,11 +3,18 @@ export type Nature = {
   stats: number[]
 }
 
+type Rank = 'legendary' | 'mythical' | 'mega' | 'sv'
+
+export type RankCheckbox = {
+  text: string
+  value: Rank
+}
+
 export type PokemonData = {
   no: number
   name: string
   form: string
-  ranks: string[]
+  ranks: Rank[]
   evolutions: number[]
   types: string[]
   abilities: string[]
