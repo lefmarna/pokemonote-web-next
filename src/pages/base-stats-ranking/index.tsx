@@ -1,12 +1,5 @@
-import React, { ChangeEvent, useState } from 'react'
-import {
-  Container,
-  Grid,
-  Typography,
-  Checkbox,
-  FormControlLabel,
-  TablePagination,
-} from '@mui/material'
+import React, { useState } from 'react'
+import { Container, Grid, Typography, Checkbox, FormControlLabel } from '@mui/material'
 import { PokemonData, RankCheckbox } from '@/types/index'
 import {
   ATTACK_INDEX,
@@ -18,7 +11,7 @@ import {
 } from '@/utils/constants'
 import { useRecoilValue } from 'recoil'
 import { pokemonDataState } from '@/store'
-import { DataGrid, GridValueGetterParams } from '@mui/x-data-grid'
+import { DataGrid, GridValueGetterParams, jaJP } from '@mui/x-data-grid'
 
 export default function BaseStatsRanking() {
   // updateMeta(
@@ -156,23 +149,10 @@ export default function BaseStatsRanking() {
     }, 0)
   }
 
-  const [page, setPage] = useState(0)
-  const [rowsPerPage, setRowsPerPage] = useState(20)
-
-  const handlePageChange = (params: any) => {
-    setPage(params.page)
-  }
-
-  const handlePageSizeChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setRowsPerPage(parseInt(event.target.value, 10))
-    setPage(0)
-  }
-
   const getRowId = (row: PokemonData) => row.name
 
   return (
     <Container>
-      <Typography variant="h4">種族値ランキング</Typography>
       <Typography variant="h4">種族値ランキング（ポケモンSV）</Typography>
       <Grid container spacing={3}>
         <Grid item xs={12} md={6}>
@@ -216,17 +196,14 @@ export default function BaseStatsRanking() {
             columns={columns}
             getRowId={getRowId}
             rows={filteredPokemonList()}
-            autoPageSize
             sortingOrder={['desc', 'asc']}
-          />
-          <TablePagination
-            component="div"
-            count={filteredPokemonList().length}
-            page={page}
-            onPageChange={handlePageChange}
-            rowsPerPage={rowsPerPage}
-            onRowsPerPageChange={handlePageSizeChange}
-            rowsPerPageOptions={[20, 50, 100]}
+            autoHeight
+            componentsProps={{
+              pagination: {
+                rowsPerPageOptions: [20, 50, 100],
+              },
+            }}
+            localeText={jaJP.components.MuiDataGrid.defaultProps.localeText}
           />
         </Grid>
       </Grid>
