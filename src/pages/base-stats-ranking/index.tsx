@@ -12,6 +12,7 @@ import {
 import { useRecoilValue } from 'recoil'
 import { pokemonDataState } from '@/store'
 import { DataGrid, GridValueGetterParams, jaJP } from '@mui/x-data-grid'
+import { Title } from '@/components/molecules/Title'
 
 export default function BaseStatsRanking() {
   // updateMeta(
@@ -153,7 +154,7 @@ export default function BaseStatsRanking() {
 
   return (
     <Container>
-      <Typography variant="h4">種族値ランキング（ポケモンSV）</Typography>
+      <Title text="種族値ランキング（ポケモンSV）" />
       <Grid container spacing={3}>
         <Grid item xs={12} md={6}>
           <Typography variant="subtitle1">【特別なポケモンを表示する】</Typography>
