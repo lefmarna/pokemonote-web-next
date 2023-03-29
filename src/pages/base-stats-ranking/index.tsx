@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import Head from 'next/head'
 import { Container, Grid, Typography, Checkbox, FormControlLabel } from '@mui/material'
 import { PokemonData, RankCheckbox } from '@/types/index'
 import {
@@ -149,6 +150,13 @@ export default function BaseStatsRanking() {
 
   return (
     <Container>
+      <Head>
+        <title>種族値ランキング</title>
+        <meta
+          name="description"
+          content="ポケモンSVの種族値ランキングです。攻撃や特攻、素早さを除いた実質種族値でのリストアップも可能です。伝説や幻のポケモンを表示するオプション、各種ステータスでソートする機能にも対応しています。準伝や600属の暴れる環境で、採用するポケモンに迷った際には、きっとこのツールが役立つことでしょう。"
+        />
+      </Head>
       <Title text="種族値ランキング（ポケモンSV）" />
       <Grid container spacing={3}>
         <Grid item xs={12} md={6}>
