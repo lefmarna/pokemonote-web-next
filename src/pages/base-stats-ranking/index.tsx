@@ -51,16 +51,11 @@ export default function BaseStatsRanking() {
   ]
 
   const filteredPokemonList = () => {
-    // チェックボックスがオフになっているランクをexcludeRanks配列に追加
-    const excludeRanks = ranksCheckboxes
-      .filter((checkbox) => !isShowRanks[checkbox.value])
-      .map((checkbox) => checkbox.value)
-
-    // pokemonListをフィルタリングして、excludeRanksに含まれるランクを除外
     return pokemonList.filter((pokemon) =>
-      excludeRanks.every((excludeRank) => {
-        if (excludeRank === 'sv') return pokemon.ranks.includes(excludeRank)
-        return !pokemon.ranks.includes(excludeRank)
+      ranksCheckboxes.every((checkbox) => {
+        if (isShowRanks[checkbox.value]) return true
+        if (checkbox.value !== 'sv') return !pokemon.ranks.includes(checkbox.value)
+        return pokemon.ranks.includes(checkbox.value)
       })
     )
   }
