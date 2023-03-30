@@ -14,6 +14,7 @@ import { useRecoilValue } from 'recoil'
 import { pokemonDataState } from '@/store'
 import { DataGrid, GridValueGetterParams, jaJP } from '@mui/x-data-grid'
 import { Title } from '@/components/molecules/Title'
+import { Meta } from '@/components/organisms/Meta'
 
 export default function BaseStatsRanking() {
   // updateMeta(
@@ -149,68 +150,67 @@ export default function BaseStatsRanking() {
   const getRowId = (row: PokemonData) => row.name
 
   return (
-    <Container>
-      <Head>
-        <title>種族値ランキング</title>
-        <meta
-          name="description"
-          content="ポケモンSVの種族値ランキングです。攻撃や特攻、素早さを除いた実質種族値でのリストアップも可能です。伝説や幻のポケモンを表示するオプション、各種ステータスでソートする機能にも対応しています。準伝や600属の暴れる環境で、採用するポケモンに迷った際には、きっとこのツールが役立つことでしょう。"
-        />
-      </Head>
-      <Title text="種族値ランキング（ポケモンSV）" />
-      <Grid container spacing={3}>
-        <Grid item xs={12} md={6}>
-          <Typography variant="subtitle1">【特別なポケモンを表示する】</Typography>
-          {/* <FormGroup row> */}
-          {ranksCheckboxes.map((rank) => (
-            <FormControlLabel
-              key={rank.value}
-              control={
-                <Checkbox
-                  checked={isShowRanks[rank.value]}
-                  onChange={() => rankChange(rank.value)}
-                  name={rank.value}
-                />
-              }
-              label={rank.text}
+    <>
+      <Meta
+        title="種族値ランキング"
+        metaDescription="ポケモンSVの種族値ランキングです。攻撃や特攻、素早さを除いた実質種族値でのリストアップも可能です。伝説や幻のポケモンを表示するオプション、各種ステータスでソートする機能にも対応しています。準伝や600属の暴れる環境で、採用するポケモンに迷った際には、きっとこのツールが役立つことでしょう。"
+      />
+      <Container>
+        <Title text="種族値ランキング（ポケモンSV）" />
+        <Grid container spacing={3}>
+          <Grid item xs={12} md={6}>
+            <Typography variant="subtitle1">【特別なポケモンを表示する】</Typography>
+            {/* <FormGroup row> */}
+            {ranksCheckboxes.map((rank) => (
+              <FormControlLabel
+                key={rank.value}
+                control={
+                  <Checkbox
+                    checked={isShowRanks[rank.value]}
+                    onChange={() => rankChange(rank.value)}
+                    name={rank.value}
+                  />
+                }
+                label={rank.text}
+              />
+            ))}
+            {/* </FormGroup> */}
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <Typography variant="subtitle1">【除外するステータス】</Typography>
+            {/* <FormGroup row> */}
+            {statsCheckboxes.map((stats) => (
+              <FormControlLabel
+                key={stats.value}
+                control={
+                  <Checkbox
+                    checked={isNotShowStats[stats.value as keyof typeof isNotShowStats]}
+                    onChange={() => statsChange(stats.value as keyof typeof isNotShowStats)}
+                    name={stats.value}
+                  />
+                }
+                label={stats.text}
+              />
+            ))}
+            {/* </FormGroup> */}
+          </Grid>
+          <Grid item xs={12}>
+            <DataGrid
+              columns={columns}
+              getRowId={getRowId}
+              rows={filteredPokemonList()}
+              sortingOrder={['desc', 'asc']}
+              autoHeight
+              componentsProps={{
+                pagination: {
+                  rowsPerPageOptions: [20, 50, 100],
+                },
+              }}
+              localeText={jaJP.components.MuiDataGrid.defaultProps.localeText}
             />
-          ))}
-          {/* </FormGroup> */}
+          </Grid>
         </Grid>
-        <Grid item xs={12} md={6}>
-          <Typography variant="subtitle1">【除外するステータス】</Typography>
-          {/* <FormGroup row> */}
-          {statsCheckboxes.map((stats) => (
-            <FormControlLabel
-              key={stats.value}
-              control={
-                <Checkbox
-                  checked={isNotShowStats[stats.value as keyof typeof isNotShowStats]}
-                  onChange={() => statsChange(stats.value as keyof typeof isNotShowStats)}
-                  name={stats.value}
-                />
-              }
-              label={stats.text}
-            />
-          ))}
-          {/* </FormGroup> */}
-        </Grid>
-        <Grid item xs={12}>
-          <DataGrid
-            columns={columns}
-            getRowId={getRowId}
-            rows={filteredPokemonList()}
-            sortingOrder={['desc', 'asc']}
-            autoHeight
-            componentsProps={{
-              pagination: {
-                rowsPerPageOptions: [20, 50, 100],
-              },
-            }}
-            localeText={jaJP.components.MuiDataGrid.defaultProps.localeText}
-          />
-        </Grid>
-      </Grid>
-    </Container>
+      </Container>
+    </>
   )
 }
