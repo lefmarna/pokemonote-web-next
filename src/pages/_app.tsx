@@ -10,6 +10,7 @@ import { Header } from '@/components/organisms/Header'
 import { Sidebar } from '@/components/organisms/Sidebar'
 import { theme, useMediaQueryUp } from '@/utils/theme'
 import { useAuthUserMutators } from '@/store/authUserState'
+import Head from 'next/head'
 
 const AppInit = memo(() => {
   const { updateAuthUser } = useAuthUserMutators()
@@ -66,21 +67,46 @@ export default function App({ Component, pageProps }: AppProps) {
     setDrawer(isLargeUpScreen)
   }, [isLargeUpScreen])
 
+  const meta = {
+    title: 'Pokemonote',
+    description:
+      'ポケモンのステータスを計算・管理するためのWebアプリ『Pokemonote』へようこそ！ 素早さ計算機やSVに対応した種族値ランキングといったツールも公開しています。「シンプルで高機能」なツールにこだわって制作していますので、是非お試しください。',
+  } as const
+
   return (
-    <ThemeProvider theme={theme}>
-      <RecoilRoot>
-        <SWRConfig value={swrConfigValue}>
-          <Sidebar drawer={drawer} onCloseDrawer={onCloseDrawer} />
-          <AppInit />
-          <Box
-            component="main"
-            sx={{ paddingLeft: drawer && isLargeUpScreen ? `${drawerWidth}px` : 0 }}
-          >
-            <Header toggleDrawer={toggleDrawer} />
-            <Component {...pageProps} />
-          </Box>
-        </SWRConfig>
-      </RecoilRoot>
-    </ThemeProvider>
+    <>
+      <Head>
+        <title>{meta.title}</title>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <meta name="description" content={meta.description} />
+        <meta property="og:site_name" content={meta.title} />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content={meta.title} />
+        <meta property="og:description" content={meta.description} />
+        <meta property="og:image" content="https://pokemonote.com/twitter_card.jpg" />
+        <meta property="twitter:title" content={meta.title} />
+        <meta property="twitter:description" content={meta.description} />
+        <meta property="twitter:card" content="summary" />
+        <meta property="twitter:site" content="@lefmarna" />
+        <meta property="format-detection" content="telephone=no" />
+        <link rel="icon" type="vnd.microsoft.icon" href="/favicon.ico" />
+      </Head>
+      <ThemeProvider theme={theme}>
+        <RecoilRoot>
+          <SWRConfig value={swrConfigValue}>
+            <Sidebar drawer={drawer} onCloseDrawer={onCloseDrawer} />
+            <AppInit />
+            <Box
+              component="main"
+              sx={{ paddingLeft: drawer && isLargeUpScreen ? `${drawerWidth}px` : 0 }}
+            >
+              <Header toggleDrawer={toggleDrawer} />
+              <Component {...pageProps} />
+            </Box>
+          </SWRConfig>
+        </RecoilRoot>
+      </ThemeProvider>
+    </>
   )
 }
