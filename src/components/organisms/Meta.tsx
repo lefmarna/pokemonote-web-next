@@ -8,9 +8,13 @@ type Props = {
 export const Meta = (props: Props) => {
   const { title, metaDescription } = props
 
+  const titleWithSiteName = `${title} | Pokemonote`
+
   return (
     <Head>
-      <title>{title ? `${title} | Pokemonote` : 'Pokemonote'}</title>
+      <title>{titleWithSiteName}</title>
+      <meta property="og:title" content={titleWithSiteName} />
+      <meta property="twitter:title" content={titleWithSiteName} />
       {metaDescription && (
         <>
           <meta name="description" content={metaDescription} />
