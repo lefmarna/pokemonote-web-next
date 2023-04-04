@@ -90,7 +90,7 @@ export default function App({ Component, pageProps }: AppProps) {
         <meta property="twitter:card" content="summary" />
         <meta property="twitter:site" content="@lefmarna" />
         <meta property="format-detection" content="telephone=no" />
-        <link rel="icon" type="vnd.microsoft.icon" href="/favicon.ico" />
+        <link rel="icon" type="image/x-icon" href="/favicon.ico" />
       </Head>
       <ThemeProvider theme={theme}>
         <RecoilRoot>
