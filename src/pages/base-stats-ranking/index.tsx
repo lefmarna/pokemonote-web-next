@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import Head from 'next/head'
 import { Container, Grid, Typography, Checkbox, FormControlLabel } from '@mui/material'
 import { PokemonData, RankCheckbox } from '@/types/index'
 import {
@@ -10,19 +9,26 @@ import {
   SP_ATTACK_INDEX,
   SP_DEFENCE_INDEX,
 } from '@/utils/constants'
-import { useRecoilValue } from 'recoil'
-import { pokemonDataState } from '@/store'
 import { DataGrid, GridValueGetterParams, jaJP } from '@mui/x-data-grid'
 import { Title } from '@/components/molecules/Title'
 import { Meta } from '@/components/organisms/Meta'
+import { fetchPokemonData } from '@/utils/useStaticData'
+import { NextPage } from 'next'
 
-export default function BaseStatsRanking() {
+export async function getStaticProps() {
+  const pokemonData = await fetchPokemonData()
+  return {
+    props: {
+      pokemonData,
+    },
+  }
+}
+
+const BaseStatsRanking: NextPage<{ pokemonData: PokemonData[] }> = ({ pokemonData }) => {
   // updateMeta(
   //   '種族値ランキング',
   //   'ポケモンSVの種族値ランキングです。攻撃や特攻、素早さを除いた実質種族値でのリストアップも可能です。伝説や幻のポケモンを表示するオプション、各種ステータスでソートする機能にも対応しています。準伝や600属の暴れる環境で、採用するポケモンに迷った際には、きっとこのツールが役立つことでしょう。'
   // );
-
-  const pokemonList = useRecoilValue(pokemonDataState)
 
   // 【特別なポケモンを表示する】
   const [isShowRanks, setIsShowRanks] = useState({
@@ -53,7 +59,7 @@ export default function BaseStatsRanking() {
   ]
 
   const filteredPokemonList = () => {
-    return pokemonList.filter((pokemon) =>
+    return pokemonData.filter((pokemon) =>
       ranksCheckboxes.every((checkbox) => {
         if (isShowRanks[checkbox.value]) return true
         if (checkbox.value !== 'sv') return !pokemon.ranks.includes(checkbox.value)
@@ -214,3 +220,5 @@ export default function BaseStatsRanking() {
     </>
   )
 }
+
+export default BaseStatsRanking
