@@ -9,7 +9,7 @@ import {
   SP_ATTACK_INDEX,
   SP_DEFENCE_INDEX,
 } from '@/utils/constants'
-import { DataGrid, GridValueGetterParams, jaJP } from '@mui/x-data-grid'
+import { DataGrid, GridSortModel, GridValueGetterParams, jaJP } from '@mui/x-data-grid'
 import { Title } from '@/components/molecules/Title'
 import { Meta } from '@/components/organisms/Meta'
 import { fetchPokemonData } from '@/utils/useStaticData'
@@ -155,6 +155,13 @@ const BaseStatsRanking: NextPage<{ pokemonData: PokemonData[] }> = ({ pokemonDat
 
   const getRowId = (row: PokemonData) => row.name
 
+  const [sortModel, setSortModel] = useState<GridSortModel>([
+    {
+      field: 'total',
+      sort: 'desc',
+    },
+  ])
+
   return (
     <>
       <Meta
@@ -213,6 +220,8 @@ const BaseStatsRanking: NextPage<{ pokemonData: PokemonData[] }> = ({ pokemonDat
                 },
               }}
               localeText={jaJP.components.MuiDataGrid.defaultProps.localeText}
+              sortModel={sortModel}
+              onSortModelChange={(model) => setSortModel(model)}
             />
           </Grid>
         </Grid>
