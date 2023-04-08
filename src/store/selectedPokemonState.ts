@@ -10,10 +10,14 @@ const selectedPokemonRecoilState = atom<PokemonData>({
     form: '',
     ranks: [],
     evolutions: [],
-    types: ['いわ', 'ひこう'],
-    abilities: ['よわき'],
-    hiddenAbilities: [],
-    stats: [75, 140, 65, 112, 65, 110],
+    baseStats: {
+      hp: 75,
+      attack: 140,
+      defense: 65,
+      spAttack: 112,
+      spDefense: 65,
+      speed: 110,
+    },
   },
 })
 

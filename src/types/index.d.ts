@@ -16,12 +16,23 @@ export type PokemonData = {
   form: string
   ranks: Rank[]
   evolutions: number[]
-  types: string[]
-  abilities: string[]
-  hiddenAbilities: string[]
-  stats: number[]
-  total?: number
+  baseStats: Stats
 }
+
+type Stats = {
+  hp: number
+  attack: number
+  defense: number
+  spAttack: number
+  spDefense: number
+  speed: number
+}
+
+type Nullable<T> = {
+  [K in keyof T]: T[K] | ''
+}
+
+type NullableStats = Nullable<Stats>
 
 export type Pokemon = {
   id: number

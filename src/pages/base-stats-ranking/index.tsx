@@ -1,14 +1,6 @@
 import React, { useState } from 'react'
 import { Container, Grid, Typography, Checkbox, FormControlLabel } from '@mui/material'
-import { PokemonData, RankCheckbox } from '@/types/index'
-import {
-  ATTACK_INDEX,
-  DEFENCE_INDEX,
-  HP_INDEX,
-  SPEED_INDEX,
-  SP_ATTACK_INDEX,
-  SP_DEFENCE_INDEX,
-} from '@/utils/constants'
+import { PokemonData, RankCheckbox, Stats } from '@/types/index'
 import { DataGrid, GridSortModel, GridValueGetterParams, jaJP } from '@mui/x-data-grid'
 import { Title } from '@/components/molecules/Title'
 import { Meta } from '@/components/organisms/Meta'
@@ -81,7 +73,7 @@ const BaseStatsRanking: NextPage<{ pokemonData: PokemonData[] }> = ({ pokemonDat
       headerName: 'ＨＰ',
       type: 'number',
       minWidth: 100,
-      valueGetter: (params: GridValueGetterParams<PokemonData>) => params.row.stats[HP_INDEX],
+      valueGetter: (params: GridValueGetterParams<PokemonData>) => params.row.baseStats.hp,
     },
     {
       field: 'attack',
@@ -89,7 +81,7 @@ const BaseStatsRanking: NextPage<{ pokemonData: PokemonData[] }> = ({ pokemonDat
       type: 'number',
       minWidth: 100,
       valueGetter: (params: GridValueGetterParams<PokemonData>) => {
-        return isNotShowStats.attack ? '' : params.row.stats[ATTACK_INDEX]
+        return isNotShowStats.attack ? '' : params.row.baseStats.attack
       },
     },
     {
@@ -97,7 +89,7 @@ const BaseStatsRanking: NextPage<{ pokemonData: PokemonData[] }> = ({ pokemonDat
       headerName: '防御',
       type: 'number',
       minWidth: 100,
-      valueGetter: (params: GridValueGetterParams<PokemonData>) => params.row.stats[DEFENCE_INDEX],
+      valueGetter: (params: GridValueGetterParams<PokemonData>) => params.row.baseStats.defense,
     },
     {
       field: 'sp_attack',
@@ -105,7 +97,7 @@ const BaseStatsRanking: NextPage<{ pokemonData: PokemonData[] }> = ({ pokemonDat
       type: 'number',
       minWidth: 100,
       valueGetter: (params: GridValueGetterParams<PokemonData>) => {
-        return isNotShowStats.spAttack ? '' : params.row.stats[SP_ATTACK_INDEX]
+        return isNotShowStats.spAttack ? '' : params.row.baseStats.spAttack
       },
     },
     {
@@ -113,8 +105,7 @@ const BaseStatsRanking: NextPage<{ pokemonData: PokemonData[] }> = ({ pokemonDat
       headerName: '特防',
       type: 'number',
       minWidth: 100,
-      valueGetter: (params: GridValueGetterParams<PokemonData>) =>
-        params.row.stats[SP_DEFENCE_INDEX],
+      valueGetter: (params: GridValueGetterParams<PokemonData>) => params.row.baseStats.spDefense,
     },
     {
       field: 'speed',
@@ -122,7 +113,7 @@ const BaseStatsRanking: NextPage<{ pokemonData: PokemonData[] }> = ({ pokemonDat
       type: 'number',
       minWidth: 100,
       valueGetter: (params: GridValueGetterParams<PokemonData>) => {
-        return isNotShowStats.speed ? '' : params.row.stats[SPEED_INDEX]
+        return isNotShowStats.speed ? '' : params.row.baseStats.speed
       },
     },
     {
@@ -131,20 +122,19 @@ const BaseStatsRanking: NextPage<{ pokemonData: PokemonData[] }> = ({ pokemonDat
       type: 'number',
       minWidth: 100,
       valueGetter: (params: GridValueGetterParams<PokemonData>) =>
-        calcBaseStatsTotal(params.row.stats),
+        calcBaseStatsTotal(params.row.baseStats),
     },
   ]
 
   /**
    * ポケモンの種族値の合計を計算する
    */
-  const calcBaseStatsTotal = (stats: number[]) => {
-    return stats.reduce((sum, value, index) => {
-      if (isNotShowStats.attack && index === ATTACK_INDEX) return sum
-      if (isNotShowStats.spAttack && index === SP_ATTACK_INDEX) return sum
-      if (isNotShowStats.speed && index === SPEED_INDEX) return sum
-      sum += value
-      return sum
+  const calcBaseStatsTotal = (baseStats: Stats) => {
+    return Object.entries(baseStats).reduce((sum, [key, value]) => {
+      if (isNotShowStats.attack && key === 'attack') return sum
+      if (isNotShowStats.spAttack && key === 'spAttack') return sum
+      if (isNotShowStats.speed && key === 'speed') return sum
+      return sum + value
     }, 0)
   }
 
