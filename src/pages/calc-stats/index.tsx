@@ -1,34 +1,34 @@
 import { NextPage } from 'next'
 import { CalcStatsTemplate } from '@/components/templates/CalcStatsTemplate'
-import { useStatsMutators, useStatsState } from '@/store/statsState'
-import { useLevelMutators, useLevelState } from '@/store/levelState'
-import { useSelectedNatureMutators, useSelectedNatureState } from '@/store/selectedNatureState'
-import { useSelectedPokemonMutators, useSelectedPokemonState } from '@/store/selectedPokemonState'
+import { fetchPokemonBasicInfoList } from '@/utils/useStaticData'
+import { PokemonBasicInfo } from '@/types'
+import { usePokemonMutators, usePokemonState } from '@/store/pokemonState'
 
-const CalcStats: NextPage = () => {
-  const selectedPokemon = useSelectedPokemonState()
-  const { updateSelectedPokemon } = useSelectedPokemonMutators()
+export async function getStaticProps() {
+  const pokemonBasicInfoList = await fetchPokemonBasicInfoList()
+  return {
+    props: {
+      pokemonBasicInfoList,
+    },
+  }
+}
 
-  const selectedNature = useSelectedNatureState()
-  const { updateSelectedNature } = useSelectedNatureMutators()
-
-  const level = useLevelState()
-  const { updateLevel } = useLevelMutators()
-
-  const stats = useStatsState()
-  const { updateStats } = useStatsMutators()
+const CalcStats: NextPage<{ pokemonBasicInfoList: PokemonBasicInfo[] }> = ({
+  pokemonBasicInfoList,
+}) => {
+  const pokemon = usePokemonState()
+  const { updateBasicInfo, updateNature, updateLevel, updateIvs, updateEvs } = usePokemonMutators()
 
   return (
     <CalcStatsTemplate
       buttonText="投稿する"
-      selectedPokemon={selectedPokemon}
-      selectedNature={selectedNature}
-      level={level}
-      stats={stats}
-      updatePokemon={updateSelectedPokemon}
-      updateNature={updateSelectedNature}
+      pokemonBasicInfoList={pokemonBasicInfoList}
+      pokemon={pokemon}
+      updateBasicInfo={updateBasicInfo}
+      updateNature={updateNature}
       updateLevel={updateLevel}
-      updateStats={updateStats}
+      updateIvs={updateIvs}
+      updateEvs={updateEvs}
     />
   )
 }

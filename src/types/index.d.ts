@@ -1,6 +1,34 @@
+type NatureNames =
+  | 'いじっぱり'
+  | 'うっかりや'
+  | 'おくびょう'
+  | 'おだやか'
+  | 'おっとり'
+  | 'おとなしい'
+  | 'がんばりや'
+  | 'きまぐれ'
+  | 'さみしがり'
+  | 'しんちょう'
+  | 'すなお'
+  | 'ずぶとい'
+  | 'せっかち'
+  | 'なまいき'
+  | 'てれや'
+  | 'のうてんき'
+  | 'のんき'
+  | 'ひかえめ'
+  | 'まじめ'
+  | 'むじゃき'
+  | 'やんちゃ'
+  | 'ゆうかん'
+  | 'ようき'
+  | 'れいせい'
+  | 'わんぱく'
+
 export type Nature = {
-  name: string
-  stats: number[]
+  readonly name: NatureNames
+  readonly increasedStat: keyof Stats | null
+  readonly decreasedStat: keyof Stats | null
 }
 
 type Rank = 'legendary' | 'mythical' | 'mega' | 'sv'
@@ -10,7 +38,7 @@ export type RankCheckbox = {
   value: Rank
 }
 
-export type PokemonData = {
+export type PokemonBasicInfo = {
   no: number
   name: string
   form: string
@@ -19,7 +47,15 @@ export type PokemonData = {
   baseStats: Stats
 }
 
-type Stats = {
+export type Pokemon = {
+  basicInfo: PokemonBasicInfo
+  level: number | ''
+  nature: NATURE
+  ivs: NullableStats
+  evs: NullableStats
+}
+
+export type Stats = {
   hp: number
   attack: number
   defense: number
@@ -28,13 +64,15 @@ type Stats = {
   speed: number
 }
 
+export type StatsKeys = keyof Stats
+
 type Nullable<T> = {
   [K in keyof T]: T[K] | ''
 }
 
 type NullableStats = Nullable<Stats>
 
-export type Pokemon = {
+export type PokemonSummary = {
   id: number
   lv: number
   name: string

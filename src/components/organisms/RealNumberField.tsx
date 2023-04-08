@@ -1,32 +1,30 @@
 import { Box, Button, Grid, TextField } from '@mui/material'
 import { FocusEvent, KeyboardEvent, useCallback, useEffect, useRef } from 'react'
-import { Stat } from '@/types'
+import { StatsKeys } from '@/types'
 import { convertToInteger } from '@/utils/utilities'
 
 type Props = {
-  realNumber: number
-  stats: Stat[]
-  statsIndex: number
-  updateRealNumber: (value: number | '', index: number) => void
+  value: number
+  statKey: StatsKeys
+  updateRealNumber: (realNumber: number | '', statKey: StatsKeys) => void
 }
 
 export const RealNumberField = (props: Props) => {
-  const { realNumber, stats, statsIndex, updateRealNumber } = props
+  const { value, statKey, updateRealNumber } = props
 
   const realNumberRef = useRef<HTMLInputElement>()
 
   useEffect(() => {
     if (!realNumberRef || !realNumberRef.current) return
-    realNumberRef.current.value = String(realNumber)
-    // eslint-disable-next-line
-  }, [realNumber, stats[statsIndex]])
+    realNumberRef.current.value = String(value)
+  }, [value])
 
   const onBlur = useCallback(
     (e: FocusEvent<HTMLInputElement>) => {
       const formatValue = convertToInteger(e.target.value, 999)
-      updateRealNumber(formatValue, statsIndex)
+      updateRealNumber(formatValue, statKey)
     },
-    [statsIndex, updateRealNumber]
+    [statKey, updateRealNumber]
   )
 
   const onKeydown = useCallback(
@@ -35,9 +33,9 @@ export const RealNumberField = (props: Props) => {
       if (!(e.target instanceof HTMLInputElement)) return
 
       const formatValue = convertToInteger(e.target.value, 999)
-      updateRealNumber(formatValue, statsIndex)
+      updateRealNumber(formatValue, statKey)
     },
-    [statsIndex, updateRealNumber]
+    [statKey, updateRealNumber]
   )
 
   const onSelected = () => {
@@ -46,11 +44,11 @@ export const RealNumberField = (props: Props) => {
   }
 
   const incrementRealNumber = () => {
-    updateRealNumber(realNumber + 1, statsIndex)
+    updateRealNumber(value + 1, statKey)
   }
 
   const decrementRealNumber = () => {
-    updateRealNumber(realNumber - 1, statsIndex)
+    updateRealNumber(value - 1, statKey)
   }
 
   const calcButtonStyle = {
@@ -63,13 +61,32 @@ export const RealNumberField = (props: Props) => {
     },
   }
 
+  const getStatName = () => {
+    switch (statKey) {
+      case 'hp':
+        return 'ＨＰ'
+      case 'attack':
+        return 'こうげき'
+      case 'defense':
+        return 'ぼうぎょ'
+      case 'spAttack':
+        return 'とくこう'
+      case 'spDefense':
+        return 'とくぼう'
+      case 'speed':
+        return 'すばやさ'
+    }
+  }
+
+  const statName = getStatName()
+
   return (
     <Grid item xs={5} sx={{ pl: { xs: 2, sm: 3 }, display: 'flex' }}>
       <TextField
-        id={`real-number-${stats[statsIndex].name}`}
+        id={`real-number-${statName}`}
         type="tel"
-        label={stats[statsIndex].name}
-        defaultValue={realNumber}
+        label={statName}
+        defaultValue={value}
         inputRef={realNumberRef}
         onBlur={onBlur}
         onKeyDown={onKeydown}

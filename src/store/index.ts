@@ -1,7 +1,7 @@
 import { atom } from 'recoil'
-import { Nature, PokemonData } from '../types'
+import { Nature, PokemonBasicInfo } from '../types'
 
-export const pokemonDataState = atom<PokemonData[]>({
+export const pokemonDataState = atom<PokemonBasicInfo[]>({
   key: 'pokemonDataState',
   default: [],
 })

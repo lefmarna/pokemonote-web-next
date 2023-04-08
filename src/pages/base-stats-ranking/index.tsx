@@ -1,22 +1,24 @@
 import React, { useState } from 'react'
 import { Container, Grid, Typography, Checkbox, FormControlLabel } from '@mui/material'
-import { PokemonData, RankCheckbox, Stats } from '@/types/index'
+import { PokemonBasicInfo, RankCheckbox, Stats } from '@/types/index'
 import { DataGrid, GridSortModel, GridValueGetterParams, jaJP } from '@mui/x-data-grid'
 import { Title } from '@/components/molecules/Title'
 import { Meta } from '@/components/organisms/Meta'
-import { fetchPokemonData } from '@/utils/useStaticData'
+import { fetchPokemonBasicInfoList } from '@/utils/useStaticData'
 import { NextPage } from 'next'
 
 export async function getStaticProps() {
-  const pokemonData = await fetchPokemonData()
+  const pokemonBasicInfoList = await fetchPokemonBasicInfoList()
   return {
     props: {
-      pokemonData,
+      pokemonBasicInfoList,
     },
   }
 }
 
-const BaseStatsRanking: NextPage<{ pokemonData: PokemonData[] }> = ({ pokemonData }) => {
+const BaseStatsRanking: NextPage<{ pokemonBasicInfoList: PokemonBasicInfo[] }> = ({
+  pokemonBasicInfoList,
+}) => {
   // 【特別なポケモンを表示する】
   const [isShowRanks, setIsShowRanks] = useState({
     legendary: false,
@@ -46,7 +48,7 @@ const BaseStatsRanking: NextPage<{ pokemonData: PokemonData[] }> = ({ pokemonDat
   ]
 
   const filteredPokemonList = () => {
-    return pokemonData.filter((pokemon) =>
+    return pokemonBasicInfoList.filter((pokemon) =>
       ranksCheckboxes.every((checkbox) => {
         if (isShowRanks[checkbox.value]) return true
         if (checkbox.value !== 'sv') return !pokemon.ranks.includes(checkbox.value)
@@ -73,14 +75,14 @@ const BaseStatsRanking: NextPage<{ pokemonData: PokemonData[] }> = ({ pokemonDat
       headerName: 'ＨＰ',
       type: 'number',
       minWidth: 100,
-      valueGetter: (params: GridValueGetterParams<PokemonData>) => params.row.baseStats.hp,
+      valueGetter: (params: GridValueGetterParams<PokemonBasicInfo>) => params.row.baseStats.hp,
     },
     {
       field: 'attack',
       headerName: '攻撃',
       type: 'number',
       minWidth: 100,
-      valueGetter: (params: GridValueGetterParams<PokemonData>) => {
+      valueGetter: (params: GridValueGetterParams<PokemonBasicInfo>) => {
         return isNotShowStats.attack ? '' : params.row.baseStats.attack
       },
     },
@@ -89,14 +91,15 @@ const BaseStatsRanking: NextPage<{ pokemonData: PokemonData[] }> = ({ pokemonDat
       headerName: '防御',
       type: 'number',
       minWidth: 100,
-      valueGetter: (params: GridValueGetterParams<PokemonData>) => params.row.baseStats.defense,
+      valueGetter: (params: GridValueGetterParams<PokemonBasicInfo>) =>
+        params.row.baseStats.defense,
     },
     {
       field: 'sp_attack',
       headerName: '特攻',
       type: 'number',
       minWidth: 100,
-      valueGetter: (params: GridValueGetterParams<PokemonData>) => {
+      valueGetter: (params: GridValueGetterParams<PokemonBasicInfo>) => {
         return isNotShowStats.spAttack ? '' : params.row.baseStats.spAttack
       },
     },
@@ -105,14 +108,15 @@ const BaseStatsRanking: NextPage<{ pokemonData: PokemonData[] }> = ({ pokemonDat
       headerName: '特防',
       type: 'number',
       minWidth: 100,
-      valueGetter: (params: GridValueGetterParams<PokemonData>) => params.row.baseStats.spDefense,
+      valueGetter: (params: GridValueGetterParams<PokemonBasicInfo>) =>
+        params.row.baseStats.spDefense,
     },
     {
       field: 'speed',
       headerName: '素早',
       type: 'number',
       minWidth: 100,
-      valueGetter: (params: GridValueGetterParams<PokemonData>) => {
+      valueGetter: (params: GridValueGetterParams<PokemonBasicInfo>) => {
         return isNotShowStats.speed ? '' : params.row.baseStats.speed
       },
     },
@@ -121,7 +125,7 @@ const BaseStatsRanking: NextPage<{ pokemonData: PokemonData[] }> = ({ pokemonDat
       headerName: '合計',
       type: 'number',
       minWidth: 100,
-      valueGetter: (params: GridValueGetterParams<PokemonData>) =>
+      valueGetter: (params: GridValueGetterParams<PokemonBasicInfo>) =>
         calcBaseStatsTotal(params.row.baseStats),
     },
   ]
@@ -138,7 +142,7 @@ const BaseStatsRanking: NextPage<{ pokemonData: PokemonData[] }> = ({ pokemonDat
     }, 0)
   }
 
-  const getRowId = (row: PokemonData) => row.name
+  const getRowId = (row: PokemonBasicInfo) => row.name
 
   const [sortModel, setSortModel] = useState<GridSortModel>([
     {

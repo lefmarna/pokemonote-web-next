@@ -1,12 +1,7 @@
-import { Nature, PokemonData } from '@/types'
+import { PokemonBasicInfo } from '@/types'
 import axios from 'axios'
 
-export const fetchPokemonData = async () => {
-  const response = await axios.get<{ data: PokemonData[] }>('/static/pokemon-data')
-  return response.data.data
-}
-
-export const fetchNatureData = async () => {
-  const response = await axios.get<{ data: Nature[] }>('/static/nature-data')
+export const fetchPokemonBasicInfoList = async () => {
+  const response = await axios.get<{ data: PokemonBasicInfo[] }>('/static/pokemon-data')
   return response.data.data
 }

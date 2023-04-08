@@ -1,19 +1,19 @@
 import { Grid, TextField } from '@mui/material'
 import { Box } from '@mui/system'
 import { ChangeEvent, MouseEvent, useRef } from 'react'
-import { Stat } from '@/types'
+import { NullableStats, StatsKeys } from '@/types'
 import { MAX_EV } from '@/utils/constants'
 import { convertToInteger } from '@/utils/utilities'
 import { CalcButton } from '@/components/molecules/CalcButton'
 
 type Props = {
-  stats: Stat[]
-  statsIndex: number
-  updateEffortValue: (value: number | '', index: number) => void
+  value: number | ''
+  statKey: StatsKeys
+  updateEvs: (newIvs: Partial<NullableStats>) => void
 }
 
 export const EffortValueField = (props: Props) => {
-  const { stats, statsIndex, updateEffortValue } = props
+  const { value, statKey, updateEvs } = props
 
   const effortValueRef = useRef<HTMLInputElement>()
 
@@ -24,12 +24,12 @@ export const EffortValueField = (props: Props) => {
 
   const onChange = (event: ChangeEvent<HTMLInputElement>) => {
     const formatValue = convertToInteger(event.target.value, MAX_EV)
-    updateEffortValue(formatValue, statsIndex)
+    updateEvs({ [statKey]: formatValue })
   }
 
   const onClickCalcButton = (event: MouseEvent<HTMLElement>, effortValue: number) => {
     const formatValue = effortValue !== 0 ? effortValue : ''
-    updateEffortValue(formatValue, statsIndex)
+    updateEvs({ [statKey]: formatValue })
   }
 
   const calcButtonStyle = {
@@ -48,7 +48,7 @@ export const EffortValueField = (props: Props) => {
         type="tel"
         label="努力値"
         placeholder="0"
-        value={stats[statsIndex].effortValue}
+        value={value}
         inputRef={effortValueRef}
         onClick={onSelected}
         onChange={onChange}

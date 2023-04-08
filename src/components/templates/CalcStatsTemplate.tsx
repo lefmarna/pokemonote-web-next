@@ -1,18 +1,12 @@
 import { Container, Grid } from '@mui/material'
 import { useCallback, useMemo, useState } from 'react'
-import { Nature, PokemonData, Stat } from '@/types'
+import { Nature, NullableStats, Pokemon, PokemonBasicInfo, StatsKeys } from '@/types'
 import {
-  ATTACK_INDEX,
-  DEFENCE_INDEX,
-  HP_INDEX,
   LOWER_NATURE,
   MAX_EV,
   MAX_REAL_NUMBER,
   MAX_TOTAL_EV,
   MIN_LEVEL,
-  SPEED_INDEX,
-  SP_ATTACK_INDEX,
-  SP_DEFENCE_INDEX,
   UPPER_NATURE,
 } from '@/utils/constants'
 import { convertToInteger, numberToInt, valueVerification } from '@/utils/utilities'
@@ -24,49 +18,49 @@ import { RealNumberField } from '@/components/organisms/RealNumberField'
 import { StatsTableHeader } from '@/components/organisms/StatsTableHeader'
 
 type Props = {
+  pokemonBasicInfoList: PokemonBasicInfo[]
+  pokemon: Pokemon
   buttonText: string
-  selectedPokemon: PokemonData
-  selectedNature: Nature
-  level: number | ''
-  stats: Stat[]
-  updatePokemon: (pokemon: PokemonData) => void
+  updateBasicInfo: (pokemon: PokemonBasicInfo) => void
   updateNature: (nature: Nature) => void
   updateLevel: (level: number | '') => void
-  updateStats: (stats: Stat[]) => void
+  updateIvs: (newIvs: Partial<NullableStats>) => void
+  updateEvs: (newEvs: Partial<NullableStats>) => void
 }
 
 export const CalcStatsTemplate = (props: Props) => {
   const {
+    pokemonBasicInfoList,
+    pokemon,
     buttonText,
-    selectedPokemon,
-    selectedNature,
-    stats,
-    level,
-    updatePokemon,
+    updateBasicInfo,
     updateNature,
     updateLevel,
-    updateStats,
+    updateIvs,
+    updateEvs,
   } = props
 
   const [description, setDescription] = useState('')
 
+  const statsKeys: StatsKeys[] = ['hp', 'attack', 'defense', 'spAttack', 'spDefense', 'speed']
+
   const getStat = useMemo(
     () =>
-      (index: number, tmpEv = 0): number => {
-        const formatLv = numberToInt(Number(level), 1)
-        const formatIndividualValue = numberToInt(stats[index].individualValue)
+      (statKey: StatsKeys, tmpEv = 0): number => {
+        const formatLv = numberToInt(Number(pokemon.level), 1)
+        const formatIndividualValue = numberToInt(pokemon.ivs[statKey])
         let formatEffortValue = 0
         // 耐久調整ボタンから呼び出した場合は、仮の努力値を代入する
         if (tmpEv) {
           formatEffortValue = tmpEv
         } else {
-          formatEffortValue = numberToInt(stats[index].effortValue)
+          formatEffortValue = numberToInt(pokemon.evs[statKey])
         }
-        if (index === HP_INDEX) {
-          if (selectedPokemon.name === 'ヌケニン') return 1
+        if (statKey === 'hp') {
+          if (pokemon.basicInfo.name === 'ヌケニン') return 1
           return (
             Math.floor(
-              ((selectedPokemon.stats[index] * 2 +
+              ((pokemon.basicInfo.baseStats[statKey] * 2 +
                 formatIndividualValue +
                 Math.floor(formatEffortValue / 4)) *
                 formatLv) /
@@ -78,124 +72,98 @@ export const CalcStatsTemplate = (props: Props) => {
         } else {
           return Math.floor(
             (Math.floor(
-              ((selectedPokemon.stats[index] * 2 +
+              ((pokemon.basicInfo.baseStats[statKey] * 2 +
                 formatIndividualValue +
                 Math.floor(formatEffortValue / 4)) *
                 formatLv) /
                 100
             ) +
               5) *
-              selectedNature.stats[index]
+              getNatureModifier(statKey, pokemon.nature)
           )
         }
       },
-    [level, stats, selectedNature.stats, selectedPokemon.name, selectedPokemon.stats]
+    [
+      pokemon.basicInfo.baseStats,
+      pokemon.basicInfo.name,
+      pokemon.evs,
+      pokemon.ivs,
+      pokemon.level,
+      pokemon.nature,
+    ]
   )
+
+  /**
+   * 性格補正値を取得する
+   */
+  const getNatureModifier = (stat: StatsKeys, nature: Nature) => {
+    switch (stat) {
+      case nature.increasedStat:
+        return 1.1
+      case nature.decreasedStat:
+        return 0.9
+      default:
+        return 1
+    }
+  }
+
+  const getStatsInitial = (statKey: StatsKeys) => {
+    switch (statKey) {
+      case 'hp':
+        return 'H'
+      case 'attack':
+        return 'A'
+      case 'defense':
+        return 'B'
+      case 'spAttack':
+        return 'C'
+      case 'spDefense':
+        return 'D'
+      case 'speed':
+        return 'S'
+    }
+  }
 
   /**
    * 実数値は努力値の更新による自動計算によって求めるため、直接代入してはいけない。
    */
-  const realNumbers = useMemo(
-    () => [
-      getStat(HP_INDEX),
-      getStat(ATTACK_INDEX),
-      getStat(DEFENCE_INDEX),
-      getStat(SP_ATTACK_INDEX),
-      getStat(SP_DEFENCE_INDEX),
-      getStat(SPEED_INDEX),
-    ],
-    [getStat]
-  )
-
-  /**
-   * 個体値を更新する
-   *
-   * @param {number | ''} individualValue 個体値
-   * @param {number} statsIndex ステータス番号
-   * @return {void}
-   */
-  const updateIndividualValue = (individualValue: number | '', statsIndex: number) => {
-    const newStats = stats.map((stat, index) => {
-      if (index === statsIndex) {
-        return { ...stat, individualValue }
-      }
-      return stat
-    })
-    updateStats(newStats)
-  }
-
-  /**
-   * 努力値を更新する
-   *
-   * @param {number | ''} effortValue 努力値
-   * @param {number} statsIndex ステータス番号
-   * @return {void}
-   */
-  const updateEffortValue = (effortValue: number | '', statsIndex: number) => {
-    const newStats = stats.map((stat, index) => {
-      if (index === statsIndex) {
-        return { ...stat, effortValue }
-      }
-      return stat
-    })
-    updateStats(newStats)
-  }
-
-  type EffortValue = {
-    index: number
-    value: number | ''
-  }
-
-  /**
-   * 努力値を更新する
-   *
-   * @param {number | ''} effortValue 努力値
-   * @param {number} statsIndex ステータス番号
-   * @return {void}
-   */
-  const updateEffortValues = (effortValues: EffortValue[]) => {
-    const newStats = stats.map((stat, index) => {
-      const targetStat = effortValues.find((effortValue) => effortValue.index === index)
-      if (!targetStat) return stat
-
-      if (index === targetStat.index) {
-        return { ...stat, effortValue: targetStat.value }
-      }
-      return stat
-    })
-    updateStats(newStats)
-  }
+  const realNumbers = useMemo(() => {
+    return {
+      hp: getStat('hp'),
+      attack: getStat('attack'),
+      defense: getStat('defense'),
+      spAttack: getStat('spAttack'),
+      spDefense: getStat('spDefense'),
+      speed: getStat('speed'),
+    }
+  }, [getStat])
 
   /**
    * 実数値から努力値を求める
-   *
-   * @param {number|''} realNumber 実数値
-   * @param {number} statsIndex ステータス番号
-   * @return {number|''} 努力値
    */
-  const getEffortValue = (realNumber: number | '', statsIndex: number) => {
+  const getEffortValue = (realNumber: number | '', statKey: StatsKeys) => {
     let setValue = Number(convertToInteger(realNumber, MAX_REAL_NUMBER, false))
-    const formatLv = numberToInt(level, MIN_LEVEL)
-    const formatIndividualValue = numberToInt(stats[statsIndex].individualValue)
+    const formatLv = numberToInt(pokemon.level, MIN_LEVEL)
+    const formatIndividualValue = numberToInt(pokemon.ivs[statKey])
 
     // HPのみ計算式が異なる
-    if (statsIndex === HP_INDEX) {
+    if (statKey === 'hp') {
       setValue =
         (Math.ceil(((setValue - formatLv - 10) * 100) / formatLv) -
-          selectedPokemon.stats[statsIndex] * 2 -
+          pokemon.basicInfo.baseStats[statKey] * 2 -
           formatIndividualValue) *
         4
     }
     // HP以外の計算では、性格補正を修正してから努力値の逆算を行う必要がある
-    if (statsIndex !== HP_INDEX) {
-      const effortValue = numberToInt(stats[statsIndex].effortValue)
-      const selectedNatureStat = selectedNature.stats[statsIndex]
+    if (statKey !== 'hp') {
+      const effortValue = numberToInt(pokemon.evs[statKey])
+      const selectedNatureStat = getNatureModifier(statKey, pokemon.nature)
       if (setValue % 11 === 10 && selectedNatureStat === UPPER_NATURE) {
         if (
           setValue >=
           Math.floor(
             (Math.floor(
-              ((selectedPokemon.stats[statsIndex] * 2 +
+              ((pokemon.basicInfo.baseStats[statKey] * 2 +
                 formatIndividualValue +
                 Math.floor(effortValue / 4)) *
                 formatLv) /
@@ -217,7 +185,7 @@ export const CalcStatsTemplate = (props: Props) => {
       }
       setValue =
         (Math.ceil(((setValue - 5) * 100) / formatLv) -
-          selectedPokemon.stats[statsIndex] * 2 -
+          pokemon.basicInfo.baseStats[statKey] * 2 -
           formatIndividualValue) *
         4
     }
@@ -225,79 +193,43 @@ export const CalcStatsTemplate = (props: Props) => {
     return valueVerification(setValue, MAX_EV)
   }
 
-  const updateRealNumber = (realNumber: number | '', statsIndex: number) => {
-    const newStats = stats.map((stat, index) => {
-      if (index === statsIndex) {
-        // FIXME 何故か型を明示的に書かないとエラーになる
-        const effortValue: number | '' = getEffortValue(realNumber, statsIndex)
-        return {
-          ...stat,
-          effortValue,
-        }
-      }
-      return stat
-    })
-    updateStats(newStats)
-  }
-
-  type RealNumber = {
-    index: number
-    value: number | ''
-  }
-
-  const updateRealNumbers = (realNumbers: RealNumber[]) => {
-    const newStats = stats.map((stat, index) => {
-      const targetRealNumber = realNumbers.find((realNumber) => realNumber.index === index)
-      if (!targetRealNumber) return stat
-
-      if (index === targetRealNumber.index) {
-        // FIXME 何故か型を明示的に書かないとエラーになる
-        const effortValue: number | '' = getEffortValue(
-          targetRealNumber.value,
-          targetRealNumber.index
-        )
-        return {
-          ...stat,
-          effortValue,
-        }
-      }
-      return stat
-    })
-    updateStats(newStats)
+  const updateRealNumber = (realNumber: number | '', statKey: StatsKeys) => {
+    const newEv = getEffortValue(realNumber, statKey)
+    updateEvs({ [statKey]: newEv })
   }
 
   // 種族値の合計値を計算する
   const totalBaseStats = useCallback(() => {
-    return Object.values(selectedPokemon.stats).reduce((sum, stat) => {
+    return Object.values(pokemon.basicInfo.baseStats).reduce((sum, stat) => {
       sum += stat
       return sum
     }, 0)
-  }, [selectedPokemon.stats])
+  }, [pokemon.basicInfo.baseStats])
 
   // 個体値の合計値を計算する
   const totalIv = useCallback(() => {
-    return stats.reduce((sum, stat) => {
-      sum += numberToInt(stat.individualValue)
+    return statsKeys.reduce((sum, statKey) => {
+      sum += numberToInt(pokemon.ivs[statKey])
       return sum
     }, 0)
-  }, [stats])
+  }, [pokemon.ivs, statsKeys])
 
   // 努力値の合計値を計算する
   const totalEv = useCallback(() => {
-    return stats.reduce((sum, stat) => {
-      sum += numberToInt(stat.effortValue)
+    return statsKeys.reduce((sum, stat) => {
+      sum += numberToInt(pokemon.evs[stat])
       return sum
     }, 0)
-  }, [stats])
+  }, [pokemon.evs, statsKeys])
 
   const totalStats = useCallback(() => {
     return (
-      realNumbers[HP_INDEX] +
-      realNumbers[ATTACK_INDEX] +
-      realNumbers[DEFENCE_INDEX] +
-      realNumbers[SP_ATTACK_INDEX] +
-      realNumbers[SP_DEFENCE_INDEX] +
-      realNumbers[SPEED_INDEX]
+      realNumbers.hp +
+      realNumbers.attack +
+      realNumbers.defense +
+      realNumbers.spAttack +
+      realNumbers.spDefense +
+      realNumbers.speed
     )
   }, [realNumbers])
 
@@ -309,9 +241,9 @@ export const CalcStatsTemplate = (props: Props) => {
     // 攻撃、特攻、素早さの努力値を除いた値を求める
     const remainderEffortValue =
       MAX_TOTAL_EV -
-      Number(stats[ATTACK_INDEX].effortValue) -
-      Number(stats[SP_ATTACK_INDEX].effortValue) -
-      Number(stats[SPEED_INDEX].effortValue)
+      Number(pokemon.evs.attack) -
+      Number(pokemon.evs.spAttack) -
+      Number(pokemon.evs.speed)
 
     // 計算に使う努力値を一時的に格納しておくための変数
     let tmpHpEV = remainderEffortValue // HPから順に計算していくので、最初に余りの努力値をそのまま代入している
@@ -339,28 +271,30 @@ export const CalcStatsTemplate = (props: Props) => {
     // 計算スタイルが H=B+D の際に、BとDの差分を比較するのに用いる変数
     let tmpDiff: number | null = null
 
-    updateEffortValue('', HP_INDEX)
-    updateEffortValue('', DEFENCE_INDEX)
-    updateEffortValue('', SP_DEFENCE_INDEX)
+    updateEvs({
+      hp: '',
+      defense: '',
+      spDefense: '',
+    })
 
     // 努力値の余りが最大値より大きかった場合、スタートであるHPの仮努力値を最大値とする
     if (tmpHpEV > MAX_EV) tmpHpEV = MAX_EV
 
     // HP→特防→防御の順に総当たりで計算していく
     while (tmpHpEV >= 0) {
-      tmpHp = getStat(HP_INDEX, tmpHpEV) // HPの努力値からHPの実数値を計算
+      tmpHp = getStat('hp', tmpHpEV) // HPの努力値からHPの実数値を計算
       tmpSpDefenceEV = remainderEffortValue - tmpHpEV
       if (tmpSpDefenceEV > MAX_EV) {
         tmpSpDefenceEV = MAX_EV
       }
       // 防御より先に特防を計算することで、端数が出た場合に特防に割り振られるようになる(ダウンロード対策でB<Dのほうが好まれることから、このような仕様にしている)
       while (tmpSpDefenceEV >= 0) {
-        tmpSpDefence = getStat(SP_DEFENCE_INDEX, tmpSpDefenceEV) // 特防の努力値から特防の実数値を計算
+        tmpSpDefence = getStat('spDefense', tmpSpDefenceEV) // 特防の努力値から特防の実数値を計算
         tmpDefenceEV = remainderEffortValue - tmpHpEV - tmpSpDefenceEV
         // 防御の仮努力値が最大値を超えてしまう場合には値を更新しない
         if (tmpDefenceEV > MAX_EV) break
 
-        tmpDefence = getStat(DEFENCE_INDEX, tmpDefenceEV) // 防御の努力値から防御の実数値を計算
+        tmpDefence = getStat('defense', tmpDefenceEV) // 防御の努力値から防御の実数値を計算
 
         // 耐久補正込での耐久値を求める
         tmpDefenceEnhancement = Math.floor(tmpDefence * selectDefenceEnhancement)
@@ -400,20 +334,11 @@ export const CalcStatsTemplate = (props: Props) => {
       tmpHpEV--
     }
     // 最も優秀だった結果を代入する
-    updateRealNumbers([
-      {
-        index: HP_INDEX,
-        value: resultHp,
-      },
-      {
-        index: DEFENCE_INDEX,
-        value: resultDefence,
-      },
-      {
-        index: SP_DEFENCE_INDEX,
-        value: resultSpDefence,
-      },
-    ])
+    updateEvs({
+      hp: getEffortValue(resultHp, 'hp'),
+      defense: getEffortValue(resultDefence, 'defense'),
+      spDefense: getEffortValue(resultSpDefence, 'spDefense'),
+    })
   }
 
   return (
@@ -421,34 +346,31 @@ export const CalcStatsTemplate = (props: Props) => {
       <Grid container spacing={{ md: 4, lg: 8, xl: 12 }} columns={{ xs: 9, md: 18 }}>
         <Grid item md={9} xs={18}>
           <StatsTableHeader
-            selectedPokemon={selectedPokemon}
-            selectedNature={selectedNature}
-            level={level}
-            updatePokemon={updatePokemon}
+            pokemon={pokemon}
+            updateBasicInfo={updateBasicInfo}
             updateNature={updateNature}
             updateLevel={updateLevel}
           />
-          {stats.map((stat, index) => (
-            <Grid container columns={18} key={stat.name} sx={{ mt: 1 }}>
+          {statsKeys.map((statKey) => (
+            <Grid container columns={18} key={statKey} sx={{ mt: 1 }}>
               <BaseStatsField
-                baseStat={selectedPokemon.stats[index]}
-                statsInitial={stat.initial}
-                natureStat={selectedNature.stats[index]}
+                value={pokemon.basicInfo.baseStats[statKey]}
+                statsInitial={getStatsInitial(statKey)}
+                natureStat={getNatureModifier(statKey, pokemon.nature)}
               />
               <IndividualValueField
-                stats={stats}
-                statsIndex={index}
-                updateIndividualValue={updateIndividualValue}
+                value={pokemon.ivs[statKey]}
+                statKey={statKey}
+                updateIvs={updateIvs}
               />
               <EffortValueField
-                stats={stats}
-                statsIndex={index}
-                updateEffortValue={updateEffortValue}
+                value={pokemon.evs[statKey]}
+                statKey={statKey}
+                updateEvs={updateEvs}
               />
               <RealNumberField
-                realNumber={realNumbers[index]}
-                stats={stats}
-                statsIndex={index}
+                value={realNumbers[statKey]}
+                statKey={statKey}
                 updateRealNumber={updateRealNumber}
               />
             </Grid>
@@ -473,9 +395,7 @@ export const CalcStatsTemplate = (props: Props) => {
             description={description}
             buttonText={buttonText}
             realNumbers={realNumbers}
-            stats={stats}
-            updateEffortValue={updateEffortValue}
-            updateEffortValues={updateEffortValues}
+            updateEvs={updateEvs}
             durabilityAdjustment={durabilityAdjustment}
           />
         </Grid>
