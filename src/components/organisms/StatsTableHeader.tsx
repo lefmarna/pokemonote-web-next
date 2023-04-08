@@ -1,9 +1,10 @@
 import { Grid } from '@mui/material'
 import { useRecoilValue } from 'recoil'
-import { natureDataState, pokemonDataState } from '@/store'
+import { pokemonDataState } from '@/store'
 import { Nature, Pokemon, PokemonBasicInfo } from '@/types'
 import { SearchField } from '@/components/molecules/SearchField'
 import { LvField } from './LvField'
+import { NATURES } from '@/utils/constants'
 
 type Props = {
   pokemon: Pokemon
@@ -15,7 +16,6 @@ type Props = {
 export const StatsTableHeader = (props: Props) => {
   const { pokemon, updateBasicInfo, updateNature, updateLevel } = props
   const pokemonData = useRecoilValue(pokemonDataState)
-  const natureData = useRecoilValue(natureDataState)
 
   const onChangeSelectedPokemon = (value: PokemonBasicInfo | null) => {
     if (value === null) return
@@ -42,7 +42,7 @@ export const StatsTableHeader = (props: Props) => {
         </Grid>
         <Grid item xs={8} sx={{ pl: 3 }}>
           <SearchField
-            options={natureData}
+            options={NATURES}
             label="性格"
             itemName="性格"
             setState={onChangeSelectedNature}

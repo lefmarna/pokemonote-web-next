@@ -49,18 +49,18 @@ export const NATURES: Nature[] = [
   },
   {
     name: 'おだやか',
-    increasedStat: 'attack',
-    decreasedStat: 'spDefense',
+    increasedStat: 'spDefense',
+    decreasedStat: 'attack',
   },
   {
     name: 'おっとり',
-    increasedStat: 'defense',
-    decreasedStat: 'spAttack',
+    increasedStat: 'spAttack',
+    decreasedStat: 'defense',
   },
   {
     name: 'おとなしい',
-    increasedStat: 'defense',
-    decreasedStat: 'spDefense',
+    increasedStat: 'spDefense',
+    decreasedStat: 'defense',
   },
   {
     name: 'がんばりや',
@@ -89,13 +89,13 @@ export const NATURES: Nature[] = [
   },
   {
     name: 'ずぶとい',
-    increasedStat: 'attack',
-    decreasedStat: 'defense',
+    increasedStat: 'defense',
+    decreasedStat: 'attack',
   },
   {
     name: 'せっかち',
-    increasedStat: 'defense',
-    decreasedStat: 'speed',
+    increasedStat: 'speed',
+    decreasedStat: 'defense',
   },
   {
     name: 'なまいき',
