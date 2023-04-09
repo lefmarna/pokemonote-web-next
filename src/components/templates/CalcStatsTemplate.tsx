@@ -1,6 +1,6 @@
 import { Container, Grid } from '@mui/material'
 import { useCallback, useMemo, useState } from 'react'
-import { Nature, NullableStats, Pokemon, PokemonBasicInfo, StatsKeys } from '@/types'
+import { Nature, NullableStats, Pokemon, PokemonBasicInfo, StatsKey } from '@/types'
 import {
   LOWER_NATURE,
   MAX_EV,
@@ -18,7 +18,6 @@ import { RealNumberField } from '@/components/organisms/RealNumberField'
 import { StatsTableHeader } from '@/components/organisms/StatsTableHeader'
 
 type Props = {
-  pokemonBasicInfoList: PokemonBasicInfo[]
   pokemon: Pokemon
   buttonText: string
   updateBasicInfo: (pokemon: PokemonBasicInfo) => void
@@ -29,24 +28,14 @@ type Props = {
 }
 
 export const CalcStatsTemplate = (props: Props) => {
-  const {
-    pokemonBasicInfoList,
-    pokemon,
-    buttonText,
-    updateBasicInfo,
-    updateNature,
-    updateLevel,
-    updateIvs,
-    updateEvs,
-  } = props
+  const { pokemon, buttonText, updateBasicInfo, updateNature, updateLevel, updateIvs, updateEvs } =
+    props
 
   const [description, setDescription] = useState('')
 
-  const statsKeys: StatsKeys[] = ['hp', 'attack', 'defense', 'spAttack', 'spDefense', 'speed']
-
   const getStat = useMemo(
     () =>
-      (statKey: StatsKeys, tmpEv = 0): number => {
+      (statKey: StatsKey, tmpEv = 0): number => {
         const formatLv = numberToInt(Number(pokemon.level), 1)
         const formatIndividualValue = numberToInt(pokemon.ivs[statKey])
         let formatEffortValue = 0
@@ -96,7 +85,7 @@ export const CalcStatsTemplate = (props: Props) => {
   /**
    * 性格補正値を取得する
    */
-  const getNatureModifier = (stat: StatsKeys, nature: Nature) => {
+  const getNatureModifier = (stat: StatsKey, nature: Nature) => {
     switch (stat) {
       case nature.increasedStat:
         return 1.1
@@ -107,7 +96,7 @@ export const CalcStatsTemplate = (props: Props) => {
     }
   }
 
-  const getStatsInitial = (statKey: StatsKeys) => {
+  const getStatsInitial = (statKey: StatsKey) => {
     switch (statKey) {
       case 'hp':
         return 'H'
@@ -141,7 +130,7 @@ export const CalcStatsTemplate = (props: Props) => {
   /**
    * 実数値から努力値を求める
    */
-  const getEffortValue = (realNumber: number | '', statKey: StatsKeys) => {
+  const getEffortValue = (realNumber: number | '', statKey: StatsKey) => {
     let setValue = Number(convertToInteger(realNumber, MAX_REAL_NUMBER, false))
     const formatLv = numberToInt(pokemon.level, MIN_LEVEL)
     const formatIndividualValue = numberToInt(pokemon.ivs[statKey])
@@ -193,7 +182,7 @@ export const CalcStatsTemplate = (props: Props) => {
     return valueVerification(setValue, MAX_EV)
   }
 
-  const updateRealNumber = (realNumber: number | '', statKey: StatsKeys) => {
+  const updateRealNumber = (realNumber: number | '', statKey: StatsKey) => {
     const newEv = getEffortValue(realNumber, statKey)
     updateEvs({ [statKey]: newEv })
   }

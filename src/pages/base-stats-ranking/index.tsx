@@ -4,21 +4,12 @@ import { PokemonBasicInfo, RankCheckbox, Stats } from '@/types/index'
 import { DataGrid, GridSortModel, GridValueGetterParams, jaJP } from '@mui/x-data-grid'
 import { Title } from '@/components/molecules/Title'
 import { Meta } from '@/components/organisms/Meta'
-import { fetchPokemonBasicInfoList } from '@/utils/useStaticData'
 import { NextPage } from 'next'
+import { usePokemonBasicInfosState } from '@/store/pokemonBasicInfosState copy'
 
-export async function getStaticProps() {
-  const pokemonBasicInfoList = await fetchPokemonBasicInfoList()
-  return {
-    props: {
-      pokemonBasicInfoList,
-    },
-  }
-}
+const BaseStatsRanking: NextPage = () => {
+  const pokemonBasicInfos = usePokemonBasicInfosState()
 
-const BaseStatsRanking: NextPage<{ pokemonBasicInfoList: PokemonBasicInfo[] }> = ({
-  pokemonBasicInfoList,
-}) => {
   // 【特別なポケモンを表示する】
   const [isShowRanks, setIsShowRanks] = useState({
     legendary: false,
@@ -48,7 +39,7 @@ const BaseStatsRanking: NextPage<{ pokemonBasicInfoList: PokemonBasicInfo[] }> =
   ]
 
   const filteredPokemonList = () => {
-    return pokemonBasicInfoList.filter((pokemon) =>
+    return pokemonBasicInfos.filter((pokemon) =>
       ranksCheckboxes.every((checkbox) => {
         if (isShowRanks[checkbox.value]) return true
         if (checkbox.value !== 'sv') return !pokemon.ranks.includes(checkbox.value)

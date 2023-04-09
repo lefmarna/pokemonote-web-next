@@ -25,27 +25,27 @@ type NatureNames =
   | 'れいせい'
   | 'わんぱく'
 
-export type Nature = {
-  readonly name: NatureNames
-  readonly increasedStat: keyof Stats | null
-  readonly decreasedStat: keyof Stats | null
-}
+export type Nature = Readonly<{
+  name: NatureNames
+  increasedStat: keyof Stats | null
+  decreasedStat: keyof Stats | null
+}>
 
-type Rank = 'legendary' | 'mythical' | 'mega' | 'sv'
+type Rank = 'legendary' | 'mythical' | 'mega' | 'sv' | 'NotInPokedex'
 
 export type RankCheckbox = {
   text: string
-  value: Rank
+  value: Exclude<Rank, 'NotInPokedex'>
 }
 
-export type PokemonBasicInfo = {
+export type PokemonBasicInfo = Readonly<{
   no: number
   name: string
   form: string
-  ranks: Rank[]
-  evolutions: number[]
-  baseStats: Stats
-}
+  ranks: ReadonlyArray<Rank>
+  evolutions: ReadonlyArray<number>
+  baseStats: Readonly<Stats>
+}>
 
 export type Pokemon = {
   basicInfo: PokemonBasicInfo
@@ -64,7 +64,7 @@ export type Stats = {
   speed: number
 }
 
-export type StatsKeys = keyof Stats
+export type StatsKey = keyof Stats
 
 type Nullable<T> = {
   [K in keyof T]: T[K] | ''

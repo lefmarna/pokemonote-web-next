@@ -1,14 +1,14 @@
 import { Grid, TextField } from '@mui/material'
 import { Box } from '@mui/system'
 import { ChangeEvent, MouseEvent, useRef } from 'react'
-import { NullableStats, StatsKeys } from '@/types'
+import { NullableStats, StatsKey } from '@/types'
 import { MAX_EV } from '@/utils/constants'
 import { convertToInteger } from '@/utils/utilities'
 import { CalcButton } from '@/components/molecules/CalcButton'
 
 type Props = {
   value: number | ''
-  statKey: StatsKeys
+  statKey: StatsKey
   updateEvs: (newIvs: Partial<NullableStats>) => void
 }
 

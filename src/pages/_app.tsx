@@ -1,30 +1,50 @@
 import { Box, ThemeProvider } from '@mui/material'
 import axios, { AxiosError } from 'axios'
 import { memo, useEffect, useState } from 'react'
-import { RecoilRoot, useSetRecoilState } from 'recoil'
+import { RecoilRoot } from 'recoil'
 import useSWR, { SWRConfig } from 'swr'
 import '@/styles/globals.scss'
-import { natureDataState, pokemonDataState } from '@/store'
 import { AppProps } from 'next/app'
 import { Header } from '@/components/organisms/Header'
 import { Sidebar } from '@/components/organisms/Sidebar'
 import { theme, useMediaQueryUp } from '@/utils/theme'
 import { useAuthUserMutators } from '@/store/authUserState'
 import Head from 'next/head'
+import { useNaturesMutators } from '@/store/naturesState'
+import { usePokemonBasicInfosSMutators } from '@/store/pokemonBasicInfosState copy'
+import { AuthUser, Nature, PokemonBasicInfo } from '@/types'
 
 const AppInit = memo(() => {
   const { updateAuthUser } = useAuthUserMutators()
-  const setPokemonData = useSetRecoilState(pokemonDataState)
-  const setNatureData = useSetRecoilState(natureDataState)
 
-  const { data } = useSWR('init')
+  const { updatePokemonBasicInfos } = usePokemonBasicInfosSMutators()
+  const { updateNatures } = useNaturesMutators()
+
+  const { data: loginData } = useSWR<{
+    data: {
+      auth_user: AuthUser | null
+    }
+  }>('/init/login', {
+    revalidateOnFocus: false,
+    revalidateOnReconnect: false,
+  })
+
+  const { data: StaticData } = useSWR<{
+    data: {
+      pokemon_basic_infos: PokemonBasicInfo[]
+      natures: Nature[]
+    }
+  }>('/init/fetch', {
+    revalidateOnFocus: false,
+    revalidateOnReconnect: false,
+  })
 
   useEffect(() => {
-    if (!data) return
-    updateAuthUser(data.data.auth_user)
-    setPokemonData(data.data.pokemon_data)
-    setNatureData(data.data.nature_data)
-  }, [data, updateAuthUser, setPokemonData, setNatureData])
+    if (!loginData || !StaticData) return
+    updateAuthUser(loginData.data.auth_user)
+    updatePokemonBasicInfos(StaticData.data.pokemon_basic_infos)
+    updateNatures(StaticData.data.natures)
+  }, [loginData, StaticData, updateAuthUser, updatePokemonBasicInfos, updateNatures])
 
   return <></>
 })

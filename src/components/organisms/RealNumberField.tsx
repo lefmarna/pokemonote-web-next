@@ -1,12 +1,12 @@
 import { Box, Button, Grid, TextField } from '@mui/material'
 import { FocusEvent, KeyboardEvent, useCallback, useEffect, useRef } from 'react'
-import { StatsKeys } from '@/types'
+import { StatsKey } from '@/types'
 import { convertToInteger } from '@/utils/utilities'
 
 type Props = {
   value: number
-  statKey: StatsKeys
-  updateRealNumber: (realNumber: number | '', statKey: StatsKeys) => void
+  statKey: StatsKey
+  updateRealNumber: (realNumber: number | '', statKey: StatsKey) => void
 }
 
 export const RealNumberField = (props: Props) => {
