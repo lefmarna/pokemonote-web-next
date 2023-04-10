@@ -1,5 +1,5 @@
 import { Box, Grid, TextField } from '@mui/material'
-import { ChangeEvent, MouseEvent, useRef } from 'react'
+import { ChangeEvent, memo, MouseEvent, useRef } from 'react'
 import { NullableStats, StatsKey } from '@/types'
 import { MAX_IV } from '@/utils/constants'
 import { convertToInteger } from '@/utils/utilities'
@@ -11,7 +11,7 @@ type Props = {
   updateIvs: (newIvs: Partial<NullableStats>) => void
 }
 
-export const IndividualValueField = (props: Props) => {
+export const IndividualValueField = memo((props: Props) => {
   const { value, statKey, updateIvs } = props
 
   const individualValuerRef = useRef<HTMLInputElement>()
@@ -66,4 +66,4 @@ export const IndividualValueField = (props: Props) => {
       </Box>
     </Grid>
   )
-}
+})

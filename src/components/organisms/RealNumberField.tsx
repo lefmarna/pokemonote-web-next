@@ -1,5 +1,5 @@
 import { Box, Button, Grid, TextField } from '@mui/material'
-import { FocusEvent, KeyboardEvent, useCallback, useEffect, useRef } from 'react'
+import { FocusEvent, KeyboardEvent, memo, useCallback, useEffect, useRef } from 'react'
 import { StatsKey } from '@/types'
 import { convertToInteger } from '@/utils/utilities'
 
@@ -9,7 +9,7 @@ type Props = {
   updateRealNumber: (realNumber: number | '', statKey: StatsKey) => void
 }
 
-export const RealNumberField = (props: Props) => {
+export const RealNumberField = memo((props: Props) => {
   const { value, statKey, updateRealNumber } = props
 
   const realNumberRef = useRef<HTMLInputElement>()
@@ -127,4 +127,4 @@ export const RealNumberField = (props: Props) => {
       </Box>
     </Grid>
   )
-}
+})

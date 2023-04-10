@@ -1,6 +1,6 @@
 import { Grid, TextField } from '@mui/material'
 import { Box } from '@mui/system'
-import { ChangeEvent, MouseEvent, useRef } from 'react'
+import { ChangeEvent, memo, MouseEvent, useRef } from 'react'
 import { NullableStats, StatsKey } from '@/types'
 import { MAX_EV } from '@/utils/constants'
 import { convertToInteger } from '@/utils/utilities'
@@ -12,7 +12,7 @@ type Props = {
   updateEvs: (newIvs: Partial<NullableStats>) => void
 }
 
-export const EffortValueField = (props: Props) => {
+export const EffortValueField = memo((props: Props) => {
   const { value, statKey, updateEvs } = props
 
   const effortValueRef = useRef<HTMLInputElement>()
@@ -67,4 +67,4 @@ export const EffortValueField = (props: Props) => {
       </Box>
     </Grid>
   )
-}
+})

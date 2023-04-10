@@ -1,5 +1,5 @@
 import { Container, Grid } from '@mui/material'
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useState } from 'react'
 import { Nature, NullableStats, Pokemon, PokemonBasicInfo, StatsKey } from '@/types'
 import {
   LOWER_NATURE,
@@ -33,54 +33,40 @@ export const CalcStatsTemplate = (props: Props) => {
 
   const [description, setDescription] = useState('')
 
-  const getStat = useMemo(
-    () =>
-      (statKey: StatsKey, tmpEv = 0): number => {
-        const formatLv = numberToInt(Number(pokemon.level), 1)
-        const formatIndividualValue = numberToInt(pokemon.ivs[statKey])
-        let formatEffortValue = 0
-        // 耐久調整ボタンから呼び出した場合は、仮の努力値を代入する
-        if (tmpEv) {
-          formatEffortValue = tmpEv
-        } else {
-          formatEffortValue = numberToInt(pokemon.evs[statKey])
-        }
-        if (statKey === 'hp') {
-          if (pokemon.basicInfo.name === 'ヌケニン') return 1
-          return (
-            Math.floor(
-              ((pokemon.basicInfo.baseStats[statKey] * 2 +
-                formatIndividualValue +
-                Math.floor(formatEffortValue / 4)) *
-                formatLv) /
-                100
-            ) +
-            10 +
-            formatLv
-          )
-        } else {
-          return Math.floor(
-            (Math.floor(
-              ((pokemon.basicInfo.baseStats[statKey] * 2 +
-                formatIndividualValue +
-                Math.floor(formatEffortValue / 4)) *
-                formatLv) /
-                100
-            ) +
-              5) *
-              getNatureModifier(statKey, pokemon.nature)
-          )
-        }
-      },
-    [
-      pokemon.basicInfo.baseStats,
-      pokemon.basicInfo.name,
-      pokemon.evs,
-      pokemon.ivs,
-      pokemon.level,
-      pokemon.nature,
-    ]
-  )
+  const statsKeys: StatsKey[] = ['hp', 'attack', 'defense', 'spAttack', 'spDefense', 'speed']
+
+  const getStat = (statKey: StatsKey, tmpEv?: number): number => {
+    const formatLv = numberToInt(Number(pokemon.level), 1)
+    const formatIndividualValue = numberToInt(pokemon.ivs[statKey])
+    // 耐久調整ボタンから呼び出した場合は、仮の努力値を代入する
+    const formatEffortValue = tmpEv !== undefined ? tmpEv : numberToInt(pokemon.evs[statKey])
+    if (statKey === 'hp') {
+      if (pokemon.basicInfo.name === 'ヌケニン') return 1
+      return (
+        Math.floor(
+          ((pokemon.basicInfo.baseStats[statKey] * 2 +
+            formatIndividualValue +
+            Math.floor(formatEffortValue / 4)) *
+            formatLv) /
+            100
+        ) +
+        10 +
+        formatLv
+      )
+    } else {
+      return Math.floor(
+        (Math.floor(
+          ((pokemon.basicInfo.baseStats[statKey] * 2 +
+            formatIndividualValue +
+            Math.floor(formatEffortValue / 4)) *
+            formatLv) /
+            100
+        ) +
+          5) *
+          getNatureModifier(statKey, pokemon.nature)
+      )
+    }
+  }
 
   /**
    * 性格補正値を取得する
@@ -116,16 +102,14 @@ export const CalcStatsTemplate = (props: Props) => {
   /**
    * 実数値は努力値の更新による自動計算によって求めるため、直接代入してはいけない。
    */
-  const realNumbers = useMemo(() => {
-    return {
-      hp: getStat('hp'),
-      attack: getStat('attack'),
-      defense: getStat('defense'),
-      spAttack: getStat('spAttack'),
-      spDefense: getStat('spDefense'),
-      speed: getStat('speed'),
-    }
-  }, [getStat])
+  const realNumbers = {
+    hp: getStat('hp'),
+    attack: getStat('attack'),
+    defense: getStat('defense'),
+    spAttack: getStat('spAttack'),
+    spDefense: getStat('spDefense'),
+    speed: getStat('speed'),
+  }
 
   /**
    * 実数値から努力値を求める
@@ -188,30 +172,30 @@ export const CalcStatsTemplate = (props: Props) => {
   }
 
   // 種族値の合計値を計算する
-  const totalBaseStats = useCallback(() => {
+  const totalBaseStats = () => {
     return Object.values(pokemon.basicInfo.baseStats).reduce((sum, stat) => {
       sum += stat
       return sum
     }, 0)
-  }, [pokemon.basicInfo.baseStats])
+  }
 
   // 個体値の合計値を計算する
-  const totalIv = useCallback(() => {
+  const totalIv = () => {
     return statsKeys.reduce((sum, statKey) => {
       sum += numberToInt(pokemon.ivs[statKey])
       return sum
     }, 0)
-  }, [pokemon.ivs, statsKeys])
+  }
 
   // 努力値の合計値を計算する
-  const totalEv = useCallback(() => {
+  const totalEv = () => {
     return statsKeys.reduce((sum, stat) => {
       sum += numberToInt(pokemon.evs[stat])
       return sum
     }, 0)
-  }, [pokemon.evs, statsKeys])
+  }
 
-  const totalStats = useCallback(() => {
+  const totalStats = () => {
     return (
       realNumbers.hp +
       realNumbers.attack +
@@ -220,7 +204,7 @@ export const CalcStatsTemplate = (props: Props) => {
       realNumbers.spDefense +
       realNumbers.speed
     )
-  }, [realNumbers])
+  }
 
   const durabilityAdjustment = (
     calcStyle: string,
@@ -259,12 +243,6 @@ export const CalcStatsTemplate = (props: Props) => {
 
     // 計算スタイルが H=B+D の際に、BとDの差分を比較するのに用いる変数
     let tmpDiff: number | null = null
-
-    updateEvs({
-      hp: '',
-      defense: '',
-      spDefense: '',
-    })
 
     // 努力値の余りが最大値より大きかった場合、スタートであるHPの仮努力値を最大値とする
     if (tmpHpEV > MAX_EV) tmpHpEV = MAX_EV
