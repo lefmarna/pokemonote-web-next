@@ -5,7 +5,7 @@ import { DataGrid, GridSortModel, GridValueGetterParams, jaJP } from '@mui/x-dat
 import { Title } from '@/components/molecules/Title'
 import { Meta } from '@/components/organisms/Meta'
 import { NextPage } from 'next'
-import { usePokemonBasicInfosState } from '@/store/pokemonBasicInfosState copy'
+import { usePokemonBasicInfosState } from '@/store/pokemonBasicInfosState'
 
 const BaseStatsRanking: NextPage = () => {
   const pokemonBasicInfos = usePokemonBasicInfosState()

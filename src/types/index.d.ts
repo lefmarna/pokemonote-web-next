@@ -1,4 +1,4 @@
-type NatureNames =
+type NatureName =
   | 'いじっぱり'
   | 'うっかりや'
   | 'おくびょう'
@@ -26,17 +26,17 @@ type NatureNames =
   | 'わんぱく'
 
 export type Nature = Readonly<{
-  name: NatureNames
-  increasedStat: keyof Stats | null
-  decreasedStat: keyof Stats | null
+  name: NatureName
+  increasedStat: StatsKey | null
+  decreasedStat: StatsKey | null
 }>
 
 type Rank = 'legendary' | 'mythical' | 'mega' | 'sv' | 'NotInPokedex'
 
-export type RankCheckbox = {
+export type RankCheckbox = Readonly<{
   text: string
   value: Exclude<Rank, 'NotInPokedex'>
-}
+}>
 
 export type PokemonBasicInfo = Readonly<{
   no: number
@@ -44,25 +44,25 @@ export type PokemonBasicInfo = Readonly<{
   form: string
   ranks: ReadonlyArray<Rank>
   evolutions: ReadonlyArray<number>
-  baseStats: Readonly<Stats>
+  baseStats: Stats
 }>
 
-export type Pokemon = {
+export type Pokemon = Readonly<{
   basicInfo: PokemonBasicInfo
   level: number | ''
-  nature: NATURE
+  nature: Nature
   ivs: NullableStats
   evs: NullableStats
-}
+}>
 
-export type Stats = {
+export type Stats = Readonly<{
   hp: number
   attack: number
   defense: number
   spAttack: number
   spDefense: number
   speed: number
-}
+}>
 
 export type StatsKey = keyof Stats
 
@@ -72,7 +72,7 @@ type Nullable<T> = {
 
 type NullableStats = Nullable<Stats>
 
-export type PokemonSummary = {
+export type PokemonSummary = Readonly<{
   id: number
   lv: number
   name: string
@@ -80,27 +80,21 @@ export type PokemonSummary = {
   stats: string
   sum_effort_value: number
   user: User
-}
-
-export type Stat = {
-  name: string
-  initial: string
-  individualValue: number | ''
-  effortValue: number | ''
-}
+}>
 
 export type LoginParams = {
   email: string
   password: string
 }
 
-export type User = {
+export type User = Readonly<{
   nickname: string
   username: string
-}
+}>
 
-export type AuthUser = User & {
-  id: number | null
-  email: string
-  email_verified_at: boolean
-}
+export type AuthUser = User &
+  Readonly<{
+    id: number | null
+    email: string
+    email_verified_at: boolean
+  }>
