@@ -63,19 +63,6 @@ export const usePokemonMutators = () => {
   )
 
   /**
-   * ポケモンの性格を更新する
-   */
-  const updateNature = useCallback(
-    (newNature: Nature) => {
-      setPokemon((prevState) => ({
-        ...prevState,
-        nature: newNature,
-      }))
-    },
-    [setPokemon]
-  )
-
-  /**
    * ポケモンの基本情報を更新する
    */
   const updateBasicInfo = useCallback(
@@ -83,6 +70,19 @@ export const usePokemonMutators = () => {
       setPokemon((prevState) => ({
         ...prevState,
         basicInfo: newBasicInfo,
+      }))
+    },
+    [setPokemon]
+  )
+
+  /**
+   * ポケモンの性格を更新する
+   */
+  const updateNature = useCallback(
+    (newNature: Nature) => {
+      setPokemon((prevState) => ({
+        ...prevState,
+        nature: newNature,
       }))
     },
     [setPokemon]

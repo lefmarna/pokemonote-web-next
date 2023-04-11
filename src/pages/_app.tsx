@@ -11,7 +11,7 @@ import { theme, useMediaQueryUp } from '@/utils/theme'
 import { useAuthUserMutators } from '@/store/authUserState'
 import Head from 'next/head'
 import { useNaturesMutators } from '@/store/naturesState'
-import { usePokemonBasicInfosSMutators } from '@/store/pokemonBasicInfosState copy'
+import { usePokemonBasicInfosSMutators } from '@/store/pokemonBasicInfosState'
 import { AuthUser, Nature, PokemonBasicInfo } from '@/types'
 
 const AppInit = memo(() => {
