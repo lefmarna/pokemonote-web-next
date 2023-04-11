@@ -1,27 +1,25 @@
 import { Grid } from '@mui/material'
-import { useRecoilValue } from 'recoil'
-import { natureDataState, pokemonDataState } from '@/store'
-import { Nature, PokemonData } from '@/types'
+import { Nature, Pokemon, PokemonBasicInfo } from '@/types'
 import { SearchField } from '@/components/molecules/SearchField'
 import { LvField } from './LvField'
+import { usePokemonBasicInfosState } from '@/store/pokemonBasicInfosState copy'
+import { useNaturesState } from '@/store/naturesState'
 
 type Props = {
-  selectedPokemon: PokemonData
-  selectedNature: Nature
-  level: number | ''
-  updatePokemon: (pokemon: PokemonData) => void
+  pokemon: Pokemon
+  updateBasicInfo: (pokemon: PokemonBasicInfo) => void
   updateNature: (nature: Nature) => void
   updateLevel: (level: number | '') => void
 }
 
 export const StatsTableHeader = (props: Props) => {
-  const { selectedPokemon, selectedNature, level, updatePokemon, updateNature, updateLevel } = props
-  const pokemonData = useRecoilValue(pokemonDataState)
-  const natureData = useRecoilValue(natureDataState)
+  const { pokemon, updateBasicInfo, updateNature, updateLevel } = props
+  const pokemonBasicInfos = usePokemonBasicInfosState()
+  const natures = useNaturesState()
 
-  const onChangeSelectedPokemon = (value: PokemonData | null) => {
+  const onChangeSelectedPokemon = (value: PokemonBasicInfo | null) => {
     if (value === null) return
-    updatePokemon(value)
+    updateBasicInfo(value)
   }
 
   const onChangeSelectedNature = (value: Nature | null) => {
@@ -32,23 +30,23 @@ export const StatsTableHeader = (props: Props) => {
   return (
     <>
       <SearchField
-        options={pokemonData}
+        options={pokemonBasicInfos}
         label="ポケモン名"
         itemName="ポケモン"
         setState={onChangeSelectedPokemon}
-        selectedItem={selectedPokemon}
+        selectedItem={pokemon.basicInfo}
       />
       <Grid container sx={{ pt: 2 }}>
         <Grid item xs={4}>
-          <LvField level={level} updateLevel={updateLevel} />
+          <LvField level={pokemon.level} updateLevel={updateLevel} />
         </Grid>
         <Grid item xs={8} sx={{ pl: 3 }}>
           <SearchField
-            options={natureData}
+            options={natures}
             label="性格"
             itemName="性格"
             setState={onChangeSelectedNature}
-            selectedItem={selectedNature}
+            selectedItem={pokemon.nature}
             disableClearable={true}
           />
         </Grid>

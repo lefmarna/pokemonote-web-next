@@ -1,18 +1,18 @@
 import { Box, Grid, TextField } from '@mui/material'
-import { ChangeEvent, MouseEvent, useRef } from 'react'
-import { Stat } from '@/types'
+import { ChangeEvent, memo, MouseEvent, useRef } from 'react'
+import { NullableStats, StatsKey } from '@/types'
 import { MAX_IV } from '@/utils/constants'
 import { convertToInteger } from '@/utils/utilities'
 import { CalcButton } from '@/components/molecules/CalcButton'
 
 type Props = {
-  stats: Stat[]
-  statsIndex: number
-  updateIndividualValue: (value: number | '', index: number) => void
+  value: number | ''
+  statKey: StatsKey
+  updateIvs: (newIvs: Partial<NullableStats>) => void
 }
 
-export const IndividualValueField = (props: Props) => {
-  const { stats, statsIndex, updateIndividualValue } = props
+export const IndividualValueField = memo((props: Props) => {
+  const { value, statKey, updateIvs } = props
 
   const individualValuerRef = useRef<HTMLInputElement>()
 
@@ -23,12 +23,12 @@ export const IndividualValueField = (props: Props) => {
 
   const onChange = (event: ChangeEvent<HTMLInputElement>) => {
     const formatValue = convertToInteger(event.target.value, MAX_IV)
-    updateIndividualValue(formatValue, statsIndex)
+    updateIvs({ [statKey]: formatValue })
   }
 
-  const onClickCalcButton = (event: MouseEvent<HTMLElement>, individualValue: number) => {
-    const formatValue = individualValue !== 0 ? individualValue : ''
-    updateIndividualValue(formatValue, statsIndex)
+  const onClickCalcButton = (event: MouseEvent<HTMLElement>, newIv: number) => {
+    const formatValue = newIv !== 0 ? newIv : ''
+    updateIvs({ [statKey]: formatValue })
   }
 
   const calcButtonStyle = {
@@ -47,7 +47,7 @@ export const IndividualValueField = (props: Props) => {
         type="tel"
         label="個体値"
         placeholder="0"
-        value={stats[statsIndex].individualValue}
+        value={value}
         inputRef={individualValuerRef}
         onClick={onSelected}
         onChange={onChange}
@@ -66,4 +66,4 @@ export const IndividualValueField = (props: Props) => {
       </Box>
     </Grid>
   )
-}
+})

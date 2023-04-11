@@ -3,13 +3,13 @@ import styles from '@/styles/Home.module.scss'
 import { LOWER_NATURE, UPPER_NATURE } from '@/utils/constants'
 
 type Props = {
-  baseStat: number
+  value: number
   statsInitial: string
   natureStat: number
 }
 
 export const BaseStatsField = (props: Props) => {
-  const { baseStat, statsInitial, natureStat } = props
+  const { value, statsInitial, natureStat } = props
 
   const getTextFieldColor = () => {
     switch (natureStat) {
@@ -34,7 +34,7 @@ export const BaseStatsField = (props: Props) => {
         className={styles.dander}
         label="種族値"
         placeholder="0"
-        value={`${statsInitial}${baseStat}`}
+        value={`${statsInitial}${value}`}
         variant="standard"
         InputLabelProps={{
           shrink: true,

@@ -17,29 +17,13 @@ import {
   TextField,
 } from '@mui/material'
 import { ChangeEvent, useState } from 'react'
-import { Stat } from '@/types'
-import {
-  ATTACK_INDEX,
-  DEFENCE_INDEX,
-  HP_INDEX,
-  SPEED_INDEX,
-  SP_ATTACK_INDEX,
-  SP_DEFENCE_INDEX,
-  STATS_LENGTH,
-} from '@/utils/constants'
-
-type EffortValue = {
-  index: number
-  value: number | ''
-}
+import { NullableStats, Stats } from '@/types'
 
 type Props = {
   buttonText: string
   description: string
-  realNumbers: number[]
-  stats: Stat[]
-  updateEffortValue: (value: number | '', index: number) => void
-  updateEffortValues: (effortValues: EffortValue[]) => void
+  realNumbers: Stats
+  updateEvs: (newIvs: Partial<NullableStats>) => void
   durabilityAdjustment: (
     calcStyle: string,
     selectDefenceEnhancement: number,
@@ -48,15 +32,7 @@ type Props = {
 }
 
 export const CalcStatsOptions = (props: Props) => {
-  const {
-    buttonText,
-    description,
-    realNumbers,
-    stats,
-    updateEffortValue,
-    updateEffortValues,
-    durabilityAdjustment,
-  } = props
+  const { buttonText, description, realNumbers, updateEvs, durabilityAdjustment } = props
 
   const [selectDefenceEnhancement, setSelectDefenceEnhancement] = useState(1)
   const [selectSpDefenceEnhancement, setSelectSpDefenceEnhancement] = useState(1)
@@ -75,44 +51,24 @@ export const CalcStatsOptions = (props: Props) => {
 
   // 物理耐久指数を求める
   const physicalDurability = () => {
-    return realNumbers[HP_INDEX] * Math.floor(realNumbers[DEFENCE_INDEX] * selectDefenceEnhancement)
+    return realNumbers.hp * Math.floor(realNumbers.defense * selectDefenceEnhancement)
   }
 
   // 特殊耐久指数を求める
   const specialDurability = () => {
-    return (
-      realNumbers[HP_INDEX] * Math.floor(realNumbers[SP_DEFENCE_INDEX] * selectSpDefenceEnhancement)
-    )
+    return realNumbers.hp * Math.floor(realNumbers.spDefense * selectSpDefenceEnhancement)
   }
 
   // 努力値をリセットする
   const resetEffortValue = (): void => {
-    updateEffortValues([
-      {
-        index: HP_INDEX,
-        value: '',
-      },
-      {
-        index: ATTACK_INDEX,
-        value: '',
-      },
-      {
-        index: DEFENCE_INDEX,
-        value: '',
-      },
-      {
-        index: SP_ATTACK_INDEX,
-        value: '',
-      },
-      {
-        index: SP_DEFENCE_INDEX,
-        value: '',
-      },
-      {
-        index: SPEED_INDEX,
-        value: '',
-      },
-    ])
+    updateEvs({
+      hp: '',
+      attack: '',
+      defense: '',
+      spAttack: '',
+      spDefense: '',
+      speed: '',
+    })
   }
 
   const magnificationItems = [
