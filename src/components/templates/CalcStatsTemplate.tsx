@@ -1,5 +1,5 @@
 import { Container, Grid } from '@mui/material'
-import { useCallback, useState } from 'react'
+import { useState } from 'react'
 import { Nature, NullableStats, Pokemon, PokemonBasicInfo, StatsKey } from '@/types'
 import {
   LOWER_NATURE,

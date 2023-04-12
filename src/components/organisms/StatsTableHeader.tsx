@@ -4,6 +4,7 @@ import { SearchField } from '@/components/molecules/SearchField'
 import { LvField } from './LvField'
 import { usePokemonBasicInfosState } from '@/store/pokemonBasicInfosState'
 import { useNaturesState } from '@/store/naturesState'
+import { useCallback } from 'react'
 
 type Props = {
   pokemon: Pokemon
@@ -17,15 +18,21 @@ export const StatsTableHeader = (props: Props) => {
   const pokemonBasicInfos = usePokemonBasicInfosState()
   const natures = useNaturesState()
 
-  const onChangeSelectedPokemon = (value: PokemonBasicInfo | null) => {
-    if (value === null) return
-    updateBasicInfo(value)
-  }
+  const onChangeSelectedPokemon = useCallback(
+    (newItem: PokemonBasicInfo | null) => {
+      if (newItem === null) return
+      updateBasicInfo(newItem)
+    },
+    [updateBasicInfo]
+  )
 
-  const onChangeSelectedNature = (value: Nature | null) => {
-    if (value === null) return
-    updateNature(value)
-  }
+  const onChangeSelectedNature = useCallback(
+    (value: Nature | null) => {
+      if (value === null) return
+      updateNature(value)
+    },
+    [updateNature]
+  )
 
   return (
     <>
