@@ -77,10 +77,6 @@ export const CalcStatsOptions = (props: Props) => {
     { id: 3, name: '1.0', value: 1.0 },
   ]
 
-  const onClick = () => {
-    durabilityAdjustment(calcStyle, selectDefenceEnhancement, selectSpDefenceEnhancement)
-  }
-
   return (
     <Container>
       <Grid container>
