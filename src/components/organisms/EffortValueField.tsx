@@ -15,21 +15,21 @@ type Props = {
 export const EffortValueField = memo((props: Props) => {
   const { value, statKey, updateEvs } = props
 
-  const effortValueRef = useRef<HTMLInputElement>()
+  const evElement = useRef<HTMLInputElement>()
 
   const onSelected = () => {
-    if (!effortValueRef || !effortValueRef.current) return
-    effortValueRef.current.select()
+    if (!evElement || !evElement.current) return
+    evElement.current.select()
   }
 
   const onChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const formatValue = convertToInteger(event.target.value, MAX_EV)
-    updateEvs({ [statKey]: formatValue })
+    const newEv = convertToInteger(event.target.value, MAX_EV)
+    updateEvs({ [statKey]: newEv })
   }
 
-  const onClickCalcButton = (event: MouseEvent<HTMLElement>, effortValue: number) => {
-    const formatValue = effortValue !== 0 ? effortValue : ''
-    updateEvs({ [statKey]: formatValue })
+  const onClickCalcButton = (event: MouseEvent<HTMLElement>, buttonValue: number) => {
+    const newEv = buttonValue !== 0 ? buttonValue : ''
+    updateEvs({ [statKey]: newEv })
   }
 
   const calcButtonStyle = {
@@ -49,7 +49,7 @@ export const EffortValueField = memo((props: Props) => {
         label="努力値"
         placeholder="0"
         value={value}
-        inputRef={effortValueRef}
+        inputRef={evElement}
         onClick={onSelected}
         onChange={onChange}
         variant="standard"
