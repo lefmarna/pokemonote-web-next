@@ -42,6 +42,7 @@ const pokemonRecoilState = atom<Pokemon>({
       spDefense: '',
       speed: '',
     },
+    description: '',
   },
 })
 

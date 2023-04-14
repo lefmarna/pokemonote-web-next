@@ -1,5 +1,4 @@
 import { Container, Grid } from '@mui/material'
-import { useState } from 'react'
 import { Nature, NullableStats, Pokemon, PokemonBasicInfo, StatsKey } from '@/types'
 import {
   LOWER_NATURE,
@@ -30,8 +29,6 @@ type Props = {
 export const CalcStatsTemplate = (props: Props) => {
   const { pokemon, buttonText, updateBasicInfo, updateNature, updateLevel, updateIvs, updateEvs } =
     props
-
-  const [description, setDescription] = useState('')
 
   const statsKeys: StatsKey[] = ['hp', 'attack', 'defense', 'spAttack', 'spDefense', 'speed']
 
@@ -361,7 +358,7 @@ export const CalcStatsTemplate = (props: Props) => {
         </Grid>
         <Grid item md={9} xs={18}>
           <CalcStatsOptions
-            description={description}
+            description={pokemon.description}
             buttonText={buttonText}
             realNumbers={realNumbers}
             updateEvs={updateEvs}
