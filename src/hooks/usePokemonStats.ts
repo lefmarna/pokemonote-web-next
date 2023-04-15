@@ -1,4 +1,5 @@
 import { Nature, StatsKey } from '@/types'
+import { numberToInt } from '@/utils/utilities'
 
 // ポケモンのステータス計算に関するカスタムフック
 export const usePokemonStats = () => {
@@ -29,6 +30,30 @@ export const usePokemonStats = () => {
    */
   const calcRealNumberCommon = (level: number, baseStat: number, iv: number, ev: number) => {
     return Math.floor(((baseStat * 2 + iv + Math.floor(ev / 4)) * level) / 100)
+  }
+
+  /**
+   * 実数値を取得する
+   */
+  const getRealNumber = (
+    statKey: StatsKey,
+    pokemonName: string,
+    level: number | '',
+    baseStat: number,
+    iv: number | '',
+    ev: number | '',
+    natureModifier = 1
+  ): number => {
+    const formatLevel = numberToInt(level, 1)
+    const formatIv = numberToInt(iv)
+    const formatEv = numberToInt(ev)
+
+    if (statKey === 'hp') {
+      if (pokemonName === 'ヌケニン') return 1
+      return calcHpRealNumber(formatLevel, baseStat, formatIv, formatEv)
+    }
+
+    return calcRealNumber(formatLevel, baseStat, formatIv, formatEv, natureModifier)
   }
 
   /**
@@ -65,10 +90,21 @@ export const usePokemonStats = () => {
     }
   }
 
+  /**
+   * 配列内の数値を合計した結果を返す
+   */
+  const getTotalValue = (values: (number | '')[]) => {
+    return values.reduce((sum: number, value) => {
+      sum += numberToInt(value)
+      return sum
+    }, 0)
+  }
+
   return {
-    calcHpRealNumber,
     calcRealNumber,
     getNatureModifier,
+    getRealNumber,
     getStatsInitial,
+    getTotalValue,
   }
 }

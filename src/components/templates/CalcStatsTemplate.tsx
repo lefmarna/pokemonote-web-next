@@ -30,38 +30,68 @@ type Props = {
 export const CalcStatsTemplate = (props: Props) => {
   const { pokemon, buttonText, updateBasicInfo, updateNature, updateLevel, updateIvs, updateEvs } =
     props
-  const { calcHpRealNumber, calcRealNumber, getNatureModifier, getStatsInitial } = usePokemonStats()
+  const { calcRealNumber, getNatureModifier, getRealNumber, getStatsInitial, getTotalValue } =
+    usePokemonStats()
 
   const statsKeys: StatsKey[] = ['hp', 'attack', 'defense', 'spAttack', 'spDefense', 'speed']
 
   /**
-   * 実数値を取得する
-   */
-  const getRealNumber = (statKey: StatsKey, tmpEv?: number): number => {
-    const level = numberToInt(Number(pokemon.level), 1)
-    const iv = numberToInt(pokemon.ivs[statKey])
-    // 耐久調整ボタンから呼び出した場合は、仮の努力値を代入する
-    const ev = tmpEv ?? numberToInt(pokemon.evs[statKey])
-    const baseStat = pokemon.basicInfo.baseStats[statKey]
-
-    if (statKey === 'hp') {
-      if (pokemon.basicInfo.name === 'ヌケニン') return 1
-      return calcHpRealNumber(level, baseStat, iv, ev)
-    }
-
-    return calcRealNumber(level, baseStat, iv, ev, getNatureModifier(statKey, pokemon.nature))
-  }
-
-  /**
-   * 実数値は努力値の更新による自動計算によって求めるため、直接代入してはいけない。
+   * 実数値はその他の要素（努力値など）の更新による自動計算によって求める
    */
   const realNumbers = {
-    hp: getRealNumber('hp'),
-    attack: getRealNumber('attack'),
-    defense: getRealNumber('defense'),
-    spAttack: getRealNumber('spAttack'),
-    spDefense: getRealNumber('spDefense'),
-    speed: getRealNumber('speed'),
+    hp: getRealNumber(
+      'hp',
+      pokemon.basicInfo.name,
+      pokemon.level,
+      pokemon.basicInfo.baseStats.hp,
+      pokemon.ivs.hp,
+      pokemon.evs.hp
+    ),
+    attack: getRealNumber(
+      'attack',
+      pokemon.basicInfo.name,
+      pokemon.level,
+      pokemon.basicInfo.baseStats.attack,
+      pokemon.ivs.attack,
+      pokemon.evs.attack,
+      getNatureModifier('attack', pokemon.nature)
+    ),
+    defense: getRealNumber(
+      'defense',
+      pokemon.basicInfo.name,
+      pokemon.level,
+      pokemon.basicInfo.baseStats.defense,
+      pokemon.ivs.defense,
+      pokemon.evs.defense,
+      getNatureModifier('defense', pokemon.nature)
+    ),
+    spAttack: getRealNumber(
+      'spAttack',
+      pokemon.basicInfo.name,
+      pokemon.level,
+      pokemon.basicInfo.baseStats.spAttack,
+      pokemon.ivs.spAttack,
+      pokemon.evs.spAttack,
+      getNatureModifier('spAttack', pokemon.nature)
+    ),
+    spDefense: getRealNumber(
+      'spDefense',
+      pokemon.basicInfo.name,
+      pokemon.level,
+      pokemon.basicInfo.baseStats.spDefense,
+      pokemon.ivs.spDefense,
+      pokemon.evs.spDefense,
+      getNatureModifier('spDefense', pokemon.nature)
+    ),
+    speed: getRealNumber(
+      'speed',
+      pokemon.basicInfo.name,
+      pokemon.level,
+      pokemon.basicInfo.baseStats.speed,
+      pokemon.ivs.speed,
+      pokemon.evs.speed,
+      getNatureModifier('speed', pokemon.nature)
+    ),
   }
 
   /**
@@ -124,39 +154,24 @@ export const CalcStatsTemplate = (props: Props) => {
     updateEvs({ [statKey]: newEv })
   }
 
-  // 種族値の合計値を計算する
+  // 種族値の合計値
   const totalBaseStats = () => {
-    return Object.values(pokemon.basicInfo.baseStats).reduce((sum, stat) => {
-      sum += stat
-      return sum
-    }, 0)
+    return getTotalValue(Object.values(pokemon.basicInfo.baseStats))
   }
 
-  // 個体値の合計値を計算する
+  // 個体値の合計値
   const totalIv = () => {
-    return statsKeys.reduce((sum, statKey) => {
-      sum += numberToInt(pokemon.ivs[statKey])
-      return sum
-    }, 0)
+    return getTotalValue(Object.values(pokemon.ivs))
   }
 
-  // 努力値の合計値を計算する
+  // 努力値の合計値
   const totalEv = () => {
-    return statsKeys.reduce((sum, stat) => {
-      sum += numberToInt(pokemon.evs[stat])
-      return sum
-    }, 0)
+    return getTotalValue(Object.values(pokemon.evs))
   }
 
+  // 実数値の合計値
   const totalStats = () => {
-    return (
-      realNumbers.hp +
-      realNumbers.attack +
-      realNumbers.defense +
-      realNumbers.spAttack +
-      realNumbers.spDefense +
-      realNumbers.speed
-    )
+    return getTotalValue(Object.values(realNumbers))
   }
 
   const durabilityAdjustment = (
@@ -202,19 +217,50 @@ export const CalcStatsTemplate = (props: Props) => {
 
     // HP→特防→防御の順に総当たりで計算していく
     while (tmpHpEV >= 0) {
-      tmpHp = getRealNumber('hp', tmpHpEV) // HPの努力値からHPの実数値を計算
+      // HPの努力値からHPの実数値を計算
+      tmpHp = getRealNumber(
+        'hp',
+        pokemon.basicInfo.name,
+        pokemon.level,
+        pokemon.basicInfo.baseStats.hp,
+        pokemon.ivs.hp,
+        tmpHpEV
+      )
+
       tmpSpDefenceEV = remainderEffortValue - tmpHpEV
+
       if (tmpSpDefenceEV > MAX_EV) {
         tmpSpDefenceEV = MAX_EV
       }
+
       // 防御より先に特防を計算することで、端数が出た場合に特防に割り振られるようになる(ダウンロード対策でB<Dのほうが好まれることから、このような仕様にしている)
       while (tmpSpDefenceEV >= 0) {
-        tmpSpDefence = getRealNumber('spDefense', tmpSpDefenceEV) // 特防の努力値から特防の実数値を計算
+        // 特防の努力値から特防の実数値を計算
+        tmpSpDefence = getRealNumber(
+          'spDefense',
+          pokemon.basicInfo.name,
+          pokemon.level,
+          pokemon.basicInfo.baseStats.spDefense,
+          pokemon.ivs.spDefense,
+          tmpSpDefenceEV,
+          getNatureModifier('spDefense', pokemon.nature)
+        )
+
         tmpDefenceEV = remainderEffortValue - tmpHpEV - tmpSpDefenceEV
+
         // 防御の仮努力値が最大値を超えてしまう場合には値を更新しない
         if (tmpDefenceEV > MAX_EV) break
 
-        tmpDefence = getRealNumber('defense', tmpDefenceEV) // 防御の努力値から防御の実数値を計算
+        // 防御の努力値から防御の実数値を計算
+        tmpDefence = getRealNumber(
+          'defense',
+          pokemon.basicInfo.name,
+          pokemon.level,
+          pokemon.basicInfo.baseStats.defense,
+          pokemon.ivs.defense,
+          tmpDefenceEV,
+          getNatureModifier('defense', pokemon.nature)
+        )
 
         // 耐久補正込での耐久値を求める
         tmpDefenceEnhancement = Math.floor(tmpDefence * selectDefenceEnhancement)
