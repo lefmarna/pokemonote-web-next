@@ -15,6 +15,7 @@ import { EffortValueField } from '@/components/organisms/EffortValueField'
 import { IndividualValueField } from '@/components/organisms/IndividualValueField'
 import { RealNumberField } from '@/components/organisms/RealNumberField'
 import { StatsTableHeader } from '@/components/organisms/StatsTableHeader'
+import { usePokemonStats } from '@/hooks/usePokemonStats'
 
 type Props = {
   pokemon: Pokemon
@@ -29,6 +30,7 @@ type Props = {
 export const CalcStatsTemplate = (props: Props) => {
   const { pokemon, buttonText, updateBasicInfo, updateNature, updateLevel, updateIvs, updateEvs } =
     props
+  const { calcHpRealNumber, calcRealNumber, getNatureModifier, getStatsInitial } = usePokemonStats()
 
   const statsKeys: StatsKey[] = ['hp', 'attack', 'defense', 'spAttack', 'spDefense', 'speed']
 
@@ -40,51 +42,14 @@ export const CalcStatsTemplate = (props: Props) => {
     const iv = numberToInt(pokemon.ivs[statKey])
     // 耐久調整ボタンから呼び出した場合は、仮の努力値を代入する
     const ev = tmpEv ?? numberToInt(pokemon.evs[statKey])
-
-    const commonCalcStat = Math.floor(
-      ((pokemon.basicInfo.baseStats[statKey] * 2 + iv + Math.floor(ev / 4)) * level) / 100
-    )
+    const baseStat = pokemon.basicInfo.baseStats[statKey]
 
     if (statKey === 'hp') {
       if (pokemon.basicInfo.name === 'ヌケニン') return 1
-      return commonCalcStat + 10 + level
+      return calcHpRealNumber(level, baseStat, iv, ev)
     }
 
-    return (commonCalcStat + 5) * getNatureModifier(statKey, pokemon.nature)
-  }
-
-  /**
-   * 性格補正値を取得する
-   */
-  const getNatureModifier = (stat: StatsKey, nature: Nature) => {
-    switch (stat) {
-      case nature.increasedStat:
-        return 1.1
-      case nature.decreasedStat:
-        return 0.9
-      default:
-        return 1
-    }
-  }
-
-  /**
-   * HABCDSを取得する
-   */
-  const getStatsInitial = (statKey: StatsKey) => {
-    switch (statKey) {
-      case 'hp':
-        return 'H'
-      case 'attack':
-        return 'A'
-      case 'defense':
-        return 'B'
-      case 'spAttack':
-        return 'C'
-      case 'spDefense':
-        return 'D'
-      case 'speed':
-        return 'S'
-    }
+    return calcRealNumber(level, baseStat, iv, ev, getNatureModifier(statKey, pokemon.nature))
   }
 
   /**
