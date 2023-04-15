@@ -32,37 +32,25 @@ export const CalcStatsTemplate = (props: Props) => {
 
   const statsKeys: StatsKey[] = ['hp', 'attack', 'defense', 'spAttack', 'spDefense', 'speed']
 
-  const getStat = (statKey: StatsKey, tmpEv?: number): number => {
-    const formatLv = numberToInt(Number(pokemon.level), 1)
-    const formatIndividualValue = numberToInt(pokemon.ivs[statKey])
+  /**
+   * 実数値を取得する
+   */
+  const getRealNumber = (statKey: StatsKey, tmpEv?: number): number => {
+    const level = numberToInt(Number(pokemon.level), 1)
+    const iv = numberToInt(pokemon.ivs[statKey])
     // 耐久調整ボタンから呼び出した場合は、仮の努力値を代入する
-    const formatEffortValue = tmpEv !== undefined ? tmpEv : numberToInt(pokemon.evs[statKey])
+    const ev = tmpEv ?? numberToInt(pokemon.evs[statKey])
+
+    const commonCalcStat = Math.floor(
+      ((pokemon.basicInfo.baseStats[statKey] * 2 + iv + Math.floor(ev / 4)) * level) / 100
+    )
+
     if (statKey === 'hp') {
       if (pokemon.basicInfo.name === 'ヌケニン') return 1
-      return (
-        Math.floor(
-          ((pokemon.basicInfo.baseStats[statKey] * 2 +
-            formatIndividualValue +
-            Math.floor(formatEffortValue / 4)) *
-            formatLv) /
-            100
-        ) +
-        10 +
-        formatLv
-      )
-    } else {
-      return Math.floor(
-        (Math.floor(
-          ((pokemon.basicInfo.baseStats[statKey] * 2 +
-            formatIndividualValue +
-            Math.floor(formatEffortValue / 4)) *
-            formatLv) /
-            100
-        ) +
-          5) *
-          getNatureModifier(statKey, pokemon.nature)
-      )
+      return commonCalcStat + 10 + level
     }
+
+    return (commonCalcStat + 5) * getNatureModifier(statKey, pokemon.nature)
   }
 
   /**
@@ -79,6 +67,9 @@ export const CalcStatsTemplate = (props: Props) => {
     }
   }
 
+  /**
+   * HABCDSを取得する
+   */
   const getStatsInitial = (statKey: StatsKey) => {
     switch (statKey) {
       case 'hp':
@@ -100,12 +91,12 @@ export const CalcStatsTemplate = (props: Props) => {
    * 実数値は努力値の更新による自動計算によって求めるため、直接代入してはいけない。
    */
   const realNumbers = {
-    hp: getStat('hp'),
-    attack: getStat('attack'),
-    defense: getStat('defense'),
-    spAttack: getStat('spAttack'),
-    spDefense: getStat('spDefense'),
-    speed: getStat('speed'),
+    hp: getRealNumber('hp'),
+    attack: getRealNumber('attack'),
+    defense: getRealNumber('defense'),
+    spAttack: getRealNumber('spAttack'),
+    spDefense: getRealNumber('spDefense'),
+    speed: getRealNumber('speed'),
   }
 
   /**
@@ -246,19 +237,19 @@ export const CalcStatsTemplate = (props: Props) => {
 
     // HP→特防→防御の順に総当たりで計算していく
     while (tmpHpEV >= 0) {
-      tmpHp = getStat('hp', tmpHpEV) // HPの努力値からHPの実数値を計算
+      tmpHp = getRealNumber('hp', tmpHpEV) // HPの努力値からHPの実数値を計算
       tmpSpDefenceEV = remainderEffortValue - tmpHpEV
       if (tmpSpDefenceEV > MAX_EV) {
         tmpSpDefenceEV = MAX_EV
       }
       // 防御より先に特防を計算することで、端数が出た場合に特防に割り振られるようになる(ダウンロード対策でB<Dのほうが好まれることから、このような仕様にしている)
       while (tmpSpDefenceEV >= 0) {
-        tmpSpDefence = getStat('spDefense', tmpSpDefenceEV) // 特防の努力値から特防の実数値を計算
+        tmpSpDefence = getRealNumber('spDefense', tmpSpDefenceEV) // 特防の努力値から特防の実数値を計算
         tmpDefenceEV = remainderEffortValue - tmpHpEV - tmpSpDefenceEV
         // 防御の仮努力値が最大値を超えてしまう場合には値を更新しない
         if (tmpDefenceEV > MAX_EV) break
 
-        tmpDefence = getStat('defense', tmpDefenceEV) // 防御の努力値から防御の実数値を計算
+        tmpDefence = getRealNumber('defense', tmpDefenceEV) // 防御の努力値から防御の実数値を計算
 
         // 耐久補正込での耐久値を求める
         tmpDefenceEnhancement = Math.floor(tmpDefence * selectDefenceEnhancement)

@@ -1,9 +1,22 @@
 {
   "version": "0.2",
-  "ignorePaths": [".devcontainer", ".github/workflows", "README.md"],
+  "ignorePaths": [
+    ".devcontainer",
+    ".github/workflows",
+    "README.md"
+  ],
   "dictionaryDefinitions": [],
   "dictionaries": [],
-  "words": ["axios", "cimg", "DEFENCE", "devcontainer", "rscss", "stylelint", "Textfield"],
+  "words": [
+    "axios",
+    "cimg",
+    "DEFENCE",
+    "devcontainer",
+    "HABCDS",
+    "rscss",
+    "stylelint",
+    "Textfield"
+  ],
   "ignoreWords": [],
   "import": []
 }
