@@ -1,7 +1,6 @@
 import { Container, Grid } from '@mui/material'
 import { Nature, NullableStats, Pokemon, PokemonBasicInfo, StatsKey } from '@/types'
-import { MAX_EV, MAX_REAL_NUMBER, MAX_TOTAL_EV, MIN_LEVEL } from '@/utils/constants'
-import { convertToInteger, numberToInt, valueVerification } from '@/utils/utilities'
+import { MAX_EV, MAX_TOTAL_EV } from '@/utils/constants'
 import { BaseStatsField } from '@/components/organisms/BaseStatsField'
 import { CalcStatsOptions } from '@/components/organisms/CalcStatsOptions'
 import { EffortValueField } from '@/components/organisms/EffortValueField'
@@ -23,126 +22,25 @@ type Props = {
 export const CalcStatsTemplate = (props: Props) => {
   const { pokemon, buttonText, updateBasicInfo, updateNature, updateLevel, updateIvs, updateEvs } =
     props
+
   const {
-    adjustRealNumber,
-    calcEv,
-    getPureRealNumber,
+    realNumbers,
+    getEv,
     getNatureModifier,
     getRealNumber,
     getStatsInitial,
-    getTotalValue,
-  } = usePokemonStats()
+    totalBaseStats,
+    totalIv,
+    totalEv,
+    totalStats,
+  } = usePokemonStats(pokemon)
 
   const statsKeys: StatsKey[] = ['hp', 'attack', 'defense', 'spAttack', 'spDefense', 'speed']
 
-  /**
-   * 実数値はその他の要素（努力値など）の更新による自動計算によって求める
-   */
-  const realNumbers = {
-    hp: getRealNumber(
-      'hp',
-      pokemon.basicInfo.name,
-      pokemon.level,
-      pokemon.basicInfo.baseStats.hp,
-      pokemon.ivs.hp,
-      pokemon.evs.hp
-    ),
-    attack: getRealNumber(
-      'attack',
-      pokemon.basicInfo.name,
-      pokemon.level,
-      pokemon.basicInfo.baseStats.attack,
-      pokemon.ivs.attack,
-      pokemon.evs.attack,
-      getNatureModifier('attack', pokemon.nature)
-    ),
-    defense: getRealNumber(
-      'defense',
-      pokemon.basicInfo.name,
-      pokemon.level,
-      pokemon.basicInfo.baseStats.defense,
-      pokemon.ivs.defense,
-      pokemon.evs.defense,
-      getNatureModifier('defense', pokemon.nature)
-    ),
-    spAttack: getRealNumber(
-      'spAttack',
-      pokemon.basicInfo.name,
-      pokemon.level,
-      pokemon.basicInfo.baseStats.spAttack,
-      pokemon.ivs.spAttack,
-      pokemon.evs.spAttack,
-      getNatureModifier('spAttack', pokemon.nature)
-    ),
-    spDefense: getRealNumber(
-      'spDefense',
-      pokemon.basicInfo.name,
-      pokemon.level,
-      pokemon.basicInfo.baseStats.spDefense,
-      pokemon.ivs.spDefense,
-      pokemon.evs.spDefense,
-      getNatureModifier('spDefense', pokemon.nature)
-    ),
-    speed: getRealNumber(
-      'speed',
-      pokemon.basicInfo.name,
-      pokemon.level,
-      pokemon.basicInfo.baseStats.speed,
-      pokemon.ivs.speed,
-      pokemon.evs.speed,
-      getNatureModifier('speed', pokemon.nature)
-    ),
-  }
+  const updateRealNumber = (newRealNumber: number | '', statKey: StatsKey) => {
+    const newEv = getEv(newRealNumber, statKey)
 
-  /**
-   * 実数値から努力値を求める
-   */
-  const getEffortValue = (newRealNumber: number | '', statKey: StatsKey) => {
-    const formatNewRealNumber = Number(convertToInteger(newRealNumber, MAX_REAL_NUMBER, false))
-    const formatLv = numberToInt(pokemon.level, MIN_LEVEL)
-    const baseStat = pokemon.basicInfo.baseStats[statKey]
-    const formatIv = numberToInt(pokemon.ivs[statKey])
-    const formatEv = numberToInt(pokemon.evs[statKey])
-    const natureModifier = statKey !== 'hp' ? getNatureModifier(statKey, pokemon.nature) : 1
-
-    const adjustedRealNumber = adjustRealNumber(
-      formatNewRealNumber,
-      formatLv,
-      baseStat,
-      formatIv,
-      formatEv,
-      natureModifier
-    )
-
-    const pureRealNumber = getPureRealNumber(adjustedRealNumber, natureModifier)
-    const newEv = calcEv(statKey, pureRealNumber, formatLv, baseStat, formatIv)
-
-    return valueVerification(newEv, MAX_EV)
-  }
-
-  const updateRealNumber = (realNumber: number | '', statKey: StatsKey) => {
-    const newEv = getEffortValue(realNumber, statKey)
     updateEvs({ [statKey]: newEv })
-  }
-
-  // 種族値の合計値
-  const totalBaseStats = () => {
-    return getTotalValue(Object.values(pokemon.basicInfo.baseStats))
-  }
-
-  // 個体値の合計値
-  const totalIv = () => {
-    return getTotalValue(Object.values(pokemon.ivs))
-  }
-
-  // 努力値の合計値
-  const totalEv = () => {
-    return getTotalValue(Object.values(pokemon.evs))
-  }
-
-  // 実数値の合計値
-  const totalStats = () => {
-    return getTotalValue(Object.values(realNumbers))
   }
 
   const durabilityAdjustment = (
@@ -189,14 +87,7 @@ export const CalcStatsTemplate = (props: Props) => {
     // HP→特防→防御の順に総当たりで計算していく
     while (tmpHpEV >= 0) {
       // HPの努力値からHPの実数値を計算
-      tmpHp = getRealNumber(
-        'hp',
-        pokemon.basicInfo.name,
-        pokemon.level,
-        pokemon.basicInfo.baseStats.hp,
-        pokemon.ivs.hp,
-        tmpHpEV
-      )
+      tmpHp = getRealNumber('hp', tmpHpEV)
 
       tmpSpDefenceEV = remainderEffortValue - tmpHpEV
 
@@ -207,15 +98,7 @@ export const CalcStatsTemplate = (props: Props) => {
       // 防御より先に特防を計算することで、端数が出た場合に特防に割り振られるようになる(ダウンロード対策でB<Dのほうが好まれることから、このような仕様にしている)
       while (tmpSpDefenceEV >= 0) {
         // 特防の努力値から特防の実数値を計算
-        tmpSpDefence = getRealNumber(
-          'spDefense',
-          pokemon.basicInfo.name,
-          pokemon.level,
-          pokemon.basicInfo.baseStats.spDefense,
-          pokemon.ivs.spDefense,
-          tmpSpDefenceEV,
-          getNatureModifier('spDefense', pokemon.nature)
-        )
+        tmpSpDefence = getRealNumber('spDefense', tmpSpDefenceEV)
 
         tmpDefenceEV = remainderEffortValue - tmpHpEV - tmpSpDefenceEV
 
@@ -223,15 +106,7 @@ export const CalcStatsTemplate = (props: Props) => {
         if (tmpDefenceEV > MAX_EV) break
 
         // 防御の努力値から防御の実数値を計算
-        tmpDefence = getRealNumber(
-          'defense',
-          pokemon.basicInfo.name,
-          pokemon.level,
-          pokemon.basicInfo.baseStats.defense,
-          pokemon.ivs.defense,
-          tmpDefenceEV,
-          getNatureModifier('defense', pokemon.nature)
-        )
+        tmpDefence = getRealNumber('defense', tmpDefenceEV)
 
         // 耐久補正込での耐久値を求める
         tmpDefenceEnhancement = Math.floor(tmpDefence * selectDefenceEnhancement)
@@ -270,11 +145,12 @@ export const CalcStatsTemplate = (props: Props) => {
       }
       tmpHpEV--
     }
+
     // 最も優秀だった結果を代入する
     updateEvs({
-      hp: getEffortValue(resultHp, 'hp'),
-      defense: getEffortValue(resultDefence, 'defense'),
-      spDefense: getEffortValue(resultSpDefence, 'spDefense'),
+      hp: getEv(resultHp, 'hp'),
+      defense: getEv(resultDefence, 'defense'),
+      spDefense: getEv(resultSpDefence, 'spDefense'),
     })
   }
 
