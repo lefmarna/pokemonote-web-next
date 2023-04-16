@@ -1,13 +1,6 @@
 import { Container, Grid } from '@mui/material'
 import { Nature, NullableStats, Pokemon, PokemonBasicInfo, StatsKey } from '@/types'
-import {
-  LOWER_NATURE,
-  MAX_EV,
-  MAX_REAL_NUMBER,
-  MAX_TOTAL_EV,
-  MIN_LEVEL,
-  UPPER_NATURE,
-} from '@/utils/constants'
+import { MAX_EV, MAX_REAL_NUMBER, MAX_TOTAL_EV, MIN_LEVEL } from '@/utils/constants'
 import { convertToInteger, numberToInt, valueVerification } from '@/utils/utilities'
 import { BaseStatsField } from '@/components/organisms/BaseStatsField'
 import { CalcStatsOptions } from '@/components/organisms/CalcStatsOptions'
@@ -30,8 +23,15 @@ type Props = {
 export const CalcStatsTemplate = (props: Props) => {
   const { pokemon, buttonText, updateBasicInfo, updateNature, updateLevel, updateIvs, updateEvs } =
     props
-  const { calcRealNumber, getNatureModifier, getRealNumber, getStatsInitial, getTotalValue } =
-    usePokemonStats()
+  const {
+    adjustRealNumber,
+    calcEv,
+    getPureRealNumber,
+    getNatureModifier,
+    getRealNumber,
+    getStatsInitial,
+    getTotalValue,
+  } = usePokemonStats()
 
   const statsKeys: StatsKey[] = ['hp', 'attack', 'defense', 'spAttack', 'spDefense', 'speed']
 
@@ -97,56 +97,27 @@ export const CalcStatsTemplate = (props: Props) => {
   /**
    * 実数値から努力値を求める
    */
-  const getEffortValue = (realNumber: number | '', statKey: StatsKey) => {
-    let setValue = Number(convertToInteger(realNumber, MAX_REAL_NUMBER, false))
+  const getEffortValue = (newRealNumber: number | '', statKey: StatsKey) => {
+    const formatNewRealNumber = Number(convertToInteger(newRealNumber, MAX_REAL_NUMBER, false))
     const formatLv = numberToInt(pokemon.level, MIN_LEVEL)
-    const formatIndividualValue = numberToInt(pokemon.ivs[statKey])
+    const baseStat = pokemon.basicInfo.baseStats[statKey]
+    const formatIv = numberToInt(pokemon.ivs[statKey])
+    const formatEv = numberToInt(pokemon.evs[statKey])
+    const natureModifier = statKey !== 'hp' ? getNatureModifier(statKey, pokemon.nature) : 1
 
-    // HPのみ計算式が異なる
-    if (statKey === 'hp') {
-      setValue =
-        (Math.ceil(((setValue - formatLv - 10) * 100) / formatLv) -
-          pokemon.basicInfo.baseStats[statKey] * 2 -
-          formatIndividualValue) *
-        4
-    }
-    // HP以外の計算では、性格補正を修正してから努力値の逆算を行う必要がある
-    if (statKey !== 'hp') {
-      const effortValue = numberToInt(pokemon.evs[statKey])
-      const selectedNatureStat = getNatureModifier(statKey, pokemon.nature)
-      if (setValue % 11 === 10 && selectedNatureStat === UPPER_NATURE) {
-        if (
-          setValue >=
-          Math.floor(
-            (Math.floor(
-              ((pokemon.basicInfo.baseStats[statKey] * 2 +
-                formatIndividualValue +
-                Math.floor(effortValue / 4)) *
-                formatLv) /
-                100
-            ) +
-              5) *
-              selectedNatureStat
-          )
-        ) {
-          setValue += 1
-        } else {
-          setValue -= 1
-        }
-      }
-      if (selectedNatureStat === UPPER_NATURE) {
-        setValue = Math.ceil(setValue / UPPER_NATURE)
-      } else if (selectedNatureStat === LOWER_NATURE) {
-        setValue = Math.ceil(setValue / LOWER_NATURE)
-      }
-      setValue =
-        (Math.ceil(((setValue - 5) * 100) / formatLv) -
-          pokemon.basicInfo.baseStats[statKey] * 2 -
-          formatIndividualValue) *
-        4
-    }
+    const adjustedRealNumber = adjustRealNumber(
+      formatNewRealNumber,
+      formatLv,
+      baseStat,
+      formatIv,
+      formatEv,
+      natureModifier
+    )
 
-    return valueVerification(setValue, MAX_EV)
+    const pureRealNumber = getPureRealNumber(adjustedRealNumber, natureModifier)
+    const newEv = calcEv(statKey, pureRealNumber, formatLv, baseStat, formatIv)
+
+    return valueVerification(newEv, MAX_EV)
   }
 
   const updateRealNumber = (realNumber: number | '', statKey: StatsKey) => {

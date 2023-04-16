@@ -1,4 +1,5 @@
 import { Nature, StatsKey } from '@/types'
+import { LOWER_NATURE, UPPER_NATURE } from '@/utils/constants'
 import { numberToInt } from '@/utils/utilities'
 
 // ポケモンのステータス計算に関するカスタムフック
@@ -30,6 +31,56 @@ export const usePokemonStats = () => {
    */
   const calcRealNumberCommon = (level: number, baseStat: number, iv: number, ev: number) => {
     return Math.floor(((baseStat * 2 + iv + Math.floor(ev / 4)) * level) / 100)
+  }
+
+  /**
+   * 実数値が性格補正有の11n+10(存在しえない値)のとき、元の値を参照し±1された正常な値に調整する
+   *
+   * 【例】
+   * 185 -> 186 に更新するとき => 187
+   * 187 -> 186 に更新するとき => 185
+   */
+  const adjustRealNumber = (
+    newRealNumber: number,
+    level: number,
+    baseStat: number,
+    iv: number,
+    ev: number,
+    natureModifier: number
+  ) => {
+    if (newRealNumber % 11 !== 10 || natureModifier !== UPPER_NATURE) return newRealNumber
+
+    const currentRealNumber = calcRealNumber(level, baseStat, iv, ev, natureModifier)
+    return newRealNumber + (newRealNumber >= currentRealNumber ? 1 : -1)
+  }
+
+  /**
+   * 性格補正抜きのピュアな実数値を取得する
+   */
+  const getPureRealNumber = (realNumber: number, natureModifier: number) => {
+    switch (natureModifier) {
+      case UPPER_NATURE:
+        return Math.ceil(realNumber / UPPER_NATURE)
+      case LOWER_NATURE:
+        return Math.ceil(realNumber / LOWER_NATURE)
+      default:
+        return realNumber
+    }
+  }
+
+  /**
+   * 努力値を計算する
+   */
+  const calcEv = (
+    statKey: StatsKey,
+    pureRealNumber: number,
+    level: number,
+    baseStat: number,
+    iv: number
+  ) => {
+    return statKey === 'hp'
+      ? (Math.ceil(((pureRealNumber - level - 10) * 100) / level) - baseStat * 2 - iv) * 4
+      : (Math.ceil(((pureRealNumber - 5) * 100) / level) - baseStat * 2 - iv) * 4
   }
 
   /**
@@ -101,6 +152,9 @@ export const usePokemonStats = () => {
   }
 
   return {
+    adjustRealNumber,
+    calcEv,
+    getPureRealNumber,
     calcRealNumber,
     getNatureModifier,
     getRealNumber,
