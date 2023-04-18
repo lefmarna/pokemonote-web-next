@@ -1,4 +1,12 @@
-import { Container, Grid } from '@mui/material'
+import {
+  BottomNavigation,
+  BottomNavigationAction,
+  Container,
+  Dialog,
+  Grid,
+  Slide,
+  SlideProps,
+} from '@mui/material'
 import { Nature, NullableStats, Pokemon, PokemonBasicInfo, StatsKey } from '@/types'
 import { MAX_EV, MAX_TOTAL_EV } from '@/utils/constants'
 import { BaseStatsField } from '@/components/organisms/BaseStatsField'
@@ -8,6 +16,8 @@ import { IndividualValueField } from '@/components/organisms/IndividualValueFiel
 import { RealNumberField } from '@/components/organisms/RealNumberField'
 import { StatsTableHeader } from '@/components/organisms/StatsTableHeader'
 import { usePokemonStats } from '@/hooks/usePokemonStats'
+import { Announcement, Email } from '@mui/icons-material'
+import { forwardRef, useState } from 'react'
 
 type Props = {
   pokemon: Pokemon
@@ -154,8 +164,31 @@ export const CalcStatsTemplate = (props: Props) => {
     })
   }
 
+  const resetEffortValue = () => {
+    console.log('resetEffortValue')
+  }
+
+  const [dialog, setDialog] = useState(false)
+
+  const Transition = forwardRef<HTMLDivElement, SlideProps>(function Transition(props, ref) {
+    return <Slide direction="up" ref={ref} {...props} />
+  })
+
   return (
     <Container sx={{ pt: 2 }}>
+      <BottomNavigation showLabels>
+        <BottomNavigationAction onClick={resetEffortValue} icon={<Announcement />} />
+        <BottomNavigationAction onClick={() => setDialog(true)} icon={<Email />} />
+        <Dialog open={dialog} onClose={() => setDialog(false)} TransitionComponent={Transition}>
+          <CalcStatsOptions
+            description={pokemon.description}
+            buttonText={buttonText}
+            realNumbers={realNumbers}
+            updateEvs={updateEvs}
+            durabilityAdjustment={durabilityAdjustment}
+          />
+        </Dialog>
+      </BottomNavigation>
       <Grid container spacing={{ md: 4, lg: 8, xl: 12 }} columns={{ xs: 9, md: 18 }}>
         <Grid item md={9} xs={18}>
           <StatsTableHeader
