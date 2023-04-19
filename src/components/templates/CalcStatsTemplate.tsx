@@ -4,6 +4,7 @@ import {
   Container,
   Dialog,
   Grid,
+  Hidden,
   Slide,
   SlideProps,
 } from '@mui/material'
@@ -18,8 +19,10 @@ import { StatsTableHeader } from '@/components/organisms/StatsTableHeader'
 import { usePokemonStats } from '@/hooks/usePokemonStats'
 import { Announcement, Email } from '@mui/icons-material'
 import { forwardRef, useState } from 'react'
+import { Title } from '../molecules/Title'
 
 type Props = {
+  title: string
   pokemon: Pokemon
   buttonText: string
   updateBasicInfo: (pokemon: PokemonBasicInfo) => void
@@ -30,8 +33,16 @@ type Props = {
 }
 
 export const CalcStatsTemplate = (props: Props) => {
-  const { pokemon, buttonText, updateBasicInfo, updateNature, updateLevel, updateIvs, updateEvs } =
-    props
+  const {
+    title,
+    pokemon,
+    buttonText,
+    updateBasicInfo,
+    updateNature,
+    updateLevel,
+    updateIvs,
+    updateEvs,
+  } = props
 
   const {
     realNumbers,
@@ -176,19 +187,22 @@ export const CalcStatsTemplate = (props: Props) => {
 
   return (
     <Container sx={{ pt: 2 }}>
-      <BottomNavigation showLabels>
-        <BottomNavigationAction onClick={resetEffortValue} icon={<Announcement />} />
-        <BottomNavigationAction onClick={() => setDialog(true)} icon={<Email />} />
-        <Dialog open={dialog} onClose={() => setDialog(false)} TransitionComponent={Transition}>
-          <CalcStatsOptions
-            description={pokemon.description}
-            buttonText={buttonText}
-            realNumbers={realNumbers}
-            updateEvs={updateEvs}
-            durabilityAdjustment={durabilityAdjustment}
-          />
-        </Dialog>
-      </BottomNavigation>
+      <Hidden mdUp>
+        <BottomNavigation showLabels className="d-md-none">
+          <BottomNavigationAction onClick={resetEffortValue} icon={<Announcement />} />
+          <BottomNavigationAction onClick={() => setDialog(true)} icon={<Email />} />
+          <Dialog open={dialog} onClose={() => setDialog(false)} TransitionComponent={Transition}>
+            <CalcStatsOptions
+              description={pokemon.description}
+              buttonText={buttonText}
+              realNumbers={realNumbers}
+              updateEvs={updateEvs}
+              durabilityAdjustment={durabilityAdjustment}
+            />
+          </Dialog>
+        </BottomNavigation>
+      </Hidden>
+      <Title text={title} />
       <Grid container spacing={{ md: 4, lg: 8, xl: 12 }} columns={{ xs: 9, md: 18 }}>
         <Grid item md={9} xs={18}>
           <StatsTableHeader
