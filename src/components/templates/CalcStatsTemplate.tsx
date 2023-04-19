@@ -5,6 +5,7 @@ import {
   Dialog,
   Grid,
   Hidden,
+  Paper,
   Slide,
   SlideProps,
 } from '@mui/material'
@@ -17,9 +18,10 @@ import { IndividualValueField } from '@/components/organisms/IndividualValueFiel
 import { RealNumberField } from '@/components/organisms/RealNumberField'
 import { StatsTableHeader } from '@/components/organisms/StatsTableHeader'
 import { usePokemonStats } from '@/hooks/usePokemonStats'
-import { Announcement, Email } from '@mui/icons-material'
 import { forwardRef, useState } from 'react'
+import { Apps, Autorenew } from '@mui/icons-material'
 import { Title } from '../molecules/Title'
+import { Box } from '@mui/system'
 
 type Props = {
   title: string
@@ -186,12 +188,82 @@ export const CalcStatsTemplate = (props: Props) => {
   })
 
   return (
-    <Container sx={{ pt: 2 }}>
+    <>
       <Hidden mdUp>
-        <BottomNavigation showLabels className="d-md-none">
-          <BottomNavigationAction onClick={resetEffortValue} icon={<Announcement />} />
-          <BottomNavigationAction onClick={() => setDialog(true)} icon={<Email />} />
-          <Dialog open={dialog} onClose={() => setDialog(false)} TransitionComponent={Transition}>
+        <Box sx={{ pb: 7 }}>
+          <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3}>
+            <BottomNavigation showLabels>
+              <BottomNavigationAction onClick={resetEffortValue} icon={<Autorenew />} />
+              <BottomNavigationAction onClick={() => setDialog(true)} icon={<Apps />} />
+              <Dialog
+                open={dialog}
+                onClose={() => setDialog(false)}
+                TransitionComponent={Transition}
+              >
+                <CalcStatsOptions
+                  description={pokemon.description}
+                  buttonText={buttonText}
+                  realNumbers={realNumbers}
+                  updateEvs={updateEvs}
+                  durabilityAdjustment={durabilityAdjustment}
+                />
+              </Dialog>
+            </BottomNavigation>
+          </Paper>
+        </Box>
+      </Hidden>
+      <Container sx={{ pt: 2 }}>
+        <Title text={title} />
+        <Grid container spacing={{ md: 4, lg: 8, xl: 12 }} columns={{ xs: 9, md: 18 }}>
+          <Grid item md={9} xs={18}>
+            <StatsTableHeader
+              basicInfo={pokemon.basicInfo}
+              nature={pokemon.nature}
+              level={pokemon.level}
+              updateBasicInfo={updateBasicInfo}
+              updateNature={updateNature}
+              updateLevel={updateLevel}
+            />
+            {statsKeys.map((statKey) => (
+              <Grid container columns={18} key={statKey} sx={{ mt: 1 }}>
+                <BaseStatsField
+                  value={pokemon.basicInfo.baseStats[statKey]}
+                  statsInitial={getStatsInitial(statKey)}
+                  natureStat={getNatureModifier(statKey, pokemon.nature)}
+                />
+                <IndividualValueField
+                  value={pokemon.ivs[statKey]}
+                  statKey={statKey}
+                  updateIvs={updateIvs}
+                />
+                <EffortValueField
+                  value={pokemon.evs[statKey]}
+                  statKey={statKey}
+                  updateEvs={updateEvs}
+                />
+                <RealNumberField
+                  value={realNumbers[statKey]}
+                  statKey={statKey}
+                  updateRealNumber={updateRealNumber}
+                />
+              </Grid>
+            ))}
+            <Grid container columns={18} sx={{ mt: 1 }}>
+              <Grid item xs={3} sx={{ pl: { xs: 2, sm: 3 } }}>
+                {totalBaseStats()}
+              </Grid>
+              <Grid item xs={5} sx={{ pl: { xs: 2, sm: 3 } }}>
+                {totalIv()}
+              </Grid>
+              <Grid item xs={5} sx={{ pl: { xs: 2, sm: 3 } }}>
+                <span>{totalEv()}</span>/&nbsp;{MAX_TOTAL_EV}
+              </Grid>
+              <Grid item xs={5} sx={{ pl: { xs: 2, sm: 3 } }}>
+                {totalStats()}
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid item md={9} xs={18}>
             <CalcStatsOptions
               description={pokemon.description}
               buttonText={buttonText}
@@ -199,69 +271,9 @@ export const CalcStatsTemplate = (props: Props) => {
               updateEvs={updateEvs}
               durabilityAdjustment={durabilityAdjustment}
             />
-          </Dialog>
-        </BottomNavigation>
-      </Hidden>
-      <Title text={title} />
-      <Grid container spacing={{ md: 4, lg: 8, xl: 12 }} columns={{ xs: 9, md: 18 }}>
-        <Grid item md={9} xs={18}>
-          <StatsTableHeader
-            basicInfo={pokemon.basicInfo}
-            nature={pokemon.nature}
-            level={pokemon.level}
-            updateBasicInfo={updateBasicInfo}
-            updateNature={updateNature}
-            updateLevel={updateLevel}
-          />
-          {statsKeys.map((statKey) => (
-            <Grid container columns={18} key={statKey} sx={{ mt: 1 }}>
-              <BaseStatsField
-                value={pokemon.basicInfo.baseStats[statKey]}
-                statsInitial={getStatsInitial(statKey)}
-                natureStat={getNatureModifier(statKey, pokemon.nature)}
-              />
-              <IndividualValueField
-                value={pokemon.ivs[statKey]}
-                statKey={statKey}
-                updateIvs={updateIvs}
-              />
-              <EffortValueField
-                value={pokemon.evs[statKey]}
-                statKey={statKey}
-                updateEvs={updateEvs}
-              />
-              <RealNumberField
-                value={realNumbers[statKey]}
-                statKey={statKey}
-                updateRealNumber={updateRealNumber}
-              />
-            </Grid>
-          ))}
-          <Grid container columns={18} sx={{ mt: 1 }}>
-            <Grid item xs={3} sx={{ pl: { xs: 2, sm: 3 } }}>
-              {totalBaseStats()}
-            </Grid>
-            <Grid item xs={5} sx={{ pl: { xs: 2, sm: 3 } }}>
-              {totalIv()}
-            </Grid>
-            <Grid item xs={5} sx={{ pl: { xs: 2, sm: 3 } }}>
-              <span>{totalEv()}</span>/&nbsp;{MAX_TOTAL_EV}
-            </Grid>
-            <Grid item xs={5} sx={{ pl: { xs: 2, sm: 3 } }}>
-              {totalStats()}
-            </Grid>
           </Grid>
         </Grid>
-        <Grid item md={9} xs={18}>
-          <CalcStatsOptions
-            description={pokemon.description}
-            buttonText={buttonText}
-            realNumbers={realNumbers}
-            updateEvs={updateEvs}
-            durabilityAdjustment={durabilityAdjustment}
-          />
-        </Grid>
-      </Grid>
-    </Container>
+      </Container>
+    </>
   )
 }
