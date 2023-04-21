@@ -183,31 +183,27 @@ export const CalcStatsTemplate = (props: Props) => {
 
   const [dialog, setDialog] = useState(false)
 
-  const Transition = forwardRef<HTMLDivElement, SlideProps>(function Transition(props, ref) {
-    return <Slide direction="up" ref={ref} {...props} />
-  })
+  const handleClose = () => {
+    setDialog(false)
+  }
 
   return (
     <>
+      <Dialog open={dialog} onClose={handleClose}>
+        <CalcStatsOptions
+          description={pokemon.description}
+          buttonText={buttonText}
+          realNumbers={realNumbers}
+          updateEvs={updateEvs}
+          durabilityAdjustment={durabilityAdjustment}
+        />
+      </Dialog>
       <Hidden mdUp>
-        <Box sx={{ pb: 7 }}>
+        <Box sx={{ pb: 7, mt: 9 }}>
           <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3}>
             <BottomNavigation showLabels>
               <BottomNavigationAction onClick={resetEffortValue} icon={<Autorenew />} />
               <BottomNavigationAction onClick={() => setDialog(true)} icon={<Apps />} />
-              <Dialog
-                open={dialog}
-                onClose={() => setDialog(false)}
-                TransitionComponent={Transition}
-              >
-                <CalcStatsOptions
-                  description={pokemon.description}
-                  buttonText={buttonText}
-                  realNumbers={realNumbers}
-                  updateEvs={updateEvs}
-                  durabilityAdjustment={durabilityAdjustment}
-                />
-              </Dialog>
             </BottomNavigation>
           </Paper>
         </Box>
@@ -263,15 +259,17 @@ export const CalcStatsTemplate = (props: Props) => {
               </Grid>
             </Grid>
           </Grid>
-          <Grid item md={9} xs={18}>
-            <CalcStatsOptions
-              description={pokemon.description}
-              buttonText={buttonText}
-              realNumbers={realNumbers}
-              updateEvs={updateEvs}
-              durabilityAdjustment={durabilityAdjustment}
-            />
-          </Grid>
+          <Hidden mdDown>
+            <Grid item md={9} xs={18}>
+              <CalcStatsOptions
+                description={pokemon.description}
+                buttonText={buttonText}
+                realNumbers={realNumbers}
+                updateEvs={updateEvs}
+                durabilityAdjustment={durabilityAdjustment}
+              />
+            </Grid>
+          </Hidden>
         </Grid>
       </Container>
     </>
