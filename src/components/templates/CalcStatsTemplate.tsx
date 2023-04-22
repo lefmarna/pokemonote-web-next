@@ -4,13 +4,11 @@ import {
   Container,
   Dialog,
   Grid,
-  Hidden,
   Paper,
-  Slide,
-  SlideProps,
 } from '@mui/material'
 import { Nature, NullableStats, Pokemon, PokemonBasicInfo, StatsKey } from '@/types'
 import { MAX_EV, MAX_TOTAL_EV } from '@/utils/constants'
+import { useMediaQueryDown } from '@/utils/theme'
 import { BaseStatsField } from '@/components/organisms/BaseStatsField'
 import { CalcStatsOptions } from '@/components/organisms/CalcStatsOptions'
 import { EffortValueField } from '@/components/organisms/EffortValueField'
@@ -18,7 +16,7 @@ import { IndividualValueField } from '@/components/organisms/IndividualValueFiel
 import { RealNumberField } from '@/components/organisms/RealNumberField'
 import { StatsTableHeader } from '@/components/organisms/StatsTableHeader'
 import { usePokemonStats } from '@/hooks/usePokemonStats'
-import { forwardRef, useState } from 'react'
+import { ReactNode, useState } from 'react'
 import { Apps, Autorenew } from '@mui/icons-material'
 import { Title } from '../molecules/Title'
 import { Box } from '@mui/system'
@@ -187,30 +185,26 @@ export const CalcStatsTemplate = (props: Props) => {
     setDialog(false)
   }
 
+  const isMdDown = useMediaQueryDown('md')
+
+  const wrapCalcStatsOptions = (children: ReactNode) => {
+    return isMdDown ? (
+      <Dialog open={dialog} onClose={handleClose}>
+        {children}
+      </Dialog>
+    ) : (
+      <Grid item md={9} xs={18}>
+        {children}
+      </Grid>
+    )
+  }
+
   return (
     <>
-      <Dialog open={dialog} onClose={handleClose}>
-        <CalcStatsOptions
-          description={pokemon.description}
-          buttonText={buttonText}
-          realNumbers={realNumbers}
-          updateEvs={updateEvs}
-          durabilityAdjustment={durabilityAdjustment}
-        />
-      </Dialog>
-      <Hidden mdUp>
-        <Box sx={{ pb: 7, mt: 9 }}>
-          <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3}>
-            <BottomNavigation showLabels>
-              <BottomNavigationAction onClick={resetEffortValue} icon={<Autorenew />} />
-              <BottomNavigationAction onClick={() => setDialog(true)} icon={<Apps />} />
-            </BottomNavigation>
-          </Paper>
-        </Box>
-      </Hidden>
       <Container sx={{ pt: 2 }}>
         <Title text={title} />
         <Grid container spacing={{ md: 4, lg: 8, xl: 12 }} columns={{ xs: 9, md: 18 }}>
+          {/* 画面左 */}
           <Grid item md={9} xs={18}>
             <StatsTableHeader
               basicInfo={pokemon.basicInfo}
@@ -259,19 +253,29 @@ export const CalcStatsTemplate = (props: Props) => {
               </Grid>
             </Grid>
           </Grid>
-          <Hidden mdDown>
-            <Grid item md={9} xs={18}>
-              <CalcStatsOptions
-                description={pokemon.description}
-                buttonText={buttonText}
-                realNumbers={realNumbers}
-                updateEvs={updateEvs}
-                durabilityAdjustment={durabilityAdjustment}
-              />
-            </Grid>
-          </Hidden>
+          {/* 画面右 */}
+          {wrapCalcStatsOptions(
+            <CalcStatsOptions
+              description={pokemon.description}
+              buttonText={buttonText}
+              realNumbers={realNumbers}
+              updateEvs={updateEvs}
+              durabilityAdjustment={durabilityAdjustment}
+            />
+          )}
         </Grid>
       </Container>
+      {/* フッター */}
+      {isMdDown && (
+        <Box sx={{ pb: 7 }}>
+          <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3}>
+            <BottomNavigation showLabels>
+              <BottomNavigationAction onClick={resetEffortValue} icon={<Autorenew />} />
+              <BottomNavigationAction onClick={handleClose} icon={<Apps />} />
+            </BottomNavigation>
+          </Paper>
+        </Box>
+      )}
     </>
   )
 }
