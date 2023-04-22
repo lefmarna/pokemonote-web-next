@@ -17,9 +17,10 @@ import { RealNumberField } from '@/components/organisms/RealNumberField'
 import { StatsTableHeader } from '@/components/organisms/StatsTableHeader'
 import { usePokemonStats } from '@/hooks/usePokemonStats'
 import { ReactNode, useState } from 'react'
-import { Apps, Autorenew } from '@mui/icons-material'
+import { Apps, Autorenew, Send } from '@mui/icons-material'
 import { Title } from '../molecules/Title'
 import { Box } from '@mui/system'
+import { useAuthUserState } from '@/store/authUserState'
 
 type Props = {
   title: string
@@ -199,6 +200,8 @@ export const CalcStatsTemplate = (props: Props) => {
     )
   }
 
+  const authUser = useAuthUserState()
+
   return (
     <>
       <Container sx={{ pt: 2 }}>
@@ -272,6 +275,9 @@ export const CalcStatsTemplate = (props: Props) => {
             <BottomNavigation showLabels>
               <BottomNavigationAction onClick={resetEffortValue} icon={<Autorenew />} />
               <BottomNavigationAction onClick={handleClose} icon={<Apps />} />
+              {authUser && (
+                <BottomNavigationAction onClick={handleClose} icon={<Send color="primary" />} />
+              )}
             </BottomNavigation>
           </Paper>
         </Box>
