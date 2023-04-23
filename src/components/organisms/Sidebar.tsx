@@ -5,7 +5,6 @@ import {
   Calculate,
   DirectionsRun,
   Email,
-  Favorite,
   Person,
   Settings,
   TrendingUp,
@@ -21,7 +20,6 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
-  useMediaQuery,
 } from '@mui/material'
 import Link from 'next/link'
 
@@ -74,29 +72,22 @@ export const Sidebar = (props: Props) => {
   ] as const
 
   const otherMenuLists = [
-    // {
-    //   id: 1,
-    //   name: 'チップを贈る',
-    //   icon: <Favorite />,
-    //   link: '/give-tip',
-    //   requireAuth: true,
-    // },
     {
-      id: 2,
+      id: 1,
       name: '利用規約',
       icon: <Announcement />,
       link: '/privacy-policy',
       requireAuth: false,
     },
     {
-      id: 3,
+      id: 2,
       name: 'お問い合わせ',
       icon: <Email />,
       link: '/lefmarna-otoiawase',
       requireAuth: false,
     },
     {
-      id: 4,
+      id: 3,
       name: '設定',
       icon: <Settings />,
       link: '/settings',
@@ -145,10 +136,7 @@ export const Sidebar = (props: Props) => {
         ))}
         {/* ログイン時のみマイページを表示する */}
         {authUser && (
-          <ListItemButton
-
-          // href={`/users/${$store.getters.authUser.username}`}
-          >
+          <ListItemButton href={`/users/${authUser.username}`}>
             <ListItemIcon>
               <Person />
             </ListItemIcon>

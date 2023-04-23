@@ -8,6 +8,7 @@ const CalcStats: NextPage = () => {
 
   return (
     <CalcStatsTemplate
+      title="ステータス計算機"
       buttonText="投稿する"
       pokemon={pokemon}
       updateBasicInfo={updateBasicInfo}

@@ -1,5 +1,5 @@
 import { Autocomplete, FilterOptionsState, TextField } from '@mui/material'
-import { SyntheticEvent } from 'react'
+import { memo, SyntheticEvent } from 'react'
 
 type Props<T> = {
   options: T[]
@@ -10,7 +10,7 @@ type Props<T> = {
   setState: (value: T | null) => void
 }
 
-export const SearchField = <T extends { name: string }>(props: Props<T>) => {
+const SearchFieldComponent = <T extends { name: string }>(props: Props<T>) => {
   const { options, label, itemName, selectedItem, setState, disableClearable = false } = props
 
   const onChange = (event: SyntheticEvent<Element, Event>, value: T | null) => {
@@ -297,3 +297,5 @@ export const SearchField = <T extends { name: string }>(props: Props<T>) => {
     />
   )
 }
+
+export const SearchField = memo(SearchFieldComponent) as typeof SearchFieldComponent

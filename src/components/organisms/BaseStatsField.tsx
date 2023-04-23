@@ -1,6 +1,7 @@
 import { Grid, styled, TextField } from '@mui/material'
 import styles from '@/styles/Home.module.scss'
 import { LOWER_NATURE, UPPER_NATURE } from '@/utils/constants'
+import { memo } from 'react'
 
 type Props = {
   value: number
@@ -8,7 +9,7 @@ type Props = {
   natureStat: number
 }
 
-export const BaseStatsField = (props: Props) => {
+export const BaseStatsField = memo((props: Props) => {
   const { value, statsInitial, natureStat } = props
 
   const getTextFieldColor = () => {
@@ -43,4 +44,4 @@ export const BaseStatsField = (props: Props) => {
       />
     </Grid>
   )
-}
+})

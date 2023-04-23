@@ -1,5 +1,5 @@
 import { Box, Button, Grid, TextField } from '@mui/material'
-import { FocusEvent, KeyboardEvent, memo, useCallback, useEffect, useRef } from 'react'
+import { FocusEvent, KeyboardEvent, memo, useEffect, useRef } from 'react'
 import { StatsKey } from '@/types'
 import { convertToInteger } from '@/utils/utilities'
 
@@ -12,35 +12,31 @@ type Props = {
 export const RealNumberField = memo((props: Props) => {
   const { value, statKey, updateRealNumber } = props
 
-  const realNumberRef = useRef<HTMLInputElement>()
+  const realNumberElement = useRef<HTMLInputElement>()
 
+  // 計算結果を画面に即時反映する
   useEffect(() => {
-    if (!realNumberRef || !realNumberRef.current) return
-    realNumberRef.current.value = String(value)
+    if (!realNumberElement || !realNumberElement.current) return
+    realNumberElement.current.value = String(value)
   }, [value])
 
-  const onBlur = useCallback(
-    (e: FocusEvent<HTMLInputElement>) => {
-      const formatValue = convertToInteger(e.target.value, 999)
-      updateRealNumber(formatValue, statKey)
-    },
-    [statKey, updateRealNumber]
-  )
+  // onBlur と onKeydown の組み合わせにより、擬似的にchangeイベントを再現する
+  const onBlur = (e: FocusEvent<HTMLInputElement>) => {
+    const newRealNumber = convertToInteger(e.target.value, 999)
+    updateRealNumber(newRealNumber, statKey)
+  }
 
-  const onKeydown = useCallback(
-    (e: KeyboardEvent<HTMLInputElement>) => {
-      if (e.key !== 'Enter' || e.nativeEvent.isComposing) return
-      if (!(e.target instanceof HTMLInputElement)) return
+  const onKeydown = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key !== 'Enter' || e.nativeEvent.isComposing) return
+    if (!(e.target instanceof HTMLInputElement)) return
 
-      const formatValue = convertToInteger(e.target.value, 999)
-      updateRealNumber(formatValue, statKey)
-    },
-    [statKey, updateRealNumber]
-  )
+    const newRealNumber = convertToInteger(e.target.value, 999)
+    updateRealNumber(newRealNumber, statKey)
+  }
 
   const onSelected = () => {
-    if (!realNumberRef || !realNumberRef.current) return
-    realNumberRef.current.select()
+    if (!realNumberElement || !realNumberElement.current) return
+    realNumberElement.current.select()
   }
 
   const incrementRealNumber = () => {
@@ -83,11 +79,10 @@ export const RealNumberField = memo((props: Props) => {
   return (
     <Grid item xs={5} sx={{ pl: { xs: 2, sm: 3 }, display: 'flex' }}>
       <TextField
-        id={`real-number-${statName}`}
         type="tel"
         label={statName}
         defaultValue={value}
-        inputRef={realNumberRef}
+        inputRef={realNumberElement}
         onBlur={onBlur}
         onKeyDown={onKeydown}
         onClick={onSelected}

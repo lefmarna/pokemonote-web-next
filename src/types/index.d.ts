@@ -53,6 +53,7 @@ export type Pokemon = Readonly<{
   nature: Nature
   ivs: NullableStats
   evs: NullableStats
+  description: string
 }>
 
 export type Stats = Readonly<{

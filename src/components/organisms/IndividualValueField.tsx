@@ -14,21 +14,21 @@ type Props = {
 export const IndividualValueField = memo((props: Props) => {
   const { value, statKey, updateIvs } = props
 
-  const individualValuerRef = useRef<HTMLInputElement>()
+  const ivElement = useRef<HTMLInputElement>()
 
   const onSelected = () => {
-    if (!individualValuerRef || !individualValuerRef.current) return
-    individualValuerRef.current.select()
+    if (!ivElement || !ivElement.current) return
+    ivElement.current.select()
   }
 
   const onChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const formatValue = convertToInteger(event.target.value, MAX_IV)
-    updateIvs({ [statKey]: formatValue })
+    const newIv = convertToInteger(event.target.value, MAX_IV)
+    updateIvs({ [statKey]: newIv })
   }
 
-  const onClickCalcButton = (event: MouseEvent<HTMLElement>, newIv: number) => {
-    const formatValue = newIv !== 0 ? newIv : ''
-    updateIvs({ [statKey]: formatValue })
+  const onClickCalcButton = (event: MouseEvent<HTMLElement>, buttonValue: number) => {
+    const newIv = buttonValue !== 0 ? buttonValue : ''
+    updateIvs({ [statKey]: newIv })
   }
 
   const calcButtonStyle = {
@@ -48,7 +48,7 @@ export const IndividualValueField = memo((props: Props) => {
         label="個体値"
         placeholder="0"
         value={value}
-        inputRef={individualValuerRef}
+        inputRef={ivElement}
         onClick={onSelected}
         onChange={onChange}
         variant="standard"

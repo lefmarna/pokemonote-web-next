@@ -16,7 +16,7 @@ import {
   SelectChangeEvent,
   TextField,
 } from '@mui/material'
-import { ChangeEvent, useState } from 'react'
+import { ChangeEvent, memo, useState } from 'react'
 import { NullableStats, Stats } from '@/types'
 
 type Props = {
@@ -31,7 +31,7 @@ type Props = {
   ) => void
 }
 
-export const CalcStatsOptions = (props: Props) => {
+export const CalcStatsOptions = memo((props: Props) => {
   const { buttonText, description, realNumbers, updateEvs, durabilityAdjustment } = props
 
   const [selectDefenceEnhancement, setSelectDefenceEnhancement] = useState(1)
@@ -76,10 +76,6 @@ export const CalcStatsOptions = (props: Props) => {
     { id: 2, name: '1.5', value: 1.5 },
     { id: 3, name: '1.0', value: 1.0 },
   ]
-
-  const onClick = () => {
-    durabilityAdjustment(calcStyle, selectDefenceEnhancement, selectSpDefenceEnhancement)
-  }
 
   return (
     <Container>
@@ -170,4 +166,4 @@ export const CalcStatsOptions = (props: Props) => {
       </Grid>
     </Container>
   )
-}
+})
