@@ -78,7 +78,13 @@ const StyledH4 = styled.h4`
     width: 100%;
     height: 6px;
     content: '';
-    background: repeating-linear-gradient(-45deg, #1976d2, #1976d2 2px, #d8d8d8 2px, #d8d8d8 4px);
+    background: repeating-linear-gradient(
+      -45deg,
+      #1976d2,
+      #1976d2 2px,
+      #d8d8d8 2px,
+      #d8d8d8 4px
+    );
   }
 `
 
@@ -125,10 +131,15 @@ export default function PrivacyPolicy() {
         <StyledH2>適用範囲</StyledH2>
         <p>本利用規約は、当サイトにおいてのみ適用されます。</p>
         <StyledH2>個人情報の取得と利用目的</StyledH2>
-        <p>当サイトで取得する訪問者の個人情報と利用目的、保存期間等は下記の通りです。</p>
+        <p>
+          当サイトで取得する訪問者の個人情報と利用目的、保存期間等は下記の通りです。
+        </p>
         <StyledH3>お問い合わせされた個人情報を取得します</StyledH3>
         <p>
-          当サイトでは<StyledLink href="/lefmarna-otoiawase">お問い合わせフォーム</StyledLink>
+          当サイトでは
+          <StyledLink href="/lefmarna-otoiawase">
+            お問い合わせフォーム
+          </StyledLink>
           を設けています。
         </p>
         <p>
@@ -152,9 +163,13 @@ export default function PrivacyPolicy() {
         <p>
           当サイトでは、お問い合わせフォームからお問い合わせをする前に、当利用規約をご一読いただくよう案内しています。
         </p>
-        <p>お問い合わせをされた時点で、その訪問者は当利用規約に同意されたとみなします。</p>
+        <p>
+          お問い合わせをされた時点で、その訪問者は当利用規約に同意されたとみなします。
+        </p>
         <StyledH3>Cookieによる個人情報の取得</StyledH3>
-        <p>当サイトは、訪問者のコンピュータにCookieを送信することがあります。</p>
+        <p>
+          当サイトは、訪問者のコンピュータにCookieを送信することがあります。
+        </p>
         <p>
           Cookie（クッキー）とは、ウェブサイトを利用したときに、ブラウザとサーバーとの間で送受信した利用履歴や入力内容などを、訪問者のコンピュータにファイルとして保存しておく仕組みです。
         </p>
@@ -195,9 +210,13 @@ export default function PrivacyPolicy() {
           すべてのCookieを拒否する設定を選択されますと、認証が必要なサービスを受けられなくなる等、インターネット上の各種サービスの利用上、制約を受ける場合がありますのでご注意ください。
         </p>
         <StyledH2>個人情報の管理</StyledH2>
-        <p>当サイトは、訪問者からご提供いただいた情報の管理について、以下を徹底します。</p>
+        <p>
+          当サイトは、訪問者からご提供いただいた情報の管理について、以下を徹底します。
+        </p>
         <StyledH3>情報の正確性の確保</StyledH3>
-        <p>訪問者からご提供いただいた情報については、常に正確かつ最新の情報となるよう努めます。</p>
+        <p>
+          訪問者からご提供いただいた情報については、常に正確かつ最新の情報となるよう努めます。
+        </p>
         <StyledH3>安全管理措置</StyledH3>
         <p>
           当サイトは、個人情報の漏えいや滅失又は棄損を防止するために、適切なセキリュティ対策を実施して個人情報を保護します。
@@ -210,7 +229,9 @@ export default function PrivacyPolicy() {
         </p>
         <p>
           上記を希望される場合は、
-          <StyledLink href="/lefmarna-otoiawase">お問い合わせフォーム</StyledLink>
+          <StyledLink href="/lefmarna-otoiawase">
+            お問い合わせフォーム
+          </StyledLink>
           にてお問い合わせください。
         </p>
         <StyledH2>個人情報の第三者への提供について</StyledH2>
@@ -316,7 +337,9 @@ export default function PrivacyPolicy() {
           当サイトの保守、火災、停電、その他の自然災害、ウィルスや第三者の妨害等行為による不可抗力によって、当サイトによるサービスが停止したことに起因して利用者に生じた損害についても、何ら責任を負うものではありません。
         </p>
         <p>当サイトを利用する場合は、自己責任で行う必要があります。</p>
-        <StyledH3>当サイトで掲載している画像の著作権や肖像権等について</StyledH3>
+        <StyledH3>
+          当サイトで掲載している画像の著作権や肖像権等について
+        </StyledH3>
         <p>
           当サイトで掲載している画像の著作権や肖像権等は、各権利所有者に帰属します。万が一問題がある場合は、お問い合わせよりご連絡いただけますよう宜しくお願い致します。
         </p>

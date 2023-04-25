@@ -6,7 +6,13 @@ import {
   Grid,
   Paper,
 } from '@mui/material'
-import { Nature, NullableStats, Pokemon, PokemonBasicInfo, StatsKey } from '@/types'
+import {
+  Nature,
+  NullableStats,
+  Pokemon,
+  PokemonBasicInfo,
+  StatsKey,
+} from '@/types'
 import { MAX_EV, MAX_TOTAL_EV } from '@/utils/constants'
 import { useMediaQueryDown } from '@/utils/theme'
 import { BaseStatsField } from '@/components/organisms/BaseStatsField'
@@ -57,7 +63,14 @@ export const CalcStatsTemplate = (props: Props) => {
     totalStats,
   } = usePokemonStats(pokemon)
 
-  const statsKeys: StatsKey[] = ['hp', 'attack', 'defense', 'spAttack', 'spDefense', 'speed']
+  const statsKeys: StatsKey[] = [
+    'hp',
+    'attack',
+    'defense',
+    'spAttack',
+    'spDefense',
+    'speed',
+  ]
 
   const updateRealNumber = (newRealNumber: number | '', statKey: StatsKey) => {
     const newEv = getEv(newRealNumber, statKey)
@@ -131,8 +144,12 @@ export const CalcStatsTemplate = (props: Props) => {
         tmpDefence = getRealNumber('defense', tmpDefenceEV)
 
         // 耐久補正込での耐久値を求める
-        tmpDefenceEnhancement = Math.floor(tmpDefence * selectDefenceEnhancement)
-        tmpSpDefenceEnhancement = Math.floor(tmpSpDefence * selectSpDefenceEnhancement)
+        tmpDefenceEnhancement = Math.floor(
+          tmpDefence * selectDefenceEnhancement
+        )
+        tmpSpDefenceEnhancement = Math.floor(
+          tmpSpDefence * selectSpDefenceEnhancement
+        )
 
         // 耐久指数を計算する（計算スタイルによって結果が異なる）
         if (calcStyle === 'balance') {
@@ -146,7 +163,9 @@ export const CalcStatsTemplate = (props: Props) => {
 
           // NOTE 結果が同じ時には防御と特防の差が小さい方が好ましいため、最も差分の小さな値を入れるようにしている
           if (oldHBD === newHBD && resultHp === tmpHp) {
-            const diff = Math.abs(tmpDefenceEnhancement - tmpSpDefenceEnhancement)
+            const diff = Math.abs(
+              tmpDefenceEnhancement - tmpSpDefenceEnhancement
+            )
             if (tmpDiff === null || tmpDiff > diff) {
               tmpDiff = diff
               resultDefence = tmpDefence
@@ -206,7 +225,11 @@ export const CalcStatsTemplate = (props: Props) => {
     <>
       <Container sx={{ pt: 2 }}>
         <Title text={title} />
-        <Grid container spacing={{ md: 4, lg: 8, xl: 12 }} columns={{ xs: 9, md: 18 }}>
+        <Grid
+          container
+          spacing={{ md: 4, lg: 8, xl: 12 }}
+          columns={{ xs: 9, md: 18 }}
+        >
           {/* 画面左 */}
           <Grid item md={9} xs={18}>
             <StatsTableHeader
@@ -271,12 +294,21 @@ export const CalcStatsTemplate = (props: Props) => {
       {/* フッター */}
       {isMdDown && (
         <Box sx={{ pb: 7 }}>
-          <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3}>
+          <Paper
+            sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }}
+            elevation={3}
+          >
             <BottomNavigation showLabels>
-              <BottomNavigationAction onClick={resetEffortValue} icon={<Autorenew />} />
+              <BottomNavigationAction
+                onClick={resetEffortValue}
+                icon={<Autorenew />}
+              />
               <BottomNavigationAction onClick={handleClose} icon={<Apps />} />
               {authUser && (
-                <BottomNavigationAction onClick={handleClose} icon={<Send color="primary" />} />
+                <BottomNavigationAction
+                  onClick={handleClose}
+                  icon={<Send color="primary" />}
+                />
               )}
             </BottomNavigation>
           </Paper>

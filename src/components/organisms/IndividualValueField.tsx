@@ -26,7 +26,10 @@ export const IndividualValueField = memo((props: Props) => {
     updateIvs({ [statKey]: newIv })
   }
 
-  const onClickCalcButton = (event: MouseEvent<HTMLElement>, buttonValue: number) => {
+  const onClickCalcButton = (
+    event: MouseEvent<HTMLElement>,
+    buttonValue: number
+  ) => {
     const newIv = buttonValue !== 0 ? buttonValue : ''
     updateIvs({ [statKey]: newIv })
   }
@@ -57,7 +60,10 @@ export const IndividualValueField = memo((props: Props) => {
         }}
       />
       <Box>
-        <CalcButton onClick={onClickCalcButton} sx={{ mb: 0.5, ...calcButtonStyle }}>
+        <CalcButton
+          onClick={onClickCalcButton}
+          sx={{ mb: 0.5, ...calcButtonStyle }}
+        >
           {31}
         </CalcButton>
         <CalcButton onClick={onClickCalcButton} sx={calcButtonStyle}>

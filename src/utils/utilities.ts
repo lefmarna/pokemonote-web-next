@@ -44,10 +44,16 @@ export const numberToInt = (value: number | '', defaultValue = 0) => {
 /**
  * try/catchのcatch内で使用。エラーメッセージを配列にして返す。
  */
-export const exceptionErrorToArray = (error: unknown, expectedStatusCodes: number[] = []) => {
+export const exceptionErrorToArray = (
+  error: unknown,
+  expectedStatusCodes: number[] = []
+) => {
   if (!axios.isAxiosError(error)) return [EXCEPTION_ERROR_MESSAGE]
 
-  if (expectedStatusCodes.length && !expectedStatusCodes.includes(error.response?.status ?? 500)) {
+  if (
+    expectedStatusCodes.length &&
+    !expectedStatusCodes.includes(error.response?.status ?? 500)
+  ) {
     return [EXCEPTION_ERROR_MESSAGE]
   }
 

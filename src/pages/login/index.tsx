@@ -8,7 +8,10 @@ import { EmailField } from '@/components/molecules/EmailField'
 import { PasswordField } from '@/components/molecules/PasswordField'
 import { exceptionErrorToArray } from '@/utils/utilities'
 import { useAuthUserMutators, useAuthUserState } from '@/store/authUserState'
-import { useRememberRouteMutators, useRememberRouteState } from '@/store/rememberRouteState'
+import {
+  useRememberRouteMutators,
+  useRememberRouteState,
+} from '@/store/rememberRouteState'
 import { Meta } from '@/components/organisms/Meta'
 
 export default function Login() {
@@ -45,7 +48,10 @@ export default function Login() {
     setIsLoading(true)
 
     try {
-      const response = await axios.post<{ data: AuthUser }>('/login', { email, password })
+      const response = await axios.post<{ data: AuthUser }>('/login', {
+        email,
+        password,
+      })
       const _authUser = response.data.data
 
       if (!_authUser.email_verified_at) {

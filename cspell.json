@@ -1,10 +1,6 @@
 {
   "version": "0.2",
-  "ignorePaths": [
-    ".devcontainer",
-    ".github/workflows",
-    "README.md"
-  ],
+  "ignorePaths": [".devcontainer", ".github/workflows", "README.md"],
   "dictionaryDefinitions": [],
   "dictionaries": [],
   "words": [

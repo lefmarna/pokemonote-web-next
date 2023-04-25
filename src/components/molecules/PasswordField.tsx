@@ -65,7 +65,9 @@ export const PasswordField = memo((props: Props) => {
         ),
         endAdornment: (
           <InputAdornment position="end">
-            <IconButton onClick={handleTogglePasswordVisibility}>{togglePasswordIcon}</IconButton>
+            <IconButton onClick={handleTogglePasswordVisibility}>
+              {togglePasswordIcon}
+            </IconButton>
           </InputAdornment>
         ),
       }}

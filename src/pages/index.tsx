@@ -34,14 +34,6 @@ export default function Home() {
               rel="noopener noreferrer"
             >
               By{' '}
-              <Image
-                src="/vercel.svg"
-                alt="Vercel Logo"
-                className={styles.vercelLogo}
-                width={100}
-                height={24}
-                priority
-              />
             </a>
           </div>
         </div>
@@ -102,7 +94,8 @@ export default function Home() {
               Deploy <span>-&gt;</span>
             </h2>
             <p className={inter.className}>
-              Instantly deploy your Next.js site to a shareable URL with&nbsp;Vercel.
+              Instantly deploy your Next.js site to a shareable URL
+              with&nbsp;Vercel.
             </p>
           </a>
         </div>

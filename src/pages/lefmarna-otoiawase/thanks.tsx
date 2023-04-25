@@ -13,7 +13,11 @@ export default function Thanks() {
         <br />
         引き続き『Pokemonote』をよろしくお願いします。
       </p>
-      <Button onClick={() => router.push('/')} variant="contained" color="primary">
+      <Button
+        onClick={() => router.push('/')}
+        variant="contained"
+        color="primary"
+      >
         トップページへ戻る
       </Button>
     </Container>

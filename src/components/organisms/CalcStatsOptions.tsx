@@ -32,31 +32,49 @@ type Props = {
 }
 
 export const CalcStatsOptions = memo((props: Props) => {
-  const { buttonText, description, realNumbers, updateEvs, durabilityAdjustment } = props
+  const {
+    buttonText,
+    description,
+    realNumbers,
+    updateEvs,
+    durabilityAdjustment,
+  } = props
 
   const [selectDefenceEnhancement, setSelectDefenceEnhancement] = useState(1)
-  const [selectSpDefenceEnhancement, setSelectSpDefenceEnhancement] = useState(1)
+  const [selectSpDefenceEnhancement, setSelectSpDefenceEnhancement] =
+    useState(1)
   const [calcStyle, setCalcStyle] = useState('balance')
 
   const updateSelectDefenceEnhancement = (event: SelectChangeEvent<number>) => {
     setSelectDefenceEnhancement(Number(event.target.value))
   }
-  const updateSelectSpDefenceEnhancement = (event: SelectChangeEvent<number>) => {
+  const updateSelectSpDefenceEnhancement = (
+    event: SelectChangeEvent<number>
+  ) => {
     setSelectSpDefenceEnhancement(Number(event.target.value))
   }
 
-  const updateCalcStyle = (event: ChangeEvent<HTMLInputElement>, value: string) => {
+  const updateCalcStyle = (
+    event: ChangeEvent<HTMLInputElement>,
+    value: string
+  ) => {
     setCalcStyle(value)
   }
 
   // 物理耐久指数を求める
   const physicalDurability = () => {
-    return realNumbers.hp * Math.floor(realNumbers.defense * selectDefenceEnhancement)
+    return (
+      realNumbers.hp *
+      Math.floor(realNumbers.defense * selectDefenceEnhancement)
+    )
   }
 
   // 特殊耐久指数を求める
   const specialDurability = () => {
-    return realNumbers.hp * Math.floor(realNumbers.spDefense * selectSpDefenceEnhancement)
+    return (
+      realNumbers.hp *
+      Math.floor(realNumbers.spDefense * selectSpDefenceEnhancement)
+    )
   }
 
   // 努力値をリセットする
@@ -121,7 +139,9 @@ export const CalcStatsOptions = memo((props: Props) => {
               <Box>
                 {/* <Box>計算スタイル</Box> */}
                 <FormControl>
-                  <FormLabel id="demo-radio-buttons-group-label">計算スタイル</FormLabel>
+                  <FormLabel id="demo-radio-buttons-group-label">
+                    計算スタイル
+                  </FormLabel>
                   <RadioGroup
                     aria-labelledby="demo-radio-buttons-group-label"
                     name="radio-buttons-group"

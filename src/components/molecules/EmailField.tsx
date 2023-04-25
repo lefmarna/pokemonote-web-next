@@ -11,7 +11,13 @@ type Props = {
 }
 
 export const EmailField = (props: Props) => {
-  const { name, label = 'メールアドレス', value, required = false, setValue } = props
+  const {
+    name,
+    label = 'メールアドレス',
+    value,
+    required = false,
+    setValue,
+  } = props
 
   const onChange = (event: ChangeEvent<HTMLInputElement>) => {
     setValue(event.target.value)

@@ -1,5 +1,13 @@
 import MenuIcon from '@mui/icons-material/Menu'
-import { AppBar, Avatar, Box, IconButton, Menu, MenuItem, Toolbar } from '@mui/material'
+import {
+  AppBar,
+  Avatar,
+  Box,
+  IconButton,
+  Menu,
+  MenuItem,
+  Toolbar,
+} from '@mui/material'
 import axios from 'axios'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
@@ -75,7 +83,12 @@ export const Header = (props: Props) => {
             <MenuIcon />
           </IconButton>
           <Box onClick={returnTopPage} sx={{ cursor: 'pointer', px: 2, ml: 2 }}>
-            <Image height="64" width="240" alt="Pokemonote" src="/images/logo.svg" />
+            <Image
+              height="64"
+              width="240"
+              alt="Pokemonote"
+              src="/images/logo.svg"
+            />
           </Box>
           <Box sx={{ flexGrow: 1 }} />
           <Box>

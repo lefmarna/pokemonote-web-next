@@ -27,7 +27,10 @@ export const EffortValueField = memo((props: Props) => {
     updateEvs({ [statKey]: newEv })
   }
 
-  const onClickCalcButton = (event: MouseEvent<HTMLElement>, buttonValue: number) => {
+  const onClickCalcButton = (
+    event: MouseEvent<HTMLElement>,
+    buttonValue: number
+  ) => {
     const newEv = buttonValue !== 0 ? buttonValue : ''
     updateEvs({ [statKey]: newEv })
   }
@@ -58,7 +61,10 @@ export const EffortValueField = memo((props: Props) => {
         }}
       />
       <Box>
-        <CalcButton onClick={onClickCalcButton} sx={{ mb: 0.5, ...calcButtonStyle }}>
+        <CalcButton
+          onClick={onClickCalcButton}
+          sx={{ mb: 0.5, ...calcButtonStyle }}
+        >
           {252}
         </CalcButton>
         <CalcButton onClick={onClickCalcButton} sx={calcButtonStyle}>
