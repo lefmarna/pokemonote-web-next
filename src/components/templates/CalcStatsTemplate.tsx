@@ -201,6 +201,10 @@ export const CalcStatsTemplate = (props: Props) => {
 
   const [dialog, setDialog] = useState(false)
 
+  const handleOpen = () => {
+    setDialog(true)
+  }
+
   const handleClose = () => {
     setDialog(false)
   }
@@ -303,7 +307,7 @@ export const CalcStatsTemplate = (props: Props) => {
                 onClick={resetEffortValue}
                 icon={<Autorenew />}
               />
-              <BottomNavigationAction onClick={handleClose} icon={<Apps />} />
+              <BottomNavigationAction onClick={handleOpen} icon={<Apps />} />
               {authUser && (
                 <BottomNavigationAction
                   onClick={handleClose}
