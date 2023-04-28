@@ -48,7 +48,12 @@ export default function LefmarnaOtoiawase() {
         <form onSubmit={handleSubmit}>
           <Card sx={{ maxWidth: 540, mx: 'auto', mt: 5 }}>
             <CardContent>
-              <Typography gutterBottom variant="h5" component="div" align="center">
+              <Typography
+                gutterBottom
+                variant="h5"
+                component="div"
+                align="center"
+              >
                 Pokemonote - お問い合わせ
               </Typography>
               <TextField

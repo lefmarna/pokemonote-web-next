@@ -44,7 +44,13 @@ const AppInit = memo(() => {
     updateAuthUser(loginData.data.auth_user)
     updatePokemonBasicInfos(StaticData.data.pokemon_basic_infos)
     updateNatures(StaticData.data.natures)
-  }, [loginData, StaticData, updateAuthUser, updatePokemonBasicInfos, updateNatures])
+  }, [
+    loginData,
+    StaticData,
+    updateAuthUser,
+    updatePokemonBasicInfos,
+    updateNatures,
+  ])
 
   return <></>
 })
@@ -104,7 +110,10 @@ export default function App({ Component, pageProps }: AppProps) {
         <meta property="og:type" content="website" />
         <meta property="og:title" content={meta.title} />
         <meta property="og:description" content={meta.description} />
-        <meta property="og:image" content="https://pokemonote.com/twitter_card.jpg" />
+        <meta
+          property="og:image"
+          content="https://pokemonote.com/twitter_card.jpg"
+        />
         <meta property="twitter:title" content={meta.title} />
         <meta property="twitter:description" content={meta.description} />
         <meta property="twitter:card" content="summary" />
@@ -119,7 +128,9 @@ export default function App({ Component, pageProps }: AppProps) {
             <AppInit />
             <Box
               component="main"
-              sx={{ paddingLeft: drawer && isLargeUpScreen ? `${drawerWidth}px` : 0 }}
+              sx={{
+                paddingLeft: drawer && isLargeUpScreen ? `${drawerWidth}px` : 0,
+              }}
             >
               <Header toggleDrawer={toggleDrawer} />
               <Component {...pageProps} />

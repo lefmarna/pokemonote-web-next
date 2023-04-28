@@ -1,20 +1,25 @@
 import axios from 'axios'
 import { useRouter } from 'next/router'
-import { ChangeEvent, useCallback, useState } from 'react'
+import { ChangeEvent, useCallback, useEffect, useState } from 'react'
 import { FormTemplate } from '@/components/templates/FormTemplate'
 import { AuthUser } from '@/types'
 import { MessageAlert } from '@/components/organisms/MessageAlert'
 import { EmailField } from '@/components/molecules/EmailField'
 import { PasswordField } from '@/components/molecules/PasswordField'
 import { exceptionErrorToArray } from '@/utils/utilities'
-import { useAuthUserMutators } from '@/store/authUserState'
-import { useRememberRouteState } from '@/store/rememberRouteState'
+import { useAuthUserMutators, useAuthUserState } from '@/store/authUserState'
+import {
+  useRememberRouteMutators,
+  useRememberRouteState,
+} from '@/store/rememberRouteState'
 import { Meta } from '@/components/organisms/Meta'
 
 export default function Login() {
   const router = useRouter()
   const { updateAuthUser } = useAuthUserMutators()
+  const authUser = useAuthUserState()
   const rememberRoute = useRememberRouteState()
+  const { updateRememberRoute } = useRememberRouteMutators()
   const [isShowAlert, setIsShowAlert] = useState(false)
 
   const [isLoading, setIsLoading] = useState(false)
@@ -22,6 +27,18 @@ export default function Login() {
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+
+  useEffect(() => {
+    if (!authUser) return
+
+    if (rememberRoute !== '') {
+      router.push(rememberRoute).then(() => {
+        updateRememberRoute('')
+      })
+    } else {
+      router.push('/')
+    }
+  }, [authUser, rememberRoute, router, updateRememberRoute])
 
   const updatePassword = useCallback((event: ChangeEvent<HTMLInputElement>) => {
     setPassword(event.target.value)
@@ -31,7 +48,10 @@ export default function Login() {
     setIsLoading(true)
 
     try {
-      const response = await axios.post<{ data: AuthUser }>('/login', { email, password })
+      const response = await axios.post<{ data: AuthUser }>('/login', {
+        email,
+        password,
+      })
       const _authUser = response.data.data
 
       if (!_authUser.email_verified_at) {
@@ -41,13 +61,6 @@ export default function Login() {
       }
 
       updateAuthUser(_authUser)
-
-      if (rememberRoute) {
-        router.push(rememberRoute)
-      } else {
-        router.push('/')
-      }
-
       setIsShowAlert(true)
     } catch (error) {
       setErrors(exceptionErrorToArray(error))

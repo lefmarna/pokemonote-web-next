@@ -4,7 +4,8 @@ import { usePokemonMutators, usePokemonState } from '@/store/pokemonState'
 
 const CalcStats: NextPage = () => {
   const pokemon = usePokemonState()
-  const { updateBasicInfo, updateNature, updateLevel, updateIvs, updateEvs } = usePokemonMutators()
+  const { updateBasicInfo, updateNature, updateLevel, updateIvs, updateEvs } =
+    usePokemonMutators()
 
   return (
     <CalcStatsTemplate

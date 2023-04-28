@@ -16,7 +16,14 @@ type Props = {
 }
 
 export const StatsTableHeader = memo((props: Props) => {
-  const { basicInfo, nature, level, updateBasicInfo, updateNature, updateLevel } = props
+  const {
+    basicInfo,
+    nature,
+    level,
+    updateBasicInfo,
+    updateNature,
+    updateLevel,
+  } = props
   const pokemonBasicInfos = usePokemonBasicInfosState()
   const natures = useNaturesState()
 

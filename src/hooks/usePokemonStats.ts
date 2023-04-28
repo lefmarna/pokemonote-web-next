@@ -1,6 +1,16 @@
 import { Nature, Pokemon, StatsKey } from '@/types'
-import { LOWER_NATURE, MAX_EV, MAX_REAL_NUMBER, MIN_LEVEL, UPPER_NATURE } from '@/utils/constants'
-import { convertToInteger, numberToInt, valueVerification } from '@/utils/utilities'
+import {
+  LOWER_NATURE,
+  MAX_EV,
+  MAX_REAL_NUMBER,
+  MIN_LEVEL,
+  UPPER_NATURE,
+} from '@/utils/constants'
+import {
+  convertToInteger,
+  numberToInt,
+  valueVerification,
+} from '@/utils/utilities'
 import { useCallback, useMemo } from 'react'
 
 // ポケモンのステータス計算に関するカスタムフック
@@ -20,7 +30,13 @@ export const usePokemonStats = (pokemon: Pokemon) => {
    * HP以外の実数値を計算する
    */
   const calcRealNumber = useCallback(
-    (level: number, baseStat: number, iv: number, ev: number, natureModifier = 1) => {
+    (
+      level: number,
+      baseStat: number,
+      iv: number,
+      ev: number,
+      natureModifier = 1
+    ) => {
       const realNumberCommon = calcRealNumberCommon(level, baseStat, iv, ev)
       return Math.floor((realNumberCommon + 5) * natureModifier)
     },
@@ -30,7 +46,12 @@ export const usePokemonStats = (pokemon: Pokemon) => {
   /**
    * HPとその他の実数値の共通部分の計算ロジック
    */
-  const calcRealNumberCommon = (level: number, baseStat: number, iv: number, ev: number) => {
+  const calcRealNumberCommon = (
+    level: number,
+    baseStat: number,
+    iv: number,
+    ev: number
+  ) => {
     return Math.floor(((baseStat * 2 + iv + Math.floor(ev / 4)) * level) / 100)
   }
 
@@ -50,9 +71,16 @@ export const usePokemonStats = (pokemon: Pokemon) => {
       ev: number,
       natureModifier = 1
     ) => {
-      if (newRealNumber % 11 !== 10 || natureModifier !== UPPER_NATURE) return newRealNumber
+      if (newRealNumber % 11 !== 10 || natureModifier !== UPPER_NATURE)
+        return newRealNumber
 
-      const currentRealNumber = calcRealNumber(level, baseStat, iv, ev, natureModifier)
+      const currentRealNumber = calcRealNumber(
+        level,
+        baseStat,
+        iv,
+        ev,
+        natureModifier
+      )
       return newRealNumber + (newRealNumber >= currentRealNumber ? 1 : -1)
     },
     [calcRealNumber]
@@ -91,12 +119,15 @@ export const usePokemonStats = (pokemon: Pokemon) => {
    */
   const getEv = useCallback(
     (newRealNumber: number | '', statKey: StatsKey) => {
-      const realNumber = Number(convertToInteger(newRealNumber, MAX_REAL_NUMBER, false))
+      const realNumber = Number(
+        convertToInteger(newRealNumber, MAX_REAL_NUMBER, false)
+      )
       const level = numberToInt(pokemon.level, MIN_LEVEL)
       const baseStat = pokemon.basicInfo.baseStats[statKey]
       const iv = numberToInt(pokemon.ivs[statKey])
       const ev = numberToInt(pokemon.evs[statKey])
-      const natureModifier = statKey !== 'hp' ? getNatureModifier(statKey, pokemon.nature) : 1
+      const natureModifier =
+        statKey !== 'hp' ? getNatureModifier(statKey, pokemon.nature) : 1
 
       const adjustedRealNumber = adjustRealNumber(
         realNumber,
@@ -106,12 +137,21 @@ export const usePokemonStats = (pokemon: Pokemon) => {
         ev,
         natureModifier
       )
-      const pureRealNumber = getPureRealNumber(adjustedRealNumber, natureModifier)
+      const pureRealNumber = getPureRealNumber(
+        adjustedRealNumber,
+        natureModifier
+      )
 
       const newEv =
         statKey === 'hp'
-          ? (Math.ceil(((pureRealNumber - level - 10) * 100) / level) - baseStat * 2 - iv) * 4
-          : (Math.ceil(((pureRealNumber - 5) * 100) / level) - baseStat * 2 - iv) * 4
+          ? (Math.ceil(((pureRealNumber - level - 10) * 100) / level) -
+              baseStat * 2 -
+              iv) *
+            4
+          : (Math.ceil(((pureRealNumber - 5) * 100) / level) -
+              baseStat * 2 -
+              iv) *
+            4
 
       return valueVerification(newEv, MAX_EV)
     },
@@ -142,7 +182,13 @@ export const usePokemonStats = (pokemon: Pokemon) => {
         return calcHpRealNumber(level, baseStat, iv, ev)
       }
 
-      return calcRealNumber(level, baseStat, iv, ev, getNatureModifier(statKey, pokemon.nature))
+      return calcRealNumber(
+        level,
+        baseStat,
+        iv,
+        ev,
+        getNatureModifier(statKey, pokemon.nature)
+      )
     },
     [
       pokemon.basicInfo.name,

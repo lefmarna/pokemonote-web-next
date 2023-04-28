@@ -99,7 +99,9 @@ export const Sidebar = (props: Props) => {
     if (authUser) {
       return otherMenuLists
     } else {
-      return otherMenuLists.filter((otherMenu) => otherMenu.requireAuth !== true)
+      return otherMenuLists.filter(
+        (otherMenu) => otherMenu.requireAuth !== true
+      )
     }
   }
 

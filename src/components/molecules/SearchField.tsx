@@ -11,7 +11,14 @@ type Props<T> = {
 }
 
 const SearchFieldComponent = <T extends { name: string }>(props: Props<T>) => {
-  const { options, label, itemName, selectedItem, setState, disableClearable = false } = props
+  const {
+    options,
+    label,
+    itemName,
+    selectedItem,
+    setState,
+    disableClearable = false,
+  } = props
 
   const onChange = (event: SyntheticEvent<Element, Event>, value: T | null) => {
     setState(value)
@@ -293,9 +300,13 @@ const SearchFieldComponent = <T extends { name: string }>(props: Props<T>) => {
       noOptionsText={`${itemName}が見つかりません。`}
       filterOptions={filterOptions}
       options={options}
-      renderInput={(params) => <TextField {...params} label={label} variant="standard" />}
+      renderInput={(params) => (
+        <TextField {...params} label={label} variant="standard" />
+      )}
     />
   )
 }
 
-export const SearchField = memo(SearchFieldComponent) as typeof SearchFieldComponent
+export const SearchField = memo(
+  SearchFieldComponent
+) as typeof SearchFieldComponent

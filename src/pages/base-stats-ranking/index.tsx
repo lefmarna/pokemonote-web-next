@@ -1,7 +1,18 @@
 import React, { useState } from 'react'
-import { Container, Grid, Typography, Checkbox, FormControlLabel } from '@mui/material'
+import {
+  Container,
+  Grid,
+  Typography,
+  Checkbox,
+  FormControlLabel,
+} from '@mui/material'
 import { PokemonBasicInfo, RankCheckbox, Stats } from '@/types/index'
-import { DataGrid, GridSortModel, GridValueGetterParams, jaJP } from '@mui/x-data-grid'
+import {
+  DataGrid,
+  GridSortModel,
+  GridValueGetterParams,
+  jaJP,
+} from '@mui/x-data-grid'
 import { Title } from '@/components/molecules/Title'
 import { Meta } from '@/components/organisms/Meta'
 import { NextPage } from 'next'
@@ -42,7 +53,8 @@ const BaseStatsRanking: NextPage = () => {
     return pokemonBasicInfos.filter((pokemon) =>
       ranksCheckboxes.every((checkbox) => {
         if (isShowRanks[checkbox.value]) return true
-        if (checkbox.value !== 'sv') return !pokemon.ranks.includes(checkbox.value)
+        if (checkbox.value !== 'sv')
+          return !pokemon.ranks.includes(checkbox.value)
         return pokemon.ranks.includes(checkbox.value)
       })
     )
@@ -66,7 +78,8 @@ const BaseStatsRanking: NextPage = () => {
       headerName: 'ＨＰ',
       type: 'number',
       minWidth: 100,
-      valueGetter: (params: GridValueGetterParams<PokemonBasicInfo>) => params.row.baseStats.hp,
+      valueGetter: (params: GridValueGetterParams<PokemonBasicInfo>) =>
+        params.row.baseStats.hp,
     },
     {
       field: 'attack',
@@ -152,7 +165,9 @@ const BaseStatsRanking: NextPage = () => {
         <Title text="種族値ランキング（ポケモンSV）" />
         <Grid container spacing={3}>
           <Grid item xs={12} md={6}>
-            <Typography variant="subtitle1">【特別なポケモンを表示する】</Typography>
+            <Typography variant="subtitle1">
+              【特別なポケモンを表示する】
+            </Typography>
             {/* <FormGroup row> */}
             {ranksCheckboxes.map((rank) => (
               <FormControlLabel
@@ -177,8 +192,12 @@ const BaseStatsRanking: NextPage = () => {
                 key={stats.value}
                 control={
                   <Checkbox
-                    checked={isNotShowStats[stats.value as keyof typeof isNotShowStats]}
-                    onChange={() => statsChange(stats.value as keyof typeof isNotShowStats)}
+                    checked={
+                      isNotShowStats[stats.value as keyof typeof isNotShowStats]
+                    }
+                    onChange={() =>
+                      statsChange(stats.value as keyof typeof isNotShowStats)
+                    }
                     name={stats.value}
                   />
                 }

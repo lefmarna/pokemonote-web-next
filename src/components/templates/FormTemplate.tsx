@@ -20,7 +20,14 @@ type Props = {
 }
 
 export const FormTemplate = (props: Props) => {
-  const { children, title, buttonText, isLoading = false, submit, errors = [] } = props
+  const {
+    children,
+    title,
+    buttonText,
+    isLoading = false,
+    submit,
+    errors = [],
+  } = props
 
   return (
     <form>
@@ -45,7 +52,9 @@ export const FormTemplate = (props: Props) => {
             {errors.map((error, index) => {
               return (
                 <ListItem disableGutters key={index}>
-                  <ListItemText primaryTypographyProps={{ color: 'error.main' }}>
+                  <ListItemText
+                    primaryTypographyProps={{ color: 'error.main' }}
+                  >
                     {error}
                   </ListItemText>
                 </ListItem>
