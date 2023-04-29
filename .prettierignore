@@ -94,3 +94,6 @@ sw.*
 
 # Vim swap files
 *.swp
+
+# my files
+.github/pull_request_template.md
