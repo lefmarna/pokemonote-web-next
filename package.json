@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build && next export",
     "start": "next start",
-    "fix": "prettier -w --ignore-path .prettierignore --loglevel warn '**/*.{js,jsx,ts,tsx,html,json,md}'",
+    "fix": "prettier -w --loglevel warn '**/*.{js,jsx,ts,tsx,html,json,md}'",
     "lint": "next lint",
     "lint:fix": "npm run -s lint:es:fix && npm run -s lint:style:fix",
     "lint:es": "eslint --ignore-path .gitignore './src/**/*.{js,jsx,ts,tsx}'",
@@ -19,14 +19,14 @@
   },
   "lint-staged": {
     "src/**/*.{js,ts,jsx,tsx}": [
-      "prettier -w  --ignore-path .prettierignore --loglevel error",
+      "prettier -w  --loglevel error",
       "eslint --fix --ignore-path .gitignore"
     ],
     "src/**/*.{css,scss}": [
-      "stylelint --fix --allow-empty-input"
+      "stylelint --fix"
     ],
     "*.{html,json,md}": [
-      "prettier -w  --ignore-path .prettierignore --loglevel error"
+      "prettier -w  --loglevel error"
     ]
   },
   "dependencies": {
