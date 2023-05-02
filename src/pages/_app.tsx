@@ -13,6 +13,7 @@ import Head from 'next/head'
 import { useNaturesMutators } from '@/store/naturesState'
 import { usePokemonBasicInfosSMutators } from '@/store/pokemonBasicInfosState'
 import { AuthUser, Nature, PokemonBasicInfo } from '@/types'
+import { useRouter } from 'next/router'
 
 const AppInit = memo(() => {
   const { updateAuthUser } = useAuthUserMutators()
@@ -78,6 +79,7 @@ export default function App({ Component, pageProps }: AppProps) {
   const isLargeUpScreen = useMediaQueryUp('lg')
 
   const [drawer, setDrawer] = useState(false)
+  const router = useRouter()
 
   const drawerWidth = 257
 
@@ -89,15 +91,23 @@ export default function App({ Component, pageProps }: AppProps) {
     setDrawer(false)
   }
 
-  useEffect(() => {
-    setDrawer(isLargeUpScreen)
-  }, [isLargeUpScreen])
-
   const meta = {
     title: 'Pokemonote',
     description:
       'ポケモンのステータスを計算・管理するためのWebアプリ『Pokemonote』へようこそ！ 素早さ計算機やSVに対応した種族値ランキングといったツールも公開しています。「シンプルで高機能」なツールにこだわって制作していますので、是非お試しください。',
   } as const
+
+  const handleRouteChange = () => {
+    setDrawer(false)
+  }
+
+  useEffect(() => {
+    router.events.on('routeChangeComplete', handleRouteChange)
+
+    return () => {
+      router.events.off('routeChangeComplete', handleRouteChange)
+    }
+  }, [router])
 
   return (
     <>
@@ -126,13 +136,8 @@ export default function App({ Component, pageProps }: AppProps) {
           <SWRConfig value={swrConfigValue}>
             <Sidebar drawer={drawer} onCloseDrawer={onCloseDrawer} />
             <AppInit />
-            <Box
-              component="main"
-              sx={{
-                paddingLeft: drawer && isLargeUpScreen ? `${drawerWidth}px` : 0,
-              }}
-            >
-              <Header toggleDrawer={toggleDrawer} />
+            <Box component="main">
+              <Header drawer={drawer} toggleDrawer={toggleDrawer} />
               <Component {...pageProps} />
             </Box>
           </SWRConfig>

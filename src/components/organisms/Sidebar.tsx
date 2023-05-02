@@ -110,15 +110,9 @@ export const Sidebar = (props: Props) => {
   return (
     <Drawer
       anchor="left"
-      variant={isLargeUpScreen ? 'permanent' : 'temporary'}
+      variant="temporary"
       open={drawer}
       onClose={onCloseDrawer}
-      PaperProps={{
-        sx: {
-          width: drawer ? drawerWidth : 0,
-          borderRight: drawer ? undefined : 'none',
-        },
-      }}
     >
       <Divider />
       <ListItem>
