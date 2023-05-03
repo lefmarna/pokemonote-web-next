@@ -109,10 +109,17 @@ export const Sidebar = (props: Props) => {
 
   return (
     <Drawer
-      anchor="left"
-      variant="temporary"
       open={drawer}
       onClose={onCloseDrawer}
+      anchor="left"
+      variant={isLargeUpScreen ? 'persistent' : 'temporary'}
+      sx={{
+        width: '260px',
+        '& .MuiDrawer-paper': {
+          boxSizing: 'border-box',
+          transition: 'width 225ms cubic-bezier(0.4, 0, 0.2, 1)',
+        },
+      }}
     >
       <Divider />
       <ListItem>

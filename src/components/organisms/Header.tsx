@@ -70,7 +70,7 @@ export const Header = (props: Props) => {
 
   return (
     <Box>
-      <AppBar position="fixed" color="primary">
+      <AppBar position="sticky" color="primary">
         <Toolbar sx={{ display: 'flex', maxHeight: '64px' }}>
           <IconButton
             edge="start"

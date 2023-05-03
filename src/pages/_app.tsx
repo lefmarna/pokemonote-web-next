@@ -136,8 +136,14 @@ export default function App({ Component, pageProps }: AppProps) {
           <SWRConfig value={swrConfigValue}>
             <Sidebar drawer={drawer} onCloseDrawer={onCloseDrawer} />
             <AppInit />
-            <Box component="main">
-              <Header drawer={drawer} toggleDrawer={toggleDrawer} />
+            <Box
+              component="main"
+              sx={{
+                marginLeft: isLargeUpScreen && drawer ? '260px' : '0px',
+                transition: 'margin-left 225ms cubic-bezier(0.4, 0, 0.2, 1)',
+              }}
+            >
+              <Header toggleDrawer={toggleDrawer} />
               <Component {...pageProps} />
             </Box>
           </SWRConfig>
