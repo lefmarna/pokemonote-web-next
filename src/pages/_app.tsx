@@ -77,11 +77,13 @@ export default function App({ Component, pageProps }: AppProps) {
   }
 
   const isLargeUpScreen = useMediaQueryUp('lg')
+  const [drawer, setDrawer] = useState(isLargeUpScreen)
 
-  const [drawer, setDrawer] = useState(false)
   const router = useRouter()
 
-  const drawerWidth = 257
+  useEffect(() => {
+    setDrawer(isLargeUpScreen)
+  }, [isLargeUpScreen])
 
   const toggleDrawer = () => {
     setDrawer(!drawer)

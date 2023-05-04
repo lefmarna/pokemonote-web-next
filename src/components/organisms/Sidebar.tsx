@@ -28,8 +28,6 @@ type Props = {
   onCloseDrawer: () => void
 }
 
-const drawerWidth = 257
-
 export const Sidebar = (props: Props) => {
   const { drawer, onCloseDrawer } = props
 
