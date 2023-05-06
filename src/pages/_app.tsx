@@ -1,6 +1,6 @@
 import { Box, ThemeProvider } from '@mui/material'
 import axios, { AxiosError } from 'axios'
-import { memo, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { RecoilRoot } from 'recoil'
 import useSWR, { SWRConfig } from 'swr'
 import '@/styles/globals.scss'
@@ -15,7 +15,7 @@ import { usePokemonBasicInfosSMutators } from '@/store/pokemonBasicInfosState'
 import { AuthUser, Nature, PokemonBasicInfo } from '@/types'
 import { useRouter } from 'next/router'
 
-const AppInit = memo(() => {
+const AppInit = () => {
   const { updateAuthUser } = useAuthUserMutators()
 
   const { updatePokemonBasicInfos } = usePokemonBasicInfosSMutators()
@@ -54,7 +54,7 @@ const AppInit = memo(() => {
   ])
 
   return <></>
-})
+}
 
 export default function App({ Component, pageProps }: AppProps) {
   axios.defaults.baseURL = process.env.NEXT_PUBLIC_BASE_URL
@@ -81,9 +81,15 @@ export default function App({ Component, pageProps }: AppProps) {
 
   const router = useRouter()
 
+  const [isFirstRender, setIsFirstRender] = useState(true)
+
   useEffect(() => {
     setDrawer(isLargeUpScreen)
-  }, [isLargeUpScreen])
+
+    if (isFirstRender) {
+      setIsFirstRender(false)
+    }
+  }, [isLargeUpScreen, isFirstRender])
 
   const toggleDrawer = () => {
     setDrawer(!drawer)
@@ -100,7 +106,7 @@ export default function App({ Component, pageProps }: AppProps) {
   } as const
 
   const handleRouteChange = () => {
-    setDrawer(false)
+    setDrawer(isLargeUpScreen)
   }
 
   useEffect(() => {
@@ -136,18 +142,23 @@ export default function App({ Component, pageProps }: AppProps) {
       <ThemeProvider theme={theme}>
         <RecoilRoot>
           <SWRConfig value={swrConfigValue}>
-            <Sidebar drawer={drawer} onCloseDrawer={onCloseDrawer} />
-            <AppInit />
-            <Box
-              component="main"
-              sx={{
-                marginLeft: isLargeUpScreen && drawer ? '260px' : '0px',
-                transition: 'margin-left 225ms cubic-bezier(0.4, 0, 0.2, 1)',
-              }}
-            >
-              <Header toggleDrawer={toggleDrawer} />
-              <Component {...pageProps} />
-            </Box>
+            {!isFirstRender && (
+              <>
+                <Sidebar drawer={drawer} onCloseDrawer={onCloseDrawer} />
+                <AppInit />
+                <Box
+                  component="main"
+                  sx={{
+                    marginLeft: isLargeUpScreen && drawer ? '260px' : '0px',
+                    transition:
+                      'margin-left 225ms cubic-bezier(0.4, 0, 0.2, 1)',
+                  }}
+                >
+                  <Header toggleDrawer={toggleDrawer} />
+                  <Component {...pageProps} />
+                </Box>
+              </>
+            )}
           </SWRConfig>
         </RecoilRoot>
       </ThemeProvider>
