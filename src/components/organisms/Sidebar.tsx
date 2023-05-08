@@ -28,8 +28,6 @@ type Props = {
   onCloseDrawer: () => void
 }
 
-const drawerWidth = 257
-
 export const Sidebar = (props: Props) => {
   const { drawer, onCloseDrawer } = props
 
@@ -109,14 +107,15 @@ export const Sidebar = (props: Props) => {
 
   return (
     <Drawer
-      anchor="left"
-      variant={isLargeUpScreen ? 'permanent' : 'temporary'}
       open={drawer}
       onClose={onCloseDrawer}
-      PaperProps={{
-        sx: {
-          width: drawer ? drawerWidth : 0,
-          borderRight: drawer ? undefined : 'none',
+      anchor="left"
+      variant={isLargeUpScreen ? 'persistent' : 'temporary'}
+      sx={{
+        width: '260px',
+        '& .MuiDrawer-paper': {
+          boxSizing: 'border-box',
+          transition: 'width 225ms cubic-bezier(0.4, 0, 0.2, 1)',
         },
       }}
     >

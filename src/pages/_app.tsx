@@ -1,6 +1,6 @@
 import { Box, ThemeProvider } from '@mui/material'
 import axios, { AxiosError } from 'axios'
-import { memo, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { RecoilRoot } from 'recoil'
 import useSWR, { SWRConfig } from 'swr'
 import '@/styles/globals.scss'
@@ -13,8 +13,9 @@ import Head from 'next/head'
 import { useNaturesMutators } from '@/store/naturesState'
 import { usePokemonBasicInfosSMutators } from '@/store/pokemonBasicInfosState'
 import { AuthUser, Nature, PokemonBasicInfo } from '@/types'
+import { useRouter } from 'next/router'
 
-const AppInit = memo(() => {
+const AppInit = () => {
   const { updateAuthUser } = useAuthUserMutators()
 
   const { updatePokemonBasicInfos } = usePokemonBasicInfosSMutators()
@@ -53,7 +54,7 @@ const AppInit = memo(() => {
   ])
 
   return <></>
-})
+}
 
 export default function App({ Component, pageProps }: AppProps) {
   axios.defaults.baseURL = process.env.NEXT_PUBLIC_BASE_URL
@@ -76,10 +77,19 @@ export default function App({ Component, pageProps }: AppProps) {
   }
 
   const isLargeUpScreen = useMediaQueryUp('lg')
+  const [drawer, setDrawer] = useState(isLargeUpScreen)
 
-  const [drawer, setDrawer] = useState(false)
+  const router = useRouter()
 
-  const drawerWidth = 257
+  const [isFirstRender, setIsFirstRender] = useState(true)
+
+  useEffect(() => {
+    setDrawer(isLargeUpScreen)
+
+    if (isFirstRender) {
+      setIsFirstRender(false)
+    }
+  }, [isLargeUpScreen, isFirstRender])
 
   const toggleDrawer = () => {
     setDrawer(!drawer)
@@ -89,15 +99,23 @@ export default function App({ Component, pageProps }: AppProps) {
     setDrawer(false)
   }
 
-  useEffect(() => {
-    setDrawer(isLargeUpScreen)
-  }, [isLargeUpScreen])
-
   const meta = {
     title: 'Pokemonote',
     description:
       'ポケモンのステータスを計算・管理するためのWebアプリ『Pokemonote』へようこそ！ 素早さ計算機やSVに対応した種族値ランキングといったツールも公開しています。「シンプルで高機能」なツールにこだわって制作していますので、是非お試しください。',
   } as const
+
+  const handleRouteChange = () => {
+    setDrawer(isLargeUpScreen)
+  }
+
+  useEffect(() => {
+    router.events.on('routeChangeComplete', handleRouteChange)
+
+    return () => {
+      router.events.off('routeChangeComplete', handleRouteChange)
+    }
+  }, [router])
 
   return (
     <>
@@ -124,17 +142,23 @@ export default function App({ Component, pageProps }: AppProps) {
       <ThemeProvider theme={theme}>
         <RecoilRoot>
           <SWRConfig value={swrConfigValue}>
-            <Sidebar drawer={drawer} onCloseDrawer={onCloseDrawer} />
-            <AppInit />
-            <Box
-              component="main"
-              sx={{
-                paddingLeft: drawer && isLargeUpScreen ? `${drawerWidth}px` : 0,
-              }}
-            >
-              <Header toggleDrawer={toggleDrawer} />
-              <Component {...pageProps} />
-            </Box>
+            {!isFirstRender && (
+              <>
+                <Sidebar drawer={drawer} onCloseDrawer={onCloseDrawer} />
+                <AppInit />
+                <Box
+                  component="main"
+                  sx={{
+                    marginLeft: isLargeUpScreen && drawer ? '260px' : '0px',
+                    transition:
+                      'margin-left 225ms cubic-bezier(0.4, 0, 0.2, 1)',
+                  }}
+                >
+                  <Header toggleDrawer={toggleDrawer} />
+                  <Component {...pageProps} />
+                </Box>
+              </>
+            )}
           </SWRConfig>
         </RecoilRoot>
       </ThemeProvider>

@@ -6,17 +6,28 @@
     "dev": "next dev",
     "build": "next build && next export",
     "start": "next start",
+    "fix": "prettier -w --loglevel warn '**/*.{js,jsx,ts,tsx,html,json,md}'",
     "lint": "next lint",
-    "eslint": "eslint --ignore-path .gitignore './src/**/*.{js,jsx,ts,tsx}'",
-    "stylelint": "stylelint --fix --ignore-path .gitignore './src/**/*.{css,scss}'",
+    "lint:fix": "npm run -s lint:es:fix && npm run -s lint:style:fix",
+    "lint:es": "eslint --ignore-path .gitignore './src/**/*.{js,jsx,ts,tsx}'",
+    "lint:es:fix": "eslint --fix --ignore-path .gitignore './src/**/*.{js,jsx,ts,tsx}'",
+    "lint:style": "stylelint --allow-empty-input './src/**/*.{css,scss}'",
+    "lint:style:fix": "stylelint --fix --allow-empty-input './src/**/*.{css,scss}'",
     "prepare": "husky install",
     "lint-staged": "lint-staged",
     "commitlint": "commitlint --edit $1"
   },
   "lint-staged": {
-    "src/**/*.{js,ts,jsx,tsx}": "eslint --fix",
-    "src/**/*.{css,scss}": "stylelint --allow-empty-input --fix",
-    "*.{css,scss,js,jsx,ts,tsx,md}": "prettier -w"
+    "src/**/*.{js,ts,jsx,tsx}": [
+      "prettier -w  --loglevel error",
+      "eslint --fix --ignore-path .gitignore"
+    ],
+    "src/**/*.{css,scss}": [
+      "stylelint --fix"
+    ],
+    "*.{html,json,md}": [
+      "prettier -w  --loglevel error"
+    ]
   },
   "dependencies": {
     "@emotion/react": "^11.10.6",
