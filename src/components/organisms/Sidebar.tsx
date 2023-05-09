@@ -33,74 +33,74 @@ export const Sidebar = (props: Props) => {
 
   const authUser = useAuthUserState()
 
-  const siteMenuLists = [
-    {
-      id: 1,
-      name: 'Home',
-      icon: <HomeIcon />,
-      link: '/',
-    },
-    {
-      id: 2,
-      name: 'みんなの投稿',
-      icon: <CatchingPokemonIcon />,
-      link: '/pokemons',
-    },
-  ]
-
-  const tools = [
-    {
-      id: 1,
-      name: 'ステータス計算機',
-      icon: <Calculate />,
-      link: '/calc-stats',
-    },
-    {
-      id: 2,
-      name: '素早さ計算機',
-      icon: <DirectionsRun />,
-      link: '/calc-speed',
-    },
-    {
-      id: 3,
-      name: '種族値ランキング',
-      icon: <TrendingUp />,
-      link: '/base-stats-ranking',
-    },
-  ] as const
-
-  const otherMenuLists = [
-    {
-      id: 1,
-      name: '利用規約',
-      icon: <Announcement />,
-      link: '/privacy-policy',
-      requireAuth: false,
-    },
-    {
-      id: 2,
-      name: 'お問い合わせ',
-      icon: <Email />,
-      link: '/lefmarna-otoiawase',
-      requireAuth: false,
-    },
-    {
-      id: 3,
-      name: '設定',
-      icon: <Settings />,
-      link: '/settings',
-      requireAuth: true,
-    },
-  ] as const
+  const sideBarContents = {
+    siteMenuLists: [
+      {
+        id: 1,
+        name: 'Home',
+        icon: <HomeIcon />,
+        link: '/',
+      },
+      {
+        id: 2,
+        name: 'みんなの投稿',
+        icon: <CatchingPokemonIcon />,
+        link: '/pokemons',
+      },
+    ],
+    tools: [
+      {
+        id: 1,
+        name: 'ステータス計算機',
+        icon: <Calculate />,
+        link: '/calc-stats',
+      },
+      {
+        id: 2,
+        name: '素早さ計算機',
+        icon: <DirectionsRun />,
+        link: '/calc-speed',
+      },
+      {
+        id: 3,
+        name: '種族値ランキング',
+        icon: <TrendingUp />,
+        link: '/base-stats-ranking',
+      },
+    ],
+    otherMenuLists: [
+      {
+        id: 1,
+        name: '利用規約',
+        icon: <Announcement />,
+        link: '/privacy-policy',
+        requireAuth: false,
+      },
+      {
+        id: 2,
+        name: 'お問い合わせ',
+        icon: <Email />,
+        link: '/lefmarna-otoiawase',
+        requireAuth: false,
+      },
+      {
+        id: 3,
+        name: '設定',
+        icon: <Settings />,
+        link: '/settings',
+        requireAuth: true,
+      },
+    ],
+  } as const
 
   const otherMenuListsFiltered = () => {
     if (authUser) {
-      return otherMenuLists
-    } else {
-      return otherMenuLists.filter(
-        (otherMenu) => otherMenu.requireAuth !== true
-      )
+      return sideBarContents.otherMenuLists
     }
+
+    return sideBarContents.otherMenuLists.filter(
+      (otherMenu) => otherMenu.requireAuth !== true
+    )
   }
 
   const isLargeUpScreen = useMediaQueryUp('lg')
@@ -125,7 +125,7 @@ export const Sidebar = (props: Props) => {
       </ListItem>
       <Divider />
       <List dense>
-        {siteMenuLists.map((siteMenuList) => (
+        {sideBarContents.siteMenuLists.map((siteMenuList) => (
           <Link href={siteMenuList.link} key={siteMenuList.id}>
             <ListItemButton key={siteMenuList.name}>
               <ListItemIcon>
@@ -151,7 +151,7 @@ export const Sidebar = (props: Props) => {
       </ListItem>
       <Divider />
       <List dense>
-        {tools.map((tool) => (
+        {sideBarContents.tools.map((tool) => (
           <Link href={tool.link} key={tool.id}>
             <ListItemButton key={tool.name}>
               <ListItemIcon>
