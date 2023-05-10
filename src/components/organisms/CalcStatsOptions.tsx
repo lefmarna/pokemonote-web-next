@@ -1,6 +1,9 @@
 import {
   Box,
   Button,
+  Card,
+  CardContent,
+  CardHeader,
   Container,
   FormControl,
   FormControlLabel,
@@ -15,6 +18,7 @@ import {
   Select,
   SelectChangeEvent,
   TextField,
+  Typography,
 } from '@mui/material'
 import { ChangeEvent, memo, useState } from 'react'
 import { NullableStats, Stats } from '@/types'
@@ -97,7 +101,29 @@ export const CalcStatsOptions = memo((props: Props) => {
 
   return (
     <Container>
-      <Grid container>
+      <Grid container spacing={2}>
+        <Grid item xs={6}>
+          <Card variant="outlined" sx={{ borderRadius: 'xl', height: '100%' }}>
+            <CardHeader title="耐久指数" />
+            <CardContent>
+              <Typography variant="body1" gutterBottom>
+                総合：{physicalDurability() + specialDurability()}
+                <br />
+                物理：{physicalDurability()}
+                <br />
+                特殊：{specialDurability()}
+              </Typography>
+            </CardContent>
+          </Card>
+        </Grid>
+        <Grid item xs={6}>
+          <Card variant="outlined" sx={{ borderRadius: 'xl', height: '100%' }}>
+            <CardHeader title="その他" />
+            <CardContent>
+              <Typography variant="body1">めざパ：</Typography>
+            </CardContent>
+          </Card>
+        </Grid>
         <Grid item>
           <Box>耐久調整</Box>
           <Box>最も理想的な配分で、余りの努力値をHBDに振り分けます。</Box>
