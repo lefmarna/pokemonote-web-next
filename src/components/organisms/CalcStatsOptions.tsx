@@ -103,26 +103,17 @@ export const CalcStatsOptions = memo((props: Props) => {
     <Container>
       <Grid container spacing={2}>
         <Grid item xs={6}>
-          <Card variant="outlined" sx={{ borderRadius: 'xl', height: '100%' }}>
-            <CardHeader title="耐久指数" />
-            <CardContent>
-              <Typography variant="body1" gutterBottom>
-                総合：{physicalDurability() + specialDurability()}
-                <br />
-                物理：{physicalDurability()}
-                <br />
-                特殊：{specialDurability()}
-              </Typography>
-            </CardContent>
-          </Card>
+          <Box>耐久指数</Box>
+          <Typography variant="body1" gutterBottom>
+            総合：{physicalDurability() + specialDurability()}
+            <br />
+            物理：{physicalDurability()}
+            <br />
+            特殊：{specialDurability()}
+          </Typography>
         </Grid>
         <Grid item xs={6}>
-          <Card variant="outlined" sx={{ borderRadius: 'xl', height: '100%' }}>
-            <CardHeader title="その他" />
-            <CardContent>
-              <Typography variant="body1">めざパ：</Typography>
-            </CardContent>
-          </Card>
+          公開
         </Grid>
         <Grid item>
           <Box>耐久調整</Box>
