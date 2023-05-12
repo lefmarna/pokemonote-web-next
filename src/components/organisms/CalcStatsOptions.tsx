@@ -198,7 +198,12 @@ export const CalcStatsOptions = memo((props: Props) => {
       <Grid container>
         <TextField value={description} multiline />
         <Grid item>
-          <Button onClick={resetEffortValue}>リセット</Button>
+          <Button color="error" variant="outlined" onClick={resetEffortValue}>
+            努力値リセット
+          </Button>
+          <Button variant="contained" onClick={resetEffortValue} disabled>
+            投稿する
+          </Button>
         </Grid>
       </Grid>
     </Container>
