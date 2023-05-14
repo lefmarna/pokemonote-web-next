@@ -22,17 +22,21 @@ import {
 } from '@mui/material'
 import { ChangeEvent, memo, useState } from 'react'
 import { NullableStats, Stats } from '@/types'
+import { useAuthUserState } from '@/store/authUserState'
+import { LoadingButton } from '@mui/lab'
 
 type Props = {
   buttonText: string
   description: string
   realNumbers: Stats
+  isLoading: boolean
   updateEvs: (newIvs: Partial<NullableStats>) => void
   durabilityAdjustment: (
     calcStyle: string,
     selectDefenceEnhancement: number,
     selectSpDefenceEnhancement: number
   ) => void
+  submit: () => void
 }
 
 export const CalcStatsOptions = memo((props: Props) => {
@@ -40,8 +44,10 @@ export const CalcStatsOptions = memo((props: Props) => {
     buttonText,
     description,
     realNumbers,
+    isLoading,
     updateEvs,
     durabilityAdjustment,
+    submit,
   } = props
 
   const [selectDefenceEnhancement, setSelectDefenceEnhancement] = useState(1)
@@ -98,6 +104,8 @@ export const CalcStatsOptions = memo((props: Props) => {
     { id: 2, name: '1.5', value: 1.5 },
     { id: 3, name: '1.0', value: 1.0 },
   ]
+
+  const authUser = useAuthUserState()
 
   return (
     <Grid container spacing={2}>
@@ -206,9 +214,14 @@ export const CalcStatsOptions = memo((props: Props) => {
         <Button color="error" variant="outlined" onClick={resetEffortValue}>
           努力値リセット
         </Button>
-        <Button variant="contained" onClick={resetEffortValue} disabled>
+        <LoadingButton
+          variant="contained"
+          onClick={submit}
+          disabled={!authUser}
+          loading={isLoading}
+        >
           投稿する
-        </Button>
+        </LoadingButton>
       </Grid>
     </Grid>
   )

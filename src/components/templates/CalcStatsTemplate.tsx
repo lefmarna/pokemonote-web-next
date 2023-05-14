@@ -11,6 +11,7 @@ import {
   NullableStats,
   Pokemon,
   PokemonBasicInfo,
+  PokemonParams,
   StatsKey,
 } from '@/types'
 import { MAX_EV, MAX_TOTAL_EV } from '@/utils/constants'
@@ -32,11 +33,13 @@ type Props = {
   title: string
   pokemon: Pokemon
   buttonText: string
+  isLoading: boolean
   updateBasicInfo: (pokemon: PokemonBasicInfo) => void
   updateNature: (nature: Nature) => void
   updateLevel: (level: number | '') => void
   updateIvs: (newIvs: Partial<NullableStats>) => void
   updateEvs: (newEvs: Partial<NullableStats>) => void
+  sendPokemon: (params: PokemonParams) => Promise<void>
 }
 
 export const CalcStatsTemplate = (props: Props) => {
@@ -44,11 +47,13 @@ export const CalcStatsTemplate = (props: Props) => {
     title,
     pokemon,
     buttonText,
+    isLoading,
     updateBasicInfo,
     updateNature,
     updateLevel,
     updateIvs,
     updateEvs,
+    sendPokemon,
   } = props
 
   const {
@@ -225,6 +230,36 @@ export const CalcStatsTemplate = (props: Props) => {
 
   const authUser = useAuthUserState()
 
+  const submit = () => {
+    const params: PokemonParams = {
+      name: pokemon.basicInfo.name,
+      nature: pokemon.nature.name,
+      lv: pokemon.level,
+      hp_iv: pokemon.ivs.hp,
+      hp_ev: pokemon.evs.hp,
+      hp: realNumbers.hp,
+      attack_iv: pokemon.ivs.attack,
+      attack_ev: pokemon.evs.attack,
+      attack: realNumbers.attack,
+      defence_iv: pokemon.ivs.defense,
+      defence_ev: pokemon.evs.defense,
+      defence: realNumbers.defense,
+      sp_attack_iv: pokemon.ivs.spAttack,
+      sp_attack_ev: pokemon.evs.spAttack,
+      sp_attack: realNumbers.spAttack,
+      sp_defence_iv: pokemon.ivs.spDefense,
+      sp_defence_ev: pokemon.evs.spDefense,
+      sp_defence: realNumbers.spDefense,
+      speed_iv: pokemon.ivs.speed,
+      speed_ev: pokemon.evs.speed,
+      speed: realNumbers.speed,
+      description: pokemon.description,
+      is_public: 1,
+    }
+
+    sendPokemon(params)
+  }
+
   return (
     <>
       <Container sx={{ pt: 2 }}>
@@ -289,8 +324,10 @@ export const CalcStatsTemplate = (props: Props) => {
               description={pokemon.description}
               buttonText={buttonText}
               realNumbers={realNumbers}
+              isLoading={isLoading}
               updateEvs={updateEvs}
               durabilityAdjustment={durabilityAdjustment}
+              submit={submit}
             />
           )}
         </Grid>
