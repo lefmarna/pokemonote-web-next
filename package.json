@@ -66,5 +66,9 @@
     "stylelint-order": "^6.0.3",
     "stylelint-prettier": "^3.0.0",
     "typescript": "^4.9.5"
+  },
+  "volta": {
+    "node": "18.14.2",
+    "npm": "9.5.0"
   }
 }
