@@ -8,8 +8,14 @@ import { useState } from 'react'
 
 const CalcStats: NextPage = () => {
   const pokemon = usePokemonState()
-  const { updateBasicInfo, updateNature, updateLevel, updateIvs, updateEvs } =
-    usePokemonMutators()
+  const {
+    updateBasicInfo,
+    updateNature,
+    updateLevel,
+    updateIvs,
+    updateEvs,
+    updateDescription,
+  } = usePokemonMutators()
 
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
@@ -38,6 +44,7 @@ const CalcStats: NextPage = () => {
       updateIvs={updateIvs}
       updateEvs={updateEvs}
       sendPokemon={sendPokemon}
+      updateDescription={updateDescription}
     />
   )
 }

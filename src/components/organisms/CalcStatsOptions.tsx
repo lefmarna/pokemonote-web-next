@@ -37,6 +37,7 @@ type Props = {
     selectSpDefenceEnhancement: number
   ) => void
   submit: () => void
+  updateDescription: (newDescription: string) => void
 }
 
 export const CalcStatsOptions = memo((props: Props) => {
@@ -48,6 +49,7 @@ export const CalcStatsOptions = memo((props: Props) => {
     updateEvs,
     durabilityAdjustment,
     submit,
+    updateDescription,
   } = props
 
   const [selectDefenceEnhancement, setSelectDefenceEnhancement] = useState(1)
@@ -106,6 +108,12 @@ export const CalcStatsOptions = memo((props: Props) => {
   ]
 
   const authUser = useAuthUserState()
+
+  const onChangeDescription = (
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    updateDescription(event.target.value)
+  }
 
   return (
     <Grid container spacing={2}>
@@ -202,7 +210,15 @@ export const CalcStatsOptions = memo((props: Props) => {
         </Box>
       </Grid>
       <Grid item xs={12}>
-        <TextField value={description} multiline />
+        <TextField
+          value={description}
+          variant="outlined"
+          rows={5}
+          multiline
+          fullWidth
+          placeholder="ポケモンの説明（例：○○の××確定耐え）"
+          onChange={onChangeDescription}
+        />
       </Grid>
       <Grid
         item

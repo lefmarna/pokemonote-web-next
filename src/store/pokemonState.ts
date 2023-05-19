@@ -134,6 +134,19 @@ export const usePokemonMutators = () => {
     [setPokemon]
   )
 
+  /**
+   * ポケモンの説明を更新する
+   */
+  const updateDescription = useCallback(
+    (newDescription: string) => {
+      setPokemon((prevState) => ({
+        ...prevState,
+        description: newDescription,
+      }))
+    },
+    [setPokemon]
+  )
+
   return {
     updatePokemon,
     updateBasicInfo,
@@ -141,5 +154,6 @@ export const usePokemonMutators = () => {
     updateLevel,
     updateIvs,
     updateEvs,
+    updateDescription,
   }
 }

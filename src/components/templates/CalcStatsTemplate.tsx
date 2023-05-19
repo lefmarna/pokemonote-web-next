@@ -40,6 +40,7 @@ type Props = {
   updateIvs: (newIvs: Partial<NullableStats>) => void
   updateEvs: (newEvs: Partial<NullableStats>) => void
   sendPokemon: (params: PokemonParams) => Promise<void>
+  updateDescription: (newDescription: string) => void
 }
 
 export const CalcStatsTemplate = (props: Props) => {
@@ -54,6 +55,7 @@ export const CalcStatsTemplate = (props: Props) => {
     updateIvs,
     updateEvs,
     sendPokemon,
+    updateDescription,
   } = props
 
   const {
@@ -328,6 +330,7 @@ export const CalcStatsTemplate = (props: Props) => {
               updateEvs={updateEvs}
               durabilityAdjustment={durabilityAdjustment}
               submit={submit}
+              updateDescription={updateDescription}
             />
           )}
         </Grid>
