@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   Card,
+  CardActions,
   CardContent,
   CardHeader,
   Container,
@@ -131,83 +132,100 @@ export const CalcStatsOptions = memo((props: Props) => {
         公開
       </Grid>
       <Grid item xs={12}>
-        <Box>耐久調整</Box>
-        <Box>最も理想的な配分で、余りの努力値をHBDに振り分けます。</Box>
-        <Grid container>
-          <Grid item xs={4}>
-            <Box>倍率</Box>
-            <Box>
-              <FormControl>
-                <InputLabel>防御</InputLabel>
-                <Select
-                  value={selectDefenceEnhancement}
-                  onChange={updateSelectDefenceEnhancement}
-                  input={<OutlinedInput label="Tag" />}
+        <Card sx={{ borderRadius: '16px' }}>
+          <CardContent>
+            <Typography variant="h5" align="center">
+              耐久調整
+            </Typography>
+            <Typography variant="body2" color="textSecondary" sx={{ mt: 1 }}>
+              最も理想的な配分で、余りの努力値をHBDに振り分けます。
+            </Typography>
+            <Grid container>
+              <Grid item xs={4} sx={{ textAlign: 'center' }}>
+                <Card elevation={0}>
+                  <CardContent>
+                    <Typography variant="subtitle1">倍率</Typography>
+                    <FormControl variant="standard" fullWidth sx={{ mt: 1 }}>
+                      <InputLabel>防御</InputLabel>
+                      <Select
+                        value={selectDefenceEnhancement}
+                        onChange={updateSelectDefenceEnhancement}
+                        sx={{ textAlign: 'left' }}
+                      >
+                        {magnificationItems.map((item) => (
+                          <MenuItem key={item.id} value={item.value}>
+                            {item.name}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
+                    <FormControl variant="standard" fullWidth sx={{ mt: 2 }}>
+                      <InputLabel>特防</InputLabel>
+                      <Select
+                        value={selectSpDefenceEnhancement}
+                        onChange={updateSelectSpDefenceEnhancement}
+                        sx={{ textAlign: 'left' }}
+                      >
+                        {magnificationItems.map((item) => (
+                          <MenuItem key={item.id} value={item.value}>
+                            {item.name}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
+                  </CardContent>
+                </Card>
+              </Grid>
+              <Grid item xs={8} sx={{ textAlign: 'center' }}>
+                <Card elevation={0}>
+                  <CardContent>
+                    <FormControl>
+                      <FormLabel id="demo-radio-buttons-group-label">
+                        計算スタイル
+                      </FormLabel>
+                      <RadioGroup
+                        aria-labelledby="demo-radio-buttons-group-label"
+                        value={calcStyle}
+                        onChange={updateCalcStyle}
+                      >
+                        <FormControlLabel
+                          control={<Radio />}
+                          label="バランス - HBD/(B+D)"
+                          value="balance"
+                        />
+                        <FormControlLabel
+                          control={<Radio />}
+                          label="総合耐久 - H=B+D"
+                          value="performance"
+                        />
+                      </RadioGroup>
+                    </FormControl>
+                  </CardContent>
+                </Card>
+              </Grid>
+            </Grid>
+          </CardContent>
+          <CardActions>
+            <Grid container>
+              <Grid item xs={12} sx={{ textAlign: 'center' }}>
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  size="large"
+                  onClick={() =>
+                    durabilityAdjustment(
+                      calcStyle,
+                      selectDefenceEnhancement,
+                      selectSpDefenceEnhancement
+                    )
+                  }
                 >
-                  {magnificationItems.map((item) => (
-                    <MenuItem key={item.id} value={item.value}>
-                      <ListItemText primary={item.name} />
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-              <FormControl>
-                <InputLabel>特防</InputLabel>
-                <Select
-                  value={selectSpDefenceEnhancement}
-                  onChange={updateSelectSpDefenceEnhancement}
-                  input={<OutlinedInput label="Tag" />}
-                >
-                  {magnificationItems.map((item) => (
-                    <MenuItem key={item.id} value={item.value}>
-                      <ListItemText primary={item.name} />
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </Box>
-          </Grid>
-          <Grid item xs={8}>
-            <Box>
-              {/* <Box>計算スタイル</Box> */}
-              <FormControl>
-                <FormLabel id="demo-radio-buttons-group-label">
-                  計算スタイル
-                </FormLabel>
-                <RadioGroup
-                  aria-labelledby="demo-radio-buttons-group-label"
-                  name="radio-buttons-group"
-                  value={calcStyle}
-                  onChange={updateCalcStyle}
-                >
-                  <FormControlLabel
-                    control={<Radio />}
-                    label="バランス - HBD/(B+D)"
-                    value="balance"
-                  />
-                  <FormControlLabel
-                    control={<Radio />}
-                    label="総合耐久 - H=B+D"
-                    value="performance"
-                  />
-                </RadioGroup>
-              </FormControl>
-            </Box>
-          </Grid>
-        </Grid>
-        <Box>
-          <Button
-            onClick={() =>
-              durabilityAdjustment(
-                calcStyle,
-                selectDefenceEnhancement,
-                selectSpDefenceEnhancement
-              )
-            }
-          >
-            耐久調整を計算する
-          </Button>
-        </Box>
+                  耐久調整を計算する
+                </Button>
+              </Grid>
+            </Grid>
+          </CardActions>
+        </Card>
       </Grid>
       <Grid item xs={12}>
         <TextField
