@@ -221,7 +221,7 @@ export const CalcStatsTemplate = (props: Props) => {
   const wrapCalcStatsOptions = (children: ReactNode) => {
     return isMdDown ? (
       <Dialog open={dialog} onClose={handleClose}>
-        {children}
+        <Box sx={{ px: 2, py: 2 }}>{children}</Box>
       </Dialog>
     ) : (
       <Grid item md={9} xs={18}>
