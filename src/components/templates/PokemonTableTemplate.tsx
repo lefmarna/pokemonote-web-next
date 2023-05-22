@@ -23,15 +23,17 @@ export const PokemonTableTemplate = (props: Props) => {
     {
       field: 'name',
       headerName: 'ポケモン名',
+      flex: 1,
       renderCell: (params: GridRenderCellParams<PokemonSummary>) => (
         <Link href={`/pokemons/${params.row.id}`}>{params.row.name}</Link>
       ),
     },
-    { field: 'lv', headerName: 'レベル' },
-    { field: 'nature', headerName: '性格' },
+    { field: 'lv', headerName: 'レベル', flex: 1 },
+    { field: 'nature', headerName: '性格', flex: 1 },
     {
       field: 'stats',
       headerName: 'ステータス',
+      flex: 1,
       renderCell: (params: GridRenderCellParams<PokemonSummary>) => (
         <div>
           {params.row.stats}
@@ -46,6 +48,7 @@ export const PokemonTableTemplate = (props: Props) => {
     {
       field: 'username',
       headerName: '投稿者',
+      flex: 1,
       renderCell: (params: GridRenderCellParams<PokemonSummary>) =>
         params.row.user.username === router.query.username ? (
           <div>
