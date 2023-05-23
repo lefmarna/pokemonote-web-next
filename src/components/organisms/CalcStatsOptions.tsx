@@ -112,6 +112,9 @@ export const CalcStatsOptions = memo((props: Props) => {
     updateDescription(event.target.value)
   }
 
+  const [isDefenceSelected, setIsDefenceSelected] = useState(false)
+  const [isSpDefenceSelected, setIsSpDefenceSelected] = useState(false)
+
   return (
     <Grid container spacing={2}>
       <Grid item xs={12} md={6}>
@@ -140,12 +143,24 @@ export const CalcStatsOptions = memo((props: Props) => {
               <Grid item xs={4} sx={{ textAlign: 'center' }}>
                 <Card elevation={0}>
                   <CardContent>
-                    <Typography variant="subtitle1">倍率</Typography>
+                    <Typography
+                      variant="subtitle1"
+                      sx={{
+                        color: (theme) =>
+                          isDefenceSelected || isSpDefenceSelected
+                            ? theme.palette.primary.main
+                            : 'initial',
+                      }}
+                    >
+                      倍率
+                    </Typography>
                     <FormControl variant="standard" fullWidth sx={{ mt: 1 }}>
                       <InputLabel>防御</InputLabel>
                       <Select
                         value={selectDefenceEnhancement}
                         onChange={updateSelectDefenceEnhancement}
+                        onFocus={() => setIsDefenceSelected(true)}
+                        onBlur={() => setIsDefenceSelected(false)}
                         sx={{ textAlign: 'left' }}
                       >
                         {magnificationItems.map((item) => (
@@ -160,6 +175,8 @@ export const CalcStatsOptions = memo((props: Props) => {
                       <Select
                         value={selectSpDefenceEnhancement}
                         onChange={updateSelectSpDefenceEnhancement}
+                        onFocus={() => setIsDefenceSelected(true)}
+                        onBlur={() => setIsDefenceSelected(false)}
                         sx={{ textAlign: 'left' }}
                       >
                         {magnificationItems.map((item) => (
