@@ -175,8 +175,8 @@ export const CalcStatsOptions = memo((props: Props) => {
                       <Select
                         value={selectSpDefenceEnhancement}
                         onChange={updateSelectSpDefenceEnhancement}
-                        onFocus={() => setIsDefenceSelected(true)}
-                        onBlur={() => setIsDefenceSelected(false)}
+                        onFocus={() => setIsSpDefenceSelected(true)}
+                        onBlur={() => setIsSpDefenceSelected(false)}
                         sx={{ textAlign: 'left' }}
                       >
                         {magnificationItems.map((item) => (
