@@ -56,6 +56,32 @@ export type Pokemon = Readonly<{
   description: string
 }>
 
+export type PokemonParams = {
+  name: string
+  nature: string
+  lv: number | ''
+  hp_iv: number | ''
+  hp_ev: number | ''
+  hp: number
+  attack_iv: number | ''
+  attack_ev: number | ''
+  attack: number
+  defence_iv: number | ''
+  defence_ev: number | ''
+  defence: number
+  sp_attack_iv: number | ''
+  sp_attack_ev: number | ''
+  sp_attack: number
+  sp_defence_iv: number | ''
+  sp_defence_ev: number | ''
+  sp_defence: number
+  speed_iv: number | ''
+  speed_ev: number | ''
+  speed: number
+  description: string
+  is_public: 0 | 1
+}
+
 export type Stats = Readonly<{
   hp: number
   attack: number
