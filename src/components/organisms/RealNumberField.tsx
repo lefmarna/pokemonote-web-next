@@ -9,6 +9,7 @@ import {
 } from 'react'
 import { StatsKey } from '@/types'
 import { convertToInteger } from '@/utils/utilities'
+import { useResponsiveStyles } from '@/hooks/style/useResponsiveStyles'
 
 type Props = {
   value: number
@@ -60,14 +61,12 @@ export const RealNumberField = memo((props: Props) => {
     updateRealNumber(value - 1, statKey)
   }
 
+  const { androidStyle, iPhoneSEStyle } = useResponsiveStyles()
+
   const calcButtonStyle = {
     minWidth: '28px',
-    '@media screen and (max-width: 360px)': {
-      minWidth: '27.5px',
-    },
-    '@media screen and (max-width: 320px)': {
-      minWidth: '26px',
-    },
+    ...androidStyle({ minWidth: '27.5px' }),
+    ...iPhoneSEStyle({ minWidth: '26px' }),
   }
 
   const getStatName = () => {

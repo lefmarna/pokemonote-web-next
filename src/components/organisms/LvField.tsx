@@ -3,6 +3,7 @@ import { ChangeEvent, MouseEvent, useRef } from 'react'
 import { MAX_LEVEL, MIN_LEVEL } from '@/utils/constants'
 import { convertToInteger } from '@/utils/utilities'
 import { CalcButton } from '@/components/molecules/CalcButton'
+import { useResponsiveStyles } from '@/hooks/style/useResponsiveStyles'
 
 type Props = {
   level: number | ''
@@ -28,14 +29,12 @@ export const LvField = (props: Props) => {
     levelRef.current.select()
   }
 
+  const { androidStyle, iPhoneSEStyle } = useResponsiveStyles()
+
   const calcButtonStyle = {
     minWidth: '34px',
-    '@media screen and (max-width: 360px)': {
-      minWidth: '33.4px',
-    },
-    '@media screen and (max-width: 320px)': {
-      minWidth: '31.6px',
-    },
+    ...androidStyle({ minWidth: '33.4px' }),
+    ...iPhoneSEStyle({ minWidth: '31.6px' }),
   }
 
   return (
