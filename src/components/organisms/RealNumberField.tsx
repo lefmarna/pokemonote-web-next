@@ -1,5 +1,12 @@
 import { Box, Button, Grid, TextField } from '@mui/material'
-import { FocusEvent, KeyboardEvent, memo, useEffect, useRef } from 'react'
+import {
+  FocusEvent,
+  KeyboardEvent,
+  memo,
+  useEffect,
+  useRef,
+  useState,
+} from 'react'
 import { StatsKey } from '@/types'
 import { convertToInteger } from '@/utils/utilities'
 
@@ -14,16 +21,21 @@ export const RealNumberField = memo((props: Props) => {
 
   const realNumberElement = useRef<HTMLInputElement>()
 
+  // 努力値が252 -> 252となるケースで、更新が検知されずに実数値の入力内容が残ってしまうのを回避するための変数
+  const [prevRealNumber, setPrevRealNumber] = useState('')
+
   // 計算結果を画面に即時反映する
   useEffect(() => {
     if (!realNumberElement || !realNumberElement.current) return
     realNumberElement.current.value = String(value)
-  }, [value])
+    setPrevRealNumber(String(value))
+  }, [value, prevRealNumber])
 
   // onBlur と onKeydown の組み合わせにより、擬似的にchangeイベントを再現する
   const onBlur = (e: FocusEvent<HTMLInputElement>) => {
     const newRealNumber = convertToInteger(e.target.value, 999)
     updateRealNumber(newRealNumber, statKey)
+    setPrevRealNumber(e.target.value)
   }
 
   const onKeydown = (e: KeyboardEvent<HTMLInputElement>) => {
@@ -32,6 +44,7 @@ export const RealNumberField = memo((props: Props) => {
 
     const newRealNumber = convertToInteger(e.target.value, 999)
     updateRealNumber(newRealNumber, statKey)
+    setPrevRealNumber(e.target.value)
   }
 
   const onSelected = () => {
