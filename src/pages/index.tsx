@@ -1,22 +1,11 @@
 import Image from 'next/image'
 import { Inter } from 'next/font/google'
 import styles from '@/styles/Home.module.scss'
-import { useRouter } from 'next/router'
 import Head from 'next/head'
 
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
-  const router = useRouter()
-
-  const routerPushCalcStats = () => {
-    router.push('/calc-stats')
-  }
-
-  const routerPushPokemons = () => {
-    router.push('/pokemons')
-  }
-
   return (
     <>
       <Head>
@@ -34,12 +23,17 @@ export default function Home() {
               rel="noopener noreferrer"
             >
               By{' '}
+              <Image
+                src="/vercel.svg"
+                alt="Vercel Logo"
+                className={styles.vercelLogo}
+                width={100}
+                height={24}
+                priority
+              />
             </a>
           </div>
         </div>
-
-        <button onClick={routerPushCalcStats}>calc-statsへ</button>
-        <button onClick={routerPushPokemons}>pokemonsへ</button>
 
         <div className={styles.grid}>
           <a
