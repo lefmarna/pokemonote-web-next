@@ -82,12 +82,21 @@ export const Header = (props: Props) => {
           >
             <MenuIcon />
           </IconButton>
-          <Box onClick={returnTopPage} sx={{ cursor: 'pointer', px: 2, ml: 2 }}>
+          <Box
+            onClick={returnTopPage}
+            sx={{
+              cursor: 'pointer',
+              px: 2,
+              ml: 2,
+              maxWidth: 'calc(100vw - 116px)',
+            }}
+          >
             <Image
               height="64"
               width="240"
               alt="Pokemonote"
               src="/images/logo.svg"
+              layout="responsive"
             />
           </Box>
           <Box sx={{ flexGrow: 1 }} />
