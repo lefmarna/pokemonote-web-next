@@ -85,19 +85,16 @@ export const Header = (props: Props) => {
           <Box
             onClick={returnTopPage}
             sx={{
+              position: 'relative',
               cursor: 'pointer',
               px: 2,
               ml: 2,
-              maxWidth: 'calc(100vw - 116px)',
+              aspectRatio: '240 / 64',
+              width: '240px',
+              maxWidth: 'calc(100vw - 116px - 32px)',
             }}
           >
-            <Image
-              height="64"
-              width="240"
-              alt="Pokemonote"
-              src="/images/logo.svg"
-              layout="responsive"
-            />
+            <Image alt="Pokemonote" src="/images/logo.svg" fill />
           </Box>
           <Box sx={{ flexGrow: 1 }} />
           <Box>
