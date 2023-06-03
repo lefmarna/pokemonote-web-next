@@ -267,7 +267,7 @@ export const CalcStatsOptions = memo((props: Props) => {
           disabled={!authUser}
           loading={isLoading}
         >
-          投稿する
+          {buttonText}
         </LoadingButton>
       </Grid>
     </Grid>
