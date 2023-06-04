@@ -40,8 +40,8 @@ export default function Login() {
     }
   }, [authUser, rememberRoute, router, updateRememberRoute])
 
-  const updatePassword = useCallback((event: ChangeEvent<HTMLInputElement>) => {
-    setPassword(event.target.value)
+  const updatePassword = useCallback((newPassword: string) => {
+    setPassword(newPassword)
   }, [])
 
   const login = async () => {
@@ -81,7 +81,11 @@ export default function Login() {
         submit={login}
       >
         <EmailField required setValue={setEmail} />
-        <PasswordField required updatePassword={updatePassword} />
+        <PasswordField
+          required
+          value={password}
+          updatePassword={updatePassword}
+        />
       </FormTemplate>
       <MessageAlert open={isShowAlert} setOpen={setIsShowAlert} />
     </>
