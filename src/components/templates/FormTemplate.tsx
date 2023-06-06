@@ -1,3 +1,4 @@
+import { useEmotion } from '@/hooks/style/useEmotion'
 import {
   Button,
   Container,
@@ -15,6 +16,7 @@ type Props = {
   buttonText: string
   isLoading?: boolean
   errors?: string[]
+  links?: { href: string; text: string }[]
   submit: () => void
 }
 
@@ -23,10 +25,13 @@ export const FormTemplate = (props: Props) => {
     children,
     title,
     buttonText,
-    isLoading = false,
-    submit,
     errors = [],
+    isLoading = false,
+    links = [],
+    submit,
   } = props
+
+  const { StyledLink } = useEmotion()
 
   return (
     <form>
@@ -60,6 +65,17 @@ export const FormTemplate = (props: Props) => {
               )
             })}
           </List>
+        )}
+        {links.length > 0 && (
+          <Stack spacing={2} sx={{ mt: 4, fontSize: '.875rem' }}>
+            {links.map((link, index) => {
+              return (
+                <StyledLink href={link.href} key={index}>
+                  {link.text}
+                </StyledLink>
+              )
+            })}
+          </Stack>
         )}
       </Container>
     </form>

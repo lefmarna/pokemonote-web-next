@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { useRouter } from 'next/router'
-import { ChangeEvent, useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { FormTemplate } from '@/components/templates/FormTemplate'
 import { AuthUser } from '@/types'
 import { MessageAlert } from '@/components/organisms/MessageAlert'
@@ -70,6 +70,17 @@ export default function Login() {
     }
   }
 
+  const links = [
+    {
+      href: '/register',
+      text: '新規会員登録はこちら',
+    },
+    {
+      href: '/password/forgot',
+      text: 'パスワードをお忘れの方はこちら',
+    },
+  ]
+
   return (
     <>
       <Meta title="ログイン" />
@@ -78,6 +89,7 @@ export default function Login() {
         buttonText="ログイン"
         isLoading={isLoading}
         errors={errors}
+        links={links}
         submit={login}
       >
         <EmailField required setValue={setEmail} />
