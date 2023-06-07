@@ -90,7 +90,7 @@ export default function Login() {
         isLoading={isLoading}
         errors={errors}
         links={links}
-        submit={login}
+        onSubmit={login}
       >
         <EmailField required setValue={setEmail} />
         <PasswordField

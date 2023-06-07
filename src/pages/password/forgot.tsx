@@ -12,7 +12,7 @@ export default function PasswordForgot() {
 
   const router = useRouter()
 
-  const login = async () => {
+  const confirm = async () => {
     setIsLoading(true)
 
     try {
@@ -30,13 +30,21 @@ export default function PasswordForgot() {
     }
   }
 
+  const links = [
+    {
+      href: '/login',
+      text: 'ログインページへ戻る',
+    },
+  ]
+
   return (
     <FormTemplate
       title="パスワード再設定の申請"
       buttonText="パスワード再設定メールを送信する"
       errors={errors}
       isLoading={isLoading}
-      submit={login}
+      links={links}
+      onSubmit={confirm}
     >
       <p>
         本人確認のためにメールをお送りします。メールに添付されたURLよりパスワードの再設定を行ってください。

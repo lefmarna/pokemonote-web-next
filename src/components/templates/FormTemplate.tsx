@@ -1,6 +1,6 @@
 import { useEmotion } from '@/hooks/style/useEmotion'
+import { LoadingButton } from '@mui/lab'
 import {
-  Button,
   Container,
   List,
   ListItem,
@@ -13,22 +13,22 @@ import { ReactNode } from 'react'
 type Props = {
   children: ReactNode
   title: string
-  buttonText: string
+  buttonText?: string
   isLoading?: boolean
   errors?: string[]
   links?: { href: string; text: string }[]
-  submit: () => void
+  onSubmit?: () => void
 }
 
 export const FormTemplate = (props: Props) => {
   const {
     children,
     title,
-    buttonText,
+    buttonText = '',
     errors = [],
     isLoading = false,
     links = [],
-    submit,
+    onSubmit,
   } = props
 
   const { StyledLink } = useEmotion()
@@ -41,15 +41,17 @@ export const FormTemplate = (props: Props) => {
             Pokemonote - {title}
           </Typography>
           {children}
-          <Button
-            onClick={submit}
-            color="primary"
-            variant="contained"
-            size="large"
-            disabled={isLoading}
-          >
-            {buttonText}
-          </Button>
+          {buttonText && (
+            <LoadingButton
+              onClick={onSubmit}
+              color="primary"
+              variant="contained"
+              size="large"
+              loading={isLoading}
+            >
+              {buttonText}
+            </LoadingButton>
+          )}
         </Stack>
         {errors.length > 0 && (
           <List sx={{ mt: 3 }}>
