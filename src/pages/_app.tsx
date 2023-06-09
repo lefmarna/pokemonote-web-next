@@ -1,6 +1,6 @@
 import { Box, ThemeProvider } from '@mui/material'
 import axios, { AxiosError } from 'axios'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { RecoilRoot } from 'recoil'
 import useSWR, { SWRConfig } from 'swr'
 import '@/styles/globals.scss'
@@ -105,9 +105,9 @@ export default function App({ Component, pageProps }: AppProps) {
       'ポケモンのステータスを計算・管理するためのWebアプリ『Pokemonote』へようこそ！ 素早さ計算機やSVに対応した種族値ランキングといったツールも公開しています。「シンプルで高機能」なツールにこだわって制作していますので、是非お試しください。',
   } as const
 
-  const handleRouteChange = () => {
+  const handleRouteChange = useCallback(() => {
     setDrawer(isLargeUpScreen)
-  }
+  }, [isLargeUpScreen])
 
   useEffect(() => {
     router.events.on('routeChangeComplete', handleRouteChange)
@@ -115,7 +115,7 @@ export default function App({ Component, pageProps }: AppProps) {
     return () => {
       router.events.off('routeChangeComplete', handleRouteChange)
     }
-  }, [router])
+  }, [router.events, handleRouteChange])
 
   return (
     <>
@@ -137,6 +137,10 @@ export default function App({ Component, pageProps }: AppProps) {
         <meta property="twitter:card" content="summary" />
         <meta property="twitter:site" content="@lefmarna" />
         <meta property="format-detection" content="telephone=no" />
+        {/* NOTE: アプリが完成するまでは、環境問わず常にnoindexとする */}
+        {(process.env.NODE_ENV !== 'production' || true) && (
+          <meta name="robots" content="noindex,nofollow" />
+        )}
         <link rel="icon" type="image/x-icon" href="/favicon.ico" />
       </Head>
       <ThemeProvider theme={theme}>

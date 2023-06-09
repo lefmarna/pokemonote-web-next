@@ -4,6 +4,7 @@ import { NullableStats, StatsKey } from '@/types'
 import { MAX_IV } from '@/utils/constants'
 import { convertToInteger } from '@/utils/utilities'
 import { CalcButton } from '@/components/molecules/CalcButton'
+import { useResponsiveStyles } from '@/hooks/style/useResponsiveStyles'
 
 type Props = {
   value: number | ''
@@ -34,14 +35,12 @@ export const IndividualValueField = memo((props: Props) => {
     updateIvs({ [statKey]: newIv })
   }
 
+  const { androidStyle, iPhoneSEStyle } = useResponsiveStyles()
+
   const calcButtonStyle = {
     minWidth: '28px',
-    '@media screen and (max-width: 360px)': {
-      minWidth: '27.5px',
-    },
-    '@media screen and (max-width: 320px)': {
-      minWidth: '26px',
-    },
+    ...androidStyle({ minWidth: '27.5px' }),
+    ...iPhoneSEStyle({ minWidth: '26px' }),
   }
 
   return (

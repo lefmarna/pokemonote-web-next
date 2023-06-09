@@ -1,4 +1,4 @@
-import { Grid, styled, TextField } from '@mui/material'
+import { Grid, TextField } from '@mui/material'
 import styles from '@/styles/Home.module.scss'
 import { LOWER_NATURE, UPPER_NATURE } from '@/utils/constants'
 import { memo } from 'react'
@@ -19,19 +19,13 @@ export const BaseStatsField = memo((props: Props) => {
       case LOWER_NATURE:
         return 'blue'
       default:
-        return 'rgba(0, 0, 0, 0.38)'
+        return undefined
     }
   }
 
-  const CustomTextField = styled(TextField)({
-    input: {
-      WebkitTextFillColor: `${getTextFieldColor()} !important`,
-    },
-  })
-
   return (
     <Grid item xs={3}>
-      <CustomTextField
+      <TextField
         className={styles.dander}
         label="種族値"
         placeholder="0"
@@ -41,6 +35,11 @@ export const BaseStatsField = memo((props: Props) => {
           shrink: true,
         }}
         disabled
+        sx={{
+          '& .MuiInputBase-input': {
+            WebkitTextFillColor: getTextFieldColor(),
+          },
+        }}
       />
     </Grid>
   )

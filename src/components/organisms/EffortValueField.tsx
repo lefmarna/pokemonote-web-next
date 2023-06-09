@@ -5,6 +5,7 @@ import { NullableStats, StatsKey } from '@/types'
 import { MAX_EV } from '@/utils/constants'
 import { convertToInteger } from '@/utils/utilities'
 import { CalcButton } from '@/components/molecules/CalcButton'
+import { useResponsiveStyles } from '@/hooks/style/useResponsiveStyles'
 
 type Props = {
   value: number | ''
@@ -35,14 +36,12 @@ export const EffortValueField = memo((props: Props) => {
     updateEvs({ [statKey]: newEv })
   }
 
+  const { androidStyle, iPhoneSEStyle } = useResponsiveStyles()
+
   const calcButtonStyle = {
     minWidth: '34px',
-    '@media screen and (max-width: 360px)': {
-      minWidth: '33.4px',
-    },
-    '@media screen and (max-width: 320px)': {
-      minWidth: '31.6px',
-    },
+    ...androidStyle({ minWidth: '33.4px' }),
+    ...iPhoneSEStyle({ minWidth: '31.6px' }),
   }
 
   return (

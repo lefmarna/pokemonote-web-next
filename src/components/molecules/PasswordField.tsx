@@ -6,10 +6,10 @@ import { ChangeEvent, FocusEvent, memo, useState } from 'react'
 type Props = {
   name?: string
   label?: string
-  value?: string
+  value: string
   required?: boolean
   autoComplete?: 'current-password' | 'new-password'
-  updatePassword: (event: ChangeEvent<HTMLInputElement>) => void
+  updatePassword: (newPassword: string) => void
 }
 
 export const PasswordField = memo((props: Props) => {
@@ -23,27 +23,55 @@ export const PasswordField = memo((props: Props) => {
   } = props
 
   const [showPassword, setShowPassword] = useState(false)
-  const [localValidateMessage, setLocalValidateMessage] = useState<string>()
+
+  const [localValidateMessage, setLocalValidateMessage] = useState<string>('')
+  const [prevLocalValidateMessage, setPrevLocalValidateMessage] =
+    useState<string>('')
 
   const handleTogglePasswordVisibility = () => {
     setShowPassword(!showPassword)
   }
 
-  const validatePassword = (e: FocusEvent<HTMLInputElement>) => {
-    const password = e.target.value
-    if (password.length === 0) {
-      setLocalValidateMessage('この項目は必須です')
-    } else if (!passwordValidation.test(password)) {
-      setLocalValidateMessage(
-        'パスワードは、英数それぞれ1種類以上含む、8〜64文字で入力してください'
-      )
-    } else {
-      setLocalValidateMessage(undefined)
-    }
+  const validateRules = {
+    required: {
+      rule: (value: string) => value.length === 0,
+      label: 'この項目は必須です',
+    },
+    format: {
+      rule: (value: string) => !passwordValidation.test(value),
+      label:
+        'パスワードは、英数それぞれ1種類以上含む、8〜64文字で入力してください',
+    },
   }
 
-  const isError = () => {
-    return localValidateMessage !== undefined
+  const validatePassword = (e: FocusEvent<HTMLInputElement>) => {
+    const newPassword = e.target.value
+    const targetValidationRule = Object.values(validateRules).find(
+      (validateRule) => {
+        return validateRule.rule(newPassword)
+      }
+    )
+    setLocalValidateMessage(targetValidationRule?.label ?? '')
+    setPrevLocalValidateMessage(targetValidationRule?.label ?? '')
+  }
+
+  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const newPassword = e.target.value
+    updatePassword(newPassword)
+
+    if (prevLocalValidateMessage === '') return
+
+    const prevLocalValidateRule = Object.values(validateRules).find(
+      (validateRule) => {
+        return validateRule.label === prevLocalValidateMessage
+      }
+    )
+
+    if (prevLocalValidateRule?.rule(newPassword)) {
+      setLocalValidateMessage(prevLocalValidateRule.label)
+    } else {
+      setLocalValidateMessage('')
+    }
   }
 
   const togglePasswordIcon = showPassword ? <Visibility /> : <VisibilityOff />
@@ -74,10 +102,9 @@ export const PasswordField = memo((props: Props) => {
       InputLabelProps={{
         required: false,
       }}
-      error={isError()}
+      error={localValidateMessage !== ''}
       helperText={localValidateMessage}
-      onChange={updatePassword}
-      onFocus={() => setLocalValidateMessage(undefined)}
+      onChange={onChange}
       onBlur={validatePassword}
     />
   )

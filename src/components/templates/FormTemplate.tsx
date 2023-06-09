@@ -1,6 +1,6 @@
+import { useEmotion } from '@/hooks/style/useEmotion'
+import { LoadingButton } from '@mui/lab'
 import {
-  Box,
-  Button,
   Container,
   List,
   ListItem,
@@ -13,21 +13,25 @@ import { ReactNode } from 'react'
 type Props = {
   children: ReactNode
   title: string
-  buttonText: string
+  buttonText?: string
   isLoading?: boolean
   errors?: string[]
-  submit: () => void
+  links?: { href: string; text: string }[]
+  onSubmit?: () => void
 }
 
 export const FormTemplate = (props: Props) => {
   const {
     children,
     title,
-    buttonText,
-    isLoading = false,
-    submit,
+    buttonText = '',
     errors = [],
+    isLoading = false,
+    links = [],
+    onSubmit,
   } = props
+
+  const { StyledLink } = useEmotion()
 
   return (
     <form>
@@ -37,15 +41,17 @@ export const FormTemplate = (props: Props) => {
             Pokemonote - {title}
           </Typography>
           {children}
-          <Button
-            onClick={submit}
-            color="primary"
-            variant="contained"
-            size="large"
-            disabled={isLoading}
-          >
-            {buttonText}
-          </Button>
+          {buttonText && (
+            <LoadingButton
+              onClick={onSubmit}
+              color="primary"
+              variant="contained"
+              size="large"
+              loading={isLoading}
+            >
+              {buttonText}
+            </LoadingButton>
+          )}
         </Stack>
         {errors.length > 0 && (
           <List sx={{ mt: 3 }}>
@@ -61,6 +67,17 @@ export const FormTemplate = (props: Props) => {
               )
             })}
           </List>
+        )}
+        {links.length > 0 && (
+          <Stack spacing={2} sx={{ mt: 4, fontSize: '.875rem' }}>
+            {links.map((link, index) => {
+              return (
+                <StyledLink href={link.href} key={index}>
+                  {link.text}
+                </StyledLink>
+              )
+            })}
+          </Stack>
         )}
       </Container>
     </form>

@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { useRouter } from 'next/router'
-import { ChangeEvent, useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { FormTemplate } from '@/components/templates/FormTemplate'
 import { AuthUser } from '@/types'
 import { MessageAlert } from '@/components/organisms/MessageAlert'
@@ -40,8 +40,8 @@ export default function Login() {
     }
   }, [authUser, rememberRoute, router, updateRememberRoute])
 
-  const updatePassword = useCallback((event: ChangeEvent<HTMLInputElement>) => {
-    setPassword(event.target.value)
+  const updatePassword = useCallback((newPassword: string) => {
+    setPassword(newPassword)
   }, [])
 
   const login = async () => {
@@ -70,6 +70,17 @@ export default function Login() {
     }
   }
 
+  const links = [
+    {
+      href: '/register',
+      text: '新規会員登録はこちら',
+    },
+    {
+      href: '/password/forgot',
+      text: 'パスワードをお忘れの方はこちら',
+    },
+  ]
+
   return (
     <>
       <Meta title="ログイン" />
@@ -78,10 +89,15 @@ export default function Login() {
         buttonText="ログイン"
         isLoading={isLoading}
         errors={errors}
-        submit={login}
+        links={links}
+        onSubmit={login}
       >
         <EmailField required setValue={setEmail} />
-        <PasswordField required updatePassword={updatePassword} />
+        <PasswordField
+          required
+          value={password}
+          updatePassword={updatePassword}
+        />
       </FormTemplate>
       <MessageAlert open={isShowAlert} setOpen={setIsShowAlert} />
     </>

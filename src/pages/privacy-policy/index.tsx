@@ -1,7 +1,7 @@
 import { Meta } from '@/components/organisms/Meta'
+import { useEmotion } from '@/hooks/style/useEmotion'
 import styled from '@emotion/styled'
 import { Container } from '@mui/material'
-import Link from 'next/link'
 
 const StyledUl = styled.ul`
   box-sizing: inherit;
@@ -101,20 +101,9 @@ const StyledA = styled.a`
   }
 `
 
-const StyledLink = styled(Link)`
-  color: #1976d2;
-  text-decoration: underline;
-
-  &:visited {
-    color: #551a8b;
-  }
-
-  &:active {
-    color: #ff0000;
-  }
-`
-
 export default function PrivacyPolicy() {
+  const { StyledLink } = useEmotion()
+
   return (
     <>
       <Meta title="利用規約" />
