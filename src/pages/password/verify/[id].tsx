@@ -2,7 +2,6 @@ import { exceptionErrorToArray } from '@/utils/utilities'
 import axios from 'axios'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
-import { HTTP_UNPROCESSABLE_ENTITY } from '../../../../../pokemonote-web/utils/constants'
 import { FormTemplate } from '../../../components/templates/FormTemplate'
 import { PasswordField } from '@/components/molecules/PasswordField'
 import { Title } from '@/components/molecules/Title'
@@ -61,7 +60,7 @@ export default function VerifyPassword() {
       setIsSubmit(true)
       setErrors([])
     } catch (error) {
-      setErrors(exceptionErrorToArray(error, [HTTP_UNPROCESSABLE_ENTITY]))
+      setErrors(exceptionErrorToArray(error, [422]))
     } finally {
       setIsLoading(false)
     }
