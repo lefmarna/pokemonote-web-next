@@ -42,7 +42,7 @@ export default function VerifyPassword() {
 
   ;(async () => {
     try {
-      await axios.get<string, number>(
+      await axios.get(
         `/password/verify/${router.query.id}?expires=${router.query.expires}&signature=${router.query.signature}`
       )
       setIsSuccess(true)
