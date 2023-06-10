@@ -264,7 +264,7 @@ export const CalcStatsTemplate = (props: Props) => {
 
   return (
     <>
-      <Container sx={{ pt: 2 }}>
+      <Container sx={{ py: 2, px: 1.5 }}>
         <Title text={title} />
         <Grid
           container
@@ -305,17 +305,37 @@ export const CalcStatsTemplate = (props: Props) => {
                 />
               </Grid>
             ))}
-            <Grid container columns={18} sx={{ mt: 1 }}>
-              <Grid item xs={3} sx={{ pl: { xs: 2, sm: 3 } }}>
+            <Grid container columns={24} sx={{ mt: 1 }}>
+              <Grid
+                item
+                xs={4}
+                textAlign={'center'}
+                sx={{ pl: { xs: 2, sm: 3 } }}
+              >
                 {totalBaseStats()}
               </Grid>
-              <Grid item xs={5} sx={{ pl: { xs: 2, sm: 3 } }}>
+              <Grid
+                item
+                xs={6}
+                textAlign={'center'}
+                sx={{ pl: { xs: 2, sm: 3 } }}
+              >
                 {totalIv()}
               </Grid>
-              <Grid item xs={5} sx={{ pl: { xs: 2, sm: 3 } }}>
+              <Grid
+                item
+                xs={7}
+                textAlign={'center'}
+                sx={{ pl: { xs: 2, sm: 3 } }}
+              >
                 <span>{totalEv()}</span>/&nbsp;{MAX_TOTAL_EV}
               </Grid>
-              <Grid item xs={5} sx={{ pl: { xs: 2, sm: 3 } }}>
+              <Grid
+                item
+                xs={7}
+                textAlign={'center'}
+                sx={{ pl: { xs: 2, sm: 3 } }}
+              >
                 {totalStats()}
               </Grid>
             </Grid>
