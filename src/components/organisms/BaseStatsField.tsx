@@ -24,7 +24,7 @@ export const BaseStatsField = memo((props: Props) => {
   }
 
   return (
-    <Grid item xs={3}>
+    <Grid item xs={32}>
       <TextField
         className={styles.dander}
         label="種族値"

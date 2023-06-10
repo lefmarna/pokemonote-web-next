@@ -282,7 +282,7 @@ export const CalcStatsTemplate = (props: Props) => {
               updateLevel={updateLevel}
             />
             {statsKeys.map((statKey) => (
-              <Grid container columns={18} key={statKey} sx={{ mt: 1 }}>
+              <Grid container columns={256} key={statKey} sx={{ mt: 1 }}>
                 <BaseStatsField
                   value={pokemon.basicInfo.baseStats[statKey]}
                   statsInitial={getStatsInitial(statKey)}
@@ -305,18 +305,13 @@ export const CalcStatsTemplate = (props: Props) => {
                 />
               </Grid>
             ))}
-            <Grid container columns={24} sx={{ mt: 1 }}>
-              <Grid
-                item
-                xs={4}
-                textAlign={'center'}
-                sx={{ pl: { xs: 2, sm: 3 } }}
-              >
+            <Grid container columns={256} sx={{ mt: 1 }}>
+              <Grid item xs={32} textAlign={'center'}>
                 {totalBaseStats()}
               </Grid>
               <Grid
                 item
-                xs={6}
+                xs={73}
                 textAlign={'center'}
                 sx={{ pl: { xs: 2, sm: 3 } }}
               >
@@ -324,7 +319,7 @@ export const CalcStatsTemplate = (props: Props) => {
               </Grid>
               <Grid
                 item
-                xs={7}
+                xs={78}
                 textAlign={'center'}
                 sx={{ pl: { xs: 2, sm: 3 } }}
               >
@@ -332,7 +327,7 @@ export const CalcStatsTemplate = (props: Props) => {
               </Grid>
               <Grid
                 item
-                xs={7}
+                xs={73}
                 textAlign={'center'}
                 sx={{ pl: { xs: 2, sm: 3 } }}
               >

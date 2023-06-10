@@ -44,7 +44,7 @@ export const IndividualValueField = memo((props: Props) => {
   }
 
   return (
-    <Grid item xs={5} sx={{ pl: { xs: 2, md: 4 }, display: 'flex' }}>
+    <Grid item xs={73} sx={{ pl: { xs: 2, md: 4 }, display: 'flex' }}>
       <TextField
         type="tel"
         label="個体値"
