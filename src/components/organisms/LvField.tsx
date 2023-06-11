@@ -51,6 +51,9 @@ export const LvField = (props: Props) => {
           variant="standard"
           InputLabelProps={{
             shrink: true,
+            sx: {
+              userSelect: 'none',
+            },
           }}
         />
       </Box>

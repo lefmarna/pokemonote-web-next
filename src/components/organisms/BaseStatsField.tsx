@@ -33,11 +33,15 @@ export const BaseStatsField = memo((props: Props) => {
         variant="standard"
         InputLabelProps={{
           shrink: true,
+          sx: {
+            userSelect: 'none',
+          },
         }}
         disabled
         sx={{
           '& .MuiInputBase-input': {
             WebkitTextFillColor: getTextFieldColor(),
+            userSelect: 'none',
           },
         }}
       />

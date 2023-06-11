@@ -57,6 +57,9 @@ export const EffortValueField = memo((props: Props) => {
         variant="standard"
         InputLabelProps={{
           shrink: true,
+          sx: {
+            userSelect: 'none',
+          },
         }}
       />
       <Box sx={{ ml: 0.3 }}>
