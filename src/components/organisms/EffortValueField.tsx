@@ -45,7 +45,7 @@ export const EffortValueField = memo((props: Props) => {
   }
 
   return (
-    <Grid item xs={78} sx={{ pl: { xs: 2, md: 4 }, display: 'flex' }}>
+    <Grid item xs={77} sx={{ pl: { xs: 2, md: 4 }, display: 'flex' }}>
       <TextField
         type="tel"
         label="努力値"
