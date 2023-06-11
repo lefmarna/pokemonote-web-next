@@ -1,6 +1,6 @@
 import { Box, TextField } from '@mui/material'
 import { ChangeEvent, MouseEvent, useRef } from 'react'
-import { MAX_LEVEL, MIN_LEVEL } from '@/utils/constants'
+import { DEFAULT_LEVEL, MAX_LEVEL } from '@/utils/constants'
 import { convertToInteger } from '@/utils/utilities'
 import { CalcButton } from '@/components/molecules/CalcButton'
 import { useResponsiveStyles } from '@/hooks/style/useResponsiveStyles'
@@ -54,12 +54,15 @@ export const LvField = (props: Props) => {
           }}
         />
       </Box>
-      <Box>
-        <CalcButton onClick={assignLevel} sx={{ mb: 0.5, ...calcButtonStyle }}>
+      <Box sx={{ ml: 0.3 }}>
+        <CalcButton
+          onClick={assignLevel}
+          sx={{ mb: 0.5, display: 'block', ...calcButtonStyle }}
+        >
           {MAX_LEVEL}
         </CalcButton>
         <CalcButton onClick={assignLevel} sx={calcButtonStyle}>
-          {MIN_LEVEL}
+          {DEFAULT_LEVEL}
         </CalcButton>
       </Box>
     </Box>

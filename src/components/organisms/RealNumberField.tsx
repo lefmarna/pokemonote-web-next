@@ -103,7 +103,7 @@ export const RealNumberField = memo((props: Props) => {
           shrink: true,
         }}
       />
-      <Box>
+      <Box sx={{ ml: 0.3 }}>
         <Button
           centerRipple
           color="secondary"
@@ -112,6 +112,7 @@ export const RealNumberField = memo((props: Props) => {
           sx={{
             px: 0,
             mb: 0.5,
+            display: 'block',
             ...calcButtonStyle,
           }}
           variant="contained"

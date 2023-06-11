@@ -58,10 +58,10 @@ export const IndividualValueField = memo((props: Props) => {
           shrink: true,
         }}
       />
-      <Box>
+      <Box sx={{ ml: 0.3 }}>
         <CalcButton
           onClick={onClickCalcButton}
-          sx={{ mb: 0.5, ...calcButtonStyle }}
+          sx={{ mb: 0.5, display: 'block', ...calcButtonStyle }}
         >
           {31}
         </CalcButton>
