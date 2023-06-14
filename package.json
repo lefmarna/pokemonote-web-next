@@ -21,14 +21,14 @@
   },
   "lint-staged": {
     "src/**/*.{js,ts,jsx,tsx}": [
-      "prettier -w  --loglevel error",
+      "prettier -w",
       "eslint --fix --ignore-path .gitignore"
     ],
     "src/**/*.{css,scss}": [
       "stylelint --fix"
     ],
     "*.{html,json,md}": [
-      "prettier -w  --loglevel error"
+      "prettier -w"
     ]
   },
   "dependencies": {

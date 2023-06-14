@@ -1,5 +1,4 @@
 {
   "semi": false,
-  "singleQuote": true,
-  "ignorePath": [".gitignore", ".prettierignore"]
+  "singleQuote": true
 }
