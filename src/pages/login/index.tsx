@@ -13,6 +13,7 @@ import {
   useRememberRouteState,
 } from '@/store/rememberRouteState'
 import { Meta } from '@/components/organisms/Meta'
+import { useIsInitializationState } from '@/store/isInitializationState'
 
 export default function Login() {
   const router = useRouter()
@@ -28,8 +29,10 @@ export default function Login() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
+  const isInitialization = useIsInitializationState()
+
   useEffect(() => {
-    if (!authUser) return
+    if (!authUser || !isInitialization) return
 
     if (rememberRoute !== '') {
       router.push(rememberRoute).then(() => {
@@ -38,7 +41,7 @@ export default function Login() {
     } else {
       router.push('/')
     }
-  }, [authUser, rememberRoute, router, updateRememberRoute])
+  }, [authUser, isInitialization, rememberRoute, router, updateRememberRoute])
 
   const updatePassword = useCallback((newPassword: string) => {
     setPassword(newPassword)

@@ -14,12 +14,15 @@ import { useNaturesMutators } from '@/store/naturesState'
 import { usePokemonBasicInfosSMutators } from '@/store/pokemonBasicInfosState'
 import { AuthUser, Nature, PokemonBasicInfo } from '@/types'
 import { useRouter } from 'next/router'
+import { useIsInitializationMutators } from '../store/isInitializationState'
 
 const AppInit = () => {
   const { updateAuthUser } = useAuthUserMutators()
 
   const { updatePokemonBasicInfos } = usePokemonBasicInfosSMutators()
   const { updateNatures } = useNaturesMutators()
+
+  const { completeInitialization } = useIsInitializationMutators()
 
   const { data: loginData } = useSWR<{
     data: {
@@ -45,9 +48,11 @@ const AppInit = () => {
     updateAuthUser(loginData.data.auth_user)
     updatePokemonBasicInfos(StaticData.data.pokemon_basic_infos)
     updateNatures(StaticData.data.natures)
+    completeInitialization()
   }, [
     loginData,
     StaticData,
+    completeInitialization,
     updateAuthUser,
     updatePokemonBasicInfos,
     updateNatures,
