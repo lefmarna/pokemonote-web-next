@@ -1,5 +1,5 @@
 import { EmailField } from '@/components/molecules/EmailField'
-import { FormTemplate } from '@/components/templates/FormTemplate'
+import FormTemplate from '@/components/templates/FormTemplate'
 import { exceptionErrorToArray } from '@/utils/utilities'
 import axios from 'axios'
 import { useRouter } from 'next/router'

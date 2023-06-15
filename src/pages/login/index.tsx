@@ -1,7 +1,6 @@
 import axios from 'axios'
 import { useRouter } from 'next/router'
 import { useCallback, useEffect, useState } from 'react'
-import { FormTemplate } from '@/components/templates/FormTemplate'
 import { AuthUser } from '@/types'
 import { MessageAlert } from '@/components/organisms/MessageAlert'
 import { EmailField } from '@/components/molecules/EmailField'
@@ -15,6 +14,7 @@ import {
 import { Meta } from '@/components/organisms/Meta'
 import { useIsInitializationState } from '@/store/isInitializationState'
 import noAuthMiddleware from '@/hocs/noAuthMiddleware'
+import FormTemplate from '@/components/templates/FormTemplate'
 
 const Login = () => {
   const router = useRouter()

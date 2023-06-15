@@ -1,4 +1,4 @@
-import { PokemonTableTemplate } from '@/components/templates/PokemonTableTemplate'
+import PokemonTableTemplate from '@/components/templates/PokemonTableTemplate'
 import { PokemonSummary } from '@/types'
 import useSWR from 'swr'
 

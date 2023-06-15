@@ -2,11 +2,11 @@ import { exceptionErrorToArray } from '@/utils/utilities'
 import axios from 'axios'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
-import { FormTemplate } from '../../../components/templates/FormTemplate'
 import { PasswordField } from '@/components/molecules/PasswordField'
 import { Title } from '@/components/molecules/Title'
 import { useEmotion } from '@/hooks/style/useEmotion'
 import { Container } from '@mui/material'
+import FormTemplate from '@/components/templates/FormTemplate'
 
 export default function VerifyPassword() {
   const [isConfirm, setIsConfirm] = useState(true)
