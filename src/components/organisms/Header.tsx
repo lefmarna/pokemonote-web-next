@@ -18,7 +18,7 @@ type Props = {
   toggleDrawer: () => void
 }
 
-const Header = (props: Props) => {
+export const Header = (props: Props) => {
   const { toggleDrawer } = props
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
@@ -137,5 +137,3 @@ const Header = (props: Props) => {
     </Box>
   )
 }
-
-export default Header

@@ -1,4 +1,4 @@
-import FormTemplate from '@/components/templates/FormTemplate'
+import { FormTemplate } from '@/components/templates/FormTemplate'
 
 export default function PasswordConfirm() {
   return (

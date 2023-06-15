@@ -20,7 +20,7 @@ type Props = {
   onSubmit?: () => void
 }
 
-const FormTemplate = (props: Props) => {
+export const FormTemplate = (props: Props) => {
   const {
     children,
     title,
@@ -83,5 +83,3 @@ const FormTemplate = (props: Props) => {
     </form>
   )
 }
-
-export default FormTemplate

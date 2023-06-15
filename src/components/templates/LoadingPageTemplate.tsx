@@ -1,6 +1,6 @@
 import { Box, CircularProgress } from '@mui/material'
 
-const LoadingPageTemplate = () => {
+export const LoadingPageTemplate = () => {
   return (
     <Box
       sx={{
@@ -19,5 +19,3 @@ const LoadingPageTemplate = () => {
     </Box>
   )
 }
-
-export default LoadingPageTemplate

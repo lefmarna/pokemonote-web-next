@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import { useAuthUserState } from '@/store/authUserState'
 import { useRememberRouteMutators } from '@/store/rememberRouteState'
 import { useIsInitializationState } from '@/store/isInitializationState'
-import LoadingPageTemplate from '@/components/templates/LoadingPageTemplate'
+import { LoadingPageTemplate } from '@/components/templates/LoadingPageTemplate'
 
 export default function noAuthMiddleware(WrappedComponent: ComponentType) {
   return () => {

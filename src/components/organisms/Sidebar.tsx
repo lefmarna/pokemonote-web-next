@@ -28,7 +28,7 @@ type Props = {
   onCloseDrawer: () => void
 }
 
-const Sidebar = (props: Props) => {
+export const Sidebar = (props: Props) => {
   const { drawer, onCloseDrawer } = props
 
   const authUser = useAuthUserState()
@@ -184,5 +184,3 @@ const Sidebar = (props: Props) => {
     </Drawer>
   )
 }
-
-export default Sidebar

@@ -1,10 +1,10 @@
 import { Grid } from '@mui/material'
 import { Nature, PokemonBasicInfo } from '@/types'
 import { SearchField } from '@/components/molecules/SearchField'
+import { LvField } from './LvField'
 import { usePokemonBasicInfosState } from '@/store/pokemonBasicInfosState'
 import { useNaturesState } from '@/store/naturesState'
 import { memo, useCallback } from 'react'
-import LvField from './LvField'
 
 type Props = {
   basicInfo: PokemonBasicInfo
@@ -15,7 +15,7 @@ type Props = {
   updateLevel: (level: number | '') => void
 }
 
-const StatsTableHeader = memo((props: Props) => {
+export const StatsTableHeader = memo((props: Props) => {
   const {
     basicInfo,
     nature,
@@ -70,5 +70,3 @@ const StatsTableHeader = memo((props: Props) => {
     </>
   )
 })
-
-export default StatsTableHeader

@@ -5,6 +5,8 @@ import { RecoilRoot } from 'recoil'
 import useSWR, { SWRConfig } from 'swr'
 import '@/styles/globals.scss'
 import { AppProps } from 'next/app'
+import { Header } from '@/components/organisms/Header'
+import { Sidebar } from '@/components/organisms/Sidebar'
 import { theme, useMediaQueryUp } from '@/utils/theme'
 import { useAuthUserMutators } from '@/store/authUserState'
 import Head from 'next/head'
@@ -13,8 +15,6 @@ import { usePokemonBasicInfosSMutators } from '@/store/pokemonBasicInfosState'
 import { AuthUser, Nature, PokemonBasicInfo } from '@/types'
 import { useRouter } from 'next/router'
 import { useIsInitializationMutators } from '../store/isInitializationState'
-import Header from '@/components/organisms/Header'
-import Sidebar from '@/components/organisms/Sidebar'
 
 const AppInit = () => {
   const { updateAuthUser } = useAuthUserMutators()

@@ -9,7 +9,7 @@ type Props = {
   natureStat: number
 }
 
-const BaseStatsField = memo((props: Props) => {
+export const BaseStatsField = memo((props: Props) => {
   const { value, statsInitial, natureStat } = props
 
   const getTextFieldColor = () => {
@@ -48,5 +48,3 @@ const BaseStatsField = memo((props: Props) => {
     </Grid>
   )
 })
-
-export default BaseStatsField

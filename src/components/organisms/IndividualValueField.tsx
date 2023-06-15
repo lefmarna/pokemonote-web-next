@@ -12,7 +12,7 @@ type Props = {
   updateIvs: (newIvs: Partial<NullableStats>) => void
 }
 
-const IndividualValueField = memo((props: Props) => {
+export const IndividualValueField = memo((props: Props) => {
   const { value, statKey, updateIvs } = props
 
   const ivElement = useRef<HTMLInputElement>()
@@ -75,5 +75,3 @@ const IndividualValueField = memo((props: Props) => {
     </Grid>
   )
 })
-
-export default IndividualValueField

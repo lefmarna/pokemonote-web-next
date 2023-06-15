@@ -10,7 +10,7 @@ type Props = {
   updateLevel: (level: number | '') => void
 }
 
-const LvField = (props: Props) => {
+export const LvField = (props: Props) => {
   const { level, updateLevel } = props
   const levelRef = useRef<HTMLInputElement>()
 
@@ -71,5 +71,3 @@ const LvField = (props: Props) => {
     </Box>
   )
 }
-
-export default LvField

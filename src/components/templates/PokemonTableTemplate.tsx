@@ -12,7 +12,7 @@ type Props = {
   pokemons?: PokemonSummary[]
 }
 
-const PokemonTableTemplate = (props: Props) => {
+export const PokemonTableTemplate = (props: Props) => {
   const { title, pokemons = [] } = props
 
   const router = useRouter()
@@ -111,5 +111,3 @@ const PokemonTableTemplate = (props: Props) => {
     </div>
   )
 }
-
-export default PokemonTableTemplate

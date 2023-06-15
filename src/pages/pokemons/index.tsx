@@ -1,5 +1,5 @@
-import LoadingPageTemplate from '@/components/templates/LoadingPageTemplate'
-import PokemonTableTemplate from '@/components/templates/PokemonTableTemplate'
+import { LoadingPageTemplate } from '@/components/templates/LoadingPageTemplate'
+import { PokemonTableTemplate } from '@/components/templates/PokemonTableTemplate'
 import { PokemonSummary } from '@/types'
 import useSWR from 'swr'
 

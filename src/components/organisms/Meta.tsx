@@ -5,7 +5,7 @@ type Props = {
   metaDescription?: string
 }
 
-const Meta = (props: Props) => {
+export const Meta = (props: Props) => {
   const { title, metaDescription } = props
 
   const titleWithSiteName = `${title} | Pokemonote`
@@ -25,5 +25,3 @@ const Meta = (props: Props) => {
     </Head>
   )
 }
-
-export default Meta

@@ -14,9 +14,9 @@ import {
   jaJP,
 } from '@mui/x-data-grid'
 import { Title } from '@/components/molecules/Title'
+import { Meta } from '@/components/organisms/Meta'
 import { NextPage } from 'next'
 import { usePokemonBasicInfosState } from '@/store/pokemonBasicInfosState'
-import Meta from '@/components/organisms/Meta'
 
 const BaseStatsRanking: NextPage = () => {
   const pokemonBasicInfos = usePokemonBasicInfosState()
