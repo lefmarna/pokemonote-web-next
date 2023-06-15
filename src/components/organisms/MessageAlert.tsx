@@ -5,7 +5,7 @@ type Props = {
   setOpen: (value: boolean) => void
 }
 
-export const MessageAlert = (props: Props) => {
+const MessageAlert = (props: Props) => {
   const { open, setOpen } = props
 
   const handleClose = () => {
@@ -20,3 +20,5 @@ export const MessageAlert = (props: Props) => {
     </Snackbar>
   )
 }
+
+export default MessageAlert

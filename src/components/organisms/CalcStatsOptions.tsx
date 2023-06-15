@@ -37,7 +37,7 @@ type Props = {
   updateDescription: (newDescription: string) => void
 }
 
-export const CalcStatsOptions = memo((props: Props) => {
+const CalcStatsOptions = memo((props: Props) => {
   const {
     buttonText,
     description,
@@ -273,3 +273,5 @@ export const CalcStatsOptions = memo((props: Props) => {
     </Grid>
   )
 })
+
+export default CalcStatsOptions

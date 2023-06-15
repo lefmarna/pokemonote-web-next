@@ -1,4 +1,4 @@
-import { Meta } from '@/components/organisms/Meta'
+import Meta from '@/components/organisms/Meta'
 import { useEmotion } from '@/hooks/style/useEmotion'
 import styled from '@emotion/styled'
 import { Container } from '@mui/material'

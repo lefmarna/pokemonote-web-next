@@ -13,7 +13,7 @@ type Props = {
   updateEvs: (newIvs: Partial<NullableStats>) => void
 }
 
-export const EffortValueField = memo((props: Props) => {
+const EffortValueField = memo((props: Props) => {
   const { value, statKey, updateEvs } = props
 
   const evElement = useRef<HTMLInputElement>()
@@ -76,3 +76,5 @@ export const EffortValueField = memo((props: Props) => {
     </Grid>
   )
 })
+
+export default EffortValueField

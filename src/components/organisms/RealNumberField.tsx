@@ -17,7 +17,7 @@ type Props = {
   updateRealNumber: (realNumber: number | '', statKey: StatsKey) => void
 }
 
-export const RealNumberField = memo((props: Props) => {
+const RealNumberField = memo((props: Props) => {
   const { value, statKey, updateRealNumber } = props
 
   const realNumberElement = useRef<HTMLInputElement>()
@@ -139,3 +139,5 @@ export const RealNumberField = memo((props: Props) => {
     </Grid>
   )
 })
+
+export default RealNumberField
