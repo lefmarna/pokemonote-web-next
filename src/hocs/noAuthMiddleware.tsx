@@ -5,7 +5,7 @@ import { useRememberRouteMutators } from '@/store/rememberRouteState'
 import { useIsInitializationState } from '@/store/isInitializationState'
 import { LoadingPageTemplate } from '@/components/templates/LoadingPageTemplate'
 
-export default function authMiddleware(WrappedComponent: ComponentType) {
+export default function noAuthMiddleware(WrappedComponent: ComponentType) {
   return () => {
     const authUser = useAuthUserState()
     const isInitialization = useIsInitializationState()
@@ -13,20 +13,20 @@ export default function authMiddleware(WrappedComponent: ComponentType) {
 
     const router = useRouter()
 
-    // 初期化が終わっていて、ユーザーがログインしていない場合、ログインページにリダイレクト
+    // 初期化が終わっていて、ユーザーがログインしている場合、トップページにリダイレクト
     useEffect(() => {
-      if (!isInitialization || authUser) return
+      if (!isInitialization || !authUser) return
 
-      updateRememberRoute(router.pathname)
-      router.push('/login')
+      updateRememberRoute('')
+      router.push('/')
     }, [isInitialization, authUser, router, updateRememberRoute])
 
     // 初期化が終わっていない（認証状態がまだ確認できない）時に表示される
-    if (!authUser) {
+    if (!isInitialization || authUser) {
       return <LoadingPageTemplate />
     }
 
-    // ユーザーがログインしている場合は、引数として渡されたコンポーネントを表示
+    // ユーザーがログインしていない場合は、引数として渡されたコンポーネントを表示
     return <WrappedComponent />
   }
 }
