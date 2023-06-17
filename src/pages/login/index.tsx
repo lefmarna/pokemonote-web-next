@@ -14,7 +14,7 @@ import {
 } from '@/store/rememberRouteState'
 import { Meta } from '@/components/organisms/Meta'
 import { useIsInitializationState } from '@/store/isInitializationState'
-import noAuthMiddleware from '@/hocs/noAuthMiddleware'
+import { noAuthMiddleware } from '@/hocs/noAuthMiddleware'
 
 const Login = () => {
   const router = useRouter()

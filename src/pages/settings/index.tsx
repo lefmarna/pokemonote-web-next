@@ -1,4 +1,4 @@
-import authMiddleware from '@/hocs/authMiddleware'
+import { authMiddleware } from '@/hocs/authMiddleware'
 
 const Settings = () => {
   return <>設定</>
