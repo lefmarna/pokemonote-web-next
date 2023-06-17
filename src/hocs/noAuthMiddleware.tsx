@@ -6,7 +6,7 @@ import { useIsInitializationState } from '@/store/isInitializationState'
 import { LoadingPageTemplate } from '@/components/templates/LoadingPageTemplate'
 
 export default function noAuthMiddleware(WrappedComponent: ComponentType) {
-  return () => {
+  return function NoAuthMiddlewareComponent() {
     const authUser = useAuthUserState()
     const isInitialization = useIsInitializationState()
     const { updateRememberRoute } = useRememberRouteMutators()

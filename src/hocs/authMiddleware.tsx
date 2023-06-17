@@ -5,8 +5,8 @@ import { useRememberRouteMutators } from '@/store/rememberRouteState'
 import { useIsInitializationState } from '@/store/isInitializationState'
 import { LoadingPageTemplate } from '@/components/templates/LoadingPageTemplate'
 
-export default function authMiddleware(WrappedComponent: ComponentType) {
-  return () => {
+export const authMiddleware = (WrappedComponent: ComponentType) => {
+  return function AuthMiddlewareComponent() {
     const authUser = useAuthUserState()
     const isInitialization = useIsInitializationState()
     const { updateRememberRoute } = useRememberRouteMutators()

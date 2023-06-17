@@ -15,7 +15,7 @@ type Props = {
   updateLevel: (level: number | '') => void
 }
 
-export const StatsTableHeader = memo((props: Props) => {
+export const StatsTableHeader = memo(function StatsTableHeader(props: Props) {
   const {
     basicInfo,
     nature,

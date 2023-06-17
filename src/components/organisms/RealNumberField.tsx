@@ -17,7 +17,7 @@ type Props = {
   updateRealNumber: (realNumber: number | '', statKey: StatsKey) => void
 }
 
-export const RealNumberField = memo((props: Props) => {
+export const RealNumberField = memo(function RealNumberField(props: Props) {
   const { value, statKey, updateRealNumber } = props
 
   const realNumberElement = useRef<HTMLInputElement>()

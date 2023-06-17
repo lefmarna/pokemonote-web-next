@@ -12,7 +12,9 @@ type Props = {
   updateIvs: (newIvs: Partial<NullableStats>) => void
 }
 
-export const IndividualValueField = memo((props: Props) => {
+export const IndividualValueField = memo(function IndividualValueField(
+  props: Props
+) {
   const { value, statKey, updateIvs } = props
 
   const ivElement = useRef<HTMLInputElement>()
