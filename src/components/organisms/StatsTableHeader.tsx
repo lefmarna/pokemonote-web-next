@@ -27,7 +27,7 @@ export const StatsTableHeader = memo(function StatsTableHeader(props: Props) {
   const pokemonBasicInfos = usePokemonBasicInfosState()
   const natures = useNaturesState()
 
-  const onChangeSelectedPokemon = useCallback(
+  const onChangePokemonBasicInfo = useCallback(
     (newItem: PokemonBasicInfo | null) => {
       if (newItem === null) return
       updateBasicInfo(newItem)
@@ -35,7 +35,7 @@ export const StatsTableHeader = memo(function StatsTableHeader(props: Props) {
     [updateBasicInfo]
   )
 
-  const onChangeSelectedNature = useCallback(
+  const onChangeNature = useCallback(
     (value: Nature | null) => {
       if (value === null) return
       updateNature(value)
@@ -49,7 +49,7 @@ export const StatsTableHeader = memo(function StatsTableHeader(props: Props) {
         options={pokemonBasicInfos}
         label="ポケモン名"
         itemName="ポケモン"
-        setState={onChangeSelectedPokemon}
+        setState={onChangePokemonBasicInfo}
         selectedItem={basicInfo}
       />
       <Grid container sx={{ pt: 2 }}>
@@ -61,7 +61,7 @@ export const StatsTableHeader = memo(function StatsTableHeader(props: Props) {
             options={natures}
             label="性格"
             itemName="性格"
-            setState={onChangeSelectedNature}
+            setState={onChangeNature}
             selectedItem={nature}
             disableClearable={true}
           />
