@@ -1,5 +1,5 @@
 import { Box, TextField } from '@mui/material'
-import { ChangeEvent, MouseEvent, useRef } from 'react'
+import { ChangeEvent, MouseEvent, memo, useRef } from 'react'
 import { DEFAULT_LEVEL, MAX_LEVEL } from '@/utils/constants'
 import { convertToInteger } from '@/utils/utilities'
 import { CalcButton } from '@/components/molecules/CalcButton'
@@ -10,7 +10,7 @@ type Props = {
   updateLevel: (level: number | '') => void
 }
 
-export const LvField = (props: Props) => {
+export const LvField = memo(function LvField(props: Props) {
   const { level, updateLevel } = props
   const levelRef = useRef<HTMLInputElement>()
 
@@ -70,4 +70,4 @@ export const LvField = (props: Props) => {
       </Box>
     </Box>
   )
-}
+})
