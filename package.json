@@ -21,11 +21,12 @@
   },
   "lint-staged": {
     "src/**/*.{js,ts,jsx,tsx}": [
-      "prettier -w",
-      "eslint --fix --ignore-path .gitignore"
+      "eslint --fix",
+      "prettier -w"
     ],
     "src/**/*.{css,scss}": [
-      "stylelint --fix"
+      "stylelint --fix",
+      "prettier -w"
     ],
     "*.{html,json,md}": [
       "prettier -w"
