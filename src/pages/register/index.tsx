@@ -17,11 +17,11 @@ const Register = () => {
     <>
       <Meta title="アカウント作成" button-text="新規登録" />
       <FormTemplate title="アカウント作成">
-        <EmailField required setValue={setEmail} />
+        <EmailField value={email} setValue={setEmail} required />
         <PasswordField
-          required
           value={password}
           updatePassword={updatePassword}
+          required
         />
       </FormTemplate>
     </>

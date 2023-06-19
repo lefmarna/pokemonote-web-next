@@ -96,11 +96,11 @@ const Login = () => {
         links={links}
         onSubmit={login}
       >
-        <EmailField required setValue={setEmail} />
+        <EmailField value={email} setValue={setEmail} required />
         <PasswordField
-          required
           value={password}
           updatePassword={updatePassword}
+          required
         />
       </FormTemplate>
       <MessageAlert open={isShowAlert} setOpen={setIsShowAlert} />
