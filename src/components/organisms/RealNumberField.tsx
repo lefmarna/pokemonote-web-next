@@ -17,7 +17,7 @@ type Props = {
   updateRealNumber: (realNumber: number | '', statKey: StatsKey) => void
 }
 
-export const RealNumberField = memo((props: Props) => {
+export const RealNumberField = memo(function RealNumberField(props: Props) {
   const { value, statKey, updateRealNumber } = props
 
   const realNumberElement = useRef<HTMLInputElement>()
@@ -74,22 +74,22 @@ export const RealNumberField = memo((props: Props) => {
       case 'hp':
         return 'ＨＰ'
       case 'attack':
-        return 'こうげき'
+        return '攻撃'
       case 'defense':
-        return 'ぼうぎょ'
+        return '防御'
       case 'spAttack':
-        return 'とくこう'
+        return '特攻'
       case 'spDefense':
-        return 'とくぼう'
+        return '特防'
       case 'speed':
-        return 'すばやさ'
+        return '素早'
     }
   }
 
   const statName = getStatName()
 
   return (
-    <Grid item xs={5} sx={{ pl: { xs: 2, sm: 3 }, display: 'flex' }}>
+    <Grid item xs={73} sx={{ pl: { xs: 2, sm: 3 }, display: 'flex' }}>
       <TextField
         type="tel"
         label={statName}
@@ -101,9 +101,12 @@ export const RealNumberField = memo((props: Props) => {
         variant="standard"
         InputLabelProps={{
           shrink: true,
+          sx: {
+            userSelect: 'none',
+          },
         }}
       />
-      <Box>
+      <Box sx={{ ml: 0.3 }}>
         <Button
           centerRipple
           color="secondary"
@@ -112,6 +115,7 @@ export const RealNumberField = memo((props: Props) => {
           sx={{
             px: 0,
             mb: 0.5,
+            display: 'block',
             ...calcButtonStyle,
           }}
           variant="contained"

@@ -301,7 +301,16 @@ const SearchFieldComponent = <T extends { name: string }>(props: Props<T>) => {
       filterOptions={filterOptions}
       options={options}
       renderInput={(params) => (
-        <TextField {...params} label={label} variant="standard" />
+        <TextField
+          {...params}
+          label={label}
+          variant="standard"
+          InputLabelProps={{
+            sx: {
+              userSelect: 'none',
+            },
+          }}
+        />
       )}
     />
   )

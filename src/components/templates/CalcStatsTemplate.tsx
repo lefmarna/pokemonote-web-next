@@ -264,7 +264,7 @@ export const CalcStatsTemplate = (props: Props) => {
 
   return (
     <>
-      <Container sx={{ pt: 2 }}>
+      <Container sx={{ py: 2, px: 1.5 }}>
         <Title text={title} />
         <Grid
           container
@@ -272,7 +272,7 @@ export const CalcStatsTemplate = (props: Props) => {
           columns={{ xs: 9, md: 18 }}
         >
           {/* 画面左 */}
-          <Grid item md={9} xs={18}>
+          <Grid item md={9} xs={18} sx={{ mr: { xs: 1, md: 0 } }}>
             <StatsTableHeader
               basicInfo={pokemon.basicInfo}
               nature={pokemon.nature}
@@ -282,7 +282,7 @@ export const CalcStatsTemplate = (props: Props) => {
               updateLevel={updateLevel}
             />
             {statsKeys.map((statKey) => (
-              <Grid container columns={18} key={statKey} sx={{ mt: 1 }}>
+              <Grid container columns={256} key={statKey} sx={{ mt: 2 }}>
                 <BaseStatsField
                   value={pokemon.basicInfo.baseStats[statKey]}
                   statsInitial={getStatsInitial(statKey)}
@@ -305,17 +305,17 @@ export const CalcStatsTemplate = (props: Props) => {
                 />
               </Grid>
             ))}
-            <Grid container columns={18} sx={{ mt: 1 }}>
-              <Grid item xs={3} sx={{ pl: { xs: 2, sm: 3 } }}>
+            <Grid container columns={256} sx={{ mt: 1 }}>
+              <Grid item xs={33} textAlign={'center'}>
                 {totalBaseStats()}
               </Grid>
-              <Grid item xs={5} sx={{ pl: { xs: 2, sm: 3 } }}>
+              <Grid item xs={73} textAlign={'center'}>
                 {totalIv()}
               </Grid>
-              <Grid item xs={5} sx={{ pl: { xs: 2, sm: 3 } }}>
+              <Grid item xs={77} textAlign={'center'}>
                 <span>{totalEv()}</span>/&nbsp;{MAX_TOTAL_EV}
               </Grid>
-              <Grid item xs={5} sx={{ pl: { xs: 2, sm: 3 } }}>
+              <Grid item xs={73} textAlign={'center'}>
                 {totalStats()}
               </Grid>
             </Grid>

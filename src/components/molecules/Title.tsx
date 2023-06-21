@@ -1,11 +1,11 @@
-import React from 'react'
+import React, { memo } from 'react'
 import { Typography } from '@mui/material'
 
 type Props = {
   text: string
 }
 
-export const Title = (props: Props) => {
+export const Title = memo(function Title(props: Props) {
   const { text } = props
 
   return (
@@ -15,4 +15,4 @@ export const Title = (props: Props) => {
       </Typography>
     </div>
   )
-}
+})

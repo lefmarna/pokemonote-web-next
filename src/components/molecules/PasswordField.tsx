@@ -12,7 +12,7 @@ type Props = {
   updatePassword: (newPassword: string) => void
 }
 
-export const PasswordField = memo((props: Props) => {
+export const PasswordField = memo(function PasswordField(props: Props) {
   const {
     name,
     label = 'パスワード',

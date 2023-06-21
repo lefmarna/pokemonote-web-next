@@ -13,7 +13,7 @@ type Props = {
   updateEvs: (newIvs: Partial<NullableStats>) => void
 }
 
-export const EffortValueField = memo((props: Props) => {
+export const EffortValueField = memo(function EffortValueField(props: Props) {
   const { value, statKey, updateEvs } = props
 
   const evElement = useRef<HTMLInputElement>()
@@ -45,7 +45,7 @@ export const EffortValueField = memo((props: Props) => {
   }
 
   return (
-    <Grid item xs={5} sx={{ pl: { xs: 2, md: 4 }, display: 'flex' }}>
+    <Grid item xs={77} sx={{ pl: { xs: 2, md: 4 }, display: 'flex' }}>
       <TextField
         type="tel"
         label="努力値"
@@ -57,12 +57,15 @@ export const EffortValueField = memo((props: Props) => {
         variant="standard"
         InputLabelProps={{
           shrink: true,
+          sx: {
+            userSelect: 'none',
+          },
         }}
       />
-      <Box>
+      <Box sx={{ ml: 0.3 }}>
         <CalcButton
           onClick={onClickCalcButton}
-          sx={{ mb: 0.5, ...calcButtonStyle }}
+          sx={{ mb: 0.5, display: 'block', ...calcButtonStyle }}
         >
           {252}
         </CalcButton>

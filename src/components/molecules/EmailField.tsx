@@ -1,7 +1,7 @@
 import { emailValidation } from '@/utils/regex'
 import { Email } from '@mui/icons-material'
 import { InputAdornment, TextField } from '@mui/material'
-import { ChangeEvent, FocusEvent, useState } from 'react'
+import { ChangeEvent, FocusEvent, memo, useState } from 'react'
 
 type Props = {
   name?: string
@@ -11,7 +11,7 @@ type Props = {
   setValue: (value: string) => void
 }
 
-export const EmailField = (props: Props) => {
+export const EmailField = memo(function EmailField(props: Props) {
   const {
     name,
     label = 'メールアドレス',
@@ -90,4 +90,4 @@ export const EmailField = (props: Props) => {
       onBlur={validateEmail}
     />
   )
-}
+})

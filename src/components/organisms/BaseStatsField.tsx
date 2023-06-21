@@ -9,7 +9,7 @@ type Props = {
   natureStat: number
 }
 
-export const BaseStatsField = memo((props: Props) => {
+export const BaseStatsField = memo(function BaseStatsField(props: Props) {
   const { value, statsInitial, natureStat } = props
 
   const getTextFieldColor = () => {
@@ -24,7 +24,7 @@ export const BaseStatsField = memo((props: Props) => {
   }
 
   return (
-    <Grid item xs={3}>
+    <Grid item xs={33}>
       <TextField
         className={styles.dander}
         label="種族値"
@@ -33,11 +33,15 @@ export const BaseStatsField = memo((props: Props) => {
         variant="standard"
         InputLabelProps={{
           shrink: true,
+          sx: {
+            userSelect: 'none',
+          },
         }}
         disabled
         sx={{
           '& .MuiInputBase-input': {
             WebkitTextFillColor: getTextFieldColor(),
+            userSelect: 'none',
           },
         }}
       />

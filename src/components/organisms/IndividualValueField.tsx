@@ -12,7 +12,9 @@ type Props = {
   updateIvs: (newIvs: Partial<NullableStats>) => void
 }
 
-export const IndividualValueField = memo((props: Props) => {
+export const IndividualValueField = memo(function IndividualValueField(
+  props: Props
+) {
   const { value, statKey, updateIvs } = props
 
   const ivElement = useRef<HTMLInputElement>()
@@ -44,7 +46,7 @@ export const IndividualValueField = memo((props: Props) => {
   }
 
   return (
-    <Grid item xs={5} sx={{ pl: { xs: 2, md: 4 }, display: 'flex' }}>
+    <Grid item xs={73} sx={{ pl: { xs: 2, md: 4 }, display: 'flex' }}>
       <TextField
         type="tel"
         label="個体値"
@@ -56,12 +58,15 @@ export const IndividualValueField = memo((props: Props) => {
         variant="standard"
         InputLabelProps={{
           shrink: true,
+          sx: {
+            userSelect: 'none',
+          },
         }}
       />
-      <Box>
+      <Box sx={{ ml: 0.3 }}>
         <CalcButton
           onClick={onClickCalcButton}
-          sx={{ mb: 0.5, ...calcButtonStyle }}
+          sx={{ mb: 0.5, display: 'block', ...calcButtonStyle }}
         >
           {31}
         </CalcButton>

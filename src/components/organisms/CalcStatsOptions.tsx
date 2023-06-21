@@ -37,7 +37,7 @@ type Props = {
   updateDescription: (newDescription: string) => void
 }
 
-export const CalcStatsOptions = memo((props: Props) => {
+export const CalcStatsOptions = memo(function CalcStatsOptions(props: Props) {
   const {
     buttonText,
     description,
