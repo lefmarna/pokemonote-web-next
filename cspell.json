@@ -1,20 +1,15 @@
 {
   "version": "0.2",
-  "ignorePaths": [".devcontainer", ".github/workflows", "README.md"],
-  "dictionaryDefinitions": [],
-  "dictionaries": [],
-  "words": [
-    "axios",
-    "cimg",
-    "DEFENCE",
-    "devcontainer",
-    "fontsource",
-    "HABCDS",
-    "loglevel",
-    "rscss",
-    "stylelint",
-    "Textfield"
-  ],
-  "ignoreWords": [],
-  "import": []
+  "language": "en",
+  "words": ["axios", "DEFENCE", "HABCDS"],
+  "flagWords": [],
+  "ignorePaths": [
+    ".devcontainer/**",
+    ".github/workflows/**",
+    ".vscode/**",
+    "node_modules/**",
+    "package-lock.json",
+    "package.json",
+    "README.md"
+  ]
 }
