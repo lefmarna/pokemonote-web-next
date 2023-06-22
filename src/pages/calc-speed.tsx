@@ -13,8 +13,6 @@ import { Container, Grid } from '@mui/material'
 export default function CalcSpeed() {
   const pokemon = usePokemonState()
 
-  console.log(aaa)
-
   const { updateBasicInfo, updateNature, updateLevel, updateIvs, updateEvs } =
     usePokemonMutators()
 
