@@ -4,7 +4,6 @@ import { InputAdornment, TextField } from '@mui/material'
 import { ChangeEvent, FocusEvent, memo, useState } from 'react'
 
 type Props = {
-  name?: string
   label?: string
   value?: string
   required?: boolean
@@ -12,13 +11,7 @@ type Props = {
 }
 
 export const EmailField = memo(function EmailField(props: Props) {
-  const {
-    name,
-    label = 'メールアドレス',
-    value,
-    required = false,
-    setValue,
-  } = props
+  const { label = 'メールアドレス', value, required = false, setValue } = props
 
   const [localValidateMessage, setLocalValidateMessage] = useState<string>('')
   const [prevLocalValidateMessage, setPrevLocalValidateMessage] =
@@ -67,7 +60,6 @@ export const EmailField = memo(function EmailField(props: Props) {
 
   return (
     <TextField
-      name={name}
       type="email"
       label={label}
       value={value}

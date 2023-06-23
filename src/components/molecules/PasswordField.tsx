@@ -4,7 +4,6 @@ import { IconButton, InputAdornment, TextField } from '@mui/material'
 import { ChangeEvent, FocusEvent, memo, useState } from 'react'
 
 type Props = {
-  name?: string
   label?: string
   value: string
   required?: boolean
@@ -14,7 +13,6 @@ type Props = {
 
 export const PasswordField = memo(function PasswordField(props: Props) {
   const {
-    name,
     label = 'パスワード',
     value,
     required = false,
@@ -78,7 +76,6 @@ export const PasswordField = memo(function PasswordField(props: Props) {
 
   return (
     <TextField
-      name={name}
       type={showPassword ? 'text' : 'password'}
       label={label}
       value={value}
