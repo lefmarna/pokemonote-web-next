@@ -33,7 +33,7 @@ export const EmailField = memo(function EmailField(props: Props) {
       autoComplete="email"
       validateRules={validateRules}
       updateValue={setValue}
-      Icon={<Email />}
+      StartIcon={<Email />}
     />
   )
 })

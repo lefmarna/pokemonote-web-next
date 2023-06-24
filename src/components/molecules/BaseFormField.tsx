@@ -17,11 +17,13 @@ type Props = {
   required?: boolean
   validateRules: ValidateRules
   updateValue: (newValue: string) => void
-  Icon: ReactElement
+  StartIcon?: ReactElement
+  EndIcon?: ReactElement
 }
 
 export const BaseFormField = (props: Props) => {
-  const { validateRules, updateValue, Icon, ...textFieldProps } = props
+  const { validateRules, updateValue, StartIcon, EndIcon, ...textFieldProps } =
+    props
 
   const [localValidateMessage, setLocalValidateMessage] = useState<string>('')
   const [prevLocalValidateMessage, setPrevLocalValidateMessage] =
@@ -63,8 +65,11 @@ export const BaseFormField = (props: Props) => {
       variant="standard"
       {...textFieldProps}
       InputProps={{
-        startAdornment: (
-          <InputAdornment position="start">{Icon}</InputAdornment>
+        startAdornment: StartIcon && (
+          <InputAdornment position="start">{StartIcon}</InputAdornment>
+        ),
+        endAdornment: EndIcon && (
+          <InputAdornment position="end">{EndIcon}</InputAdornment>
         ),
       }}
       InputLabelProps={{

@@ -1,7 +1,8 @@
 import { passwordValidation } from '@/utils/regex'
 import { Lock, Visibility, VisibilityOff } from '@mui/icons-material'
-import { IconButton, InputAdornment, TextField } from '@mui/material'
-import { ChangeEvent, FocusEvent, memo, useState } from 'react'
+import { IconButton } from '@mui/material'
+import { memo, useState } from 'react'
+import { BaseFormField } from './BaseFormField'
 
 type Props = {
   label?: string
@@ -22,13 +23,11 @@ export const PasswordField = memo(function PasswordField(props: Props) {
 
   const [showPassword, setShowPassword] = useState(false)
 
-  const [localValidateMessage, setLocalValidateMessage] = useState<string>('')
-  const [prevLocalValidateMessage, setPrevLocalValidateMessage] =
-    useState<string>('')
-
   const handleTogglePasswordVisibility = () => {
     setShowPassword(!showPassword)
   }
+
+  const togglePasswordIcon = showPassword ? <Visibility /> : <VisibilityOff />
 
   const validateRules = {
     required: {
@@ -42,67 +41,21 @@ export const PasswordField = memo(function PasswordField(props: Props) {
     },
   }
 
-  const validatePassword = (e: FocusEvent<HTMLInputElement>) => {
-    const newPassword = e.target.value
-    const targetValidationRule = Object.values(validateRules).find(
-      (validateRule) => {
-        return validateRule.rule(newPassword)
-      }
-    )
-    setLocalValidateMessage(targetValidationRule?.label ?? '')
-    setPrevLocalValidateMessage(targetValidationRule?.label ?? '')
-  }
-
-  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const newPassword = e.target.value
-    updatePassword(newPassword)
-
-    if (prevLocalValidateMessage === '') return
-
-    const prevLocalValidateRule = Object.values(validateRules).find(
-      (validateRule) => {
-        return validateRule.label === prevLocalValidateMessage
-      }
-    )
-
-    if (prevLocalValidateRule?.rule(newPassword)) {
-      setLocalValidateMessage(prevLocalValidateRule.label)
-    } else {
-      setLocalValidateMessage('')
-    }
-  }
-
-  const togglePasswordIcon = showPassword ? <Visibility /> : <VisibilityOff />
-
   return (
-    <TextField
+    <BaseFormField
       type={showPassword ? 'text' : 'password'}
       label={label}
       value={value}
       required={required}
-      variant="standard"
       autoComplete={autoComplete}
-      InputProps={{
-        startAdornment: (
-          <InputAdornment position="start">
-            <Lock />
-          </InputAdornment>
-        ),
-        endAdornment: (
-          <InputAdornment position="end">
-            <IconButton onClick={handleTogglePasswordVisibility}>
-              {togglePasswordIcon}
-            </IconButton>
-          </InputAdornment>
-        ),
-      }}
-      InputLabelProps={{
-        required: false,
-      }}
-      error={localValidateMessage !== ''}
-      helperText={localValidateMessage}
-      onChange={onChange}
-      onBlur={validatePassword}
+      validateRules={validateRules}
+      updateValue={updatePassword}
+      StartIcon={<Lock />}
+      EndIcon={
+        <IconButton onClick={handleTogglePasswordVisibility}>
+          {togglePasswordIcon}
+        </IconButton>
+      }
     />
   )
 })
