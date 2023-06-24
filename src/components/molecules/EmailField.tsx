@@ -1,4 +1,3 @@
-import { emailValidation } from '@/utils/regex'
 import { BaseFormField } from './BaseFormField'
 import { Email } from '@mui/icons-material'
 import { memo } from 'react'
@@ -12,6 +11,9 @@ type Props = {
 
 export const EmailField = memo(function EmailField(props: Props) {
   const { label = 'メールアドレス', value, required = false, setValue } = props
+
+  const emailValidation =
+    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 
   const validateRules = {
     required: {

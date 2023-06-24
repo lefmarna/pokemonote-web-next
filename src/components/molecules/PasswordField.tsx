@@ -1,4 +1,3 @@
-import { passwordValidation } from '@/utils/regex'
 import { Lock, Visibility, VisibilityOff } from '@mui/icons-material'
 import { IconButton } from '@mui/material'
 import { memo, useState } from 'react'
@@ -28,6 +27,8 @@ export const PasswordField = memo(function PasswordField(props: Props) {
   }
 
   const togglePasswordIcon = showPassword ? <Visibility /> : <VisibilityOff />
+
+  const passwordValidation = /^(?=.*?[a-z])(?=.*?\d)[a-z\d!@#$%^&*]{8,64}$/i
 
   const validateRules = {
     required: {
