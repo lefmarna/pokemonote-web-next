@@ -1,10 +1,10 @@
 import { Meta } from '@/components/organisms/Meta'
 import { noAuthMiddleware } from '@/hocs/noAuthMiddleware'
 import { FormTemplate } from '../../components/templates/FormTemplate'
-import { EmailField } from '../../components/molecules/EmailField'
-import { PasswordField } from '../../components/molecules/PasswordField'
+import { EmailInput } from '../../components/forms/EmailInput'
+import { PasswordInput } from '../../components/forms/PasswordInput'
 import { useCallback, useState } from 'react'
-import { UsernameField } from '@/components/molecules/UsernameField'
+import { UsernameInput } from '@/components/forms/UsernameInput'
 
 const Register = () => {
   const [username, setUsername] = useState('')
@@ -19,9 +19,9 @@ const Register = () => {
     <>
       <Meta title="アカウント作成" button-text="新規登録" />
       <FormTemplate title="アカウント作成">
-        <UsernameField value={username} setValue={setUsername} required />
-        <EmailField value={email} setValue={setEmail} required />
-        <PasswordField
+        <UsernameInput value={username} setValue={setUsername} required />
+        <EmailInput value={email} setValue={setEmail} required />
+        <PasswordInput
           value={password}
           updatePassword={updatePassword}
           required

@@ -21,7 +21,7 @@ type Props = {
   EndIcon?: ReactElement
 }
 
-export const BaseFormField = (props: Props) => {
+export const BaseFormInput = (props: Props) => {
   const { validateRules, updateValue, StartIcon, EndIcon, ...textFieldProps } =
     props
 

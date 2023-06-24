@@ -4,8 +4,8 @@ import { useCallback, useEffect, useState } from 'react'
 import { FormTemplate } from '@/components/templates/FormTemplate'
 import { AuthUser } from '@/types'
 import { MessageAlert } from '@/components/organisms/MessageAlert'
-import { EmailField } from '@/components/molecules/EmailField'
-import { PasswordField } from '@/components/molecules/PasswordField'
+import { EmailInput } from '@/components/forms/EmailInput'
+import { PasswordInput } from '@/components/forms/PasswordInput'
 import { exceptionErrorToArray } from '@/utils/utilities'
 import { useAuthUserMutators, useAuthUserState } from '@/store/authUserState'
 import {
@@ -96,8 +96,8 @@ const Login = () => {
         links={links}
         onSubmit={login}
       >
-        <EmailField value={email} setValue={setEmail} required />
-        <PasswordField
+        <EmailInput value={email} setValue={setEmail} required />
+        <PasswordInput
           value={password}
           updatePassword={updatePassword}
           required

@@ -3,7 +3,7 @@ import axios from 'axios'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { FormTemplate } from '../../../components/templates/FormTemplate'
-import { PasswordField } from '@/components/molecules/PasswordField'
+import { PasswordInput } from '@/components/forms/PasswordInput'
 import { Title } from '@/components/molecules/Title'
 import { useEmotion } from '@/hooks/style/useEmotion'
 import { Container } from '@mui/material'
@@ -79,12 +79,12 @@ export default function VerifyPassword() {
         isLoading={isLoading}
         onSubmit={submit}
       >
-        <PasswordField
+        <PasswordInput
           value={resetPasswordParams.new_password}
           label="新しいパスワード"
           updatePassword={updateNewPassword}
         />
-        <PasswordField
+        <PasswordInput
           value={resetPasswordParams.new_password_confirmation}
           label="確認用パスワード"
           updatePassword={updateNewPasswordConfirmation}

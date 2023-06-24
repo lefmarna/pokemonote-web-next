@@ -1,6 +1,6 @@
-import { BaseFormField } from './BaseFormField'
 import { Email } from '@mui/icons-material'
 import { memo } from 'react'
+import { BaseFormInput } from '@/components/forms/BaseFormInput'
 
 type Props = {
   label?: string
@@ -9,7 +9,7 @@ type Props = {
   setValue: (value: string) => void
 }
 
-export const EmailField = memo(function EmailField(props: Props) {
+export const EmailInput = memo(function EmailInput(props: Props) {
   const { label = 'メールアドレス', value, required = false, setValue } = props
 
   const emailValidation =
@@ -27,7 +27,7 @@ export const EmailField = memo(function EmailField(props: Props) {
   }
 
   return (
-    <BaseFormField
+    <BaseFormInput
       type="email"
       label={label}
       value={value}

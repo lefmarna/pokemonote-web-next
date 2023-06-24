@@ -1,7 +1,7 @@
 import { Lock, Visibility, VisibilityOff } from '@mui/icons-material'
 import { IconButton } from '@mui/material'
 import { memo, useState } from 'react'
-import { BaseFormField } from './BaseFormField'
+import { BaseFormInput } from '@/components/forms/BaseFormInput'
 
 type Props = {
   label?: string
@@ -11,7 +11,7 @@ type Props = {
   updatePassword: (newPassword: string) => void
 }
 
-export const PasswordField = memo(function PasswordField(props: Props) {
+export const PasswordInput = memo(function PasswordInput(props: Props) {
   const {
     label = 'パスワード',
     value,
@@ -43,7 +43,7 @@ export const PasswordField = memo(function PasswordField(props: Props) {
   }
 
   return (
-    <BaseFormField
+    <BaseFormInput
       type={showPassword ? 'text' : 'password'}
       label={label}
       value={value}

@@ -1,6 +1,6 @@
 import { AccountBox } from '@mui/icons-material'
 import { memo } from 'react'
-import { BaseFormField } from './BaseFormField'
+import { BaseFormInput } from '@/components/forms/BaseFormInput'
 
 type Props = {
   label?: string
@@ -9,7 +9,7 @@ type Props = {
   setValue: (value: string) => void
 }
 
-export const UsernameField = memo(function EmailField(props: Props) {
+export const UsernameInput = memo(function UsernameInput(props: Props) {
   const { label = 'ユーザー名', value, required = false, setValue } = props
 
   const validateRules = {
@@ -24,7 +24,7 @@ export const UsernameField = memo(function EmailField(props: Props) {
   }
 
   return (
-    <BaseFormField
+    <BaseFormInput
       label={label}
       value={value}
       placeholder="英数5〜15文字で入力してください。"
