@@ -9,11 +9,13 @@ import { exceptionErrorToArray } from '@/utils/utilities'
 import axios from 'axios'
 import { Email } from '../../../../pokemonote-web/types/index'
 import { useRouter } from 'next/router'
+import { NicknameInput } from '@/components/forms/NicknameInput'
 
 const Register = () => {
   const router = useRouter()
 
   const [username, setUsername] = useState('')
+  const [nickname, setNickname] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [passwordConfirmation, setPasswordConfirmation] = useState('')
@@ -50,6 +52,7 @@ const Register = () => {
         isLoading={isLoading}
       >
         <UsernameInput value={username} setValue={setUsername} required />
+        <NicknameInput value={nickname} setValue={setNickname} required />
         <EmailInput value={email} setValue={setEmail} required />
         <PasswordInput
           value={password}
