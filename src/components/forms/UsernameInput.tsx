@@ -1,4 +1,4 @@
-import { AccountBox } from '@mui/icons-material'
+import { Person } from '@mui/icons-material'
 import { memo } from 'react'
 import { BaseFormInput } from '@/components/forms/BaseFormInput'
 
@@ -31,7 +31,7 @@ export const UsernameInput = memo(function UsernameInput(props: Props) {
       required={required}
       validateRules={validateRules}
       updateValue={setValue}
-      StartIcon={<AccountBox />}
+      StartIcon={<Person />}
     />
   )
 })
