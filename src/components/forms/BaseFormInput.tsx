@@ -63,6 +63,7 @@ export const BaseFormInput = (props: Props) => {
     <TextField
       type="text"
       variant="standard"
+      fullWidth
       {...textFieldProps}
       InputProps={{
         startAdornment: StartIcon && (
