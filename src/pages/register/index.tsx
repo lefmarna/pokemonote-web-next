@@ -31,9 +31,16 @@ const Register = () => {
   }, [])
 
   const register = async () => {
+    const formData = new FormData()
+    formData.append('username', username)
+    formData.append('nickname', nickname)
+    formData.append('email', email)
+    formData.append('password', password)
+    formData.append('password_confirmation', passwordConfirmation)
+
     setIsLoading(true)
     try {
-      const response = await axios.post<{ data: Email }>('/register')
+      const response = await axios.post<{ data: Email }>('/register', formData)
       localStorage.setItem('email', response.data.data.email)
       router.push('/email/resend')
     } catch (error) {
@@ -50,6 +57,7 @@ const Register = () => {
         title="アカウント作成"
         buttonText="新規登録"
         isLoading={isLoading}
+        onSubmit={register}
       >
         <UsernameInput value={username} setValue={setUsername} required />
         <NicknameInput value={nickname} setValue={setNickname} required />
