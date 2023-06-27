@@ -3,7 +3,7 @@ import { noAuthMiddleware } from '@/hocs/noAuthMiddleware'
 import { FormTemplate } from '../../components/templates/FormTemplate'
 import { EmailInput } from '../../components/forms/EmailInput'
 import { PasswordInput } from '../../components/forms/PasswordInput'
-import { useCallback, useState } from 'react'
+import { useState } from 'react'
 import { UsernameInput } from '@/components/forms/UsernameInput'
 import { exceptionErrorToArray } from '@/utils/utilities'
 import axios from 'axios'
@@ -22,15 +22,8 @@ const Register = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [errors, setErrors] = useState<string[]>([])
 
-  const updatePassword = useCallback((newPassword: string) => {
-    setPassword(newPassword)
-  }, [])
-
-  const updatePasswordConfirmation = useCallback((newPassword: string) => {
-    setPasswordConfirmation(newPassword)
-  }, [])
-
   const register = async () => {
+    // 画像のデータはformDataを介さないと送れない
     const formData = new FormData()
     formData.append('username', username)
     formData.append('nickname', nickname)
@@ -39,6 +32,7 @@ const Register = () => {
     formData.append('password_confirmation', passwordConfirmation)
 
     setIsLoading(true)
+
     try {
       const response = await axios.post<{ data: Email }>('/register', formData)
       localStorage.setItem('email', response.data.data.email)
@@ -57,20 +51,17 @@ const Register = () => {
         title="アカウント作成"
         buttonText="新規登録"
         isLoading={isLoading}
+        errors={errors}
         onSubmit={register}
       >
         <UsernameInput value={username} setValue={setUsername} required />
         <NicknameInput value={nickname} setValue={setNickname} required />
         <EmailInput value={email} setValue={setEmail} required />
-        <PasswordInput
-          value={password}
-          updatePassword={updatePassword}
-          required
-        />
+        <PasswordInput value={password} setValue={setPassword} required />
         <PasswordInput
           label="パスワード確認"
           value={passwordConfirmation}
-          updatePassword={updatePasswordConfirmation}
+          setValue={setPasswordConfirmation}
           required
         />
       </FormTemplate>

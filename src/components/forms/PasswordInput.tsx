@@ -8,7 +8,7 @@ type Props = {
   value: string
   required?: boolean
   autoComplete?: 'current-password' | 'new-password'
-  updatePassword: (newPassword: string) => void
+  setValue: (value: string) => void
 }
 
 export const PasswordInput = memo(function PasswordInput(props: Props) {
@@ -17,7 +17,7 @@ export const PasswordInput = memo(function PasswordInput(props: Props) {
     value,
     required = false,
     autoComplete = 'current-password',
-    updatePassword,
+    setValue,
   } = props
 
   const [showPassword, setShowPassword] = useState(false)
@@ -50,7 +50,7 @@ export const PasswordInput = memo(function PasswordInput(props: Props) {
       required={required}
       autoComplete={autoComplete}
       validateRules={validateRules}
-      updateValue={updatePassword}
+      updateValue={setValue}
       StartIcon={<Lock />}
       EndIcon={
         <IconButton onClick={handleTogglePasswordVisibility}>
