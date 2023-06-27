@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { useRouter } from 'next/router'
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { FormTemplate } from '@/components/templates/FormTemplate'
 import { AuthUser } from '@/types'
 import { MessageAlert } from '@/components/organisms/MessageAlert'
@@ -43,10 +43,6 @@ const Login = () => {
       router.push('/')
     }
   }, [authUser, isInitialization, rememberRoute, router, updateRememberRoute])
-
-  const updatePassword = useCallback((newPassword: string) => {
-    setPassword(newPassword)
-  }, [])
 
   const login = async () => {
     setIsLoading(true)
@@ -97,11 +93,7 @@ const Login = () => {
         onSubmit={login}
       >
         <EmailInput value={email} setValue={setEmail} required />
-        <PasswordInput
-          value={password}
-          updatePassword={updatePassword}
-          required
-        />
+        <PasswordInput value={password} setValue={setPassword} required />
       </FormTemplate>
       <MessageAlert open={isShowAlert} setOpen={setIsShowAlert} />
     </>

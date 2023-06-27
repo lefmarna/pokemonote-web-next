@@ -82,12 +82,12 @@ export default function VerifyPassword() {
         <PasswordInput
           value={resetPasswordParams.new_password}
           label="新しいパスワード"
-          updatePassword={updateNewPassword}
+          setValue={updateNewPassword}
         />
         <PasswordInput
           value={resetPasswordParams.new_password_confirmation}
           label="確認用パスワード"
-          updatePassword={updateNewPasswordConfirmation}
+          setValue={updateNewPasswordConfirmation}
         />
       </FormTemplate>
     )
