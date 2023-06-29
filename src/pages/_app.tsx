@@ -15,6 +15,7 @@ import { usePokemonBasicInfosSMutators } from '@/store/pokemonBasicInfosState'
 import { AuthUser, Nature, PokemonBasicInfo } from '@/types'
 import { useRouter } from 'next/router'
 import { useIsInitializationMutators } from '../store/isInitializationState'
+import SnackbarComponent from '@/components/organisms/SnackBarComponent'
 
 const AppInit = () => {
   const { updateAuthUser } = useAuthUserMutators()
@@ -168,6 +169,7 @@ export default function App({ Component, pageProps }: AppProps) {
                 </Box>
               </>
             )}
+            <SnackbarComponent />
           </SWRConfig>
         </RecoilRoot>
       </ThemeProvider>

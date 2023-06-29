@@ -15,6 +15,7 @@ import {
 import { Meta } from '@/components/organisms/Meta'
 import { useIsInitializationState } from '@/store/isInitializationState'
 import { noAuthMiddleware } from '@/hocs/noAuthMiddleware'
+import { useSnackbarMutators } from '@/store/snackbarState'
 
 const Login = () => {
   const router = useRouter()
@@ -31,6 +32,8 @@ const Login = () => {
   const [password, setPassword] = useState('')
 
   const isInitialization = useIsInitializationState()
+
+  const { showSnackBar } = useSnackbarMutators()
 
   useEffect(() => {
     if (!authUser || !isInitialization) return
@@ -62,6 +65,7 @@ const Login = () => {
 
       updateAuthUser(_authUser)
       setIsShowAlert(true)
+      showSnackBar('ログインしました')
     } catch (error) {
       setErrors(exceptionErrorToArray(error))
       console.log(error)
