@@ -1,7 +1,7 @@
 import { EmailInput } from '@/components/forms/EmailInput'
 import { FormTemplate } from '@/components/templates/FormTemplate'
 import { useState } from 'react'
-import { Email } from '../../../../pokemonote-web/types'
+import { Email } from '@/types'
 import { useRouter } from 'next/router'
 import axios from 'axios'
 import { exceptionErrorToArray } from '@/utils/utilities'

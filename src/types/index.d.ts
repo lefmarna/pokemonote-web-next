@@ -125,3 +125,7 @@ export type AuthUser = User &
     email: string
     email_verified_at: boolean
   }>
+
+export type Email = {
+  email: string
+}
