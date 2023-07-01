@@ -1,0 +1,16 @@
+name: 'npm install'
+description: 'install packages'
+runs:
+  using: 'composite'
+  steps:
+    - name: Restore cache
+      uses: actions/cache@v3
+      with:
+        path: ~/.npm
+        key: next-npm-${{ hashFiles('package-lock.json') }}
+        restore-keys: next-npm-
+
+    - name: npm install
+      if: steps.cache.outputs.cache-hit != 'true'
+      run: npm install --cache ~/.npm
+      shell: bash

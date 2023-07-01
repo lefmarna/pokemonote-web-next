@@ -1,0 +1,66 @@
+name: test_build_deploy
+on: push
+
+jobs:
+  # test:
+  #   runs-on: ubuntu-latest
+  #   container:
+  #     image: node:18.16.0
+
+  #   steps:
+  #     - uses: actions/checkout@v3
+
+  #     - name: npm install
+  #       uses: ./.github/actions/test_build_deploy
+
+  #     - name: Test
+  #       run: npm run test
+
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: node:18.16.0
+    if: github.ref_name == 'main' || github.ref_name == 'develop'
+    # needs: test
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: npm install
+        uses: ./.github/actions/test_build_deploy
+
+      - name: delete SEO files
+        if: github.ref_name != 'main'
+        run: |
+          rm -f ./public/robots.txt ./public/sitemap.xml && \
+          echo "User-agent: *\nDisallow: /\n" > ./public/robots.txt
+
+      - name: npm run build
+        run: npm run build
+        env:
+          ANALYTICS_ID: ${{ secrets.ANALYTICS_ID }}
+          BASE_URL: ${{ github.ref_name == 'main' && secrets.PROD_BASE_URL || secrets.DEV_BASE_URL }}
+          NODE_ENV: ${{ github.ref_name == 'main' && 'production' || 'develop' }}
+          PAYJP_PUBLIC_KEY: ${{ secrets.PAYJP_PUBLIC_KEY }}
+
+      - name: Upload Directory
+        uses: actions/upload-artifact@v3
+        with:
+          name: dist
+          path: dist
+          retention-days: 3
+
+  deploy:
+    runs-on: ubuntu-latest
+    if: github.ref_name == 'main' || github.ref_name == 'develop'
+    needs: build
+    steps:
+      - name: Download math result for job 1
+        uses: actions/download-artifact@v3
+        with:
+          name: dist
+      - name: Install Netlify CLI
+        run: npm install -g netlify-cli@^12.13.1
+      - name: Deploy
+        env:
+          NETLIFY_SITE_ID: ${{ github.ref_name == 'main' && secrets.PROD_NETLIFY_SITE_ID || secrets.DEV_NETLIFY_SITE_ID }}
+        run: netlify deploy -p -d . -a ${{ secrets.NETLIFY_AUTH_TOKEN }} -s $NETLIFY_SITE_ID

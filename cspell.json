@@ -1,7 +1,17 @@
 {
   "version": "0.2",
   "language": "en",
-  "words": ["autodocs", "axios", "DEFENCE", "HABCDS", "nextjs", "unoptimized"],
+  "words": [
+    "aboutads",
+    "autodocs",
+    "axios",
+    "commitlint",
+    "DEFENCE",
+    "HABCDS",
+    "nextjs",
+    "stylelint",
+    "unoptimized"
+  ],
   "flagWords": [],
   "ignorePaths": [
     ".devcontainer/**",
