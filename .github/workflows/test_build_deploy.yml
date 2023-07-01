@@ -37,10 +37,10 @@ jobs:
       - name: npm run build
         run: npm run build
         env:
-          ANALYTICS_ID: ${{ secrets.ANALYTICS_ID }}
-          BASE_URL: ${{ github.ref_name == 'main' && secrets.PROD_BASE_URL || secrets.DEV_BASE_URL }}
-          NODE_ENV: ${{ github.ref_name == 'main' && 'production' || 'develop' }}
-          PAYJP_PUBLIC_KEY: ${{ secrets.PAYJP_PUBLIC_KEY }}
+          NEXT_PUBLIC_ANALYTICS_ID: ${{ secrets.ANALYTICS_ID }}
+          NEXT_PUBLIC_BASE_URL: ${{ github.ref_name == 'main' && secrets.PROD_BASE_URL || secrets.DEV_BASE_URL }}
+          NEXT_PUBLIC_NODE_ENV: ${{ github.ref_name == 'main' && 'production' || 'develop' }}
+          NEXT_PUBLIC_PAYJP_PUBLIC_KEY: ${{ secrets.PAYJP_PUBLIC_KEY }}
 
       - name: Upload Directory
         uses: actions/upload-artifact@v3

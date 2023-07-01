@@ -144,7 +144,7 @@ export default function App({ Component, pageProps }: AppProps) {
         <meta property="twitter:site" content="@lefmarna" />
         <meta property="format-detection" content="telephone=no" />
         {/* NOTE: アプリが完成するまでは、環境問わず常にnoindexとする */}
-        {(process.env.NODE_ENV !== 'production' || true) && (
+        {(process.env.NEXT_PUBLIC_NODE_ENV !== 'production' || true) && (
           <meta name="robots" content="noindex,nofollow" />
         )}
         <link rel="icon" type="image/x-icon" href="/favicon.ico" />
