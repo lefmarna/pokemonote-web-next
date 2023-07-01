@@ -45,8 +45,8 @@ jobs:
       - name: Upload Directory
         uses: actions/upload-artifact@v3
         with:
-          name: dist
-          path: dist
+          name: out
+          path: out
           retention-days: 3
 
   deploy:
@@ -57,7 +57,7 @@ jobs:
       - name: Download math result for job 1
         uses: actions/download-artifact@v3
         with:
-          name: dist
+          name: out
       - name: Install Netlify CLI
         run: npm install -g netlify-cli@^12.13.1
       - name: Deploy
