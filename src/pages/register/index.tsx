@@ -7,7 +7,7 @@ import { useState } from 'react'
 import { UsernameInput } from '@/components/forms/UsernameInput'
 import { exceptionErrorToArray } from '@/utils/utilities'
 import axios from 'axios'
-import { Email } from '../../../../pokemonote-web/types/index'
+import { Email } from '@/types'
 import { useRouter } from 'next/router'
 import { NicknameInput } from '@/components/forms/NicknameInput'
 
