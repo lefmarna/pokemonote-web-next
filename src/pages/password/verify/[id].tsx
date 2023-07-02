@@ -54,7 +54,7 @@ export default function VerifyPassword() {
         setIsConfirm(false)
       }
     })()
-  }, [router])
+  }, [router.isReady, router.query])
 
   const submit = async () => {
     setIsLoading(true)
