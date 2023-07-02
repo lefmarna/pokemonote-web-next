@@ -1,0 +1,5 @@
+[[redirects]]
+  from = "/password/verify/:id"
+  to = "/password/verify/[id].html"
+  status = 200
+  force = true

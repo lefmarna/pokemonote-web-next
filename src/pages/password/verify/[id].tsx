@@ -1,7 +1,7 @@
 import { exceptionErrorToArray } from '@/utils/utilities'
 import axios from 'axios'
 import { useRouter } from 'next/router'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { FormTemplate } from '../../../components/templates/FormTemplate'
 import { PasswordInput } from '@/components/forms/PasswordInput'
 import { Title } from '@/components/molecules/Title'
@@ -39,19 +39,22 @@ export default function VerifyPassword() {
 
   const router = useRouter()
 
-  ;(async () => {
-    try {
-      await axios.get(
-        `/password/verify/${router.query.id}?expires=${router.query.expires}&signature=${router.query.signature}`
-      )
-      setIsSuccess(true)
-    } catch (error) {
-      console.log(error)
-      setIsSuccess(false)
-    } finally {
-      setIsConfirm(false)
-    }
-  })()
+  useEffect(() => {
+    if (router.isReady === false) return
+    ;(async () => {
+      try {
+        await axios.get(
+          `/password/verify/${router.query.id}?expires=${router.query.expires}&signature=${router.query.signature}`
+        )
+        setIsSuccess(true)
+      } catch (error) {
+        console.log(error)
+        setIsSuccess(false)
+      } finally {
+        setIsConfirm(false)
+      }
+    })()
+  }, [router])
 
   const submit = async () => {
     setIsLoading(true)
