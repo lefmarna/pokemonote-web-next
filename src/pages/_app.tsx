@@ -16,6 +16,7 @@ import { AuthUser, Nature, PokemonBasicInfo } from '@/types'
 import { useRouter } from 'next/router'
 import { useIsInitializationMutators } from '../store/isInitializationState'
 import SnackbarComponent from '@/components/organisms/SnackBarComponent'
+import { useMeta } from '@/hooks/useMeta'
 
 const AppInit = () => {
   const { updateAuthUser } = useAuthUserMutators()
@@ -89,6 +90,8 @@ export default function App({ Component, pageProps }: AppProps) {
 
   const [isFirstRender, setIsFirstRender] = useState(true)
 
+  const { getMeta } = useMeta()
+
   useEffect(() => {
     setDrawer(isLargeUpScreen)
 
@@ -105,11 +108,7 @@ export default function App({ Component, pageProps }: AppProps) {
     setDrawer(false)
   }
 
-  const meta = {
-    title: 'Pokemonote',
-    description:
-      'ポケモンのステータスを計算・管理するためのWebアプリ『Pokemonote』へようこそ！ 素早さ計算機やSVに対応した種族値ランキングといったツールも公開しています。「シンプルで高機能」なツールにこだわって制作していますので、是非お試しください。',
-  } as const
+  const meta = getMeta()
 
   const handleRouteChange = useCallback(() => {
     setDrawer(isLargeUpScreen)

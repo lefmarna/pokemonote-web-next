@@ -1,0 +1,35 @@
+import { useRouter } from 'next/router'
+import { useCallback } from 'react'
+
+export const useMeta = () => {
+  const router = useRouter()
+
+  const getMetaTitle = (title: string) => `Pokemonote | ${title}`
+
+  const getMeta = useCallback(() => {
+    switch (router.pathname) {
+      case '/calc-stats':
+        return {
+          title: getMetaTitle('ステータス計算機（SV）'),
+          description:
+            'ポケモンSVに対応したステータス計算機です。ヒスイの新ポケモンにも対応！ リアルタイムで計算が行われるため、個体値や努力値の変更を確認しながら計算できます。実数値から努力値の逆算にも対応、耐久調整を自動で行ってくれる機能も搭載しています。計算結果を投稿することで、あとから見返したり友達とシェアすることもできます！',
+        }
+      case '/calc-speed':
+        return {
+          title: getMetaTitle('素早さ計算機（SV）'),
+          description:
+            'ポケモンSVに対応している素早さ計算機です。ヒスイの新ポケモンにも対応！ 実数値を入力することで、追い風や麻痺、湿原といったあらゆる状態の素早さをリアルタイムに表示します。すいすいや葉緑素などの特性、スカーフや鉄球といった持ち物を含んだ計算にも対応している、高機能な素早さ計算ツールとなっています。',
+        }
+      default:
+        return {
+          title: 'Pokemonote',
+          description:
+            'ポケモンのステータスを計算・管理するためのWebアプリ『Pokemonote』へようこそ！ 素早さ計算機やSVに対応した種族値ランキングといったツールも公開しています。「シンプルで高機能」なツールにこだわって制作していますので、是非お試しください。',
+        }
+    }
+  }, [router.pathname])
+
+  return {
+    getMeta,
+  }
+}
