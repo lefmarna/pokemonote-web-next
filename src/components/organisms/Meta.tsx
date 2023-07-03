@@ -17,9 +17,9 @@ export const Meta = (props: Props) => {
       <meta property="twitter:title" content={titleWithSiteName} />
       {metaDescription && (
         <>
-          <meta name="description" content={metaDescription} />
-          <meta name="og:description" content={metaDescription} />
-          <meta name="twitter:description" content={metaDescription} />
+          <meta property="description" content={metaDescription} />
+          <meta property="og:description" content={metaDescription} />
+          <meta property="twitter:description" content={metaDescription} />
         </>
       )}
     </Head>
