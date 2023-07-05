@@ -6,8 +6,12 @@ export const useMeta = () => {
 
   const getMetaTitle = (title: string) => `Pokemonote | ${title}`
 
-  const getMeta = useCallback(() => {
+  const metaRouter = useCallback(() => {
     switch (router.pathname) {
+      case '/login':
+        return {
+          title: getMetaTitle('ログイン'),
+        }
       case '/calc-stats':
         return {
           title: getMetaTitle('ステータス計算機（SV）'),
@@ -29,11 +33,21 @@ export const useMeta = () => {
       default:
         return {
           title: 'Pokemonote',
-          description:
-            'ポケモンのステータスを計算・管理するためのWebアプリ『Pokemonote』へようこそ！ 素早さ計算機やSVに対応した種族値ランキングといったツールも公開しています。「シンプルで高機能」なツールにこだわって制作していますので、是非お試しください。',
         }
     }
   }, [router.pathname])
+
+  const defaultMetaDescription =
+    'ポケモンのステータスを計算・管理するためのWebアプリ『Pokemonote』へようこそ！ 素早さ計算機やSVに対応した種族値ランキングといったツールも公開しています。「シンプルで高機能」なツールにこだわって制作していますので、是非お試しください。'
+
+  const getMeta = useCallback(() => {
+    const meta = metaRouter()
+
+    return {
+      title: meta.title,
+      description: meta.description ?? defaultMetaDescription,
+    }
+  }, [metaRouter])
 
   return {
     getMeta,
