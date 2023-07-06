@@ -4,13 +4,17 @@ import { useCallback } from 'react'
 export const useMeta = () => {
   const router = useRouter()
 
-  const getMetaTitle = (title: string) => `Pokemonote | ${title}`
+  const getMetaTitle = (title: string) => `${title} | Pokemonote`
 
   const metaRouter = useCallback(() => {
     switch (router.pathname) {
       case '/login':
         return {
           title: getMetaTitle('ログイン'),
+        }
+      case '/password/forgot':
+        return {
+          title: getMetaTitle('パスワード再設定の申請'),
         }
       case '/calc-stats':
         return {
@@ -29,6 +33,10 @@ export const useMeta = () => {
           title: getMetaTitle('種族値ランキング（SV）'),
           description:
             'ポケモンSVの種族値ランキングです。攻撃や特攻、素早さを除いた実質種族値でのリストアップも可能です。伝説や幻のポケモンを表示するオプション、各種ステータスでソートする機能にも対応しています。準伝や600属の暴れる環境で、採用するポケモンに迷った際には、きっとこのツールが役立つことでしょう。',
+        }
+      case '/settings':
+        return {
+          title: getMetaTitle('設定'),
         }
       default:
         return {
