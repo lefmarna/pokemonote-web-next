@@ -4,6 +4,12 @@ import { useCallback } from 'react'
 export const useMeta = () => {
   const router = useRouter()
 
+  const defaultMeta = {
+    title: 'Pokemonote',
+    description:
+      'ポケモンのステータスを計算・管理するためのWebアプリ『Pokemonote』へようこそ！ 素早さ計算機やSVに対応した種族値ランキングといったツールも公開しています。「シンプルで高機能」なツールにこだわって制作していますので、是非お試しください。',
+  }
+
   const metaRouter = useCallback(() => {
     switch (router.pathname) {
       case '/base-stats-ranking':
@@ -46,9 +52,21 @@ export const useMeta = () => {
         return {
           title: 'パスワード再設定の申請',
         }
+      case '/password/verify/[id]':
+        return {
+          title: 'パスワード再設定',
+        }
+      case '/pokemons':
+        return {
+          title: 'みんなの投稿',
+        }
       case '/privacy-policy':
         return {
           title: '利用規約',
+        }
+      case '/register':
+        return {
+          title: 'アカウント作成',
         }
       case '/settings':
         return {
@@ -62,27 +80,22 @@ export const useMeta = () => {
         }
       default:
         return {
-          title: defaultMetaTitle,
+          title: defaultMeta.title,
         }
     }
-  }, [router.pathname])
-
-  const defaultMetaTitle = 'Pokemonote'
-
-  const defaultMetaDescription =
-    'ポケモンのステータスを計算・管理するためのWebアプリ『Pokemonote』へようこそ！ 素早さ計算機やSVに対応した種族値ランキングといったツールも公開しています。「シンプルで高機能」なツールにこだわって制作していますので、是非お試しください。'
+  }, [router.pathname, defaultMeta.title])
 
   const getMeta = useCallback(() => {
     const meta = metaRouter()
 
     return {
       title:
-        meta.title === defaultMetaTitle
-          ? defaultMetaTitle
-          : `${meta.title} | ${defaultMetaTitle}`,
-      description: meta.description ?? defaultMetaDescription,
+        meta.title === defaultMeta.title
+          ? defaultMeta.title
+          : `${meta.title} | ${defaultMeta.title}`,
+      description: meta.description ?? defaultMeta.description,
     }
-  }, [metaRouter])
+  }, [metaRouter, defaultMeta.title, defaultMeta.description])
 
   return {
     getMeta,
