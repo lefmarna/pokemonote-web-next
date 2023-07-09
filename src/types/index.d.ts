@@ -106,6 +106,7 @@ export type PokemonSummary = Readonly<{
   nature: string
   stats: string
   sum_effort_value: number
+  description: string
   user: User
 }>
 
