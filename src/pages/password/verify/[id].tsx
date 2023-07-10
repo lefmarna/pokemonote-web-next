@@ -1,9 +1,9 @@
 import { exceptionErrorToArray } from '@/utils/utilities'
 import axios from 'axios'
 import { useRouter } from 'next/router'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { FormTemplate } from '../../../components/templates/FormTemplate'
-import { PasswordField } from '@/components/molecules/PasswordField'
+import { PasswordInput } from '@/components/forms/PasswordInput'
 import { Title } from '@/components/molecules/Title'
 import { useEmotion } from '@/hooks/style/useEmotion'
 import { Container } from '@mui/material'
@@ -39,19 +39,22 @@ export default function VerifyPassword() {
 
   const router = useRouter()
 
-  ;(async () => {
-    try {
-      await axios.get(
-        `/password/verify/${router.query.id}?expires=${router.query.expires}&signature=${router.query.signature}`
-      )
-      setIsSuccess(true)
-    } catch (error) {
-      console.log(error)
-      setIsSuccess(false)
-    } finally {
-      setIsConfirm(false)
-    }
-  })()
+  useEffect(() => {
+    if (router.isReady === false) return
+    ;(async () => {
+      try {
+        await axios.get(
+          `/password/verify/${router.query.id}?expires=${router.query.expires}&signature=${router.query.signature}`
+        )
+        setIsSuccess(true)
+      } catch (error) {
+        console.log(error)
+        setIsSuccess(false)
+      } finally {
+        setIsConfirm(false)
+      }
+    })()
+  }, [router.isReady, router.query])
 
   const submit = async () => {
     setIsLoading(true)
@@ -79,15 +82,15 @@ export default function VerifyPassword() {
         isLoading={isLoading}
         onSubmit={submit}
       >
-        <PasswordField
+        <PasswordInput
           value={resetPasswordParams.new_password}
           label="新しいパスワード"
-          updatePassword={updateNewPassword}
+          setValue={updateNewPassword}
         />
-        <PasswordField
+        <PasswordInput
           value={resetPasswordParams.new_password_confirmation}
           label="確認用パスワード"
-          updatePassword={updateNewPasswordConfirmation}
+          setValue={updateNewPasswordConfirmation}
         />
       </FormTemplate>
     )

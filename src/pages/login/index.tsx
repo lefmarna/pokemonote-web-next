@@ -1,20 +1,20 @@
 import axios from 'axios'
 import { useRouter } from 'next/router'
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { FormTemplate } from '@/components/templates/FormTemplate'
 import { AuthUser } from '@/types'
 import { MessageAlert } from '@/components/organisms/MessageAlert'
-import { EmailField } from '@/components/molecules/EmailField'
-import { PasswordField } from '@/components/molecules/PasswordField'
+import { EmailInput } from '@/components/forms/EmailInput'
+import { PasswordInput } from '@/components/forms/PasswordInput'
 import { exceptionErrorToArray } from '@/utils/utilities'
 import { useAuthUserMutators, useAuthUserState } from '@/store/authUserState'
 import {
   useRememberRouteMutators,
   useRememberRouteState,
 } from '@/store/rememberRouteState'
-import { Meta } from '@/components/organisms/Meta'
 import { useIsInitializationState } from '@/store/isInitializationState'
 import { noAuthMiddleware } from '@/hocs/noAuthMiddleware'
+import { useSnackbarMutators } from '@/store/snackbarState'
 
 const Login = () => {
   const router = useRouter()
@@ -32,6 +32,8 @@ const Login = () => {
 
   const isInitialization = useIsInitializationState()
 
+  const { showSnackBar } = useSnackbarMutators()
+
   useEffect(() => {
     if (!authUser || !isInitialization) return
 
@@ -43,10 +45,6 @@ const Login = () => {
       router.push('/')
     }
   }, [authUser, isInitialization, rememberRoute, router, updateRememberRoute])
-
-  const updatePassword = useCallback((newPassword: string) => {
-    setPassword(newPassword)
-  }, [])
 
   const login = async () => {
     setIsLoading(true)
@@ -66,6 +64,7 @@ const Login = () => {
 
       updateAuthUser(_authUser)
       setIsShowAlert(true)
+      showSnackBar('ログインしました')
     } catch (error) {
       setErrors(exceptionErrorToArray(error))
       console.log(error)
@@ -87,7 +86,6 @@ const Login = () => {
 
   return (
     <>
-      <Meta title="ログイン" />
       <FormTemplate
         title="ログイン"
         buttonText="ログイン"
@@ -96,12 +94,8 @@ const Login = () => {
         links={links}
         onSubmit={login}
       >
-        <EmailField value={email} setValue={setEmail} required />
-        <PasswordField
-          value={password}
-          updatePassword={updatePassword}
-          required
-        />
+        <EmailInput value={email} setValue={setEmail} required />
+        <PasswordInput value={password} setValue={setPassword} required />
       </FormTemplate>
       <MessageAlert open={isShowAlert} setOpen={setIsShowAlert} />
     </>

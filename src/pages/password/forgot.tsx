@@ -1,4 +1,4 @@
-import { EmailField } from '@/components/molecules/EmailField'
+import { EmailInput } from '@/components/forms/EmailInput'
 import { FormTemplate } from '@/components/templates/FormTemplate'
 import { exceptionErrorToArray } from '@/utils/utilities'
 import axios from 'axios'
@@ -49,7 +49,7 @@ export default function PasswordForgot() {
       <p>
         本人確認のためにメールをお送りします。メールに添付されたURLよりパスワードの再設定を行ってください。
       </p>
-      <EmailField value={email} setValue={setEmail} />
+      <EmailInput value={email} setValue={setEmail} />
     </FormTemplate>
   )
 }

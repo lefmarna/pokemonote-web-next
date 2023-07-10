@@ -1,0 +1,23 @@
+[[redirects]]
+  from = "/email/verify/:id"
+  to = "/email/verify/[id].html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/password/verify/:id"
+  to = "/password/verify/[id].html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/pokemons/:id"
+  to = "/pokemons/[id].html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/pokemons/:id/edit"
+  to = "/pokemons/[id]/edit.html"
+  status = 200
+  force = true

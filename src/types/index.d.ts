@@ -106,6 +106,7 @@ export type PokemonSummary = Readonly<{
   nature: string
   stats: string
   sum_effort_value: number
+  description: string
   user: User
 }>
 
@@ -125,3 +126,7 @@ export type AuthUser = User &
     email: string
     email_verified_at: boolean
   }>
+
+export type Email = {
+  email: string
+}
