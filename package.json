@@ -41,7 +41,7 @@
     "@mui/material": "^5.13.5",
     "@mui/x-data-grid": "^6.8.0",
     "axios": "^1.4.0",
-    "next": "13.4.7",
+    "next": "13.4.9",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "recoil": "^0.7.7",
@@ -57,12 +57,12 @@
     "@storybook/nextjs": "^7.0.21",
     "@storybook/react": "^7.0.21",
     "@storybook/testing-library": "^0.1.0",
-    "@types/node": "20.3.2",
+    "@types/node": "20.4.1",
     "@types/react": "18.2.14",
     "@types/react-dom": "18.2.6",
     "@typescript-eslint/eslint-plugin": "^5.59.11",
     "@typescript-eslint/parser": "^5.59.11",
-    "eslint": "8.43.0",
+    "eslint": "8.44.0",
     "eslint-config-next": "13.4.7",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-storybook": "^0.6.12",
@@ -77,7 +77,7 @@
     "stylelint-config-standard": "^33.0.0",
     "stylelint-order": "^6.0.3",
     "stylelint-prettier": "^3.0.0",
-    "typescript": "5.1.5"
+    "typescript": "5.1.6"
   },
   "volta": {
     "node": "18.16.0",
