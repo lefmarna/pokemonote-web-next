@@ -1,3 +1,5 @@
+'use client'
+
 import { useAuthUserState } from '@/store/authUserState'
 import { PokemonSummary } from '@/types'
 import { DataGrid, GridRenderCellParams, jaJP } from '@mui/x-data-grid'
@@ -5,7 +7,7 @@ import axios from 'axios'
 import { IconButton, Link } from '@mui/material'
 import EditIcon from '@mui/icons-material/Edit'
 import DeleteIcon from '@mui/icons-material/Delete'
-import { useRouter } from 'next/router'
+import { useRouter, useSearchParams } from 'next/navigation'
 
 type Props = {
   title: string
@@ -16,6 +18,7 @@ export const PokemonTableTemplate = (props: Props) => {
   const { title, pokemons = [] } = props
 
   const router = useRouter()
+  const searchParams = useSearchParams()
 
   const authUser = useAuthUserState()
 
@@ -50,7 +53,7 @@ export const PokemonTableTemplate = (props: Props) => {
       headerName: '投稿者',
       flex: 1,
       renderCell: (params: GridRenderCellParams<PokemonSummary>) =>
-        params.row.user.username === router.query.username ? (
+        params.row.user.username === searchParams.get('username') ? (
           <div>
             <IconButton
               onClick={() => router.push(`/pokemons/${params.row.id}/edit`)}
