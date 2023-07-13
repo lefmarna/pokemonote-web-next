@@ -1,5 +1,7 @@
+'use client'
+
 import React, { ComponentType, useEffect } from 'react'
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/navigation'
 import { useAuthUserState } from '@/store/authUserState'
 import { useRememberRouteMutators } from '@/store/rememberRouteState'
 import { useIsInitializationState } from '@/store/isInitializationState'

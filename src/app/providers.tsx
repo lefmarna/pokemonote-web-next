@@ -1,5 +1,7 @@
 'use client'
 
+import { theme } from '@/utils/theme'
+import { ThemeProvider } from '@mui/material'
 import axios, { AxiosError } from 'axios'
 import { ReactNode } from 'react'
 import { RecoilRoot } from 'recoil'
@@ -25,9 +27,12 @@ export const Providers = ({ children }: Props) => {
       }
     },
   }
+
   return (
-    <RecoilRoot>
-      <SWRConfig value={swrConfigValue}>{children}</SWRConfig>
-    </RecoilRoot>
+    <ThemeProvider theme={theme}>
+      <RecoilRoot>
+        <SWRConfig value={swrConfigValue}>{children}</SWRConfig>
+      </RecoilRoot>
+    </ThemeProvider>
   )
 }
