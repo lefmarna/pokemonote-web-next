@@ -1,5 +1,4 @@
 import { Grid, TextField } from '@mui/material'
-import styles from '@/styles/Home.module.scss'
 import { LOWER_NATURE, UPPER_NATURE } from '@/utils/constants'
 import { memo } from 'react'
 
@@ -26,7 +25,6 @@ export const BaseStatsField = memo(function BaseStatsField(props: Props) {
   return (
     <Grid item xs={33}>
       <TextField
-        className={styles.dander}
         label="種族値"
         placeholder="0"
         value={`${statsInitial}${value}`}
