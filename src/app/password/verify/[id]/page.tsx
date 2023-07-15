@@ -1,8 +1,8 @@
 'use client'
 
 import { exceptionErrorToArray } from '@/utils/utilities'
-import axios from 'axios'
-import { useSearchParams } from 'next/navigation'
+import { $axios } from '@/utils/axios'
+import { useParams, useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { FormTemplate } from '@/components/templates/FormTemplate'
 import { PasswordInput } from '@/components/forms/PasswordInput'
@@ -11,6 +11,7 @@ import { useEmotion } from '@/hooks/style/useEmotion'
 import { Container } from '@mui/material'
 
 export default function VerifyPassword() {
+  const params = useParams()
   const searchParams = useSearchParams()
 
   const [isConfirm, setIsConfirm] = useState(true)
@@ -44,10 +45,8 @@ export default function VerifyPassword() {
   useEffect(() => {
     ;(async () => {
       try {
-        await axios.get(
-          `/password/verify/${searchParams.get(
-            'id'
-          )}?expires=${searchParams.get(
+        await $axios.get(
+          `/password/verify/${params.id}?expires=${searchParams.get(
             'expires'
           )}&signature=${searchParams.get('signature')}`
         )
@@ -59,12 +58,12 @@ export default function VerifyPassword() {
         setIsConfirm(false)
       }
     })()
-  }, [searchParams])
+  }, [params.id, searchParams])
 
   const submit = async () => {
     setIsLoading(true)
     try {
-      await axios.put('/password/reset', resetPasswordParams)
+      await $axios.put('/password/reset', resetPasswordParams)
       setIsSubmit(true)
       setErrors([])
     } catch (error) {

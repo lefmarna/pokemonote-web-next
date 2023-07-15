@@ -3,7 +3,7 @@
 import { EmailInput } from '@/components/forms/EmailInput'
 import { FormTemplate } from '@/components/templates/FormTemplate'
 import { exceptionErrorToArray } from '@/utils/utilities'
-import axios from 'axios'
+import { $axios } from '@/utils/axios'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
@@ -18,7 +18,7 @@ export default function PasswordForgot() {
     setIsLoading(true)
 
     try {
-      const response = await axios.post('/password/email', {
+      const response = await $axios.post('/password/email', {
         email: email,
       })
 

@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useParams, useRouter } from 'next/navigation'
 import axios from 'axios'
 import {
   Box,
@@ -20,7 +20,7 @@ import { useAuthUserState } from '@/store/authUserState'
 import { usePokemonBasicInfosState } from '@/store/pokemonBasicInfosState'
 
 export default function PokemonShow() {
-  const searchParams = useSearchParams()
+  const params = useParams()
 
   const router = useRouter()
   const authUser = useAuthUserState()
@@ -37,14 +37,14 @@ export default function PokemonShow() {
     ;(async () => {
       try {
         const response = await axios.get<{ data: PokemonSummary }>(
-          `/pokemons/${searchParams.get('id')}`
+          `/pokemons/${params.id}`
         )
         setPokemonSummary(response.data.data)
       } catch (error) {
         router.push('/')
       }
     })()
-  }, [searchParams, router])
+  }, [params.id, router])
 
   useEffect(() => {
     const targetPokemonBasicInfo = pokemonBasicInfos.find(

@@ -1,5 +1,5 @@
 import { Autocomplete, FilterOptionsState, TextField } from '@mui/material'
-import { memo, SyntheticEvent } from 'react'
+import { memo, SyntheticEvent, useId } from 'react'
 
 type Props<T> = {
   options: T[]
@@ -300,6 +300,11 @@ const SearchFieldComponent = <T extends { name: string }>(props: Props<T>) => {
       noOptionsText={`${itemName}が見つかりません。`}
       filterOptions={filterOptions}
       options={options}
+      renderOption={(props, option) => (
+        <li {...props} key={option.name}>
+          {option.name}
+        </li>
+      )}
       renderInput={(params) => (
         <TextField
           {...params}

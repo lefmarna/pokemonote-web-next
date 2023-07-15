@@ -2,11 +2,12 @@
 
 import { noAuthMiddleware } from '@/hocs/noAuthMiddleware'
 import axios from 'axios'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useParams, useRouter, useSearchParams } from 'next/navigation'
 import { useAuthUserMutators } from '@/store/authUserState'
 
 const VerifyEmail = () => {
   const router = useRouter()
+  const params = useParams()
   const searchParams = useSearchParams()
 
   const { updateAuthUser } = useAuthUserMutators()
@@ -14,7 +15,7 @@ const VerifyEmail = () => {
   ;(async () => {
     try {
       const response = await axios.get(
-        `/email/verify/${searchParams.get('id')}?expires=${searchParams.get(
+        `/email/verify/${params.id}?expires=${searchParams.get(
           'expires'
         )}&signature=${searchParams.get('signature')}`
       )

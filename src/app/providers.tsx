@@ -2,7 +2,7 @@
 
 import { theme } from '@/utils/theme'
 import { ThemeProvider } from '@mui/material'
-import axios, { AxiosError } from 'axios'
+import { $axios, AxiosError } from '@/utils/axios'
 import { ReactNode } from 'react'
 import { RecoilRoot } from 'recoil'
 import { SWRConfig } from 'swr'
@@ -13,7 +13,7 @@ type Props = {
 
 export const Providers = ({ children }: Props) => {
   const swrConfigValue = {
-    fetcher: (url: string) => axios.get(url).then((res) => res.data),
+    fetcher: (url: string) => $axios.get(url).then((res) => res.data),
     onError: (error: AxiosError) => {
       switch (error.status) {
         case 404:

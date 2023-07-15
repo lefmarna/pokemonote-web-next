@@ -5,7 +5,7 @@ import { FormTemplate } from '@/components/templates/FormTemplate'
 import { useState } from 'react'
 import { Email } from '@/types'
 import { useRouter } from 'next/navigation'
-import axios from 'axios'
+import { $axios } from '@/utils/axios'
 import { exceptionErrorToArray } from '@/utils/utilities'
 
 export default function EmailResend() {
@@ -16,7 +16,7 @@ export default function EmailResend() {
   const [errors, setErrors] = useState<string[]>([])
 
   const fetchEmail = () => {
-    return axios.get<{ data: Email }>('/email/fetch')
+    return $axios.get<{ data: Email }>('/email/fetch')
   }
 
   // NOTE 登録直後はローカルストレージを活用するため、非同期通信によるメールアドレスの取得は行わない
@@ -34,7 +34,7 @@ export default function EmailResend() {
   const resend = async (): Promise<void> => {
     try {
       setIsLoading(true)
-      await axios.post('/email/resend', {
+      await $axios.post('/email/resend', {
         email: email,
       })
       alert('メールを再送信しました。')
