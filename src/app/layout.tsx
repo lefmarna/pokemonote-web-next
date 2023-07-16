@@ -9,7 +9,10 @@ import { AppInit } from './app-init'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Pokemonote',
+  title: {
+    default: 'Pokemonote',
+    template: '%s | Pokemonote',
+  },
   description:
     'ポケモンのステータスを計算・管理するためのWebアプリ『Pokemonote』へようこそ！ 素早さ計算機やSVに対応した種族値ランキングといったツールも公開しています。「シンプルで高機能」なツールにこだわって制作していますので、是非お試しください。',
   formatDetection: {
