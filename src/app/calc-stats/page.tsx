@@ -1,54 +1,12 @@
-'use client'
+import { Metadata } from 'next'
+import { CalcStats } from './CalcStats'
 
-import { NextPage } from 'next'
-import { CalcStatsTemplate } from '@/components/templates/CalcStatsTemplate'
-import { usePokemonMutators, usePokemonState } from '@/store/pokemonState'
-import { PokemonParams } from '@/types'
-import axios from 'axios'
-import { useRouter } from 'next/navigation'
-import { useState } from 'react'
-
-const CalcStats: NextPage = () => {
-  const pokemon = usePokemonState()
-  const {
-    updateBasicInfo,
-    updateNature,
-    updateLevel,
-    updateIvs,
-    updateEvs,
-    updateDescription,
-  } = usePokemonMutators()
-
-  const router = useRouter()
-  const [isLoading, setIsLoading] = useState(false)
-
-  const sendPokemon = async (params: PokemonParams) => {
-    setIsLoading(true)
-    try {
-      const response = await axios.post('/pokemons', params)
-      router.push(`/pokemons/${response.data.data.id}`)
-    } catch (error) {
-      console.log(error)
-    } finally {
-      setIsLoading(false)
-    }
-  }
-
-  return (
-    <CalcStatsTemplate
-      title="ステータス計算機"
-      buttonText="投稿する"
-      pokemon={pokemon}
-      isLoading={isLoading}
-      updateBasicInfo={updateBasicInfo}
-      updateNature={updateNature}
-      updateLevel={updateLevel}
-      updateIvs={updateIvs}
-      updateEvs={updateEvs}
-      sendPokemon={sendPokemon}
-      updateDescription={updateDescription}
-    />
-  )
+export const metadata: Metadata = {
+  title: 'ステータス計算機（SV）',
+  description:
+    'ポケモンSVに対応したステータス計算機です。ヒスイの新ポケモンにも対応！ リアルタイムで計算が行われるため、個体値や努力値の変更を確認しながら計算できます。実数値から努力値の逆算にも対応、耐久調整を自動で行ってくれる機能も搭載しています。計算結果を投稿することで、あとから見返したり友達とシェアすることもできます！',
 }
 
-export default CalcStats
+export default function Page() {
+  return <CalcStats />
+}
