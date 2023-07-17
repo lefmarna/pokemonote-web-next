@@ -35,7 +35,7 @@ export const CalcStats = () => {
 
   return (
     <CalcStatsTemplate
-      title="ステータス計算機"
+      title="ステータス計算機（ポケモンSV）"
       buttonText="投稿する"
       pokemon={pokemon}
       isLoading={isLoading}

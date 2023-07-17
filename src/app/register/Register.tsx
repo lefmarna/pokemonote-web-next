@@ -12,7 +12,7 @@ import { Email } from '@/types'
 import { useRouter } from 'next/navigation'
 import { NicknameInput } from '@/components/forms/NicknameInput'
 
-const Register = () => {
+export const Register = noAuthMiddleware(() => {
   const router = useRouter()
 
   const [username, setUsername] = useState('')
@@ -65,6 +65,4 @@ const Register = () => {
       />
     </FormTemplate>
   )
-}
-
-export default noAuthMiddleware(Register)
+})

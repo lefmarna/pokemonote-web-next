@@ -1,9 +1,10 @@
-'use client'
+import { Metadata } from 'next'
+import { Settings } from './Settings'
 
-import { authMiddleware } from '@/hocs/authMiddleware'
-
-const Settings = () => {
-  return <>設定</>
+export const metadata: Metadata = {
+  title: '設定',
 }
 
-export default authMiddleware(Settings)
+export default function Page() {
+  return <Settings />
+}

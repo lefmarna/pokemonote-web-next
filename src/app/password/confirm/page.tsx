@@ -1,14 +1,10 @@
-'use client'
+import { Metadata } from 'next'
+import { PasswordConfirm } from './PasswordConfirm'
 
-import { FormTemplate } from '@/components/templates/FormTemplate'
+export const metadata: Metadata = {
+  title: 'パスワード再設定の受付',
+}
 
-export default function PasswordConfirm() {
-  return (
-    <FormTemplate title="パスワード再設定の受付">
-      <p>
-        ご入力いただきましたメールアドレス宛に、パスワード再設定用URLを記載した確認メールを送信いたしました。
-      </p>
-      <p>内容をご確認のうえ、パスワード再設定を完了してください。</p>
-    </FormTemplate>
-  )
+export default function Page() {
+  return <PasswordConfirm />
 }

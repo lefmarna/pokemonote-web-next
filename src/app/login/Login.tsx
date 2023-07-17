@@ -18,7 +18,7 @@ import { useIsInitializationState } from '@/store/isInitializationState'
 import { noAuthMiddleware } from '@/hocs/noAuthMiddleware'
 import { useSnackbarMutators } from '@/store/snackbarState'
 
-const Login = () => {
+export const Login = noAuthMiddleware(() => {
   const router = useRouter()
   const { updateAuthUser } = useAuthUserMutators()
   const authUser = useAuthUserState()
@@ -101,6 +101,4 @@ const Login = () => {
       <MessageAlert open={isShowAlert} setOpen={setIsShowAlert} />
     </>
   )
-}
-
-export default noAuthMiddleware(Login)
+})

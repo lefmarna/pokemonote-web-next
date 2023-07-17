@@ -1,18 +1,10 @@
-'use client'
+import { Metadata } from 'next'
+import { PokemonIndex } from './PokemonIndex'
 
-import { LoadingPageTemplate } from '@/components/templates/LoadingPageTemplate'
-import { PokemonTableTemplate } from '@/components/templates/PokemonTableTemplate'
-import { PokemonSummary } from '@/types'
-import useSWR from 'swr'
+export const metadata: Metadata = {
+  title: 'みんなの投稿',
+}
 
-export default function Pokemons() {
-  const { data, isLoading } = useSWR<{ data: PokemonSummary[] }>('/pokemons')
-
-  if (isLoading) return <LoadingPageTemplate />
-
-  return (
-    <>
-      <PokemonTableTemplate title="ポケモン一覧" pokemons={data?.data} />
-    </>
-  )
+export default function Page() {
+  return <PokemonIndex />
 }

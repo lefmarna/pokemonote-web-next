@@ -1,5 +1,5 @@
-'use client'
+import { PokemonEdit } from './PokemonEdit'
 
-export default function PokemonEdit() {
-  return <div>ポケモン編集</div>
+export default function Page() {
+  return <PokemonEdit />
 }
