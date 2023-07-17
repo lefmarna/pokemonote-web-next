@@ -5,6 +5,7 @@ import { ReactNode } from 'react'
 import { Providers } from './providers'
 import { BaseLayout } from './base-layout'
 import { AppInit } from './app-init'
+import SnackbarComponent from '@/components/organisms/SnackBarComponent'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -30,6 +31,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <Providers>
           <AppInit />
           <BaseLayout>{children}</BaseLayout>
+          <SnackbarComponent />
         </Providers>
       </body>
     </html>

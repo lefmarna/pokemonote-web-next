@@ -1,3 +1,5 @@
+'use client'
+
 import { useAuthUserState } from '@/store/authUserState'
 import { useMediaQueryUp } from '@/utils/theme'
 import {

@@ -4,6 +4,7 @@ import { Header } from '@/components/organisms/Header'
 import { Sidebar } from '@/components/organisms/Sidebar'
 import { useMediaQueryUp } from '@/utils/theme'
 import { Box } from '@mui/material'
+import { usePathname } from 'next/navigation'
 import { ReactNode, useEffect, useState } from 'react'
 
 type Props = {
@@ -12,6 +13,8 @@ type Props = {
 
 export const BaseLayout = (props: Props) => {
   const { children } = props
+
+  const pathname = usePathname()
 
   const isLargeUpScreen = useMediaQueryUp('lg')
   const [drawer, setDrawer] = useState(isLargeUpScreen)
@@ -32,6 +35,12 @@ export const BaseLayout = (props: Props) => {
       setIsFirstRender(false)
     }
   }, [isLargeUpScreen, isFirstRender])
+
+  useEffect(() => {
+    setDrawer(isLargeUpScreen)
+  }, [pathname, setDrawer, isLargeUpScreen])
+
+  if (isFirstRender) return null
 
   return (
     <>

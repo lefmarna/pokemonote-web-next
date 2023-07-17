@@ -1,3 +1,5 @@
+'use client'
+
 import Snackbar from '@mui/material/Snackbar'
 import { useSnackbarMutators, useSnackbarState } from '@/store/snackbarState'
 import { Alert } from '@mui/material'
