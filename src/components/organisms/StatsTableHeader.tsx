@@ -1,10 +1,10 @@
 import { Grid } from '@mui/material'
-import { Nature, PokemonBasicInfo } from '@/types'
-import { SearchField } from '@/components/molecules/SearchField'
-import { LvField } from './LvField'
-import { usePokemonBasicInfosState } from '@/store/pokemonBasicInfosState'
-import { useNaturesState } from '@/store/naturesState'
 import { memo, useCallback } from 'react'
+import { LvField } from './LvField'
+import { SearchField } from '@/components/molecules/SearchField'
+import { useNaturesState } from '@/store/naturesState'
+import { usePokemonBasicInfosState } from '@/store/pokemonBasicInfosState'
+import type { Nature, PokemonBasicInfo } from '@/types'
 
 type Props = {
   basicInfo: PokemonBasicInfo

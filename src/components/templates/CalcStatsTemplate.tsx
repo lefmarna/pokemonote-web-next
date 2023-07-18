@@ -1,3 +1,4 @@
+import { Apps, Autorenew, Send } from '@mui/icons-material'
 import {
   BottomNavigation,
   BottomNavigationAction,
@@ -6,16 +7,9 @@ import {
   Grid,
   Paper,
 } from '@mui/material'
-import {
-  Nature,
-  NullableStats,
-  Pokemon,
-  PokemonBasicInfo,
-  PokemonParams,
-  StatsKey,
-} from '@/types'
-import { MAX_EV, MAX_TOTAL_EV } from '@/utils/constants'
-import { useMediaQueryDown } from '@/utils/theme'
+import { Box } from '@mui/system'
+import { ReactNode, useState } from 'react'
+import { Title } from '../molecules/Title'
 import { BaseStatsField } from '@/components/organisms/BaseStatsField'
 import { CalcStatsOptions } from '@/components/organisms/CalcStatsOptions'
 import { EffortValueField } from '@/components/organisms/EffortValueField'
@@ -23,11 +17,17 @@ import { IndividualValueField } from '@/components/organisms/IndividualValueFiel
 import { RealNumberField } from '@/components/organisms/RealNumberField'
 import { StatsTableHeader } from '@/components/organisms/StatsTableHeader'
 import { usePokemonStats } from '@/hooks/usePokemonStats'
-import { ReactNode, useState } from 'react'
-import { Apps, Autorenew, Send } from '@mui/icons-material'
-import { Title } from '../molecules/Title'
-import { Box } from '@mui/system'
 import { useAuthUserState } from '@/store/authUserState'
+import { MAX_EV, MAX_TOTAL_EV } from '@/utils/constants'
+import { useMediaQueryDown } from '@/utils/theme'
+import type {
+  Nature,
+  NullableStats,
+  Pokemon,
+  PokemonBasicInfo,
+  PokemonParams,
+  StatsKey,
+} from '@/types'
 
 type Props = {
   title: string

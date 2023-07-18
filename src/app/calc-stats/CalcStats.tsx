@@ -1,11 +1,11 @@
 'use client'
 
-import { CalcStatsTemplate } from '@/components/templates/CalcStatsTemplate'
-import { usePokemonMutators, usePokemonState } from '@/store/pokemonState'
-import { PokemonParams } from '@/types'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
+import { CalcStatsTemplate } from '@/components/templates/CalcStatsTemplate'
+import { usePokemonMutators, usePokemonState } from '@/store/pokemonState'
+import type { PokemonParams } from '@/types'
 
 export const CalcStats = () => {
   const pokemon = usePokemonState()

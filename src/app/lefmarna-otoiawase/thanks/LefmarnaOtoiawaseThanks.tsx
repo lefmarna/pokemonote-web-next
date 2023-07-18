@@ -1,8 +1,9 @@
 'use client'
 
 import { Container, Button } from '@mui/material'
-// import Title from '@/components/Title'
 import { useRouter } from 'next/navigation'
+
+// import Title from '@/components/Title'
 
 export const LefmarnaOtoiawaseThanks = () => {
   const router = useRouter()

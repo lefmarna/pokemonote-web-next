@@ -1,11 +1,11 @@
 import './globals.scss'
-import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import { ReactNode } from 'react'
-import { Providers } from './providers'
-import { BaseLayout } from './base-layout'
 import { AppInit } from './app-init'
+import { BaseLayout } from './base-layout'
+import { Providers } from './providers'
 import SnackbarComponent from '@/components/organisms/SnackBarComponent'
+import type { Metadata } from 'next'
 
 const inter = Inter({ subsets: ['latin'] })
 

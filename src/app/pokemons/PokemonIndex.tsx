@@ -1,9 +1,9 @@
 'use client'
 
+import useSWR from 'swr'
 import { LoadingPageTemplate } from '@/components/templates/LoadingPageTemplate'
 import { PokemonTableTemplate } from '@/components/templates/PokemonTableTemplate'
-import { PokemonSummary } from '@/types'
-import useSWR from 'swr'
+import type { PokemonSummary } from '@/types'
 
 export const PokemonIndex = () => {
   const { data, isLoading } = useSWR<{ data: PokemonSummary[] }>('/pokemons')

@@ -1,8 +1,5 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-import { useParams, useRouter } from 'next/navigation'
-import axios from 'axios'
 import {
   Box,
   Button,
@@ -13,11 +10,14 @@ import {
   TableRow,
   Typography,
 } from '@mui/material'
+import axios from 'axios'
 import Link from 'next/link'
-import { PokemonBasicInfo, PokemonSummary } from '@/types'
+import { useParams, useRouter } from 'next/navigation'
+import { useEffect, useState } from 'react'
 import { LoadingPageTemplate } from '@/components/templates/LoadingPageTemplate'
 import { useAuthUserState } from '@/store/authUserState'
 import { usePokemonBasicInfosState } from '@/store/pokemonBasicInfosState'
+import type { PokemonBasicInfo, PokemonSummary } from '@/types'
 
 export const PokemonShow = () => {
   const params = useParams()

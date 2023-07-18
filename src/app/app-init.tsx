@@ -1,12 +1,12 @@
 'use client'
 
+import { useEffect } from 'react'
+import useSWR from 'swr'
 import { useAuthUserMutators } from '@/store/authUserState'
 import { useIsInitializationMutators } from '@/store/isInitializationState'
 import { useNaturesMutators } from '@/store/naturesState'
 import { usePokemonBasicInfosSMutators } from '@/store/pokemonBasicInfosState'
-import { AuthUser, Nature, PokemonBasicInfo } from '@/types'
-import { useEffect } from 'react'
-import useSWR from 'swr'
+import type { AuthUser, Nature, PokemonBasicInfo } from '@/types'
 
 export const AppInit = () => {
   const { updateAuthUser } = useAuthUserMutators()

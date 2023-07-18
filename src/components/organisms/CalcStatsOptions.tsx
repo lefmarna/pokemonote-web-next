@@ -1,3 +1,4 @@
+import { LoadingButton } from '@mui/lab'
 import {
   Box,
   Button,
@@ -18,9 +19,8 @@ import {
   Typography,
 } from '@mui/material'
 import { ChangeEvent, memo, useState } from 'react'
-import { NullableStats, Stats } from '@/types'
 import { useAuthUserState } from '@/store/authUserState'
-import { LoadingButton } from '@mui/lab'
+import type { NullableStats, Stats } from '@/types'
 
 type Props = {
   buttonText: string

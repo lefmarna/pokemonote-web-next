@@ -3,20 +3,20 @@
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import { FormTemplate } from '@/components/templates/FormTemplate'
-import { AuthUser } from '@/types'
-import { MessageAlert } from '@/components/organisms/MessageAlert'
 import { EmailInput } from '@/components/forms/EmailInput'
 import { PasswordInput } from '@/components/forms/PasswordInput'
-import { exceptionErrorToArray } from '@/utils/utilities'
+import { MessageAlert } from '@/components/organisms/MessageAlert'
+import { FormTemplate } from '@/components/templates/FormTemplate'
+import { noAuthMiddleware } from '@/hocs/noAuthMiddleware'
 import { useAuthUserMutators, useAuthUserState } from '@/store/authUserState'
+import { useIsInitializationState } from '@/store/isInitializationState'
 import {
   useRememberRouteMutators,
   useRememberRouteState,
 } from '@/store/rememberRouteState'
-import { useIsInitializationState } from '@/store/isInitializationState'
-import { noAuthMiddleware } from '@/hocs/noAuthMiddleware'
 import { useSnackbarMutators } from '@/store/snackbarState'
+import { exceptionErrorToArray } from '@/utils/utilities'
+import type { AuthUser } from '@/types'
 
 export const Login = noAuthMiddleware(() => {
   const router = useRouter()

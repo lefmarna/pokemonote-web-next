@@ -1,11 +1,11 @@
 'use client'
 
-import { EmailInput } from '@/components/forms/EmailInput'
-import { FormTemplate } from '@/components/templates/FormTemplate'
-import { exceptionErrorToArray } from '@/utils/utilities'
-import { $axios } from '@/utils/axios'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
+import { EmailInput } from '@/components/forms/EmailInput'
+import { FormTemplate } from '@/components/templates/FormTemplate'
+import { $axios } from '@/utils/axios'
+import { exceptionErrorToArray } from '@/utils/utilities'
 
 export const PasswordForgot = () => {
   const [errors, setErrors] = useState<string[]>()

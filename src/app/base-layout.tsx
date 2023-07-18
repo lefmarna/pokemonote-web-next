@@ -1,11 +1,11 @@
 'use client'
 
-import { Header } from '@/components/organisms/Header'
-import { Sidebar } from '@/components/organisms/Sidebar'
-import { useMediaQueryUp } from '@/utils/theme'
 import { Box } from '@mui/material'
 import { usePathname } from 'next/navigation'
 import { ReactNode, useEffect, useState } from 'react'
+import { Header } from '@/components/organisms/Header'
+import { Sidebar } from '@/components/organisms/Sidebar'
+import { useMediaQueryUp } from '@/utils/theme'
 
 type Props = {
   children: ReactNode

@@ -1,6 +1,6 @@
 import { Grid, TextField } from '@mui/material'
-import { LOWER_NATURE, UPPER_NATURE } from '@/utils/constants'
 import { memo } from 'react'
+import { LOWER_NATURE, UPPER_NATURE } from '@/utils/constants'
 
 type Props = {
   value: number

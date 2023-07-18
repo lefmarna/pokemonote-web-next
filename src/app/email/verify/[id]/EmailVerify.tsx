@@ -1,8 +1,8 @@
 'use client'
 
-import { noAuthMiddleware } from '@/hocs/noAuthMiddleware'
 import axios from 'axios'
 import { useParams, useRouter, useSearchParams } from 'next/navigation'
+import { noAuthMiddleware } from '@/hocs/noAuthMiddleware'
 import { useAuthUserMutators } from '@/store/authUserState'
 
 export const EmailVerify = noAuthMiddleware(() => {

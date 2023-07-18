@@ -7,9 +7,9 @@ import {
   useRef,
   useState,
 } from 'react'
-import { StatsKey } from '@/types'
-import { convertToInteger } from '@/utils/utilities'
 import { useResponsiveStyles } from '@/hooks/style/useResponsiveStyles'
+import { convertToInteger } from '@/utils/utilities'
+import type { StatsKey } from '@/types'
 
 type Props = {
   value: number

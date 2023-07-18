@@ -1,6 +1,5 @@
 'use client'
 
-import React, { useState } from 'react'
 import {
   Container,
   Grid,
@@ -8,15 +7,16 @@ import {
   Checkbox,
   FormControlLabel,
 } from '@mui/material'
-import { PokemonBasicInfo, RankCheckbox, Stats } from '@/types/index'
 import {
   DataGrid,
   GridSortModel,
   GridValueGetterParams,
   jaJP,
 } from '@mui/x-data-grid'
+import React, { useState } from 'react'
 import { Title } from '@/components/molecules/Title'
 import { usePokemonBasicInfosState } from '@/store/pokemonBasicInfosState'
+import type { PokemonBasicInfo, RankCheckbox, Stats } from '@/types'
 
 export const BaseStatsRanking = () => {
   const pokemonBasicInfos = usePokemonBasicInfosState()

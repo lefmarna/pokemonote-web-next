@@ -1,16 +1,16 @@
 'use client'
 
-import { noAuthMiddleware } from '@/hocs/noAuthMiddleware'
-import { FormTemplate } from '../../components/templates/FormTemplate'
+import axios from 'axios'
+import { useRouter } from 'next/navigation'
+import { useState } from 'react'
 import { EmailInput } from '../../components/forms/EmailInput'
 import { PasswordInput } from '../../components/forms/PasswordInput'
-import { useState } from 'react'
-import { UsernameInput } from '@/components/forms/UsernameInput'
-import { exceptionErrorToArray } from '@/utils/utilities'
-import axios from 'axios'
-import { Email } from '@/types'
-import { useRouter } from 'next/navigation'
+import { FormTemplate } from '../../components/templates/FormTemplate'
 import { NicknameInput } from '@/components/forms/NicknameInput'
+import { UsernameInput } from '@/components/forms/UsernameInput'
+import { noAuthMiddleware } from '@/hocs/noAuthMiddleware'
+import { exceptionErrorToArray } from '@/utils/utilities'
+import type { Email } from '@/types'
 
 export const Register = noAuthMiddleware(() => {
   const router = useRouter()

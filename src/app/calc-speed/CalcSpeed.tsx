@@ -1,5 +1,6 @@
 'use client'
 
+import { Container, Grid } from '@mui/material'
 import { Title } from '@/components/molecules/Title'
 import { BaseStatsField } from '@/components/organisms/BaseStatsField'
 import { EffortValueField } from '@/components/organisms/EffortValueField'
@@ -9,8 +10,7 @@ import { StatsTableHeader } from '@/components/organisms/StatsTableHeader'
 import { usePokemonStats } from '@/hooks/usePokemonStats'
 import { usePokemonMutators } from '@/store/pokemonState'
 import { usePokemonState } from '@/store/pokemonState'
-import { StatsKey } from '@/types'
-import { Container, Grid } from '@mui/material'
+import type { StatsKey } from '@/types'
 
 export const CalcSpeed = () => {
   const pokemon = usePokemonState()

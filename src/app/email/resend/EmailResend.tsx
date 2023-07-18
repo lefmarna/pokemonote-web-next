@@ -1,12 +1,12 @@
 'use client'
 
+import { useRouter } from 'next/navigation'
+import { useState } from 'react'
 import { EmailInput } from '@/components/forms/EmailInput'
 import { FormTemplate } from '@/components/templates/FormTemplate'
-import { useState } from 'react'
-import { Email } from '@/types'
-import { useRouter } from 'next/navigation'
 import { $axios } from '@/utils/axios'
 import { exceptionErrorToArray } from '@/utils/utilities'
+import type { Email } from '@/types'
 
 export const EmailResend = () => {
   const router = useRouter()

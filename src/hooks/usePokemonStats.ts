@@ -1,4 +1,4 @@
-import { Nature, Pokemon, StatsKey } from '@/types'
+import { useCallback, useMemo } from 'react'
 import {
   LOWER_NATURE,
   MAX_EV,
@@ -11,7 +11,7 @@ import {
   numberToInt,
   valueVerification,
 } from '@/utils/utilities'
-import { useCallback, useMemo } from 'react'
+import type { Nature, Pokemon, StatsKey } from '@/types'
 
 // ポケモンのステータス計算に関するカスタムフック
 export const usePokemonStats = (pokemon: Pokemon) => {
