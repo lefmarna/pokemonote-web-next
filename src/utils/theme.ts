@@ -1,4 +1,5 @@
-import { Breakpoints, createTheme, useMediaQuery } from '@mui/material'
+import { createTheme, useMediaQuery } from '@mui/material'
+import type { Breakpoints } from '@mui/material'
 
 type Breakpoint = keyof Breakpoints['values']
 

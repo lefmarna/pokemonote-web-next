@@ -1,4 +1,5 @@
-import axios, { AxiosError } from 'axios'
+import { isAxiosError } from 'axios'
+import type { AxiosError } from 'axios'
 
 /**
  * エラーメッセージ一覧（エラーメッセージ）
@@ -48,7 +49,7 @@ export const exceptionErrorToArray = (
   error: unknown,
   expectedStatusCodes: number[] = []
 ) => {
-  if (!axios.isAxiosError(error)) return [EXCEPTION_ERROR_MESSAGE]
+  if (!isAxiosError(error)) return [EXCEPTION_ERROR_MESSAGE]
 
   if (
     expectedStatusCodes.length &&

@@ -1,5 +1,5 @@
-import React, { memo } from 'react'
 import { Typography } from '@mui/material'
+import React, { memo } from 'react'
 
 type Props = {
   text: string

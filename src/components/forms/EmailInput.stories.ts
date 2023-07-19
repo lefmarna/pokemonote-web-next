@@ -1,5 +1,5 @@
-import type { Meta, StoryObj } from '@storybook/react'
 import { EmailInput } from '@/components/forms/EmailInput'
+import type { Meta, StoryObj } from '@storybook/react'
 
 const meta: Meta<typeof EmailInput> = {
   title: 'forms/EmailInput',

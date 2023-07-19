@@ -1,5 +1,6 @@
 import { InputAdornment, TextField } from '@mui/material'
-import { ChangeEvent, FocusEvent, ReactElement, useState } from 'react'
+import { useState } from 'react'
+import type { ChangeEvent, FocusEvent, ReactElement } from 'react'
 
 type ValidateRules = {
   [key: string]: {

@@ -1,3 +1,5 @@
+'use client'
+
 import MenuIcon from '@mui/icons-material/Menu'
 import {
   AppBar,
@@ -8,11 +10,13 @@ import {
   MenuItem,
   Toolbar,
 } from '@mui/material'
-import axios from 'axios'
+import { isAxiosError } from 'axios'
 import Image from 'next/image'
-import { useRouter } from 'next/router'
-import { MouseEvent, useState } from 'react'
+import { useRouter } from 'next/navigation'
+import { useState } from 'react'
+import { $axios } from '@/libs/axios'
 import { useAuthUserMutators, useAuthUserState } from '@/store/authUserState'
+import type { MouseEvent } from 'react'
 
 type Props = {
   toggleDrawer: () => void
@@ -56,10 +60,10 @@ export const Header = (props: Props) => {
     setIsLoading(true)
 
     try {
-      await axios.post('/logout')
+      await $axios.post('/logout')
       updateAuthUser(null)
     } catch (e) {
-      if (!axios.isAxiosError(e) || e.response?.status !== 401) return
+      if (!isAxiosError(e) || e.response?.status !== 401) return
       console.log(e)
     } finally {
       setIsLoading(false)

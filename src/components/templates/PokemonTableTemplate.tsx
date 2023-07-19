@@ -1,11 +1,14 @@
-import { useAuthUserState } from '@/store/authUserState'
-import { PokemonSummary } from '@/types'
-import { DataGrid, GridRenderCellParams, jaJP } from '@mui/x-data-grid'
-import axios from 'axios'
-import { IconButton, Link } from '@mui/material'
-import EditIcon from '@mui/icons-material/Edit'
+'use client'
+
 import DeleteIcon from '@mui/icons-material/Delete'
-import { useRouter } from 'next/router'
+import EditIcon from '@mui/icons-material/Edit'
+import { IconButton, Link } from '@mui/material'
+import { DataGrid, jaJP } from '@mui/x-data-grid'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { $axios } from '@/libs/axios'
+import { useAuthUserState } from '@/store/authUserState'
+import type { PokemonSummary } from '@/types'
+import type { GridRenderCellParams } from '@mui/x-data-grid'
 
 type Props = {
   title: string
@@ -16,6 +19,7 @@ export const PokemonTableTemplate = (props: Props) => {
   const { title, pokemons = [] } = props
 
   const router = useRouter()
+  const searchParams = useSearchParams()
 
   const authUser = useAuthUserState()
 
@@ -50,7 +54,7 @@ export const PokemonTableTemplate = (props: Props) => {
       headerName: '投稿者',
       flex: 1,
       renderCell: (params: GridRenderCellParams<PokemonSummary>) =>
-        params.row.user.username === router.query.username ? (
+        params.row.user.username === searchParams.get('username') ? (
           <div>
             <IconButton
               onClick={() => router.push(`/pokemons/${params.row.id}/edit`)}
@@ -85,7 +89,7 @@ export const PokemonTableTemplate = (props: Props) => {
 
   const deletePokemon = async (id: number): Promise<void> => {
     try {
-      await axios.delete(`/pokemons/${id}`)
+      await $axios.delete(`/pokemons/${id}`)
       // 削除するポケモンのデータを探す
       const deletePokemon = pokemons.findIndex(
         (pokemon: PokemonSummary) => pokemon.id === id

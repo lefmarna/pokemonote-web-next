@@ -1,4 +1,3 @@
-import { useEmotion } from '@/hooks/style/useEmotion'
 import { LoadingButton } from '@mui/lab'
 import {
   Container,
@@ -8,7 +7,8 @@ import {
   Stack,
   Typography,
 } from '@mui/material'
-import { ReactNode } from 'react'
+import { useEmotion } from '@/hooks/style/useEmotion'
+import type { ReactNode } from 'react'
 
 type Props = {
   children: ReactNode

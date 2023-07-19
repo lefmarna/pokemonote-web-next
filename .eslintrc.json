@@ -20,5 +20,33 @@
     "project": "./tsconfig.json",
     "sourceType": "module"
   },
-  "rules": {}
+  "rules": {
+    "import/order": [
+      "error",
+      {
+        "groups": [
+          "builtin",
+          "external",
+          ["parent", "sibling", "index", "internal"],
+          "object",
+          "type"
+        ],
+        "newlines-between": "never",
+        "pathGroupsExcludedImportTypes": ["builtin"],
+        "alphabetize": { "order": "asc", "caseInsensitive": true },
+        "pathGroups": [
+          { "pattern": "@/libs/**", "group": "external", "position": "after" },
+          {
+            "pattern": "./**.module.scss",
+            "group": "type",
+            "position": "after"
+          }
+        ]
+      }
+    ],
+    "@typescript-eslint/consistent-type-imports": [
+      "error",
+      { "prefer": "type-imports" }
+    ]
+  }
 }

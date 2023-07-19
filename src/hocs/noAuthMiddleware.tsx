@@ -1,9 +1,12 @@
-import React, { ComponentType, useEffect } from 'react'
-import { useRouter } from 'next/router'
-import { useAuthUserState } from '@/store/authUserState'
-import { useRememberRouteMutators } from '@/store/rememberRouteState'
-import { useIsInitializationState } from '@/store/isInitializationState'
+'use client'
+
+import { useRouter } from 'next/navigation'
+import React, { useEffect } from 'react'
 import { LoadingPageTemplate } from '@/components/templates/LoadingPageTemplate'
+import { useAuthUserState } from '@/store/authUserState'
+import { useIsInitializationState } from '@/store/isInitializationState'
+import { useRememberRouteMutators } from '@/store/rememberRouteState'
+import type { ComponentType } from 'react'
 
 export const noAuthMiddleware = (WrappedComponent: ComponentType) => {
   return function NoAuthMiddlewareComponent() {

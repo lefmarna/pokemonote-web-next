@@ -1,6 +1,8 @@
+'use client'
+
+import { Alert } from '@mui/material'
 import Snackbar from '@mui/material/Snackbar'
 import { useSnackbarMutators, useSnackbarState } from '@/store/snackbarState'
-import { Alert } from '@mui/material'
 
 function SnackbarComponent() {
   const snackbar = useSnackbarState()
