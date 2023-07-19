@@ -28,3 +28,7 @@ export const RANKS = [
   { id: 12, magnification: -5, percent: 29 },
   { id: 13, magnification: -6, percent: 25 },
 ]
+
+export const DEFAULT_META_TITLE = 'Pokemonote'
+export const DEFAULT_META_DESCRIPTION =
+  'ポケモンのステータスを計算・管理するためのWebアプリ『Pokemonote』へようこそ！ 素早さ計算機やSVに対応した種族値ランキングといったツールも公開しています。「シンプルで高機能」なツールにこだわって制作していますので、是非お試しください。'
