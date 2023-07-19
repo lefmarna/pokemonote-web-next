@@ -5,4 +5,4 @@ const $axios = axios.create({
   withCredentials: true,
 })
 
-export { $axios, AxiosError }
+export { $axios, AxiosError, isAxiosError }

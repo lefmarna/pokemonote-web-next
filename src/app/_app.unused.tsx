@@ -1,22 +1,22 @@
 import { Box, ThemeProvider } from '@mui/material'
-import axios, { AxiosError } from 'axios'
+import axios from 'axios'
+import Head from 'next/head'
+import { useRouter } from 'next/router'
 import { useCallback, useEffect, useState } from 'react'
 import { RecoilRoot } from 'recoil'
 import useSWR, { SWRConfig } from 'swr'
 import '@/styles/globals.scss'
-import { AppProps } from 'next/app'
 import { Header } from '@/components/organisms/Header'
 import { Sidebar } from '@/components/organisms/Sidebar'
-import { theme, useMediaQueryUp } from '@/utils/theme'
+import SnackbarComponent from '@/components/organisms/SnackBarComponent'
 import { useAuthUserMutators } from '@/store/authUserState'
-import Head from 'next/head'
+import { useIsInitializationMutators } from '@/store/isInitializationState'
 import { useNaturesMutators } from '@/store/naturesState'
 import { usePokemonBasicInfosSMutators } from '@/store/pokemonBasicInfosState'
-import { AuthUser, Nature, PokemonBasicInfo } from '@/types'
-import { useRouter } from 'next/router'
-import { useIsInitializationMutators } from '../store/isInitializationState'
-import SnackbarComponent from '@/components/organisms/SnackBarComponent'
-import { useMeta } from '@/hooks/useMeta'
+import { theme, useMediaQueryUp } from '@/utils/theme'
+import type { AuthUser, Nature, PokemonBasicInfo } from '@/types'
+import type { AxiosError } from 'axios'
+import type { AppProps } from 'next/app'
 
 const AppInit = () => {
   const { updateAuthUser } = useAuthUserMutators()
@@ -90,8 +90,6 @@ export default function App({ Component, pageProps }: AppProps) {
 
   const [isFirstRender, setIsFirstRender] = useState(true)
 
-  const { getMeta } = useMeta()
-
   useEffect(() => {
     setDrawer(isLargeUpScreen)
 
@@ -108,7 +106,10 @@ export default function App({ Component, pageProps }: AppProps) {
     setDrawer(false)
   }
 
-  const meta = getMeta()
+  const meta = {
+    title: 'Pokemonote',
+    description: 'ポケモンの育成に役立つツールを提供します。',
+  }
 
   const handleRouteChange = useCallback(() => {
     setDrawer(isLargeUpScreen)
