@@ -1,7 +1,7 @@
 'use client'
 
-import axios from 'axios'
 import { useParams, useRouter, useSearchParams } from 'next/navigation'
+import { $axios } from '@/libs/axios'
 import { noAuthMiddleware } from '@/hocs/noAuthMiddleware'
 import { useAuthUserMutators } from '@/store/authUserState'
 
@@ -14,7 +14,7 @@ export const EmailVerify = noAuthMiddleware(() => {
 
   ;(async () => {
     try {
-      const response = await axios.get(
+      const response = await $axios.get(
         `/email/verify/${params.id}?expires=${searchParams.get(
           'expires'
         )}&signature=${searchParams.get('signature')}`

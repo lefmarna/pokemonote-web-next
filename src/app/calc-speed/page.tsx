@@ -1,5 +1,5 @@
-import { Metadata } from 'next'
 import { CalcSpeed } from './CalcSpeed'
+import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: '素早さ計算機（ポケモンSV）',

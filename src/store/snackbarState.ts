@@ -1,6 +1,6 @@
-import { AlertColor } from '@mui/material'
 import { useCallback } from 'react'
 import { atom, useRecoilValue, useSetRecoilState } from 'recoil'
+import type { AlertColor } from '@mui/material'
 
 type SnackBar = {
   isOpen: boolean

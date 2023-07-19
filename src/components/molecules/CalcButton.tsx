@@ -1,5 +1,6 @@
-import { Button, SxProps, Theme } from '@mui/material'
-import { MouseEvent } from 'react'
+import { Button } from '@mui/material'
+import type { SxProps, Theme } from '@mui/material'
+import type { MouseEvent } from 'react'
 
 type Props = {
   children: number

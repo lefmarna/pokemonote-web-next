@@ -1,5 +1,5 @@
-import { Metadata } from 'next'
 import { PokemonIndex } from './PokemonIndex'
+import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'みんなの投稿',

@@ -1,8 +1,8 @@
 'use client'
 
-import axios from 'axios'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
+import { $axios } from '@/libs/axios'
 import { EmailInput } from '@/components/forms/EmailInput'
 import { PasswordInput } from '@/components/forms/PasswordInput'
 import { MessageAlert } from '@/components/organisms/MessageAlert'
@@ -51,7 +51,7 @@ export const Login = noAuthMiddleware(() => {
     setIsLoading(true)
 
     try {
-      const response = await axios.post<{ data: AuthUser }>('/login', {
+      const response = await $axios.post<{ data: AuthUser }>('/login', {
         email,
         password,
       })

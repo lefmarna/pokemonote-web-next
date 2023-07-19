@@ -1,5 +1,5 @@
-import { Metadata } from 'next'
 import { EmailResend } from './EmailResend'
+import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'メール確認',

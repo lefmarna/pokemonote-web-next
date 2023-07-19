@@ -1,5 +1,5 @@
-import { Metadata } from 'next'
 import { Register } from './Register'
+import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'アカウント作成',

@@ -14,13 +14,14 @@ import {
   Radio,
   RadioGroup,
   Select,
-  SelectChangeEvent,
   TextField,
   Typography,
 } from '@mui/material'
-import { ChangeEvent, memo, useState } from 'react'
+import { memo, useState } from 'react'
 import { useAuthUserState } from '@/store/authUserState'
 import type { NullableStats, Stats } from '@/types'
+import type { SelectChangeEvent } from '@mui/material'
+import type { ChangeEvent } from 'react'
 
 type Props = {
   buttonText: string

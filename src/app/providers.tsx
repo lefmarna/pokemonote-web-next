@@ -1,11 +1,12 @@
 'use client'
 
 import { ThemeProvider } from '@mui/material'
-import { ReactNode } from 'react'
 import { RecoilRoot } from 'recoil'
 import { SWRConfig } from 'swr'
-import { $axios, AxiosError } from '@/utils/axios'
+import type { AxiosError } from '@/libs/axios'
+import { $axios } from '@/libs/axios'
 import { theme } from '@/utils/theme'
+import type { ReactNode } from 'react'
 
 type Props = {
   children: ReactNode

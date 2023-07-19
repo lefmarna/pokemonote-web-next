@@ -1,8 +1,8 @@
 'use client'
 
-import axios from 'axios'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
+import { $axios } from '@/libs/axios'
 import { EmailInput } from '../../components/forms/EmailInput'
 import { PasswordInput } from '../../components/forms/PasswordInput'
 import { FormTemplate } from '../../components/templates/FormTemplate'
@@ -35,7 +35,7 @@ export const Register = noAuthMiddleware(() => {
     setIsLoading(true)
 
     try {
-      const response = await axios.post<{ data: Email }>('/register', formData)
+      const response = await $axios.post<{ data: Email }>('/register', formData)
       localStorage.setItem('email', response.data.data.email)
       router.push('/email/resend')
     } catch (error) {

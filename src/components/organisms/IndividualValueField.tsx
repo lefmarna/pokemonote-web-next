@@ -1,10 +1,11 @@
 import { Box, Grid, TextField } from '@mui/material'
-import { ChangeEvent, memo, MouseEvent, useRef } from 'react'
+import { memo, useRef } from 'react'
 import { CalcButton } from '@/components/molecules/CalcButton'
 import { useResponsiveStyles } from '@/hooks/style/useResponsiveStyles'
 import { MAX_IV } from '@/utils/constants'
 import { convertToInteger } from '@/utils/utilities'
 import type { NullableStats, StatsKey } from '@/types'
+import type { ChangeEvent, MouseEvent } from 'react'
 
 type Props = {
   value: number | ''

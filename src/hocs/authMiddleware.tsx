@@ -1,11 +1,12 @@
 'use client'
 
 import { usePathname, useRouter } from 'next/navigation'
-import React, { ComponentType, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { LoadingPageTemplate } from '@/components/templates/LoadingPageTemplate'
 import { useAuthUserState } from '@/store/authUserState'
 import { useIsInitializationState } from '@/store/isInitializationState'
 import { useRememberRouteMutators } from '@/store/rememberRouteState'
+import type { ComponentType } from 'react'
 
 export const authMiddleware = (WrappedComponent: ComponentType) => {
   return function AuthMiddlewareComponent() {

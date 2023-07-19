@@ -10,10 +10,10 @@ import {
   TableRow,
   Typography,
 } from '@mui/material'
-import axios from 'axios'
 import Link from 'next/link'
 import { useParams, useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
+import { $axios } from '@/libs/axios'
 import { LoadingPageTemplate } from '@/components/templates/LoadingPageTemplate'
 import { useAuthUserState } from '@/store/authUserState'
 import { usePokemonBasicInfosState } from '@/store/pokemonBasicInfosState'
@@ -36,7 +36,7 @@ export const PokemonShow = () => {
   useEffect(() => {
     ;(async () => {
       try {
-        const response = await axios.get<{ data: PokemonSummary }>(
+        const response = await $axios.get<{ data: PokemonSummary }>(
           `/pokemons/${params.id}`
         )
         setPokemonSummary(response.data.data)
@@ -66,7 +66,7 @@ export const PokemonShow = () => {
 
   const handleDeleteItem = async (id: number) => {
     try {
-      await axios.delete(`/pokemons/${id}`)
+      await $axios.delete(`/pokemons/${id}`)
       router.push(`/users/${authUser?.username}`)
     } catch (error) {
       router.push('/')

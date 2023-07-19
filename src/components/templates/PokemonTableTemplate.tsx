@@ -3,11 +3,12 @@
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
 import { IconButton, Link } from '@mui/material'
-import { DataGrid, GridRenderCellParams, jaJP } from '@mui/x-data-grid'
-import axios from 'axios'
+import { DataGrid, jaJP } from '@mui/x-data-grid'
 import { useRouter, useSearchParams } from 'next/navigation'
+import { $axios } from '@/libs/axios'
 import { useAuthUserState } from '@/store/authUserState'
 import type { PokemonSummary } from '@/types'
+import type { GridRenderCellParams } from '@mui/x-data-grid'
 
 type Props = {
   title: string
@@ -88,7 +89,7 @@ export const PokemonTableTemplate = (props: Props) => {
 
   const deletePokemon = async (id: number): Promise<void> => {
     try {
-      await axios.delete(`/pokemons/${id}`)
+      await $axios.delete(`/pokemons/${id}`)
       // 削除するポケモンのデータを探す
       const deletePokemon = pokemons.findIndex(
         (pokemon: PokemonSummary) => pokemon.id === id

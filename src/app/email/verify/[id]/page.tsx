@@ -1,5 +1,5 @@
-import { Metadata } from 'next'
 import { EmailVerify } from './EmailVerify'
+import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'メール認証',

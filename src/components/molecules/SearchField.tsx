@@ -1,5 +1,7 @@
-import { Autocomplete, FilterOptionsState, TextField } from '@mui/material'
-import { memo, SyntheticEvent, useId } from 'react'
+import { Autocomplete, TextField } from '@mui/material'
+import { memo, useId } from 'react'
+import type { FilterOptionsState } from '@mui/material'
+import type { SyntheticEvent } from 'react'
 
 type Props<T> = {
   options: T[]

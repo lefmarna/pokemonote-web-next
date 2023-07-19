@@ -3,11 +3,11 @@
 import { Container } from '@mui/material'
 import { useParams, useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
+import { $axios } from '@/libs/axios'
 import { PasswordInput } from '@/components/forms/PasswordInput'
 import { Title } from '@/components/molecules/Title'
 import { FormTemplate } from '@/components/templates/FormTemplate'
 import { useEmotion } from '@/hooks/style/useEmotion'
-import { $axios } from '@/utils/axios'
 import { exceptionErrorToArray } from '@/utils/utilities'
 
 export const PasswordVerify = () => {

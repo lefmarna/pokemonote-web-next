@@ -2,9 +2,9 @@
 
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
+import { $axios } from '@/libs/axios'
 import { EmailInput } from '@/components/forms/EmailInput'
 import { FormTemplate } from '@/components/templates/FormTemplate'
-import { $axios } from '@/utils/axios'
 import { exceptionErrorToArray } from '@/utils/utilities'
 import type { Email } from '@/types'
 

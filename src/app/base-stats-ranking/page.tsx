@@ -1,5 +1,5 @@
-import { Metadata } from 'next'
 import { BaseStatsRanking } from './BaseStatsRanking'
+import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: '種族値ランキング（ポケモンSV）',

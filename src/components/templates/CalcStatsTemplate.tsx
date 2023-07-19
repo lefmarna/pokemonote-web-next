@@ -8,7 +8,7 @@ import {
   Paper,
 } from '@mui/material'
 import { Box } from '@mui/system'
-import { ReactNode, useState } from 'react'
+import { useState } from 'react'
 import { Title } from '../molecules/Title'
 import { BaseStatsField } from '@/components/organisms/BaseStatsField'
 import { CalcStatsOptions } from '@/components/organisms/CalcStatsOptions'
@@ -28,6 +28,7 @@ import type {
   PokemonParams,
   StatsKey,
 } from '@/types'
+import type { ReactNode } from 'react'
 
 type Props = {
   title: string

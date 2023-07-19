@@ -1,15 +1,9 @@
 import { Box, Button, Grid, TextField } from '@mui/material'
-import {
-  FocusEvent,
-  KeyboardEvent,
-  memo,
-  useEffect,
-  useRef,
-  useState,
-} from 'react'
+import { memo, useEffect, useRef, useState } from 'react'
 import { useResponsiveStyles } from '@/hooks/style/useResponsiveStyles'
 import { convertToInteger } from '@/utils/utilities'
 import type { StatsKey } from '@/types'
+import type { FocusEvent, KeyboardEvent } from 'react'
 
 type Props = {
   value: number

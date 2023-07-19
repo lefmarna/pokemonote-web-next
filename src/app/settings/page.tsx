@@ -1,5 +1,5 @@
-import { Metadata } from 'next'
 import { Settings } from './Settings'
+import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: '設定',

@@ -2,10 +2,11 @@
 
 import { Box } from '@mui/material'
 import { usePathname } from 'next/navigation'
-import { ReactNode, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Header } from '@/components/organisms/Header'
 import { Sidebar } from '@/components/organisms/Sidebar'
 import { useMediaQueryUp } from '@/utils/theme'
+import type { ReactNode } from 'react'
 
 type Props = {
   children: ReactNode
