@@ -1,9 +1,7 @@
+import { getMetadata } from '@/libs/metadata'
 import { PokemonIndex } from './PokemonIndex'
-import type { Metadata } from 'next'
 
-export const metadata: Metadata = {
-  title: 'みんなの投稿',
-}
+export const metadata = getMetadata('みんなの投稿')
 
 export default function Page() {
   return <PokemonIndex />

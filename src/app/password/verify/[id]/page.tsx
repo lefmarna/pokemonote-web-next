@@ -1,9 +1,7 @@
+import { getMetadata } from '@/libs/metadata'
 import { PasswordVerify } from './PasswordVerify'
-import type { Metadata } from 'next'
 
-export const metadata: Metadata = {
-  title: 'パスワード再設定',
-}
+export const metadata = getMetadata('パスワード再設定')
 
 export default function Page() {
   return <PasswordVerify />
