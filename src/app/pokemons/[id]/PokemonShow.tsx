@@ -11,7 +11,7 @@ import {
   Typography,
 } from '@mui/material'
 import Link from 'next/link'
-import { useParams, useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { $axios } from '@/libs/axios'
 import { LoadingPageTemplate } from '@/components/templates/LoadingPageTemplate'
@@ -19,32 +19,19 @@ import { useAuthUserState } from '@/store/authUserState'
 import { usePokemonBasicInfosState } from '@/store/pokemonBasicInfosState'
 import type { PokemonBasicInfo, PokemonSummary } from '@/types'
 
-export const PokemonShow = () => {
-  const params = useParams()
+type Props = {
+  pokemonSummary: PokemonSummary
+}
+
+export const PokemonShow = (props: Props) => {
+  const { pokemonSummary } = props
 
   const router = useRouter()
   const authUser = useAuthUserState()
   const pokemonBasicInfos = usePokemonBasicInfosState()
 
-  const [pokemonSummary, setPokemonSummary] = useState<PokemonSummary | null>(
-    null
-  )
-
   const [pokemonBasicInfo, setPokemonBasicInfo] =
     useState<PokemonBasicInfo | null>(null)
-
-  useEffect(() => {
-    ;(async () => {
-      try {
-        const response = await $axios.get<{ data: PokemonSummary }>(
-          `/pokemons/${params.id}`
-        )
-        setPokemonSummary(response.data.data)
-      } catch (error) {
-        router.push('/')
-      }
-    })()
-  }, [params.id, router])
 
   useEffect(() => {
     const targetPokemonBasicInfo = pokemonBasicInfos.find(
