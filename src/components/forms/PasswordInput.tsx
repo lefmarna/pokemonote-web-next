@@ -1,3 +1,5 @@
+'use client'
+
 import { Lock, Visibility, VisibilityOff } from '@mui/icons-material'
 import { IconButton } from '@mui/material'
 import { memo, useState } from 'react'

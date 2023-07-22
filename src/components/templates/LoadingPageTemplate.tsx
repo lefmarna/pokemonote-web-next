@@ -1,3 +1,5 @@
+'use client'
+
 import { Box, CircularProgress } from '@mui/material'
 
 export const LoadingPageTemplate = () => {
