@@ -31,7 +31,12 @@ export const PokemonTableTemplate = (props: Props) => {
       headerName: 'ポケモン名',
       flex: 1,
       renderCell: (params: GridRenderCellParams<PokemonSummary>) => (
-        <StyledLink href={`/pokemons/show?id=${params.row.id}`}>
+        <StyledLink
+          href={{
+            pathname: '/pokemons/show',
+            query: { id: params.row.id },
+          }}
+        >
           {params.row.name}
         </StyledLink>
       ),
