@@ -2,10 +2,11 @@
 
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
-import { IconButton, Link } from '@mui/material'
+import { IconButton } from '@mui/material'
 import { DataGrid, jaJP } from '@mui/x-data-grid'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { $axios } from '@/libs/axios'
+import { useEmotion } from '@/hooks/style/useEmotion'
 import { useAuthUserState } from '@/store/authUserState'
 import type { PokemonSummary } from '@/types'
 import type { GridRenderCellParams } from '@mui/x-data-grid'
@@ -17,6 +18,7 @@ type Props = {
 
 export const PokemonTableTemplate = (props: Props) => {
   const { title, pokemons = [] } = props
+  const { StyledLink } = useEmotion()
 
   const router = useRouter()
   const searchParams = useSearchParams()
@@ -29,7 +31,9 @@ export const PokemonTableTemplate = (props: Props) => {
       headerName: 'ポケモン名',
       flex: 1,
       renderCell: (params: GridRenderCellParams<PokemonSummary>) => (
-        <Link href={`/pokemons/${params.row.id}`}>{params.row.name}</Link>
+        <StyledLink href={`/pokemons/show?id=${params.row.id}`}>
+          {params.row.name}
+        </StyledLink>
       ),
     },
     { field: 'lv', headerName: 'レベル', flex: 1 },
@@ -57,7 +61,7 @@ export const PokemonTableTemplate = (props: Props) => {
         params.row.user.username === searchParams.get('username') ? (
           <div>
             <IconButton
-              onClick={() => router.push(`/pokemons/${params.row.id}/edit`)}
+              onClick={() => router.push(`/pokemons/edit?id=${params.row.id}`)}
             >
               <EditIcon />
             </IconButton>
@@ -66,9 +70,9 @@ export const PokemonTableTemplate = (props: Props) => {
             </IconButton>
           </div>
         ) : (
-          <Link href={`/users/${params.row.user.username}`}>
+          <StyledLink href={`/users/${params.row.user.username}`}>
             {params.row.user.username}
-          </Link>
+          </StyledLink>
         ),
     },
   ]
@@ -81,7 +85,7 @@ export const PokemonTableTemplate = (props: Props) => {
 
   const editItem = (item: PokemonSummary): void => {
     if (item.user.username === authUser?.username) {
-      router.push(`/pokemons/${item.id}/edit`)
+      router.push(`/pokemons/edit?id=${item.id}`)
     } else {
       router.push('/')
     }
