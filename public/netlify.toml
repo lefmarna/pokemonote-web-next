@@ -9,15 +9,3 @@
   to = "/password/verify/[id].html"
   status = 200
   force = true
-
-[[redirects]]
-  from = "/pokemons/:id"
-  to = "/pokemons/[id].html"
-  status = 200
-  force = true
-
-[[redirects]]
-  from = "/pokemons/:id/edit"
-  to = "/pokemons/[id]/edit.html"
-  status = 200
-  force = true
