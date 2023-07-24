@@ -11,7 +11,7 @@ import {
   Typography,
 } from '@mui/material'
 import Link from 'next/link'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useParams, useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { $axios } from '@/libs/axios'
 import { LoadingPageTemplate } from '@/components/templates/LoadingPageTemplate'
@@ -20,7 +20,7 @@ import { usePokemonBasicInfosState } from '@/store/pokemonBasicInfosState'
 import type { PokemonBasicInfo, PokemonSummary } from '@/types'
 
 export const PokemonShow = () => {
-  const searchParams = useSearchParams()
+  const params = useParams()
 
   const router = useRouter()
   const authUser = useAuthUserState()
@@ -37,14 +37,14 @@ export const PokemonShow = () => {
     ;(async () => {
       try {
         const response = await $axios.get<{ data: PokemonSummary }>(
-          `/pokemons/${searchParams.get('id')}`
+          `/pokemons/${params.id}`
         )
         setPokemonSummary(response.data.data)
       } catch (error) {
         router.push('/')
       }
     })()
-  }, [searchParams, router])
+  }, [params.id, router])
 
   useEffect(() => {
     const targetPokemonBasicInfo = pokemonBasicInfos.find(
@@ -58,7 +58,7 @@ export const PokemonShow = () => {
 
   const handleEditItem = (item: PokemonSummary) => {
     if (item.user.username === authUser?.username) {
-      router.push(`/pokemons/edit?id=${item.id}`)
+      router.push(`/pokemons/${item.id}/edit`)
     } else {
       router.push('/')
     }
