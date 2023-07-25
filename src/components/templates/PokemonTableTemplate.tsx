@@ -75,7 +75,12 @@ export const PokemonTableTemplate = (props: Props) => {
             </IconButton>
           </div>
         ) : (
-          <StyledLink href={`/users/${params.row.user.username}`}>
+          <StyledLink
+            href={{
+              pathname: '/users/show',
+              query: { username: params.row.user.username },
+            }}
+          >
             {params.row.user.username}
           </StyledLink>
         ),

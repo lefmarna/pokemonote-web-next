@@ -130,3 +130,8 @@ export type AuthUser = User &
 export type Email = {
   email: string
 }
+
+export type ShowUser = {
+  user: User
+  pokemons: PokemonSummary[]
+}
