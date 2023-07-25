@@ -6,7 +6,6 @@ const nextConfig = withInterceptStdout(
   {
     reactStrictMode: true,
     swcMinify: true,
-    output: 'export',
   },
   (text) => (text.includes('Duplicate atom key') ? '' : text)
 )

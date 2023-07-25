@@ -31,12 +31,7 @@ export const PokemonTableTemplate = (props: Props) => {
       headerName: 'ポケモン名',
       flex: 1,
       renderCell: (params: GridRenderCellParams<PokemonSummary>) => (
-        <StyledLink
-          href={{
-            pathname: '/pokemons/show',
-            query: { id: params.row.id },
-          }}
-        >
+        <StyledLink href={`/pokemons/${params.row.id}`}>
           {params.row.name}
         </StyledLink>
       ),
@@ -66,7 +61,7 @@ export const PokemonTableTemplate = (props: Props) => {
         params.row.user.username === searchParams.get('username') ? (
           <div>
             <IconButton
-              onClick={() => router.push(`/pokemons/edit?id=${params.row.id}`)}
+              onClick={() => router.push(`/pokemons/${params.row.id}/edit`)}
             >
               <EditIcon />
             </IconButton>
@@ -75,12 +70,7 @@ export const PokemonTableTemplate = (props: Props) => {
             </IconButton>
           </div>
         ) : (
-          <StyledLink
-            href={{
-              pathname: '/users/show',
-              query: { username: params.row.user.username },
-            }}
-          >
+          <StyledLink href={`/users/${params.row.user.username}`}>
             {params.row.user.username}
           </StyledLink>
         ),
@@ -95,7 +85,7 @@ export const PokemonTableTemplate = (props: Props) => {
 
   const editItem = (item: PokemonSummary): void => {
     if (item.user.username === authUser?.username) {
-      router.push(`/pokemons/edit?id=${item.id}`)
+      router.push(`/pokemons/${item.id}/edit`)
     } else {
       router.push('/')
     }
