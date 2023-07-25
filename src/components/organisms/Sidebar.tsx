@@ -139,12 +139,14 @@ export const Sidebar = (props: Props) => {
         ))}
         {/* ログイン時のみマイページを表示する */}
         {authUser && (
-          <ListItemButton href={`/users/${authUser.username}`}>
-            <ListItemIcon>
-              <Person />
-            </ListItemIcon>
-            <ListItemText primary="マイページ" />
-          </ListItemButton>
+          <Link href={`/users/${authUser.username}`}>
+            <ListItemButton>
+              <ListItemIcon>
+                <Person />
+              </ListItemIcon>
+              <ListItemText primary="マイページ" />
+            </ListItemButton>
+          </Link>
         )}
       </List>
       <Divider />
