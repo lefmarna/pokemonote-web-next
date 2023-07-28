@@ -53,16 +53,6 @@ export const PokemonEdit = () => {
   })
 
   /**
-   * ポケモンを更新する
-   */
-  const updatePokemon = useCallback(
-    (pokemon: Pokemon) => {
-      setPokemon(pokemon)
-    },
-    [setPokemon]
-  )
-
-  /**
    * ポケモンの基本情報を更新する
    */
   const updateBasicInfo = useCallback(
