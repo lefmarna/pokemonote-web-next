@@ -139,7 +139,12 @@ export const Sidebar = (props: Props) => {
         ))}
         {/* ログイン時のみマイページを表示する */}
         {authUser && (
-          <Link href={`/users/${authUser.username}`}>
+          <Link
+            href={{
+              pathname: '/users/show',
+              query: { username: authUser.username },
+            }}
+          >
             <ListItemButton>
               <ListItemIcon>
                 <Person />
