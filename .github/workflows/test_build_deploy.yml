@@ -54,13 +54,8 @@ jobs:
     if: github.ref_name == 'main' || github.ref_name == 'develop'
     needs: build
     steps:
-      - name: Download math result for job 1
-        uses: actions/download-artifact@v3
-        with:
-          name: out
-      - name: Install Netlify CLI
-        run: npm install -g netlify-cli@^12.13.1
-      - name: Deploy
-        env:
-          NETLIFY_SITE_ID: ${{ github.ref_name == 'main' && secrets.PROD_NETLIFY_SITE_ID || secrets.DEV_NETLIFY_SITE_ID }}
-        run: netlify deploy -p -d . -a ${{ secrets.NETLIFY_AUTH_TOKEN }} -s $NETLIFY_SITE_ID
+      - name: Deploy to XSERVER
+        run: |
+          echo "${{ secrets.XSERVER_PRIVATE_KEY }}" > x-server.key
+          chmod 600 x-server.key
+          rsync -avz --delete -e "ssh -o StrictHostKeyChecking=no -i x-server.key -p 10022" ./out/ ${{ secrets.XSERVER_USER }}@${{ secrets.XSERVER_HOST }}:${{ secrets.TEST_DIRECTORY }}
