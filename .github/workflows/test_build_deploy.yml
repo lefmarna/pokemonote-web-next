@@ -54,6 +54,10 @@ jobs:
     if: github.ref_name == 'main' || github.ref_name == 'develop'
     needs: build
     steps:
+      - name: Download math result for job 1
+        uses: actions/download-artifact@v3
+        with:
+          name: out
       - name: Deploy to XSERVER
         run: |
           echo "${{ secrets.XSERVER_PRIVATE_KEY }}" > x-server.key
