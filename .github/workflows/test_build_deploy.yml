@@ -62,4 +62,4 @@ jobs:
         run: |
           echo "${{ secrets.XSERVER_PRIVATE_KEY }}" > x-server.key
           chmod 600 x-server.key
-          rsync -avz --delete -e "ssh -o StrictHostKeyChecking=no -i x-server.key -p 10022" ./out/ ${{ secrets.XSERVER_USER }}@${{ secrets.XSERVER_HOST }}:${{ secrets.TEST_DIRECTORY }}
+          rsync -avz --delete -e "ssh -o StrictHostKeyChecking=no -i x-server.key -p 10022" . ${{ secrets.XSERVER_USER }}@${{ secrets.XSERVER_HOST }}:${{ secrets.TEST_DIRECTORY }}
