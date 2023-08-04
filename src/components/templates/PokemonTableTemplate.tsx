@@ -33,7 +33,7 @@ export const PokemonTableTemplate = (props: Props) => {
       renderCell: (params: GridRenderCellParams<PokemonSummary>) => (
         <StyledLink
           href={{
-            pathname: '/pokemons/show',
+            pathname: '/pokemons/show/',
             query: { id: params.row.id },
           }}
         >
@@ -77,7 +77,7 @@ export const PokemonTableTemplate = (props: Props) => {
         ) : (
           <StyledLink
             href={{
-              pathname: '/users/show',
+              pathname: '/users/show/',
               query: { username: params.row.user.username },
             }}
           >
