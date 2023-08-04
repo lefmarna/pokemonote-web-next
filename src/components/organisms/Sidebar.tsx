@@ -141,7 +141,7 @@ export const Sidebar = (props: Props) => {
         {authUser && (
           <Link
             href={{
-              pathname: '/users/show/',
+              pathname: '/users/show',
               query: { username: authUser.username },
             }}
           >
