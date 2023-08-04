@@ -63,4 +63,5 @@ jobs:
         run: |
           echo "${{ secrets.XSERVER_PRIVATE_KEY }}" > x-server.key
           chmod 600 x-server.key
-          rsync -avz --delete --delete-delay --delay-updates -e "ssh -o StrictHostKeyChecking=no -i x-server.key -p 10022" ./out-dir/ ${{ secrets.XSERVER_USER }}@${{ secrets.XSERVER_HOST }}:${{ secrets.DEVELOPMENT_DIRECTORY }}
+          EXCLUDED_FILTERS=$(echo "${{ secrets.EXCLUDED_DIRECTORIES }}" | awk '{print "--filter='\''P "$1"/'\''"}')
+          rsync -avz --delete --delete-delay --delay-updates --filter='P .htaccess' $EXCLUDED_FILTERS -e "ssh -o StrictHostKeyChecking=no -i x-server.key -p 10022" ./out-dir/ ${{ secrets.XSERVER_USER }}@${{ secrets.XSERVER_HOST }}:${{ secrets.DEVELOPMENT_DIRECTORY }}
