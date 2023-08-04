@@ -58,8 +58,9 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: out
+          path: ./out-dir
       - name: Deploy to XSERVER
         run: |
           echo "${{ secrets.XSERVER_PRIVATE_KEY }}" > x-server.key
           chmod 600 x-server.key
-          rsync -avz --delete --delete-delay --delay-updates --exclude='x-server.key' -e "ssh -o StrictHostKeyChecking=no -i x-server.key -p 10022" . ${{ secrets.XSERVER_USER }}@${{ secrets.XSERVER_HOST }}:${{ secrets.DEVELOPMENT_DIRECTORY }}
+          rsync -avz --delete --delete-delay --delay-updates -e "ssh -o StrictHostKeyChecking=no -i x-server.key -p 10022" ./out-dir/ ${{ secrets.XSERVER_USER }}@${{ secrets.XSERVER_HOST }}:${{ secrets.DEVELOPMENT_DIRECTORY }}
