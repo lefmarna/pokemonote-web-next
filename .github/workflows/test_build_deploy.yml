@@ -28,18 +28,12 @@ jobs:
       - name: npm install
         uses: ./.github/actions/test_build_deploy
 
-      - name: delete SEO files
-        if: github.ref_name != 'main'
-        run: |
-          rm -f ./public/robots.txt ./public/sitemap.xml && \
-          echo "User-agent: *\nDisallow: /\n" > ./public/robots.txt
-
       - name: npm run build
         run: npm run build
         env:
           NEXT_PUBLIC_ANALYTICS_ID: ${{ secrets.ANALYTICS_ID }}
           NEXT_PUBLIC_BASE_URL: ${{ github.ref_name == 'main' && secrets.PROD_BASE_URL || secrets.DEV_BASE_URL }}
-          NEXT_PUBLIC_NODE_ENV: ${{ github.ref_name == 'main' && 'production' || 'develop' }}
+          NEXT_PUBLIC_NODE_ENV: ${{ github.ref_name == 'main' && 'develop' || 'develop' }} # 本番リリース時には左辺を'production'に変更する
           NEXT_PUBLIC_PAYJP_PUBLIC_KEY: ${{ secrets.PAYJP_PUBLIC_KEY }}
 
       - name: Upload Directory

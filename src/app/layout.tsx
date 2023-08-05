@@ -38,7 +38,7 @@ export const metadata: Metadata = {
   },
   ...(process.env.NEXT_PUBLIC_NODE_ENV !== 'production'
     ? { robots: 'noindex,nofollow' }
-    : { robots: 'noindex,nofollow' }), // NOTE: アプリが完成するまでは、環境問わず常にnoindexとする
+    : null),
 }
 
 export default function RootLayout({ children }: { children: ReactNode }) {

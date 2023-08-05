@@ -1,6 +1,15 @@
 import type { MetadataRoute } from 'next'
 
 export default function robots(): MetadataRoute.Robots {
+  if (process.env.NEXT_PUBLIC_NODE_ENV !== 'production') {
+    return {
+      rules: {
+        userAgent: '*',
+        disallow: ['/'],
+      },
+    }
+  }
+
   return {
     rules: {
       userAgent: '*',
@@ -9,7 +18,7 @@ export default function robots(): MetadataRoute.Robots {
         '/give-tip/',
         '/lefmarna-otoiawase/',
         '/password/',
-        '/privacy-policy',
+        '/privacy-policy/',
         '/settings/',
         '/users/',
       ],
