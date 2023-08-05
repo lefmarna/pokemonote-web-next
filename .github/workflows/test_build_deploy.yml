@@ -63,6 +63,6 @@ jobs:
         run: |
           echo "${{ secrets.XSERVER_PRIVATE_KEY }}" > x-server.key
           chmod 600 x-server.key
-          EXCLUDE_OPTIONS=$(echo "${{ secrets.EXCLUDED_DIRECTORIES }}" | awk '{print "--exclude=\047"$1"\047 "}')
-          echo $EXCLUDE_OPTIONS
-          rsync -avz --delete --delete-delay --delay-updates $EXCLUDE_OPTIONS -e "ssh -o StrictHostKeyChecking=no -i x-server.key -p 10022" ./out-dir/ ${{ secrets.XSERVER_USER }}@${{ secrets.XSERVER_HOST }}:${{ secrets.DEVELOPMENT_DIRECTORY }}
+          EXCLUDED_FILTERS=$(echo "${{ secrets.EXCLUDED_DIRECTORIES }}" | awk '{print "--filter='\''P "$1"/'\'' "}')
+          echo "Exclude command: $EXCLUDED_FILTERS"
+          rsync -avz --delete $EXCLUDED_FILTERS -e "ssh -o StrictHostKeyChecking=no -i x-server.key -p 10022" ./out-dir/ ${{ secrets.XSERVER_USER }}@${{ secrets.XSERVER_HOST }}:${{ secrets.DEVELOPMENT_DIRECTORY }}
