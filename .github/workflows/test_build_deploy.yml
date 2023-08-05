@@ -64,8 +64,8 @@ jobs:
           echo "${{ secrets.XSERVER_PRIVATE_KEY }}" > x-server.key
           chmod 600 x-server.key
           EXCLUDED_DIRECTORIES=(${{ secrets.EXCLUDED_DIRECTORIES }})
-          EXCLUDED_FILTERS=("--filter='P .htaccess'")
+          EXCLUDED_FILTERS=("--filter=P .htaccess")
           for dir in "${EXCLUDED_DIRECTORIES[@]}"; do
-            EXCLUDED_FILTERS+=("--filter='P ${dir}/'")
+            EXCLUDED_FILTERS+=("--filter=P ${dir}/")
           done
           rsync -avz --delete --delete-delay --delay-updates "${EXCLUDED_FILTERS[@]}" -e "ssh -o StrictHostKeyChecking=no -i x-server.key -p 10022" ./out-dir/ ${{ secrets.XSERVER_USER }}@${{ secrets.XSERVER_HOST }}:${{ secrets.DEVELOPMENT_DIRECTORY }}
