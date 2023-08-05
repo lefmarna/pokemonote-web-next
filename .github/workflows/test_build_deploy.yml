@@ -59,6 +59,12 @@ jobs:
         with:
           name: out
           path: ./out-dir
+      - name: Check rsync version
+        run: rsync --version
+      - name: Update rsync version
+        run: apt-get --only-upgrade install rsync
+      - name: Check rsync version
+        run: rsync --version
       - name: Deploy to XSERVER
         run: |
           echo "${{ secrets.XSERVER_PRIVATE_KEY }}" > x-server.key
