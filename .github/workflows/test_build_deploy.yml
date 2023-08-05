@@ -68,4 +68,5 @@ jobs:
           for dir in $EXCLUDED_DIRECTORIES; do
             EXCLUDE_COMMAND="$EXCLUDE_COMMAND --filter='P $dir/'"
           done
+          echo "Exclude command: $EXCLUDE_COMMAND"
           rsync -avz --delete --delete-delay --delay-updates --filter='P .htaccess' $EXCLUDE_COMMAND -e "ssh -o StrictHostKeyChecking=no -i x-server.key -p 10022" ./out-dir/ ${{ secrets.XSERVER_USER }}@${{ secrets.XSERVER_HOST }}:${{ secrets.DEVELOPMENT_DIRECTORY }}
