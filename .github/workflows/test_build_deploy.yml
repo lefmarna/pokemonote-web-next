@@ -59,21 +59,10 @@ jobs:
         with:
           name: out
           path: ./out-dir
-      - name: Check rsync version
-        run: rsync --version
-      - name: Update rsync version
-        run: apt-get --only-upgrade install rsync
-      - name: Check rsync version
-        run: rsync --version
       - name: Deploy to XSERVER
         run: |
           echo "${{ secrets.XSERVER_PRIVATE_KEY }}" > x-server.key
           chmod 600 x-server.key
-          EXCLUDED_DIRECTORIES=$(echo "${{ secrets.EXCLUDED_DIRECTORIES }}")
-          EXCLUDED_FILTERS=""
-          for dir in $EXCLUDED_DIRECTORIES
-          do
-            EXCLUDED_FILTERS+="--filter='P $dir/' "
-          done
-          echo "Exclude command: $EXCLUDED_FILTERS"
-          rsync -avz --delete --delete-delay --delay-updates --filter='P .htaccess' $EXCLUDED_FILTERS -e "ssh -o StrictHostKeyChecking=no -i x-server.key -p 10022" ./out-dir/ ${{ secrets.XSERVER_USER }}@${{ secrets.XSERVER_HOST }}:${{ secrets.DEVELOPMENT_DIRECTORY }}
+          EXCLUDE_OPTIONS=$(echo "${{ secrets.EXCLUDED_DIRECTORIES }}" | awk '{print "--exclude=\047"$1"\047 "}')
+          echo $EXCLUDE_OPTIONS
+          rsync -avz --delete --delete-delay --delay-updates $EXCLUDE_OPTIONS -e "ssh -o StrictHostKeyChecking=no -i x-server.key -p 10022" ./out-dir/ ${{ secrets.XSERVER_USER }}@${{ secrets.XSERVER_HOST }}:${{ secrets.DEVELOPMENT_DIRECTORY }}
