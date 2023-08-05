@@ -63,10 +63,10 @@ jobs:
         run: |
           echo "${{ secrets.XSERVER_PRIVATE_KEY }}" > x-server.key
           chmod 600 x-server.key
-          EXCLUDED_DIRECTORIES="api contact dev dev-api stg-api"
-          EXCLUDE_COMMAND=""
-          for dir in $EXCLUDED_DIRECTORIES; do
-            EXCLUDE_COMMAND="$EXCLUDE_COMMAND --filter='P $dir/'"
+          EXCLUDED_DIRECTORIES=$(echo "${{ secrets.EXCLUDED_DIRECTORIES }}")
+          for dir in $EXCLUDED_DIRECTORIES
+          do
+            EXCLUDED_FILTERS+="--filter='P $dir/' "
           done
-          echo "Exclude command: $EXCLUDE_COMMAND"
-          rsync -avz --delete --delete-delay --delay-updates --filter='P .htaccess' $EXCLUDE_COMMAND -e "ssh -o StrictHostKeyChecking=no -i x-server.key -p 10022" ./out-dir/ ${{ secrets.XSERVER_USER }}@${{ secrets.XSERVER_HOST }}:${{ secrets.DEVELOPMENT_DIRECTORY }}
+          echo "Exclude command: $EXCLUDED_FILTERS"
+          rsync -avz --delete --delete-delay --delay-updates --filter='P .htaccess' $EXCLUDED_FILTERS -e "ssh -o StrictHostKeyChecking=no -i x-server.key -p 10022" ./out-dir/ ${{ secrets.XSERVER_USER }}@${{ secrets.XSERVER_HOST }}:${{ secrets.DEVELOPMENT_DIRECTORY }}
