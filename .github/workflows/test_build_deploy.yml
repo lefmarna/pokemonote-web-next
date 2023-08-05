@@ -63,7 +63,7 @@ jobs:
         run: |
           echo "${{ secrets.XSERVER_PRIVATE_KEY }}" > x-server.key
           chmod 600 x-server.key
-          EXCLUDED_DIRECTORIES=$(echo "${{ secrets.EXCLUDED_DIRECTORIES }}")
+          EXCLUDED_DIRECTORIES="api contact dev dev-api stg-api"
           EXCLUDE_COMMAND=""
           for dir in $EXCLUDED_DIRECTORIES; do
             EXCLUDE_COMMAND="$EXCLUDE_COMMAND --filter='P $dir/'"
