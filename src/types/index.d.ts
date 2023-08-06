@@ -101,12 +101,11 @@ type NullableStats = Nullable<Stats>
 
 export type PokemonSummary = Readonly<{
   id: number
-  lv: number
-  name: string
-  nature: string
+  pokemonName: string
+  lv: number | null
+  natureName: NatureName
   stats: string
-  sum_effort_value: number
-  description: string
+  sumEffortValue: number
   user: User
 }>
 

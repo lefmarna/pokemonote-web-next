@@ -19,81 +19,78 @@ export type webhooks = Record<string, never>
 export interface components {
   schemas: {
     PokemonIndexSchema: {
+      /** @description ポケモン一覧 */
       data: {
-        /** @description ポケモン一覧 */
-        pokemons: {
+        /**
+         * @description ID
+         * @example 1
+         */
+        id: number
+        /**
+         * @description ポケモン名
+         * @example アーケオス
+         */
+        pokemonName: string
+        /**
+         * @description レベル
+         * @example 50
+         */
+        lv: number | null
+        /**
+         * @description 性格名
+         * @example がんばりや
+         * @enum {string}
+         */
+        natureName:
+          | 'いじっぱり'
+          | 'うっかりや'
+          | 'おくびょう'
+          | 'おだやか'
+          | 'おっとり'
+          | 'おとなしい'
+          | 'がんばりや'
+          | 'きまぐれ'
+          | 'さみしがり'
+          | 'しんちょう'
+          | 'すなお'
+          | 'ずぶとい'
+          | 'せっかち'
+          | 'なまいき'
+          | 'てれや'
+          | 'のうてんき'
+          | 'のんき'
+          | 'ひかえめ'
+          | 'まじめ'
+          | 'むじゃき'
+          | 'やんちゃ'
+          | 'ゆうかん'
+          | 'ようき'
+          | 'れいせい'
+          | 'わんぱく'
+        /**
+         * @description ステータス
+         * @example 150-160-85-132-85-130
+         */
+        stats: string
+        /**
+         * @description 努力値の合計
+         * @example 508
+         */
+        sumEffortValue: number
+        /** @description 投稿者 */
+        user: {
           /**
-           * @description ID
-           * @example 1
+           * @description ユーザー名
+           * @example test
            */
-          id: number
+          username: string
           /**
-           * @description ポケモン名
-           * @example アーケオス
+           * @description 表示名
+           * @example テスト
            */
-          pokemonName: string
-          /**
-           * @description レベル
-           * @example 50
-           */
-          lv: number | null
-          /**
-           * @description 性格名
-           * @example がんばりや
-           * @enum {string}
-           */
-          natureName: [
-            'いじっぱり',
-            'うっかりや',
-            'おくびょう',
-            'おだやか',
-            'おっとり',
-            'おとなしい',
-            'がんばりや',
-            'きまぐれ',
-            'さみしがり',
-            'しんちょう',
-            'すなお',
-            'ずぶとい',
-            'せっかち',
-            'なまいき',
-            'てれや',
-            'のうてんき',
-            'のんき',
-            'ひかえめ',
-            'まじめ',
-            'むじゃき',
-            'やんちゃ',
-            'ゆうかん',
-            'ようき',
-            'れいせい',
-            'わんぱく'
-          ]
-          /**
-           * @description ステータス
-           * @example 150-160-85-132-85-130
-           */
-          stats: string
-          /**
-           * @description 努力値の合計
-           * @example 508
-           */
-          sumEffortValue: number
-          /** @description 投稿者 */
-          user: {
-            /**
-             * @description ユーザー名
-             * @example test
-             */
-            username: string
-            /**
-             * @description 表示名
-             * @example テスト
-             */
-            nickname: string
-          }
-        }[]
-      }
+          nickname: string
+        }
+      }[]
     }
   }
   responses: {
