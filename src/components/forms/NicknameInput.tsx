@@ -1,3 +1,5 @@
+'use client'
+
 import { Person } from '@mui/icons-material'
 import { memo } from 'react'
 import { BaseFormInput } from '@/components/forms/BaseFormInput'

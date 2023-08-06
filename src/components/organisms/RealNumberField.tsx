@@ -1,3 +1,5 @@
+'use client'
+
 import { Box, Button, Grid, TextField } from '@mui/material'
 import { memo, useEffect, useRef, useState } from 'react'
 import { useResponsiveStyles } from '@/hooks/style/useResponsiveStyles'

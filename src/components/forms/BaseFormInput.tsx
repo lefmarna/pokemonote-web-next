@@ -1,3 +1,5 @@
+'use client'
+
 import { InputAdornment, TextField } from '@mui/material'
 import { useState } from 'react'
 import type { ChangeEvent, FocusEvent, ReactElement } from 'react'

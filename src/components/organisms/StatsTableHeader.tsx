@@ -1,3 +1,5 @@
+'use client'
+
 import { Grid } from '@mui/material'
 import { memo, useCallback } from 'react'
 import { LvField } from './LvField'

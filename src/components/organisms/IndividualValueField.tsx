@@ -1,3 +1,5 @@
+'use client'
+
 import { Box, Grid, TextField } from '@mui/material'
 import { memo, useRef } from 'react'
 import { CalcButton } from '@/components/molecules/CalcButton'

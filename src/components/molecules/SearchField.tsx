@@ -1,5 +1,7 @@
+'use client'
+
 import { Autocomplete, TextField } from '@mui/material'
-import { memo, useId } from 'react'
+import { memo } from 'react'
 import type { FilterOptionsState } from '@mui/material'
 import type { SyntheticEvent } from 'react'
 

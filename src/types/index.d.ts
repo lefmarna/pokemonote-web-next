@@ -124,9 +124,14 @@ export type AuthUser = User &
   Readonly<{
     id: number | null
     email: string
-    email_verified_at: boolean
+    isAuthenticated: boolean
   }>
 
 export type Email = {
   email: string
+}
+
+export type ShowUser = {
+  user: User
+  pokemons: PokemonSummary[]
 }

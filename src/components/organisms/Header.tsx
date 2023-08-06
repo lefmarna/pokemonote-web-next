@@ -127,7 +127,7 @@ export const Header = (props: Props) => {
         open={isMenuOpen}
         onClose={closeProfileMenu}
       >
-        {authUser && authUser.email_verified_at ? (
+        {authUser && authUser.isAuthenticated ? (
           <MenuItem onClick={logout} disabled={isLoading}>
             ログアウト
           </MenuItem>

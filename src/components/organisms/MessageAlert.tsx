@@ -1,3 +1,5 @@
+'use client'
+
 import { Alert, Snackbar } from '@mui/material'
 
 type Props = {

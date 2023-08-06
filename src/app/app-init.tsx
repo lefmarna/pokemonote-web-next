@@ -18,7 +18,7 @@ export const AppInit = () => {
 
   const { data: loginData } = useSWR<{
     data: {
-      auth_user: AuthUser | null
+      authUser: AuthUser | null
     }
   }>('/init/login', {
     revalidateOnFocus: false,
@@ -27,7 +27,7 @@ export const AppInit = () => {
 
   const { data: StaticData } = useSWR<{
     data: {
-      pokemon_basic_infos: PokemonBasicInfo[]
+      pokemonBasicInfos: PokemonBasicInfo[]
       natures: Nature[]
     }
   }>('/init/fetch', {
@@ -37,8 +37,8 @@ export const AppInit = () => {
 
   useEffect(() => {
     if (!loginData || !StaticData) return
-    updateAuthUser(loginData.data.auth_user)
-    updatePokemonBasicInfos(StaticData.data.pokemon_basic_infos)
+    updateAuthUser(loginData.data.authUser)
+    updatePokemonBasicInfos(StaticData.data.pokemonBasicInfos)
     updateNatures(StaticData.data.natures)
     completeInitialization()
   }, [

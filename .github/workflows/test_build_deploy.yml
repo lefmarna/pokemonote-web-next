@@ -28,18 +28,12 @@ jobs:
       - name: npm install
         uses: ./.github/actions/test_build_deploy
 
-      - name: delete SEO files
-        if: github.ref_name != 'main'
-        run: |
-          rm -f ./public/robots.txt ./public/sitemap.xml && \
-          echo "User-agent: *\nDisallow: /\n" > ./public/robots.txt
-
       - name: npm run build
         run: npm run build
         env:
           NEXT_PUBLIC_ANALYTICS_ID: ${{ secrets.ANALYTICS_ID }}
           NEXT_PUBLIC_BASE_URL: ${{ github.ref_name == 'main' && secrets.PROD_BASE_URL || secrets.DEV_BASE_URL }}
-          NEXT_PUBLIC_NODE_ENV: ${{ github.ref_name == 'main' && 'production' || 'develop' }}
+          NEXT_PUBLIC_NODE_ENV: ${{ github.ref_name == 'main' && 'develop' || 'develop' }} # 本番リリース時には左辺を'production'に変更する
           NEXT_PUBLIC_PAYJP_PUBLIC_KEY: ${{ secrets.PAYJP_PUBLIC_KEY }}
 
       - name: Upload Directory
@@ -58,9 +52,16 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: out
-      - name: Install Netlify CLI
-        run: npm install -g netlify-cli@^12.13.1
-      - name: Deploy
+          path: ./out-dir
+      - name: Deploy to XSERVER
         env:
-          NETLIFY_SITE_ID: ${{ github.ref_name == 'main' && secrets.PROD_NETLIFY_SITE_ID || secrets.DEV_NETLIFY_SITE_ID }}
-        run: netlify deploy -p -d . -a ${{ secrets.NETLIFY_AUTH_TOKEN }} -s $NETLIFY_SITE_ID
+          DEPLOY_DIRECTORY: ${{ github.ref_name == 'main' && secrets.PRODUCTION_DIRECTORY || secrets.DEVELOPMENT_DIRECTORY }}
+        run: |
+          echo "${{ secrets.XSERVER_PRIVATE_KEY }}" > x-server.key
+          chmod 600 x-server.key
+          EXCLUDED_DIRECTORIES=(${{ secrets.EXCLUDED_DIRECTORIES }})
+          EXCLUDED_FILTERS=("--filter=P .htaccess")
+          for dir in "${EXCLUDED_DIRECTORIES[@]}"; do
+            EXCLUDED_FILTERS+=("--filter=P ${dir}/")
+          done
+          rsync -avz --delete --delete-delay --delay-updates "${EXCLUDED_FILTERS[@]}" -e "ssh -o StrictHostKeyChecking=no -i x-server.key -p 10022" ./out-dir/ ${{ secrets.XSERVER_USER }}@${{ secrets.XSERVER_HOST }}:$DEPLOY_DIRECTORY

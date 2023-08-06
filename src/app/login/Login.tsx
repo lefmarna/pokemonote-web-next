@@ -57,7 +57,7 @@ export const Login = noAuthMiddleware(() => {
       })
       const _authUser = response.data.data
 
-      if (!_authUser.email_verified_at) {
+      if (!_authUser.isAuthenticated) {
         localStorage.setItem('email', _authUser.email)
         router.push('/email/resend')
         return

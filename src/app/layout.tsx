@@ -1,5 +1,6 @@
 import './globals.scss'
 import { Inter } from 'next/font/google'
+import { DEFAULT_META_DESCRIPTION, DEFAULT_META_TITLE } from '@/libs/metadata'
 import { AppInit } from './app-init'
 import { BaseLayout } from './base-layout'
 import { Providers } from './providers'
@@ -11,17 +12,33 @@ const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: {
-    default: 'Pokemonote',
-    template: '%s | Pokemonote',
+    default: DEFAULT_META_TITLE,
+    template: `%s | ${DEFAULT_META_TITLE}`,
   },
-  description:
-    'ポケモンのステータスを計算・管理するためのWebアプリ『Pokemonote』へようこそ！ 素早さ計算機やSVに対応した種族値ランキングといったツールも公開しています。「シンプルで高機能」なツールにこだわって制作していますので、是非お試しください。',
+  openGraph: {
+    title: {
+      default: DEFAULT_META_TITLE,
+      template: `%s | ${DEFAULT_META_TITLE}`,
+    },
+    description: DEFAULT_META_DESCRIPTION,
+    siteName: DEFAULT_META_TITLE,
+    type: 'website',
+  },
+  twitter: {
+    title: {
+      default: DEFAULT_META_TITLE,
+      template: `%s | ${DEFAULT_META_TITLE}`,
+    },
+    description: DEFAULT_META_DESCRIPTION,
+    site: '@lefmarna',
+  },
+  description: DEFAULT_META_DESCRIPTION,
   formatDetection: {
     telephone: false,
   },
   ...(process.env.NEXT_PUBLIC_NODE_ENV !== 'production'
     ? { robots: 'noindex,nofollow' }
-    : { robots: 'noindex,nofollow' }), // NOTE: アプリが完成するまでは、環境問わず常にnoindexとする
+    : null),
 }
 
 export default function RootLayout({ children }: { children: ReactNode }) {

@@ -1,9 +1,7 @@
+import { getMetadata } from '@/libs/metadata'
 import { Login } from './Login'
-import type { Metadata } from 'next'
 
-export const metadata: Metadata = {
-  title: 'ログイン',
-}
+export const metadata = getMetadata('ログイン')
 
 export default function Page() {
   return <Login />

@@ -1,3 +1,5 @@
+'use client'
+
 import { Apps, Autorenew, Send } from '@mui/icons-material'
 import {
   BottomNavigation,
