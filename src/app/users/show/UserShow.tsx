@@ -20,7 +20,7 @@ export const UserShow = () => {
     ;(async () => {
       try {
         const response = await $axios.get<{ data: ShowUser }>(
-          `/users/${searchParams.get('username')}`
+          `/api/v2/users/${searchParams.get('username')}`
         )
         const showUser = response.data.data
         setUser(showUser.user)

@@ -24,7 +24,7 @@ export const CalcStats = () => {
   const sendPokemon = async (params: PokemonParams) => {
     setIsLoading(true)
     try {
-      const response = await $axios.post('/pokemons', params)
+      const response = await $axios.post('/api/v2/pokemons', params)
       router.push(`/pokemons/${response.data.data.id}`)
     } catch (error) {
       console.log(error)

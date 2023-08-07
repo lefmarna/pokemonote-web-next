@@ -37,7 +37,7 @@ export const PokemonShow = () => {
     ;(async () => {
       try {
         const response = await $axios.get<{ data: PokemonSummary }>(
-          `/pokemons/${searchParams.get('id')}`
+          `/api/v2/pokemons/${searchParams.get('id')}`
         )
         setPokemonSummary(response.data.data)
       } catch (error) {
@@ -48,7 +48,7 @@ export const PokemonShow = () => {
 
   useEffect(() => {
     const targetPokemonBasicInfo = pokemonBasicInfos.find(
-      (basicInfo) => basicInfo.name === pokemonSummary?.name
+      (basicInfo) => basicInfo.name === pokemonSummary?.pokemonName
     )
 
     if (targetPokemonBasicInfo === undefined) return
@@ -66,7 +66,7 @@ export const PokemonShow = () => {
 
   const handleDeleteItem = async (id: number) => {
     try {
-      await $axios.delete(`/pokemons/${id}`)
+      await $axios.delete(`/api/v2/pokemons/${id}`)
       router.push(`/users/${authUser?.username}`)
     } catch (error) {
       router.push('/')
@@ -89,7 +89,7 @@ export const PokemonShow = () => {
           </TableRow>
           <TableRow>
             <TableCell align="left">ポケモン名</TableCell>
-            <TableCell align="right">{pokemonSummary.name}</TableCell>
+            <TableCell align="right">{pokemonSummary.pokemonName}</TableCell>
           </TableRow>
           <TableRow>
             <TableCell align="left">レベル</TableCell>
@@ -97,7 +97,7 @@ export const PokemonShow = () => {
           </TableRow>
           <TableRow>
             <TableCell align="left">性格</TableCell>
-            <TableCell align="right">{pokemonSummary.nature}</TableCell>
+            <TableCell align="right">{pokemonSummary.natureName}</TableCell>
           </TableRow>
           <TableRow>
             <TableCell align="left">種族値</TableCell>
@@ -116,12 +116,12 @@ export const PokemonShow = () => {
           </TableRow>
         </TableBody>
       </Table>
-      {pokemonSummary.description && (
+      {/* {pokemonSummary.description && (
         <>
           <span>ポケモンの説明</span>
           <p>{pokemonSummary.description}</p>
         </>
-      )}
+      )} */}
       {pokemonSummary.user.username === authUser?.username ? (
         <Box display="flex" justifyContent="center">
           <Button

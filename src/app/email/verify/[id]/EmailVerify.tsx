@@ -15,7 +15,7 @@ export const EmailVerify = noAuthMiddleware(() => {
   ;(async () => {
     try {
       const response = await $axios.get(
-        `/email/verify/${params.id}?expires=${searchParams.get(
+        `/api/v2/email/verify/${params.id}?expires=${searchParams.get(
           'expires'
         )}&signature=${searchParams.get('signature')}`
       )

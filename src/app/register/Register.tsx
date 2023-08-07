@@ -35,7 +35,10 @@ export const Register = noAuthMiddleware(() => {
     setIsLoading(true)
 
     try {
-      const response = await $axios.post<{ data: Email }>('/register', formData)
+      const response = await $axios.post<{ data: Email }>(
+        '/api/v2/register',
+        formData
+      )
       localStorage.setItem('email', response.data.data.email)
       router.push('/email/resend')
     } catch (error) {

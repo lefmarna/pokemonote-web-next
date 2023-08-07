@@ -46,7 +46,7 @@ export const PasswordVerify = () => {
     ;(async () => {
       try {
         await $axios.get(
-          `/password/verify/${params.id}?expires=${searchParams.get(
+          `/api/v2/password/verify/${params.id}?expires=${searchParams.get(
             'expires'
           )}&signature=${searchParams.get('signature')}`
         )
@@ -63,7 +63,7 @@ export const PasswordVerify = () => {
   const submit = async () => {
     setIsLoading(true)
     try {
-      await $axios.put('/password/reset', resetPasswordParams)
+      await $axios.put('/api/v2/password/reset', resetPasswordParams)
       setIsSubmit(true)
       setErrors([])
     } catch (error) {

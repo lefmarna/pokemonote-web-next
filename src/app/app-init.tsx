@@ -20,7 +20,7 @@ export const AppInit = () => {
     data: {
       authUser: AuthUser | null
     }
-  }>('/init/login', {
+  }>('/api/v2/init/login', {
     revalidateOnFocus: false,
     revalidateOnReconnect: false,
   })
@@ -30,7 +30,7 @@ export const AppInit = () => {
       pokemonBasicInfos: PokemonBasicInfo[]
       natures: Nature[]
     }
-  }>('/init/fetch', {
+  }>('/api/v2/init/fetch', {
     revalidateOnFocus: false,
     revalidateOnReconnect: false,
   })

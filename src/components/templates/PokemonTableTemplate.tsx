@@ -103,7 +103,7 @@ export const PokemonTableTemplate = (props: Props) => {
 
   const deletePokemon = async (id: number): Promise<void> => {
     try {
-      await $axios.delete(`/pokemons/${id}`)
+      await $axios.delete(`/api/v2/pokemons/${id}`)
       // 削除するポケモンのデータを探す
       const deletePokemon = pokemons.findIndex(
         (pokemon: PokemonSummary) => pokemon.id === id

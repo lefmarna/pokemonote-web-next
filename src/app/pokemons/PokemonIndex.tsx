@@ -3,10 +3,11 @@
 import useSWR from 'swr'
 import { LoadingPageTemplate } from '@/components/templates/LoadingPageTemplate'
 import { PokemonTableTemplate } from '@/components/templates/PokemonTableTemplate'
-import type { PokemonIndexResponse } from '@/types/openapi'
+import type { SchemaOf } from '@/types/openapi'
 
 export const PokemonIndex = () => {
-  const { data, isLoading } = useSWR<PokemonIndexResponse>('/pokemons')
+  const path = '/api/v2/pokemons'
+  const { data, isLoading } = useSWR<SchemaOf<typeof path, 'get'>>(path)
 
   if (isLoading) return <LoadingPageTemplate />
 
