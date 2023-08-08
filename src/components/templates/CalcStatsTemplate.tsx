@@ -39,7 +39,7 @@ type Props = {
   isLoading: boolean
   updateBasicInfo: (pokemon: PokemonBasicInfo) => void
   updateNature: (nature: Nature) => void
-  updateLevel: (level: number | '') => void
+  updateLevel: (level: number | null) => void
   updateIvs: (newIvs: Partial<NullableStats>) => void
   updateEvs: (newEvs: Partial<NullableStats>) => void
   sendPokemon: (params: PokemonParams) => Promise<void>
@@ -82,7 +82,10 @@ export const CalcStatsTemplate = (props: Props) => {
     'speed',
   ]
 
-  const updateRealNumber = (newRealNumber: number | '', statKey: StatsKey) => {
+  const updateRealNumber = (
+    newRealNumber: number | null,
+    statKey: StatsKey
+  ) => {
     const newEv = getEv(newRealNumber, statKey)
 
     updateEvs({ [statKey]: newEv })

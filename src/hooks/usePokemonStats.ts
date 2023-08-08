@@ -118,7 +118,7 @@ export const usePokemonStats = (pokemon: Pokemon) => {
    * 実数値から努力値を求める
    */
   const getEv = useCallback(
-    (newRealNumber: number | '', statKey: StatsKey) => {
+    (newRealNumber: number | null, statKey: StatsKey) => {
       const realNumber = Number(
         convertToInteger(newRealNumber, MAX_REAL_NUMBER, false)
       )
@@ -226,7 +226,7 @@ export const usePokemonStats = (pokemon: Pokemon) => {
   /**
    * 配列内の数値を合計した結果を返す
    */
-  const getTotalValue = (values: (number | '')[]) => {
+  const getTotalValue = (values: (number | null)[]) => {
     return values.reduce((sum: number, value) => {
       sum += numberToInt(value)
       return sum

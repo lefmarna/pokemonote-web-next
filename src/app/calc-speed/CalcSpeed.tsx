@@ -21,7 +21,10 @@ export const CalcSpeed = () => {
   const { realNumbers, getEv, getNatureModifier, getStatsInitial } =
     usePokemonStats(pokemon)
 
-  const updateRealNumber = (newRealNumber: number | '', statKey: StatsKey) => {
+  const updateRealNumber = (
+    newRealNumber: number | null,
+    statKey: StatsKey
+  ) => {
     const newEv = getEv(newRealNumber, statKey)
 
     updateEvs({ [statKey]: newEv })
