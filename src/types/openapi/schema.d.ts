@@ -5,5 +5,3 @@ export type SchemaOf<
   TMethod extends keyof paths[TPath],
   TStatus extends keyof paths[TPath][TMethod]['responses'] = 200
 > = paths[TPath][TMethod]['responses'][TStatus]['content']['application/json']
-
-export type PokemonIndexResponse = SchemaOf<'/api/v2/pokemons', 'get'>

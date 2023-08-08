@@ -1,3 +1,5 @@
+export * from './openapi'
+
 type NatureName =
   | 'いじっぱり'
   | 'うっかりや'
@@ -98,16 +100,6 @@ type Nullable<T> = {
 }
 
 type NullableStats = Nullable<Stats>
-
-export type PokemonSummary = Readonly<{
-  id: number
-  pokemonName: string
-  lv: number | null
-  natureName: NatureName
-  stats: string
-  sumEffortValue: number
-  user: User
-}>
 
 export type LoginParams = {
   email: string
