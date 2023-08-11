@@ -20,6 +20,19 @@ export interface paths {
       }
     }
   }
+  '/api/v2/pokemons/{id}': {
+    /** ポケモン詳細API */
+    get: {
+      parameters: {
+        path: {
+          id: number
+        }
+      }
+      responses: {
+        200: components['responses']['PokemonShowResponse']
+      }
+    }
+  }
   '/api/v2/pokemons/{id}/edit': {
     /** ポケモン編集API */
     get: {
@@ -382,6 +395,77 @@ export interface components {
         'application/json': {
           /** @description ポケモン一覧 */
           data: components['schemas']['PokemonSummary'][]
+        }
+      }
+    }
+    /** @description OK */
+    PokemonShowResponse: {
+      content: {
+        'application/json': {
+          data: {
+            /**
+             * @description ポケモンの説明
+             * @example ○○の××確定耐え
+             */
+            description: string
+            /**
+             * @description ID
+             * @example 1
+             */
+            id: number
+            /**
+             * @description ポケモン名
+             * @example アーケオス
+             */
+            pokemonName: string
+            /**
+             * @description レベル
+             * @example 50
+             */
+            lv: number | null
+            /**
+             * @description 性格名
+             * @example がんばりや
+             * @enum {string}
+             */
+            natureName:
+              | 'いじっぱり'
+              | 'うっかりや'
+              | 'おくびょう'
+              | 'おだやか'
+              | 'おっとり'
+              | 'おとなしい'
+              | 'がんばりや'
+              | 'きまぐれ'
+              | 'さみしがり'
+              | 'しんちょう'
+              | 'すなお'
+              | 'ずぶとい'
+              | 'せっかち'
+              | 'なまいき'
+              | 'てれや'
+              | 'のうてんき'
+              | 'のんき'
+              | 'ひかえめ'
+              | 'まじめ'
+              | 'むじゃき'
+              | 'やんちゃ'
+              | 'ゆうかん'
+              | 'ようき'
+              | 'れいせい'
+              | 'わんぱく'
+            /**
+             * @description ステータス
+             * @example 150-160-85-132-85-130
+             */
+            stats: string
+            /**
+             * @description 努力値の合計
+             * @example 508
+             */
+            sumEffortValue: number
+            user: components['schemas']['user']
+          }
         }
       }
     }
