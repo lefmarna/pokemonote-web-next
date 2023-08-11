@@ -252,7 +252,7 @@ export interface components {
        * @description レベル
        * @example 50
        */
-      lv: number | null
+      level: number | null
       /**
        * @description 性格名
        * @example がんばりや
@@ -422,7 +422,7 @@ export interface components {
              * @description レベル
              * @example 50
              */
-            lv: number | null
+            level: number | null
             /**
              * @description 性格名
              * @example がんばりや

@@ -41,7 +41,7 @@ export const PokemonTableTemplate = (props: Props) => {
         </StyledLink>
       ),
     },
-    { field: 'lv', headerName: 'レベル', flex: 1 },
+    { field: 'level', headerName: 'レベル', flex: 1 },
     { field: 'natureName', headerName: '性格', flex: 1 },
     {
       field: 'stats',

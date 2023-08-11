@@ -98,7 +98,7 @@ export const PokemonShow = () => {
           </TableRow>
           <TableRow>
             <TableCell align="left">レベル</TableCell>
-            <TableCell align="right">{pokemonSummary.lv}</TableCell>
+            <TableCell align="right">{pokemonSummary.level}</TableCell>
           </TableRow>
           <TableRow>
             <TableCell align="left">性格</TableCell>
