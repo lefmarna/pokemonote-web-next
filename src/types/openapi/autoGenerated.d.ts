@@ -20,6 +20,19 @@ export interface paths {
       }
     }
   }
+  '/api/v2/pokemons/{id}/edit': {
+    /** ポケモン編集API */
+    get: {
+      parameters: {
+        path: {
+          id: number
+        }
+      }
+      responses: {
+        200: components['responses']['PokemonEditResponse']
+      }
+    }
+  }
 }
 
 export type webhooks = Record<string, never>
@@ -96,6 +109,120 @@ export interface components {
          */
         readonly speed: number
       }
+    }
+    PokemonDetail: {
+      /**
+       * @description ポケモン名
+       * @example アーケオス
+       */
+      pokemonName: string
+      /**
+       * @description 性格名
+       * @example がんばりや
+       * @enum {string}
+       */
+      natureName:
+        | 'いじっぱり'
+        | 'うっかりや'
+        | 'おくびょう'
+        | 'おだやか'
+        | 'おっとり'
+        | 'おとなしい'
+        | 'がんばりや'
+        | 'きまぐれ'
+        | 'さみしがり'
+        | 'しんちょう'
+        | 'すなお'
+        | 'ずぶとい'
+        | 'せっかち'
+        | 'なまいき'
+        | 'てれや'
+        | 'のうてんき'
+        | 'のんき'
+        | 'ひかえめ'
+        | 'まじめ'
+        | 'むじゃき'
+        | 'やんちゃ'
+        | 'ゆうかん'
+        | 'ようき'
+        | 'れいせい'
+        | 'わんぱく'
+      /**
+       * @description レベル
+       * @example 50
+       */
+      level: number | null
+      /** @description 個体値 */
+      ivs: {
+        /**
+         * @description HP
+         * @example 31
+         */
+        hp: number | null
+        /**
+         * @description 攻撃
+         * @example 31
+         */
+        attack: number | null
+        /**
+         * @description 防御
+         * @example 31
+         */
+        defense: number | null
+        /**
+         * @description 特攻
+         * @example 31
+         */
+        spAttack: number | null
+        /**
+         * @description 特防
+         * @example 31
+         */
+        spDefense: number | null
+        /**
+         * @description 素早さ
+         * @example 31
+         */
+        speed: number | null
+      }
+      /** @description 努力値 */
+      evs: {
+        /**
+         * @description HP
+         * @example 252
+         */
+        hp: number | null
+        /**
+         * @description 攻撃
+         * @example 156
+         */
+        attack: number | null
+        /**
+         * @description 防御
+         * @example 4
+         */
+        defense: number | null
+        /**
+         * @description 特攻
+         * @example 0
+         */
+        spAttack: number | null
+        /**
+         * @description 特防
+         * @example 12
+         */
+        spDefense: number | null
+        /**
+         * @description 素早さ
+         * @example 84
+         */
+        speed: number | null
+      }
+      /**
+       * @description ポケモンの説明
+       * @example ○○の××確定耐え
+       */
+      description: string
     }
     PokemonSummary: {
       /**
@@ -238,6 +365,14 @@ export interface components {
             pokemonBasicInfos: components['schemas']['PokemonBasicInfo'][]
             natures: components['schemas']['Nature'][]
           }
+        }
+      }
+    }
+    /** @description OK */
+    PokemonEditResponse: {
+      content: {
+        'application/json': {
+          data: components['schemas']['PokemonDetail']
         }
       }
     }
