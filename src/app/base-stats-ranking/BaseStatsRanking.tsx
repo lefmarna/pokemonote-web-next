@@ -87,7 +87,7 @@ export const BaseStatsRanking = () => {
       },
     },
     {
-      field: 'defence',
+      field: 'defense',
       headerName: '防御',
       type: 'number',
       minWidth: 100,
@@ -104,7 +104,7 @@ export const BaseStatsRanking = () => {
       },
     },
     {
-      field: 'sp_defence',
+      field: 'sp_defense',
       headerName: '特防',
       type: 'number',
       minWidth: 100,

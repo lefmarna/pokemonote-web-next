@@ -25,7 +25,7 @@ export const CalcStats = () => {
     setIsLoading(true)
     try {
       const response = await $axios.post('/api/v2/pokemons', params)
-      router.push(`/pokemons/${response.data.data.id}`)
+      router.push(`/pokemons/show?id=${response.data.data.id}`)
     } catch (error) {
       console.log(error)
     } finally {

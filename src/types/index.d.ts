@@ -61,27 +61,33 @@ export type Pokemon = Readonly<{
 export type PokemonParams = {
   name: string
   nature: string
-  lv: number | null
-  hp_iv: number | null
-  hp_ev: number | null
-  hp: number
-  attack_iv: number | null
-  attack_ev: number | null
-  attack: number
-  defence_iv: number | null
-  defence_ev: number | null
-  defence: number
-  sp_attack_iv: number | null
-  sp_attack_ev: number | null
-  sp_attack: number
-  sp_defence_iv: number | null
-  sp_defence_ev: number | null
-  sp_defence: number
-  speed_iv: number | null
-  speed_ev: number | null
-  speed: number
+  level: number | null
+  ivs: {
+    hp: number | null
+    attack: number | null
+    defense: number | null
+    spAttack: number | null
+    spDefense: number | null
+    speed: number | null
+  }
+  evs: {
+    hp: number | null
+    attack: number | null
+    defense: number | null
+    spAttack: number | null
+    spDefense: number | null
+    speed: number | null
+  }
+  realNumbers: {
+    hp: number
+    attack: number
+    defense: number
+    spAttack: number
+    spDefense: number
+    speed: number
+  }
   description: string
-  is_public: 0 | 1
+  isPublic: 0 | 1
 }
 
 export type Stats = Readonly<{
