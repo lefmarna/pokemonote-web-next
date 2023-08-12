@@ -19,6 +19,10 @@ export interface paths {
         200: components['responses']['PokemonIndexResponse']
       }
     }
+    /** ポケモン保存API */
+    post: {
+      requestBody: components['requestBodies']['PokemonStoreRequestBody']
+    }
   }
   '/api/v2/pokemons/{id}': {
     /** ポケモン詳細API */
@@ -31,6 +35,15 @@ export interface paths {
       responses: {
         200: components['responses']['PokemonShowResponse']
       }
+    }
+    /** ポケモン更新API */
+    put: {
+      parameters: {
+        path: {
+          id: number
+        }
+      }
+      requestBody: components['requestBodies']['PokemonUpdateRequestBody']
     }
   }
   '/api/v2/pokemons/{id}/edit': {
@@ -296,6 +309,158 @@ export interface components {
       sumEffortValue: number
       user: components['schemas']['user']
     }
+    PokemonPostParams: {
+      /**
+       * @description ポケモン名
+       * @example アーケオス
+       */
+      name: string
+      /**
+       * @description 性格名
+       * @example がんばりや
+       * @enum {string}
+       */
+      nature:
+        | 'いじっぱり'
+        | 'うっかりや'
+        | 'おくびょう'
+        | 'おだやか'
+        | 'おっとり'
+        | 'おとなしい'
+        | 'がんばりや'
+        | 'きまぐれ'
+        | 'さみしがり'
+        | 'しんちょう'
+        | 'すなお'
+        | 'ずぶとい'
+        | 'せっかち'
+        | 'なまいき'
+        | 'てれや'
+        | 'のうてんき'
+        | 'のんき'
+        | 'ひかえめ'
+        | 'まじめ'
+        | 'むじゃき'
+        | 'やんちゃ'
+        | 'ゆうかん'
+        | 'ようき'
+        | 'れいせい'
+        | 'わんぱく'
+      /**
+       * @description レベル
+       * @example 50
+       */
+      level: number | null
+      /** @description 個体値 */
+      ivs: {
+        /**
+         * @description HP
+         * @example 31
+         */
+        hp: number | null
+        /**
+         * @description 攻撃
+         * @example 31
+         */
+        attack: number | null
+        /**
+         * @description 防御
+         * @example 31
+         */
+        defense: number | null
+        /**
+         * @description 特攻
+         * @example 31
+         */
+        spAttack: number | null
+        /**
+         * @description 特防
+         * @example 31
+         */
+        spDefense: number | null
+        /**
+         * @description 素早さ
+         * @example 31
+         */
+        speed: number | null
+      }
+      /** @description 努力値 */
+      evs: {
+        /**
+         * @description HP
+         * @example 252
+         */
+        hp: number | null
+        /**
+         * @description 攻撃
+         * @example 156
+         */
+        attack: number | null
+        /**
+         * @description 防御
+         * @example 4
+         */
+        defense: number | null
+        /**
+         * @description 特攻
+         * @example 0
+         */
+        spAttack: number | null
+        /**
+         * @description 特防
+         * @example 12
+         */
+        spDefense: number | null
+        /**
+         * @description 素早さ
+         * @example 84
+         */
+        speed: number | null
+      }
+      /** @description 実数値 */
+      realNumbers: {
+        /**
+         * @description HP
+         * @example 182
+         */
+        hp: number
+        /**
+         * @description 攻撃
+         * @example 180
+         */
+        attack: number
+        /**
+         * @description 防御
+         * @example 86
+         */
+        defense: number
+        /**
+         * @description 特攻
+         * @example 132
+         */
+        spAttack: number
+        /**
+         * @description 特防
+         * @example 87
+         */
+        spDefense: number
+        /**
+         * @description 素早さ
+         * @example 141
+         */
+        speed: number
+      }
+      /**
+       * @description ポケモンの説明
+       * @example ○○の××確定耐え
+       */
+      description: string
+      /**
+       * @description 公開設定
+       * @example true
+       */
+      isPublic: boolean
+    }
     Nature: {
       /**
        * @description 性格名
@@ -471,7 +636,20 @@ export interface components {
     }
   }
   parameters: never
-  requestBodies: never
+  requestBodies: {
+    /** @description ポケモン保存用リクエストボディ */
+    PokemonStoreRequestBody: {
+      content: {
+        'application/json': components['schemas']['PokemonPostParams']
+      }
+    }
+    /** @description ポケモン更新用リクエストボディ */
+    PokemonUpdateRequestBody: {
+      content: {
+        'application/json': components['schemas']['PokemonPostParams']
+      }
+    }
+  }
   headers: never
   pathItems: never
 }
