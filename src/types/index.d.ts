@@ -87,7 +87,7 @@ export type PokemonParams = {
     speed: number
   }
   description: string
-  isPublic: 0 | 1
+  isPublic: boolean
 }
 
 export type Stats = Readonly<{

@@ -5,7 +5,7 @@ import { useState } from 'react'
 import { $axios } from '@/libs/axios'
 import { CalcStatsTemplate } from '@/components/templates/CalcStatsTemplate'
 import { usePokemonMutators, usePokemonState } from '@/store/pokemonState'
-import type { PokemonParams } from '@/types'
+import type { Schema } from '@/types'
 
 export const CalcStats = () => {
   const pokemon = usePokemonState()
@@ -21,7 +21,7 @@ export const CalcStats = () => {
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
 
-  const sendPokemon = async (params: PokemonParams) => {
+  const sendPokemon = async (params: Schema<'PokemonPostParams'>) => {
     setIsLoading(true)
     try {
       const response = await $axios.post('/api/v2/pokemons', params)

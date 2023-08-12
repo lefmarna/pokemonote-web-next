@@ -2,7 +2,6 @@
 
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useCallback, useEffect, useState } from 'react'
-import { $axios } from '@/libs/axios'
 import { CalcStatsTemplate } from '@/components/templates/CalcStatsTemplate'
 import { LoadingPageTemplate } from '@/components/templates/LoadingPageTemplate'
 import { authMiddleware } from '@/hocs/authMiddleware'
@@ -14,7 +13,7 @@ import type {
   NullableStats,
   Pokemon,
   PokemonBasicInfo,
-  PokemonParams,
+  Schema,
 } from '@/types'
 
 export const PokemonEdit = authMiddleware(() => {
@@ -168,10 +167,17 @@ export const PokemonEdit = authMiddleware(() => {
     [setPokemon]
   )
 
-  const sendPokemon = async (params: PokemonParams) => {
+  const sendPokemon = async (params: Schema<'PokemonPostParams'>) => {
     setIsLoading(true)
     try {
-      await $axios.put(`/api/v2/pokemons/${pokemonId}`, params)
+      await apiRequest({
+        url: '/api/v2/pokemons/{id}',
+        method: 'put',
+        pathParameters: {
+          id: Number(pokemonId),
+        },
+        data: params,
+      })
       router.push(`/pokemons/show?id=${pokemonId}`)
     } catch (error) {
       console.log(error)
