@@ -8,7 +8,7 @@ import { LoadingPageTemplate } from '@/components/templates/LoadingPageTemplate'
 import { authMiddleware } from '@/hocs/authMiddleware'
 import { useNaturesState } from '@/store/naturesState'
 import { usePokemonBasicInfosState } from '@/store/pokemonBasicInfosState'
-import { fetchData } from '@/utils/helpers/callApi'
+import { apiRequest } from '@/utils/helpers/callApi'
 import type {
   Nature,
   NullableStats,
@@ -32,8 +32,12 @@ export const PokemonEdit = authMiddleware(() => {
   useEffect(() => {
     ;(async () => {
       try {
-        const response = await fetchData('/api/v2/pokemons/{id}/edit', {
-          id: searchParams.get('id'),
+        const response = await apiRequest({
+          url: `/api/v2/pokemons/{id}/edit`,
+          method: 'get',
+          pathParameters: {
+            id: Number(searchParams.get('id')),
+          },
         })
         const data = response.data.data
         const basicInfo = pokemonBasicInfos.find(
