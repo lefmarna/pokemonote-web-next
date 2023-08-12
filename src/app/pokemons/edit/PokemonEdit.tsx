@@ -1,6 +1,6 @@
 'use client'
 
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { useCallback, useEffect, useState } from 'react'
 import { $axios } from '@/libs/axios'
 import { CalcStatsTemplate } from '@/components/templates/CalcStatsTemplate'
@@ -9,11 +9,17 @@ import { authMiddleware } from '@/hocs/authMiddleware'
 import { useNaturesState } from '@/store/naturesState'
 import { usePokemonBasicInfosState } from '@/store/pokemonBasicInfosState'
 import { fetchData } from '@/utils/helpers/callApi'
-import type { Nature, NullableStats, Pokemon, PokemonBasicInfo } from '@/types'
+import type {
+  Nature,
+  NullableStats,
+  Pokemon,
+  PokemonBasicInfo,
+  PokemonParams,
+} from '@/types'
 
 export const PokemonEdit = authMiddleware(() => {
   const searchParams = useSearchParams()
-  const pathname = usePathname()
+  const pokemonId = searchParams.get('id')
   const router = useRouter()
 
   const [isLoading, setIsLoading] = useState(false)
@@ -158,11 +164,11 @@ export const PokemonEdit = authMiddleware(() => {
     [setPokemon]
   )
 
-  const sendPokemon = async () => {
+  const sendPokemon = async (params: PokemonParams) => {
     setIsLoading(true)
     try {
-      await $axios.put(`/api/v2/pokemons/${pathname}`)
-      router.push(`/pokemons/${pathname}`)
+      await $axios.put(`/api/v2/pokemons/${pokemonId}`, params)
+      router.push(`/pokemons/show?id=${pokemonId}`)
     } catch (error) {
       console.log(error)
     } finally {
