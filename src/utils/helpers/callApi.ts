@@ -5,7 +5,7 @@ import type { AxiosRequestConfig, AxiosResponse } from 'axios'
 
 type CustomAxiosRequestConfig<
   Path extends keyof paths,
-  Method extends keyof paths[Path]
+  Method extends keyof paths[Path],
 > = Omit<AxiosRequestConfig, 'data'> & {
   url: Path
   method: Method
@@ -31,7 +31,7 @@ type CustomAxiosRequestConfig<
  */
 export const apiRequest = async <
   Path extends keyof paths,
-  Method extends keyof paths[Path]
+  Method extends keyof paths[Path],
 >(
   config: CustomAxiosRequestConfig<Path, Method>
 ) => {
@@ -54,7 +54,7 @@ export const apiRequest = async <
  */
 const replaceUrlPaths = <
   Path extends keyof paths,
-  Method extends keyof paths[Path]
+  Method extends keyof paths[Path],
 >(
   url: Path,
   pathParameters?: PathParameters<Path, Method>
