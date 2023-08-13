@@ -32,7 +32,7 @@ export const PokemonEdit = authMiddleware(() => {
     ;(async () => {
       try {
         const response = await apiRequest({
-          url: `/api/v2/pokemons/{id}/edit`,
+          url: '/api/v2/pokemons/{id}/edit',
           method: 'get',
           pathParameters: {
             id: Number(pokemonId),
