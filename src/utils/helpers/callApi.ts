@@ -24,6 +24,10 @@ type CustomAxiosRequestConfig<
     }
   }
     ? { pathParameters: PathParameters<Path, Method> }
+    : paths[Path][Method] extends {
+        parameters?: { path?: PathParameters<Path, Method> }
+      }
+    ? { pathParameters?: PathParameters<Path, Method> }
     : { pathParameters?: undefined })
 
 /**
