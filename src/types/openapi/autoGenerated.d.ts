@@ -22,6 +22,9 @@ export interface paths {
     /** ポケモン保存API */
     post: {
       requestBody: components['requestBodies']['PokemonStoreRequestBody']
+      responses: {
+        201: components['responses']['PokemonStoreResponse']
+      }
     }
   }
   '/api/v2/pokemons/{id}': {
@@ -551,6 +554,20 @@ export interface components {
       content: {
         'application/json': {
           data: components['schemas']['PokemonDetail']
+        }
+      }
+    }
+    /** @description OK */
+    PokemonStoreResponse: {
+      content: {
+        'application/json': {
+          data: {
+            /**
+             * @description ID
+             * @example 1
+             */
+            id: number
+          }
         }
       }
     }

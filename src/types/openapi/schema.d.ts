@@ -6,7 +6,9 @@ export type Schema<T extends keyof components['schemas']> =
 export type Response<
   Path extends keyof paths,
   Method extends keyof paths[Path],
-  Status extends keyof paths[Path][Method]['responses'] = 200,
+  Status extends keyof paths[Path][Method]['responses'] = Method extends 'post'
+    ? 201
+    : 200,
 > = paths[Path][Method]['responses'][Status]['content']['application/json']
 
 export type RequestBody<
