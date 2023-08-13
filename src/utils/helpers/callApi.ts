@@ -32,9 +32,6 @@ type CustomAxiosRequestConfig<
 export const apiRequest = async <
   Path extends keyof paths,
   Method extends keyof paths[Path],
-  Status extends paths[Path][Method] extends { responses: infer R }
-    ? keyof R
-    : never,
 >(
   config: CustomAxiosRequestConfig<Path, Method>
 ) => {
@@ -46,8 +43,8 @@ export const apiRequest = async <
   }
 
   return await $axios.request<
-    Response<Path, Method, Status>,
-    AxiosResponse<Response<Path, Method, Status>>,
+    Response<Path, Method>,
+    AxiosResponse<Response<Path, Method>>,
     CustomAxiosRequestConfig<Path, Method>['data']
   >(requestConfig)
 }
