@@ -21,3 +21,8 @@ export type PathParameters<
   Path extends keyof paths,
   Method extends keyof paths[Path],
 > = paths[Path][Method]['parameters']['path']
+
+export type QueryParameters<
+  Path extends keyof paths,
+  Method extends keyof paths[Path],
+> = paths[Path][Method]['parameters']['query']
