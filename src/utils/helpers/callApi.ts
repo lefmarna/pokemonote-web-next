@@ -13,9 +13,14 @@ type CustomAxiosRequestConfig<
 > = AxiosRequestConfig & {
   url: Path
   method: Method
-  pathParameters?: PathParameters<Path, Method>
   data?: RequestBody<Path, Method>
-}
+} & (paths[Path][Method] extends {
+    parameters: {
+      path: PathParameters<Path, Method>
+    }
+  }
+    ? { pathParameters: PathParameters<Path, Method> }
+    : { pathParameters?: undefined })
 
 /**
  * 汎用APIコール関数

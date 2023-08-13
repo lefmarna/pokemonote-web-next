@@ -35,7 +35,7 @@ export const PokemonEdit = authMiddleware(() => {
           url: `/api/v2/pokemons/{id}/edit`,
           method: 'get',
           pathParameters: {
-            id: Number(searchParams.get('id')),
+            id: Number(pokemonId),
           },
         })
         const data = response.data.data
@@ -57,7 +57,7 @@ export const PokemonEdit = authMiddleware(() => {
         router.push('/')
       }
     })()
-  }, [searchParams, router, natures, pokemonBasicInfos])
+  }, [pokemonId, router, natures, pokemonBasicInfos])
 
   /**
    * ポケモンの基本情報を更新する
