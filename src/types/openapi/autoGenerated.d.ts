@@ -29,7 +29,7 @@ export interface paths {
     get: {
       parameters: {
         path: {
-          id: number
+          id: string
         }
       }
       responses: {
@@ -40,7 +40,7 @@ export interface paths {
     put: {
       parameters: {
         path: {
-          id: number
+          id: string
         }
       }
       requestBody: components['requestBodies']['PokemonUpdateRequestBody']
@@ -51,7 +51,7 @@ export interface paths {
     get: {
       parameters: {
         path: {
-          id: number
+          id: string
         }
       }
       responses: {

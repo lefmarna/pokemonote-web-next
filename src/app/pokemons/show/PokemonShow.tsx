@@ -42,7 +42,7 @@ export const PokemonShow = () => {
           url: '/api/v2/pokemons/{id}',
           method: 'get',
           pathParameters: {
-            id: Number(searchParams.get('id')),
+            id: searchParams.get('id') ?? '',
           },
         })
         const { description: _description, ..._pokemonSummary } =

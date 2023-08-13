@@ -35,7 +35,7 @@ export const PokemonEdit = authMiddleware(() => {
           url: '/api/v2/pokemons/{id}/edit',
           method: 'get',
           pathParameters: {
-            id: Number(pokemonId),
+            id: pokemonId ?? '',
           },
         })
         const data = response.data.data
@@ -174,7 +174,7 @@ export const PokemonEdit = authMiddleware(() => {
         url: '/api/v2/pokemons/{id}',
         method: 'put',
         pathParameters: {
-          id: Number(pokemonId),
+          id: pokemonId ?? '',
         },
         data: params,
       })
