@@ -17,8 +17,8 @@ import { $axios } from '@/libs/axios'
 import { LoadingPageTemplate } from '@/components/templates/LoadingPageTemplate'
 import { useAuthUserState } from '@/store/authUserState'
 import { usePokemonBasicInfosState } from '@/store/pokemonBasicInfosState'
-import type { PokemonBasicInfo, PokemonSummary } from '@/types'
-import { requestApi } from '@/utils/helpers/callApi'
+import { requestApi } from '@/utils/helpers/requestApi'
+import type { PokemonBasicInfo, PokemonSummary } from '@/types/openapi/schemas'
 
 export const PokemonShow = () => {
   const searchParams = useSearchParams()
