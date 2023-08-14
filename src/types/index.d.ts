@@ -1,5 +1,3 @@
-export * from './openapi'
-
 type NatureName =
   | 'いじっぱり'
   | 'うっかりや'

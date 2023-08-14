@@ -3,7 +3,7 @@
 import useSWR from 'swr'
 import { LoadingPageTemplate } from '@/components/templates/LoadingPageTemplate'
 import { PokemonTableTemplate } from '@/components/templates/PokemonTableTemplate'
-import type { Response } from '@/types/openapi'
+import type { Response } from '@/types/openapi/extractor'
 
 export const PokemonIndex = () => {
   const path = '/api/v2/pokemons'
