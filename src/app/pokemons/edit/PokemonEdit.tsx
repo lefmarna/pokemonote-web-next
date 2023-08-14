@@ -7,14 +7,9 @@ import { LoadingPageTemplate } from '@/components/templates/LoadingPageTemplate'
 import { authMiddleware } from '@/hocs/authMiddleware'
 import { useNaturesState } from '@/store/naturesState'
 import { usePokemonBasicInfosState } from '@/store/pokemonBasicInfosState'
-import { apiRequest } from '@/utils/helpers/callApi'
-import type {
-  Nature,
-  NullableStats,
-  Pokemon,
-  PokemonBasicInfo,
-  Schema,
-} from '@/types'
+import { requestApi } from '@/utils/helpers/requestApi'
+import type { Nature, NullableStats, Pokemon, PokemonBasicInfo } from '@/types'
+import type { PokemonPostParams } from '@/types/openapi/schemas'
 
 export const PokemonEdit = authMiddleware(() => {
   const searchParams = useSearchParams()
@@ -31,7 +26,7 @@ export const PokemonEdit = authMiddleware(() => {
   useEffect(() => {
     ;(async () => {
       try {
-        const response = await apiRequest({
+        const response = await requestApi({
           url: '/api/v2/pokemons/{id}/edit',
           method: 'get',
           pathParameters: {
@@ -167,10 +162,10 @@ export const PokemonEdit = authMiddleware(() => {
     [setPokemon]
   )
 
-  const sendPokemon = async (params: Schema<'PokemonPostParams'>) => {
+  const sendPokemon = async (params: PokemonPostParams) => {
     setIsLoading(true)
     try {
-      await apiRequest({
+      await requestApi({
         url: '/api/v2/pokemons/{id}',
         method: 'put',
         pathParameters: {

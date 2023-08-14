@@ -45,7 +45,7 @@ type CustomAxiosRequestConfig<
 /**
  * 汎用APIコール関数
  */
-export const apiRequest = async <
+export const requestApi = async <
   Path extends keyof paths,
   Method extends keyof paths[Path],
 >(

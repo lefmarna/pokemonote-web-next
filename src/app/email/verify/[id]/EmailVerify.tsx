@@ -3,7 +3,7 @@
 import { useRouter, useSearchParams } from 'next/navigation'
 import { noAuthMiddleware } from '@/hocs/noAuthMiddleware'
 import { useAuthUserMutators } from '@/store/authUserState'
-import { apiRequest } from '@/utils/helpers/callApi'
+import { requestApi } from '@/utils/helpers/requestApi'
 
 export const EmailVerify = noAuthMiddleware(() => {
   const router = useRouter()
@@ -13,7 +13,7 @@ export const EmailVerify = noAuthMiddleware(() => {
 
   ;(async () => {
     try {
-      const response = await apiRequest({
+      const response = await requestApi({
         url: `/api/v2/email/verify/{id}`,
         method: 'get',
         pathParameters: {

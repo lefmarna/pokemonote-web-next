@@ -27,9 +27,9 @@ import type {
   NullableStats,
   Pokemon,
   PokemonBasicInfo,
-  Schema,
   StatsKey,
 } from '@/types'
+import type { PokemonPostParams } from '@/types/openapi/schemas'
 import type { ReactNode } from 'react'
 
 type Props = {
@@ -42,7 +42,7 @@ type Props = {
   updateLevel: (level: number | null) => void
   updateIvs: (newIvs: Partial<NullableStats>) => void
   updateEvs: (newEvs: Partial<NullableStats>) => void
-  sendPokemon: (params: Schema<'PokemonPostParams'>) => Promise<void>
+  sendPokemon: (params: PokemonPostParams) => Promise<void>
   updateDescription: (newDescription: string) => void
 }
 
@@ -239,7 +239,7 @@ export const CalcStatsTemplate = (props: Props) => {
   const authUser = useAuthUserState()
 
   const submit = () => {
-    const params: Schema<'PokemonPostParams'> = {
+    const params: PokemonPostParams = {
       name: pokemon.basicInfo.name,
       nature: pokemon.nature.name,
       level: pokemon.level,

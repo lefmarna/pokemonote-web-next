@@ -4,8 +4,8 @@ import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { CalcStatsTemplate } from '@/components/templates/CalcStatsTemplate'
 import { usePokemonMutators, usePokemonState } from '@/store/pokemonState'
-import { apiRequest } from '@/utils/helpers/callApi'
-import type { Schema } from '@/types'
+import { requestApi } from '@/utils/helpers/requestApi'
+import type { PokemonPostParams } from '@/types/openapi/schemas'
 
 export const CalcStats = () => {
   const pokemon = usePokemonState()
@@ -21,10 +21,10 @@ export const CalcStats = () => {
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
 
-  const sendPokemon = async (params: Schema<'PokemonPostParams'>) => {
+  const sendPokemon = async (params: PokemonPostParams) => {
     setIsLoading(true)
     try {
-      const response = await apiRequest({
+      const response = await requestApi({
         url: '/api/v2/pokemons',
         method: 'post',
         data: params,

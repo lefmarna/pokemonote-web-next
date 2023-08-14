@@ -17,8 +17,8 @@ import { $axios } from '@/libs/axios'
 import { LoadingPageTemplate } from '@/components/templates/LoadingPageTemplate'
 import { useAuthUserState } from '@/store/authUserState'
 import { usePokemonBasicInfosState } from '@/store/pokemonBasicInfosState'
-import { apiRequest } from '@/utils/helpers/callApi'
 import type { PokemonBasicInfo, PokemonSummary } from '@/types'
+import { requestApi } from '@/utils/helpers/callApi'
 
 export const PokemonShow = () => {
   const searchParams = useSearchParams()
@@ -38,7 +38,7 @@ export const PokemonShow = () => {
   useEffect(() => {
     ;(async () => {
       try {
-        const response = await apiRequest({
+        const response = await requestApi({
           url: '/api/v2/pokemons/{id}',
           method: 'get',
           pathParameters: {
