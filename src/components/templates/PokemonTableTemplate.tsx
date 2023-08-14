@@ -8,7 +8,7 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { $axios } from '@/libs/axios'
 import { useEmotion } from '@/hooks/style/useEmotion'
 import { useAuthUserState } from '@/store/authUserState'
-import type { PokemonSummary } from '@/types'
+import type { PokemonSummary } from '@/types/openapi/schemas'
 import type { GridRenderCellParams } from '@mui/x-data-grid'
 
 type Props = {
