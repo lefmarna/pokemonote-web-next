@@ -10,11 +10,11 @@ import {
   TableRow,
   Typography,
 } from '@mui/material'
-import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { $axios } from '@/libs/axios'
 import { LoadingPageTemplate } from '@/components/templates/LoadingPageTemplate'
+import { useEmotion } from '@/hooks/style/useEmotion'
 import { useAuthUserState } from '@/store/authUserState'
 import { usePokemonBasicInfosState } from '@/store/pokemonBasicInfosState'
 import { requestApi } from '@/utils/helpers/requestApi'
@@ -22,6 +22,7 @@ import type { PokemonBasicInfo, PokemonSummary } from '@/types/openapi/schemas'
 
 export const PokemonShow = () => {
   const searchParams = useSearchParams()
+  const { StyledLink } = useEmotion()
 
   const router = useRouter()
   const authUser = useAuthUserState()
@@ -149,9 +150,14 @@ export const PokemonShow = () => {
       ) : (
         <Typography>
           投稿者：
-          <Link href={`/users/${pokemonSummary.user.username}`}>
+          <StyledLink
+            href={{
+              pathname: '/users/show',
+              query: { username: pokemonSummary.user.username },
+            }}
+          >
             {pokemonSummary.user.nickname}
-          </Link>
+          </StyledLink>
         </Typography>
       )}
     </Container>
