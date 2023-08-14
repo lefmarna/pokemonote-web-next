@@ -12,6 +12,26 @@ export interface paths {
       }
     }
   }
+  '/api/v2/email/verify/{id}': {
+    /** アカウント本登録API */
+    get: {
+      parameters: {
+        query?: {
+          /** @description 有効期限 */
+          expires?: string
+          /** @description 署名 */
+          signature?: string
+        }
+        path: {
+          /** @description ユーザーID */
+          id: string
+        }
+      }
+      responses: {
+        200: components['responses']['EmailVerifyResponse']
+      }
+    }
+  }
   '/api/v2/pokemons': {
     /** ポケモン一覧API */
     get: {
@@ -68,6 +88,34 @@ export type webhooks = Record<string, never>
 
 export interface components {
   schemas: {
+    /** @description 認証ユーザー */
+    AuthUser: {
+      /**
+       * @description ユーザーID
+       * @example 1
+       */
+      id: number
+      /**
+       * @description ユーザー名
+       * @example test
+       */
+      username: string
+      /**
+       * @description 表示名
+       * @example テスト
+       */
+      nickname: string
+      /**
+       * @description メールアドレス
+       * @example test@test.com
+       */
+      email: string
+      /**
+       * @description 認証済みかどうか
+       * @example true
+       */
+      isAuthenticated: boolean
+    }
     PokemonBasicInfo: {
       /**
        * @description 図鑑No
@@ -310,7 +358,7 @@ export interface components {
        * @example 508
        */
       sumEffortValue: number
-      user: components['schemas']['user']
+      user: components['schemas']['User']
     }
     PokemonPostParams: {
       /**
@@ -524,7 +572,7 @@ export interface components {
         | null
     }
     /** @description ユーザー */
-    user: {
+    User: {
       /**
        * @description ユーザー名
        * @example test
@@ -538,6 +586,14 @@ export interface components {
     }
   }
   responses: {
+    /** @description OK */
+    EmailVerifyResponse: {
+      content: {
+        'application/json': {
+          data: components['schemas']['AuthUser']
+        }
+      }
+    }
     /** @description OK */
     StaticDataResponse: {
       content: {
@@ -646,7 +702,7 @@ export interface components {
              * @example 508
              */
             sumEffortValue: number
-            user: components['schemas']['user']
+            user: components['schemas']['User']
           }
         }
       }
