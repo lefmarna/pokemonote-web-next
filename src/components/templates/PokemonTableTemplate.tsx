@@ -8,7 +8,7 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { $axios } from '@/libs/axios'
 import { useEmotion } from '@/hooks/style/useEmotion'
 import { useAuthUserState } from '@/store/authUserState'
-import type { PokemonSummary } from '@/types'
+import type { PokemonSummary } from '@/types/openapi/schemas'
 import type { GridRenderCellParams } from '@mui/x-data-grid'
 
 type Props = {
@@ -27,7 +27,7 @@ export const PokemonTableTemplate = (props: Props) => {
 
   const columns = [
     {
-      field: 'name',
+      field: 'pokemonName',
       headerName: 'ポケモン名',
       flex: 1,
       renderCell: (params: GridRenderCellParams<PokemonSummary>) => (
@@ -37,12 +37,12 @@ export const PokemonTableTemplate = (props: Props) => {
             query: { id: params.row.id },
           }}
         >
-          {params.row.name}
+          {params.row.pokemonName}
         </StyledLink>
       ),
     },
-    { field: 'lv', headerName: 'レベル', flex: 1 },
-    { field: 'nature', headerName: '性格', flex: 1 },
+    { field: 'level', headerName: 'レベル', flex: 1 },
+    { field: 'natureName', headerName: '性格', flex: 1 },
     {
       field: 'stats',
       headerName: 'ステータス',
@@ -66,7 +66,7 @@ export const PokemonTableTemplate = (props: Props) => {
         params.row.user.username === searchParams.get('username') ? (
           <div>
             <IconButton
-              onClick={() => router.push(`/pokemons/edit?id=${params.row.id}`)}
+              onClick={() => router.push(`/pokemons/edit/?id=${params.row.id}`)}
             >
               <EditIcon />
             </IconButton>
@@ -103,7 +103,7 @@ export const PokemonTableTemplate = (props: Props) => {
 
   const deletePokemon = async (id: number): Promise<void> => {
     try {
-      await $axios.delete(`/pokemons/${id}`)
+      await $axios.delete(`/api/v2/pokemons/${id}`)
       // 削除するポケモンのデータを探す
       const deletePokemon = pokemons.findIndex(
         (pokemon: PokemonSummary) => pokemon.id === id

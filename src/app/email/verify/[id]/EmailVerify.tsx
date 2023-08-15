@@ -1,24 +1,29 @@
 'use client'
 
-import { useParams, useRouter, useSearchParams } from 'next/navigation'
-import { $axios } from '@/libs/axios'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { noAuthMiddleware } from '@/hocs/noAuthMiddleware'
 import { useAuthUserMutators } from '@/store/authUserState'
+import { requestApi } from '@/utils/helpers/requestApi'
 
 export const EmailVerify = noAuthMiddleware(() => {
   const router = useRouter()
-  const params = useParams()
   const searchParams = useSearchParams()
 
   const { updateAuthUser } = useAuthUserMutators()
 
   ;(async () => {
     try {
-      const response = await $axios.get(
-        `/email/verify/${params.id}?expires=${searchParams.get(
-          'expires'
-        )}&signature=${searchParams.get('signature')}`
-      )
+      const response = await requestApi({
+        url: `/api/v2/email/verify/{id}`,
+        method: 'get',
+        pathParameters: {
+          id: searchParams.get('id') ?? '',
+        },
+        queryParameters: {
+          expires: searchParams.get('expires') ?? '',
+          signature: searchParams.get('signature') ?? '',
+        },
+      })
 
       updateAuthUser(response.data.data)
       // store.dispatch('notice')

@@ -49,7 +49,7 @@ export type PokemonBasicInfo = Readonly<{
 
 export type Pokemon = Readonly<{
   basicInfo: PokemonBasicInfo
-  level: number | ''
+  level: number | null
   nature: Nature
   ivs: NullableStats
   evs: NullableStats
@@ -59,27 +59,33 @@ export type Pokemon = Readonly<{
 export type PokemonParams = {
   name: string
   nature: string
-  lv: number | ''
-  hp_iv: number | ''
-  hp_ev: number | ''
-  hp: number
-  attack_iv: number | ''
-  attack_ev: number | ''
-  attack: number
-  defence_iv: number | ''
-  defence_ev: number | ''
-  defence: number
-  sp_attack_iv: number | ''
-  sp_attack_ev: number | ''
-  sp_attack: number
-  sp_defence_iv: number | ''
-  sp_defence_ev: number | ''
-  sp_defence: number
-  speed_iv: number | ''
-  speed_ev: number | ''
-  speed: number
+  level: number | null
+  ivs: {
+    hp: number | null
+    attack: number | null
+    defense: number | null
+    spAttack: number | null
+    spDefense: number | null
+    speed: number | null
+  }
+  evs: {
+    hp: number | null
+    attack: number | null
+    defense: number | null
+    spAttack: number | null
+    spDefense: number | null
+    speed: number | null
+  }
+  realNumbers: {
+    hp: number
+    attack: number
+    defense: number
+    spAttack: number
+    spDefense: number
+    speed: number
+  }
   description: string
-  is_public: 0 | 1
+  isPublic: boolean
 }
 
 export type Stats = Readonly<{
@@ -94,21 +100,10 @@ export type Stats = Readonly<{
 export type StatsKey = keyof Stats
 
 type Nullable<T> = {
-  [K in keyof T]: T[K] | ''
+  [K in keyof T]: T[K] | null
 }
 
-type NullableStats = Nullable<Stats>
-
-export type PokemonSummary = Readonly<{
-  id: number
-  lv: number
-  name: string
-  nature: string
-  stats: string
-  sum_effort_value: number
-  description: string
-  user: User
-}>
+export type NullableStats = Nullable<Stats>
 
 export type LoginParams = {
   email: string

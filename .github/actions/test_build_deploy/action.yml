@@ -1,4 +1,4 @@
-name: 'npm install'
+name: 'npm ci'
 description: 'install packages'
 runs:
   using: 'composite'
@@ -7,10 +7,9 @@ runs:
       uses: actions/cache@v3
       with:
         path: ~/.npm
-        key: next-npm-${{ hashFiles('package-lock.json') }}
-        restore-keys: next-npm-
+        key: ${{ runner.os }}-next-npm-${{ hashFiles('package-lock.json') }}
+        restore-keys: ${{ runner.os }}-next-npm-
 
-    - name: npm install
-      if: steps.cache.outputs.cache-hit != 'true'
-      run: npm install --cache ~/.npm
+    - name: npm ci
+      run: npm ci
       shell: bash

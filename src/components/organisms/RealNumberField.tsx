@@ -10,7 +10,7 @@ import type { FocusEvent, KeyboardEvent } from 'react'
 type Props = {
   value: number
   statKey: StatsKey
-  updateRealNumber: (realNumber: number | '', statKey: StatsKey) => void
+  updateRealNumber: (realNumber: number | null, statKey: StatsKey) => void
 }
 
 export const RealNumberField = memo(function RealNumberField(props: Props) {
@@ -89,7 +89,7 @@ export const RealNumberField = memo(function RealNumberField(props: Props) {
       <TextField
         type="tel"
         label={statName}
-        defaultValue={value}
+        defaultValue={value ?? ''}
         inputRef={realNumberElement}
         onBlur={onBlur}
         onKeyDown={onKeydown}

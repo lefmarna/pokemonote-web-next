@@ -18,7 +18,7 @@ export const PasswordForgot = () => {
     setIsLoading(true)
 
     try {
-      const response = await $axios.post('/password/email', {
+      const response = await $axios.post('/api/v2/password/email', {
         email: email,
       })
 

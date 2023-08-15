@@ -27,9 +27,9 @@ import type {
   NullableStats,
   Pokemon,
   PokemonBasicInfo,
-  PokemonParams,
   StatsKey,
 } from '@/types'
+import type { PokemonPostParams } from '@/types/openapi/schemas'
 import type { ReactNode } from 'react'
 
 type Props = {
@@ -39,10 +39,10 @@ type Props = {
   isLoading: boolean
   updateBasicInfo: (pokemon: PokemonBasicInfo) => void
   updateNature: (nature: Nature) => void
-  updateLevel: (level: number | '') => void
+  updateLevel: (level: number | null) => void
   updateIvs: (newIvs: Partial<NullableStats>) => void
   updateEvs: (newEvs: Partial<NullableStats>) => void
-  sendPokemon: (params: PokemonParams) => Promise<void>
+  sendPokemon: (params: PokemonPostParams) => Promise<void>
   updateDescription: (newDescription: string) => void
 }
 
@@ -82,7 +82,10 @@ export const CalcStatsTemplate = (props: Props) => {
     'speed',
   ]
 
-  const updateRealNumber = (newRealNumber: number | '', statKey: StatsKey) => {
+  const updateRealNumber = (
+    newRealNumber: number | null,
+    statKey: StatsKey
+  ) => {
     const newEv = getEv(newRealNumber, statKey)
 
     updateEvs({ [statKey]: newEv })
@@ -236,30 +239,36 @@ export const CalcStatsTemplate = (props: Props) => {
   const authUser = useAuthUserState()
 
   const submit = () => {
-    const params: PokemonParams = {
+    const params: PokemonPostParams = {
       name: pokemon.basicInfo.name,
       nature: pokemon.nature.name,
-      lv: pokemon.level,
-      hp_iv: pokemon.ivs.hp,
-      hp_ev: pokemon.evs.hp,
-      hp: realNumbers.hp,
-      attack_iv: pokemon.ivs.attack,
-      attack_ev: pokemon.evs.attack,
-      attack: realNumbers.attack,
-      defence_iv: pokemon.ivs.defense,
-      defence_ev: pokemon.evs.defense,
-      defence: realNumbers.defense,
-      sp_attack_iv: pokemon.ivs.spAttack,
-      sp_attack_ev: pokemon.evs.spAttack,
-      sp_attack: realNumbers.spAttack,
-      sp_defence_iv: pokemon.ivs.spDefense,
-      sp_defence_ev: pokemon.evs.spDefense,
-      sp_defence: realNumbers.spDefense,
-      speed_iv: pokemon.ivs.speed,
-      speed_ev: pokemon.evs.speed,
-      speed: realNumbers.speed,
+      level: pokemon.level,
+      ivs: {
+        hp: pokemon.ivs.hp,
+        attack: pokemon.ivs.attack,
+        defense: pokemon.ivs.defense,
+        spAttack: pokemon.ivs.spAttack,
+        spDefense: pokemon.ivs.spDefense,
+        speed: pokemon.ivs.speed,
+      },
+      evs: {
+        hp: pokemon.evs.hp,
+        attack: pokemon.evs.attack,
+        defense: pokemon.evs.defense,
+        spAttack: pokemon.evs.spAttack,
+        spDefense: pokemon.evs.spDefense,
+        speed: pokemon.evs.speed,
+      },
+      realNumbers: {
+        hp: realNumbers.hp,
+        attack: realNumbers.attack,
+        defense: realNumbers.defense,
+        spAttack: realNumbers.spAttack,
+        spDefense: realNumbers.spDefense,
+        speed: realNumbers.speed,
+      },
       description: pokemon.description,
-      is_public: 1,
+      isPublic: true,
     }
 
     sendPokemon(params)

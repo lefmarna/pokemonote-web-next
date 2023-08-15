@@ -51,7 +51,7 @@ export const Login = noAuthMiddleware(() => {
     setIsLoading(true)
 
     try {
-      const response = await $axios.post<{ data: AuthUser }>('/login', {
+      const response = await $axios.post<{ data: AuthUser }>('/api/v2/login', {
         email,
         password,
       })

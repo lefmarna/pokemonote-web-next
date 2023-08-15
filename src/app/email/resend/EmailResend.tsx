@@ -16,7 +16,7 @@ export const EmailResend = () => {
   const [errors, setErrors] = useState<string[]>([])
 
   const fetchEmail = () => {
-    return $axios.get<{ data: Email }>('/email/fetch')
+    return $axios.get<{ data: Email }>('/api/v2/email/fetch')
   }
 
   // NOTE 登録直後はローカルストレージを活用するため、非同期通信によるメールアドレスの取得は行わない
@@ -34,7 +34,7 @@ export const EmailResend = () => {
   const resend = async (): Promise<void> => {
     try {
       setIsLoading(true)
-      await $axios.post('/email/resend', {
+      await $axios.post('/api/v2/email/resend', {
         email: email,
       })
       alert('メールを再送信しました。')

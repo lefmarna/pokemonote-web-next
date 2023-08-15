@@ -2,10 +2,10 @@
 
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
-import { $axios } from '@/libs/axios'
 import { CalcStatsTemplate } from '@/components/templates/CalcStatsTemplate'
 import { usePokemonMutators, usePokemonState } from '@/store/pokemonState'
-import type { PokemonParams } from '@/types'
+import { requestApi } from '@/utils/helpers/requestApi'
+import type { PokemonPostParams } from '@/types/openapi/schemas'
 
 export const CalcStats = () => {
   const pokemon = usePokemonState()
@@ -21,11 +21,15 @@ export const CalcStats = () => {
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
 
-  const sendPokemon = async (params: PokemonParams) => {
+  const sendPokemon = async (params: PokemonPostParams) => {
     setIsLoading(true)
     try {
-      const response = await $axios.post('/pokemons', params)
-      router.push(`/pokemons/${response.data.data.id}`)
+      const response = await requestApi({
+        url: '/api/v2/pokemons',
+        method: 'post',
+        data: params,
+      })
+      router.push(`/pokemons/show?id=${response.data.data.id}`)
     } catch (error) {
       console.log(error)
     } finally {

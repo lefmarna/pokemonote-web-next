@@ -60,7 +60,7 @@ export const Header = (props: Props) => {
     setIsLoading(true)
 
     try {
-      await $axios.post('/logout')
+      await $axios.post('/api/v2/logout')
       updateAuthUser(null)
     } catch (e) {
       if (!isAxiosError(e) || e.response?.status !== 401) return

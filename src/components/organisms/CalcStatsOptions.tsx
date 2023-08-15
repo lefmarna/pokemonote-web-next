@@ -92,12 +92,12 @@ export const CalcStatsOptions = memo(function CalcStatsOptions(props: Props) {
   // 努力値をリセットする
   const resetEffortValue = (): void => {
     updateEvs({
-      hp: '',
-      attack: '',
-      defense: '',
-      spAttack: '',
-      spDefense: '',
-      speed: '',
+      hp: null,
+      attack: null,
+      defense: null,
+      spAttack: null,
+      spDefense: null,
+      speed: null,
     })
   }
 

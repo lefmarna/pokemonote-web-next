@@ -10,17 +10,19 @@ import {
   TableRow,
   Typography,
 } from '@mui/material'
-import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { $axios } from '@/libs/axios'
 import { LoadingPageTemplate } from '@/components/templates/LoadingPageTemplate'
+import { useEmotion } from '@/hooks/style/useEmotion'
 import { useAuthUserState } from '@/store/authUserState'
 import { usePokemonBasicInfosState } from '@/store/pokemonBasicInfosState'
-import type { PokemonBasicInfo, PokemonSummary } from '@/types'
+import { requestApi } from '@/utils/helpers/requestApi'
+import type { PokemonBasicInfo, PokemonSummary } from '@/types/openapi/schemas'
 
 export const PokemonShow = () => {
   const searchParams = useSearchParams()
+  const { StyledLink } = useEmotion()
 
   const router = useRouter()
   const authUser = useAuthUserState()
@@ -29,6 +31,7 @@ export const PokemonShow = () => {
   const [pokemonSummary, setPokemonSummary] = useState<PokemonSummary | null>(
     null
   )
+  const [description, setDescription] = useState<string>('')
 
   const [pokemonBasicInfo, setPokemonBasicInfo] =
     useState<PokemonBasicInfo | null>(null)
@@ -36,10 +39,17 @@ export const PokemonShow = () => {
   useEffect(() => {
     ;(async () => {
       try {
-        const response = await $axios.get<{ data: PokemonSummary }>(
-          `/pokemons/${searchParams.get('id')}`
-        )
-        setPokemonSummary(response.data.data)
+        const response = await requestApi({
+          url: '/api/v2/pokemons/{id}',
+          method: 'get',
+          pathParameters: {
+            id: searchParams.get('id') ?? '',
+          },
+        })
+        const { description: _description, ..._pokemonSummary } =
+          response.data.data
+        setDescription(_description)
+        setPokemonSummary(_pokemonSummary)
       } catch (error) {
         router.push('/')
       }
@@ -48,7 +58,7 @@ export const PokemonShow = () => {
 
   useEffect(() => {
     const targetPokemonBasicInfo = pokemonBasicInfos.find(
-      (basicInfo) => basicInfo.name === pokemonSummary?.name
+      (basicInfo) => basicInfo.name === pokemonSummary?.pokemonName
     )
 
     if (targetPokemonBasicInfo === undefined) return
@@ -66,7 +76,7 @@ export const PokemonShow = () => {
 
   const handleDeleteItem = async (id: number) => {
     try {
-      await $axios.delete(`/pokemons/${id}`)
+      await $axios.delete(`/api/v2/pokemons/${id}`)
       router.push(`/users/${authUser?.username}`)
     } catch (error) {
       router.push('/')
@@ -89,15 +99,15 @@ export const PokemonShow = () => {
           </TableRow>
           <TableRow>
             <TableCell align="left">ポケモン名</TableCell>
-            <TableCell align="right">{pokemonSummary.name}</TableCell>
+            <TableCell align="right">{pokemonSummary.pokemonName}</TableCell>
           </TableRow>
           <TableRow>
             <TableCell align="left">レベル</TableCell>
-            <TableCell align="right">{pokemonSummary.lv}</TableCell>
+            <TableCell align="right">{pokemonSummary.level}</TableCell>
           </TableRow>
           <TableRow>
             <TableCell align="left">性格</TableCell>
-            <TableCell align="right">{pokemonSummary.nature}</TableCell>
+            <TableCell align="right">{pokemonSummary.natureName}</TableCell>
           </TableRow>
           <TableRow>
             <TableCell align="left">種族値</TableCell>
@@ -116,10 +126,10 @@ export const PokemonShow = () => {
           </TableRow>
         </TableBody>
       </Table>
-      {pokemonSummary.description && (
+      {description && (
         <>
           <span>ポケモンの説明</span>
-          <p>{pokemonSummary.description}</p>
+          <p>{description}</p>
         </>
       )}
       {pokemonSummary.user.username === authUser?.username ? (
@@ -140,9 +150,14 @@ export const PokemonShow = () => {
       ) : (
         <Typography>
           投稿者：
-          <Link href={`/users/${pokemonSummary.user.username}`}>
+          <StyledLink
+            href={{
+              pathname: '/users/show',
+              query: { username: pokemonSummary.user.username },
+            }}
+          >
             {pokemonSummary.user.nickname}
-          </Link>
+          </StyledLink>
         </Typography>
       )}
     </Container>

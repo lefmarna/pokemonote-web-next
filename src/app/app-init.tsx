@@ -6,7 +6,8 @@ import { useAuthUserMutators } from '@/store/authUserState'
 import { useIsInitializationMutators } from '@/store/isInitializationState'
 import { useNaturesMutators } from '@/store/naturesState'
 import { usePokemonBasicInfosSMutators } from '@/store/pokemonBasicInfosState'
-import type { AuthUser, Nature, PokemonBasicInfo } from '@/types'
+import type { Response } from '@/types/openapi/extractor'
+import type { AuthUser } from '@/types/openapi/schemas'
 
 export const AppInit = () => {
   const { updateAuthUser } = useAuthUserMutators()
@@ -20,20 +21,20 @@ export const AppInit = () => {
     data: {
       authUser: AuthUser | null
     }
-  }>('/init/login', {
+  }>('/api/v2/init/login', {
     revalidateOnFocus: false,
     revalidateOnReconnect: false,
   })
 
-  const { data: StaticData } = useSWR<{
-    data: {
-      pokemonBasicInfos: PokemonBasicInfo[]
-      natures: Nature[]
+  const initFetchPath = '/api/v2/init/fetch'
+
+  const { data: StaticData } = useSWR<Response<typeof initFetchPath, 'get'>>(
+    initFetchPath,
+    {
+      revalidateOnFocus: false,
+      revalidateOnReconnect: false,
     }
-  }>('/init/fetch', {
-    revalidateOnFocus: false,
-    revalidateOnReconnect: false,
-  })
+  )
 
   useEffect(() => {
     if (!loginData || !StaticData) return

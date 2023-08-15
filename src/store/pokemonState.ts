@@ -35,12 +35,12 @@ const pokemonRecoilState = atom<Pokemon>({
       speed: 31,
     },
     evs: {
-      hp: '',
-      attack: '',
-      defense: '',
-      spAttack: '',
-      spDefense: '',
-      speed: '',
+      hp: null,
+      attack: null,
+      defense: null,
+      spAttack: null,
+      spDefense: null,
+      speed: null,
     },
     description: '',
   },
@@ -93,7 +93,7 @@ export const usePokemonMutators = () => {
    * ポケモンのレベルを更新する
    */
   const updateLevel = useCallback(
-    (newLevel: number | '') => {
+    (newLevel: number | null) => {
       setPokemon((prevState) => ({
         ...prevState,
         level: newLevel,

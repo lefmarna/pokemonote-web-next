@@ -11,10 +11,10 @@ import type { Nature, PokemonBasicInfo } from '@/types'
 type Props = {
   basicInfo: PokemonBasicInfo
   nature: Nature
-  level: number | ''
+  level: number | null
   updateBasicInfo: (pokemon: PokemonBasicInfo) => void
   updateNature: (nature: Nature) => void
-  updateLevel: (level: number | '') => void
+  updateLevel: (level: number | null) => void
 }
 
 export const StatsTableHeader = memo(function StatsTableHeader(props: Props) {

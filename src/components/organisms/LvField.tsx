@@ -9,8 +9,8 @@ import { convertToInteger } from '@/utils/utilities'
 import type { ChangeEvent, MouseEvent } from 'react'
 
 type Props = {
-  level: number | ''
-  updateLevel: (level: number | '') => void
+  level: number | null
+  updateLevel: (level: number | null) => void
 }
 
 export const LvField = memo(function LvField(props: Props) {
@@ -46,7 +46,7 @@ export const LvField = memo(function LvField(props: Props) {
         <TextField
           type="tel"
           label="レベル"
-          value={level}
+          value={level ?? ''}
           onChange={onChangeLevel}
           inputRef={levelRef}
           onClick={onSelected}

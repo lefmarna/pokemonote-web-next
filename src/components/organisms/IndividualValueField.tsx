@@ -10,7 +10,7 @@ import type { NullableStats, StatsKey } from '@/types'
 import type { ChangeEvent, MouseEvent } from 'react'
 
 type Props = {
-  value: number | ''
+  value: number | null
   statKey: StatsKey
   updateIvs: (newIvs: Partial<NullableStats>) => void
 }
@@ -36,7 +36,7 @@ export const IndividualValueField = memo(function IndividualValueField(
     event: MouseEvent<HTMLElement>,
     buttonValue: number
   ) => {
-    const newIv = buttonValue !== 0 ? buttonValue : ''
+    const newIv = buttonValue !== 0 ? buttonValue : null
     updateIvs({ [statKey]: newIv })
   }
 
@@ -54,7 +54,7 @@ export const IndividualValueField = memo(function IndividualValueField(
         type="tel"
         label="個体値"
         placeholder="0"
-        value={value}
+        value={value ?? ''}
         inputRef={ivElement}
         onClick={onSelected}
         onChange={onChange}

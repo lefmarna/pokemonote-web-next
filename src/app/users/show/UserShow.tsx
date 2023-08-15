@@ -6,7 +6,8 @@ import { $axios } from '@/libs/axios'
 import { LoadingPageTemplate } from '@/components/templates/LoadingPageTemplate'
 import { PokemonTableTemplate } from '@/components/templates/PokemonTableTemplate'
 import { useAuthUserState } from '@/store/authUserState'
-import type { PokemonSummary, ShowUser, User } from '@/types'
+import type { ShowUser, User } from '@/types'
+import type { PokemonSummary } from '@/types/openapi/schemas'
 
 export const UserShow = () => {
   const [user, setUser] = useState<User | null>(null)
@@ -20,7 +21,7 @@ export const UserShow = () => {
     ;(async () => {
       try {
         const response = await $axios.get<{ data: ShowUser }>(
-          `/users/${searchParams.get('username')}`
+          `/api/v2/users/${searchParams.get('username')}`
         )
         const showUser = response.data.data
         setUser(showUser.user)

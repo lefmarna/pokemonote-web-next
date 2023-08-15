@@ -11,7 +11,7 @@ import type { NullableStats, StatsKey } from '@/types'
 import type { ChangeEvent, MouseEvent } from 'react'
 
 type Props = {
-  value: number | ''
+  value: number | null
   statKey: StatsKey
   updateEvs: (newIvs: Partial<NullableStats>) => void
 }
@@ -53,7 +53,7 @@ export const EffortValueField = memo(function EffortValueField(props: Props) {
         type="tel"
         label="努力値"
         placeholder="0"
-        value={value}
+        value={value ?? ''}
         inputRef={evElement}
         onClick={onSelected}
         onChange={onChange}
