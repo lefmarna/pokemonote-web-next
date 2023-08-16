@@ -22,6 +22,14 @@ type CustomAxiosRequestConfig<
     }
   }
     ? { data: RequestBody<Path, Method> }
+    : paths[Path][Method] extends {
+        requestBody?: {
+          content: {
+            'application/json': infer Data
+          }
+        }
+      }
+    ? { data?: Data }
     : { data?: undefined }) &
   (paths[Path][Method] extends {
     parameters: { path: PathParameters<Path, Method> }
