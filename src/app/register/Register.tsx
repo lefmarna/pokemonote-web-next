@@ -2,15 +2,14 @@
 
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
-import { $axios } from '@/libs/axios'
 import { EmailInput } from '../../components/forms/EmailInput'
 import { PasswordInput } from '../../components/forms/PasswordInput'
 import { FormTemplate } from '../../components/templates/FormTemplate'
 import { NicknameInput } from '@/components/forms/NicknameInput'
 import { UsernameInput } from '@/components/forms/UsernameInput'
 import { noAuthMiddleware } from '@/hocs/noAuthMiddleware'
+import { requestApi } from '@/utils/helpers/requestApi'
 import { exceptionErrorToArray } from '@/utils/utilities'
-import type { Email } from '@/types'
 
 export const Register = noAuthMiddleware(() => {
   const router = useRouter()
@@ -35,10 +34,11 @@ export const Register = noAuthMiddleware(() => {
     setIsLoading(true)
 
     try {
-      const response = await $axios.post<{ data: Email }>(
-        '/api/v2/register',
-        formData
-      )
+      const response = await requestApi({
+        url: '/api/v2/register',
+        method: 'post',
+        data: formData,
+      })
       localStorage.setItem('email', response.data.data.email)
       router.push('/email/resend')
     } catch (error) {

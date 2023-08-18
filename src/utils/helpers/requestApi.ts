@@ -30,6 +30,22 @@ type CustomAxiosRequestConfig<
         }
       }
     ? { data?: Data }
+    : paths[Path][Method] extends {
+        requestBody: {
+          content: {
+            'multipart/form-data': object
+          }
+        }
+      }
+    ? { data: FormData }
+    : paths[Path][Method] extends {
+        requestBody?: {
+          content: {
+            'multipart/form-data'?: object
+          }
+        }
+      }
+    ? { data?: FormData }
     : { data?: undefined }) &
   (paths[Path][Method] extends {
     parameters: { path: PathParameters<Path, Method> }

@@ -12,6 +12,15 @@ export interface paths {
       }
     }
   }
+  '/api/v2/register': {
+    /** 新規ユーザー登録API */
+    post: {
+      requestBody: components['requestBodies']['RegisterRequestBody']
+      responses: {
+        201: components['responses']['RegisterResponse']
+      }
+    }
+  }
   '/api/v2/email/verify/{id}': {
     /** アカウント本登録API */
     get: {
@@ -595,6 +604,20 @@ export interface components {
       }
     }
     /** @description OK */
+    RegisterResponse: {
+      content: {
+        'application/json': {
+          data: {
+            /**
+             * @description メールアドレス
+             * @example test@test.com
+             */
+            email: string
+          }
+        }
+      }
+    }
+    /** @description OK */
     StaticDataResponse: {
       content: {
         'application/json': {
@@ -710,6 +733,12 @@ export interface components {
   }
   parameters: never
   requestBodies: {
+    /** @description アカウント仮登録リクエストボディ */
+    RegisterRequestBody: {
+      content: {
+        'multipart/form-data': components['schemas']['PokemonPostParams']
+      }
+    }
     /** @description ポケモン保存用リクエストボディ */
     PokemonStoreRequestBody: {
       content: {
