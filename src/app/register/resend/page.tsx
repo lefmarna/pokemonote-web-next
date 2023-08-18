@@ -1,8 +1,8 @@
 import { getMetadata } from '@/libs/metadata'
-import { EmailResend } from './EmailResend'
+import { RegisterResend } from './RegisterResend'
 
 export const metadata = getMetadata('メール確認')
 
 export default function Page() {
-  return <EmailResend />
+  return <RegisterResend />
 }

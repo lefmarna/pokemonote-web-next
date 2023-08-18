@@ -5,7 +5,7 @@ import { noAuthMiddleware } from '@/hocs/noAuthMiddleware'
 import { useAuthUserMutators } from '@/store/authUserState'
 import { requestApi } from '@/utils/helpers/requestApi'
 
-export const EmailVerify = noAuthMiddleware(() => {
+export const RegisterVerify = noAuthMiddleware(() => {
   const router = useRouter()
   const searchParams = useSearchParams()
 
@@ -14,7 +14,7 @@ export const EmailVerify = noAuthMiddleware(() => {
   ;(async () => {
     try {
       const response = await requestApi({
-        url: `/api/v2/email/verify/{id}`,
+        url: '/api/v2/register/verify/{id}',
         method: 'get',
         pathParameters: {
           id: searchParams.get('id') ?? '',

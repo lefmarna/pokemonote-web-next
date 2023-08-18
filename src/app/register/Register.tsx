@@ -35,12 +35,12 @@ export const Register = noAuthMiddleware(() => {
 
     try {
       const response = await requestApi({
-        url: '/api/v2/register',
+        url: '/api/v2/register/tentative',
         method: 'post',
         data: formData,
       })
       localStorage.setItem('email', response.data.data.email)
-      router.push('/email/resend')
+      router.push('/register/resend')
     } catch (error) {
       setErrors(exceptionErrorToArray(error))
     } finally {

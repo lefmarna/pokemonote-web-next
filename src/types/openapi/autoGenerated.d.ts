@@ -12,8 +12,8 @@ export interface paths {
       }
     }
   }
-  '/api/v2/register': {
-    /** 新規ユーザー登録API */
+  '/api/v2/register/tentative': {
+    /** アカウント仮登録API */
     post: {
       requestBody: components['requestBodies']['RegisterRequestBody']
       responses: {
@@ -21,7 +21,7 @@ export interface paths {
       }
     }
   }
-  '/api/v2/email/verify/{id}': {
+  '/api/v2/register/verify/{id}': {
     /** アカウント本登録API */
     get: {
       parameters: {
@@ -736,7 +736,33 @@ export interface components {
     /** @description アカウント仮登録リクエストボディ */
     RegisterRequestBody: {
       content: {
-        'multipart/form-data': components['schemas']['PokemonPostParams']
+        'multipart/form-data': {
+          /**
+           * @description ユーザー名
+           * @example test
+           */
+          username: string
+          /**
+           * @description 表示名
+           * @example テスト
+           */
+          nickname: string
+          /**
+           * @description メールアドレス
+           * @example test@test.com
+           */
+          email: string
+          /**
+           * @description パスワード
+           * @example test1234
+           */
+          password: boolean
+          /**
+           * @description パスワード確認用
+           * @example test1234
+           */
+          password_confirmation: boolean
+        }
       }
     }
     /** @description ポケモン保存用リクエストボディ */

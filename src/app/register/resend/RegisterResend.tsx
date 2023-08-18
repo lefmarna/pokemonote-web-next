@@ -8,7 +8,7 @@ import { FormTemplate } from '@/components/templates/FormTemplate'
 import { exceptionErrorToArray } from '@/utils/utilities'
 import type { Email } from '@/types'
 
-export const EmailResend = () => {
+export const RegisterResend = () => {
   const router = useRouter()
 
   const [email, setEmail] = useState(localStorage.getItem('email') ?? '')
@@ -16,7 +16,7 @@ export const EmailResend = () => {
   const [errors, setErrors] = useState<string[]>([])
 
   const fetchEmail = () => {
-    return $axios.get<{ data: Email }>('/api/v2/email/fetch')
+    return $axios.get<{ data: Email }>('/api/v2/register/fetch')
   }
 
   // NOTE 登録直後はローカルストレージを活用するため、非同期通信によるメールアドレスの取得は行わない
@@ -34,7 +34,7 @@ export const EmailResend = () => {
   const resend = async (): Promise<void> => {
     try {
       setIsLoading(true)
-      await $axios.post('/api/v2/email/resend', {
+      await $axios.post('/api/v2/register/resend', {
         email: email,
       })
       alert('メールを再送信しました。')

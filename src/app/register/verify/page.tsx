@@ -1,8 +1,8 @@
 import { getMetadata } from '@/libs/metadata'
-import { EmailVerify } from './EmailVerify'
+import { RegisterVerify } from './RegisterVerify'
 
 export const metadata = getMetadata('メール認証')
 
 export default function Page() {
-  return <EmailVerify />
+  return <RegisterVerify />
 }
