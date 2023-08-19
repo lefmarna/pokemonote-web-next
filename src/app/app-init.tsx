@@ -17,14 +17,15 @@ export const AppInit = () => {
 
   const { completeInitialization } = useIsInitializationMutators()
 
-  const { data: loginData } = useSWR<{
-    data: {
-      authUser: AuthUser | null
+  const initLoginPath = '/api/v2/init/login'
+
+  const { data: loginData } = useSWR<Response<typeof initLoginPath, 'get'>>(
+    initLoginPath,
+    {
+      revalidateOnFocus: false,
+      revalidateOnReconnect: false,
     }
-  }>('/api/v2/init/login', {
-    revalidateOnFocus: false,
-    revalidateOnReconnect: false,
-  })
+  )
 
   const initFetchPath = '/api/v2/init/fetch'
 
@@ -38,7 +39,7 @@ export const AppInit = () => {
 
   useEffect(() => {
     if (!loginData || !StaticData) return
-    updateAuthUser(loginData.data.authUser)
+    updateAuthUser(loginData.data)
     updatePokemonBasicInfos(StaticData.data.pokemonBasicInfos)
     updateNatures(StaticData.data.natures)
     completeInitialization()

@@ -4,6 +4,14 @@
  */
 
 export interface paths {
+  '/api/v2/init/login': {
+    /** ログイン状態確認API */
+    get: {
+      responses: {
+        200: components['responses']['CheckLoginDataResponse']
+      }
+    }
+  }
   '/api/v2/init/fetch': {
     /** 静的データ取得API */
     get: {
@@ -625,6 +633,41 @@ export interface components {
             pokemonBasicInfos: components['schemas']['PokemonBasicInfo'][]
             natures: components['schemas']['Nature'][]
           }
+        }
+      }
+    }
+    /** @description OK */
+    CheckLoginDataResponse: {
+      content: {
+        'application/json': {
+          /** @description 認証ユーザー */
+          data: {
+            /**
+             * @description ユーザーID
+             * @example 1
+             */
+            id: number
+            /**
+             * @description ユーザー名
+             * @example test
+             */
+            username: string
+            /**
+             * @description 表示名
+             * @example テスト
+             */
+            nickname: string
+            /**
+             * @description メールアドレス
+             * @example test@test.com
+             */
+            email: string
+            /**
+             * @description 認証済みかどうか
+             * @example true
+             */
+            isAuthenticated: boolean
+          } | null
         }
       }
     }
