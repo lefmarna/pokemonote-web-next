@@ -2,7 +2,6 @@
 
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import { $axios } from '@/libs/axios'
 import { EmailInput } from '@/components/forms/EmailInput'
 import { PasswordInput } from '@/components/forms/PasswordInput'
 import { MessageAlert } from '@/components/organisms/MessageAlert'
@@ -15,8 +14,8 @@ import {
   useRememberRouteState,
 } from '@/store/rememberRouteState'
 import { useSnackbarMutators } from '@/store/snackbarState'
+import { requestApi } from '@/utils/helpers/requestApi'
 import { exceptionErrorToArray } from '@/utils/utilities'
-import type { AuthUser } from '@/types'
 
 export const Login = noAuthMiddleware(() => {
   const router = useRouter()
@@ -51,9 +50,13 @@ export const Login = noAuthMiddleware(() => {
     setIsLoading(true)
 
     try {
-      const response = await $axios.post<{ data: AuthUser }>('/api/v2/login', {
-        email,
-        password,
+      const response = await requestApi({
+        url: '/api/v2/login',
+        method: 'post',
+        data: {
+          email,
+          password,
+        },
       })
       const _authUser = response.data.data
 

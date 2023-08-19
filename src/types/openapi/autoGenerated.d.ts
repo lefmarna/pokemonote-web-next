@@ -20,6 +20,19 @@ export interface paths {
       }
     }
   }
+  '/api/v2/login': {
+    /** ログインAPI */
+    post: {
+      requestBody: components['requestBodies']['LoginRequestBody']
+      responses: {
+        200: components['responses']['LoginResponse']
+      }
+    }
+  }
+  '/api/v2/logout': {
+    /** ログアウトAPI */
+    post: {}
+  }
   '/api/v2/register/tentative': {
     /** アカウント仮登録API */
     post: {
@@ -620,6 +633,14 @@ export interface components {
       }
     }
     /** @description OK */
+    LoginResponse: {
+      content: {
+        'application/json': {
+          data: components['schemas']['AuthUser']
+        }
+      }
+    }
+    /** @description OK */
     RegisterResponse: {
       content: {
         'application/json': {
@@ -807,12 +828,29 @@ export interface components {
            * @description パスワード
            * @example test1234
            */
-          password: boolean
+          password: string
           /**
            * @description パスワード確認用
            * @example test1234
            */
-          password_confirmation: boolean
+          password_confirmation: string
+        }
+      }
+    }
+    /** @description ログインリクエストボディ */
+    LoginRequestBody: {
+      content: {
+        'application/json': {
+          /**
+           * @description メールアドレス
+           * @example test@test.com
+           */
+          email: string
+          /**
+           * @description パスワード
+           * @example test1234
+           */
+          password: string
         }
       }
     }

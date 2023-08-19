@@ -14,8 +14,8 @@ import { isAxiosError } from 'axios'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
-import { $axios } from '@/libs/axios'
 import { useAuthUserMutators, useAuthUserState } from '@/store/authUserState'
+import { requestApi } from '@/utils/helpers/requestApi'
 import type { MouseEvent } from 'react'
 
 type Props = {
@@ -60,7 +60,10 @@ export const Header = (props: Props) => {
     setIsLoading(true)
 
     try {
-      await $axios.post('/api/v2/logout')
+      await requestApi({
+        url: '/api/v2/logout',
+        method: 'post',
+      })
       updateAuthUser(null)
     } catch (e) {
       if (!isAxiosError(e) || e.response?.status !== 401) return
