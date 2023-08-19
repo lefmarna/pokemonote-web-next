@@ -76,8 +76,14 @@ export const PokemonShow = () => {
 
   const handleDeleteItem = async (id: number) => {
     try {
-      await $axios.delete(`/api/v2/pokemons/${id}`)
-      router.push(`/users/${authUser?.username}`)
+      await requestApi({
+        url: '/api/v2/pokemons/{id}',
+        method: 'delete',
+        pathParameters: {
+          id: String(id),
+        },
+      })
+      router.replace(`/users/show/?username=${authUser?.username}`)
     } catch (error) {
       router.push('/')
     }

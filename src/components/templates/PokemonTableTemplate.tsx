@@ -5,9 +5,10 @@ import EditIcon from '@mui/icons-material/Edit'
 import { IconButton } from '@mui/material'
 import { DataGrid, jaJP } from '@mui/x-data-grid'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { $axios } from '@/libs/axios'
+import { useState } from 'react'
 import { useEmotion } from '@/hooks/style/useEmotion'
 import { useAuthUserState } from '@/store/authUserState'
+import { requestApi } from '@/utils/helpers/requestApi'
 import type { PokemonSummary } from '@/types/openapi/schemas'
 import type { GridRenderCellParams } from '@mui/x-data-grid'
 
@@ -24,6 +25,12 @@ export const PokemonTableTemplate = (props: Props) => {
   const searchParams = useSearchParams()
 
   const authUser = useAuthUserState()
+
+  const [deletedPokemonIds, setDeletedPokemonIds] = useState<number[]>([])
+
+  const filteredPokemons = pokemons.filter((pokemon) => {
+    return !deletedPokemonIds.includes(pokemon.id)
+  })
 
   const columns = [
     {
@@ -103,13 +110,18 @@ export const PokemonTableTemplate = (props: Props) => {
 
   const deletePokemon = async (id: number): Promise<void> => {
     try {
-      await $axios.delete(`/api/v2/pokemons/${id}`)
-      // 削除するポケモンのデータを探す
-      const deletePokemon = pokemons.findIndex(
-        (pokemon: PokemonSummary) => pokemon.id === id
-      )
-      // 配列から要素を削除
-      pokemons.splice(deletePokemon, 1)
+      await requestApi({
+        url: '/api/v2/pokemons/{id}',
+        method: 'delete',
+        pathParameters: {
+          id: String(id),
+        },
+      })
+      // フロント側でもテーブルから削除する必要がある
+      setDeletedPokemonIds((prevDeletedPokemonIds) => [
+        ...prevDeletedPokemonIds,
+        id,
+      ])
     } catch (error) {
       console.log(error)
       router.push('/')
@@ -121,7 +133,7 @@ export const PokemonTableTemplate = (props: Props) => {
       <div>{title}</div>
       <DataGrid
         columns={columns}
-        rows={pokemons}
+        rows={filteredPokemons}
         sortingOrder={['desc', 'asc']}
         autoHeight
         localeText={jaJP.components.MuiDataGrid.defaultProps.localeText}

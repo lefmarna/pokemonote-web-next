@@ -85,6 +85,14 @@ export interface paths {
       }
       requestBody: components['requestBodies']['PokemonUpdateRequestBody']
     }
+    /** ポケモン削除API */
+    delete: {
+      parameters: {
+        path: {
+          id: string
+        }
+      }
+    }
   }
   '/api/v2/pokemons/{id}/edit': {
     /** ポケモン編集API */
