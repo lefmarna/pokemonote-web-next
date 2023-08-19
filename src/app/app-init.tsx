@@ -1,13 +1,12 @@
 'use client'
 
 import { useEffect } from 'react'
-import useSWR from 'swr'
+import { $axios } from '@/libs/axios'
 import { useAuthUserMutators } from '@/store/authUserState'
 import { useIsInitializationMutators } from '@/store/isInitializationState'
 import { useNaturesMutators } from '@/store/naturesState'
 import { usePokemonBasicInfosSMutators } from '@/store/pokemonBasicInfosState'
-import type { Response } from '@/types/openapi/extractor'
-import type { AuthUser } from '@/types/openapi/schemas'
+import { requestApi } from '@/utils/helpers/requestApi'
 
 export const AppInit = () => {
   const { updateAuthUser } = useAuthUserMutators()
@@ -17,39 +16,32 @@ export const AppInit = () => {
 
   const { completeInitialization } = useIsInitializationMutators()
 
-  const initLoginPath = '/api/v2/init/login'
-
-  const { data: loginData } = useSWR<Response<typeof initLoginPath, 'get'>>(
-    initLoginPath,
-    {
-      revalidateOnFocus: false,
-      revalidateOnReconnect: false,
-    }
-  )
-
-  const initFetchPath = '/api/v2/init/fetch'
-
-  const { data: StaticData } = useSWR<Response<typeof initFetchPath, 'get'>>(
-    initFetchPath,
-    {
-      revalidateOnFocus: false,
-      revalidateOnReconnect: false,
-    }
-  )
-
   useEffect(() => {
-    if (!loginData || !StaticData) return
-    updateAuthUser(loginData.data)
-    updatePokemonBasicInfos(StaticData.data.pokemonBasicInfos)
-    updateNatures(StaticData.data.natures)
-    completeInitialization()
+    ;(async () => {
+      await $axios.get('/sanctum/csrf-cookie')
+
+      const [loginData, StaticData] = await Promise.all([
+        requestApi({
+          url: '/api/v2/init/login',
+          method: 'get',
+        }),
+        requestApi({
+          url: '/api/v2/init/fetch',
+          method: 'get',
+        }),
+      ])
+
+      updateAuthUser(loginData.data.data)
+      updatePokemonBasicInfos(StaticData.data.data.pokemonBasicInfos)
+      updateNatures(StaticData.data.data.natures)
+
+      completeInitialization()
+    })()
   }, [
-    loginData,
-    StaticData,
     completeInitialization,
     updateAuthUser,
-    updatePokemonBasicInfos,
     updateNatures,
+    updatePokemonBasicInfos,
   ])
 
   return null
