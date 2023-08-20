@@ -24,7 +24,7 @@ export const authMiddleware = (WrappedComponent: ComponentType) => {
       if (!isInitialization || authUser) return
 
       updateRememberRoute(`${path}${queryParams}`)
-      router.push('/login')
+      router.replace('/login')
     }, [
       isInitialization,
       authUser,

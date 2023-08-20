@@ -1,27 +1,19 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { EmailInput } from '@/components/forms/EmailInput'
 import { PasswordInput } from '@/components/forms/PasswordInput'
 import { MessageAlert } from '@/components/organisms/MessageAlert'
 import { FormTemplate } from '@/components/templates/FormTemplate'
 import { noAuthMiddleware } from '@/hocs/noAuthMiddleware'
-import { useAuthUserMutators, useAuthUserState } from '@/store/authUserState'
-import { useIsInitializationState } from '@/store/isInitializationState'
-import {
-  useRememberRouteMutators,
-  useRememberRouteState,
-} from '@/store/rememberRouteState'
+import { useAuthUserMutators } from '@/store/authUserState'
 import { useSnackbarMutators } from '@/store/snackbarState'
 import { exceptionErrorToArray, requestApi } from '@/utils/helpers'
 
 export const Login = noAuthMiddleware(() => {
   const router = useRouter()
   const { updateAuthUser } = useAuthUserMutators()
-  const authUser = useAuthUserState()
-  const rememberRoute = useRememberRouteState()
-  const { updateRememberRoute } = useRememberRouteMutators()
   const [isShowAlert, setIsShowAlert] = useState(false)
 
   const [isLoading, setIsLoading] = useState(false)
@@ -30,20 +22,7 @@ export const Login = noAuthMiddleware(() => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
-  const isInitialization = useIsInitializationState()
-
   const { showSnackBar } = useSnackbarMutators()
-
-  useEffect(() => {
-    if (!authUser || !isInitialization) return
-
-    if (rememberRoute !== '') {
-      updateRememberRoute('')
-      router.push(rememberRoute)
-    } else {
-      router.push('/')
-    }
-  }, [authUser, isInitialization, rememberRoute, router, updateRememberRoute])
 
   const login = async () => {
     setIsLoading(true)

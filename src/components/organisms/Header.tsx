@@ -15,6 +15,7 @@ import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { useAuthUserMutators, useAuthUserState } from '@/store/authUserState'
+import { useRememberRouteMutators } from '@/store/rememberRouteState'
 import { requestApi } from '@/utils/helpers'
 import type { MouseEvent } from 'react'
 
@@ -33,6 +34,7 @@ export const Header = (props: Props) => {
 
   const authUser = useAuthUserState()
   const { updateAuthUser } = useAuthUserMutators()
+  const { updateRememberRoute } = useRememberRouteMutators()
 
   const openProfileMenu = (event: MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget)
@@ -65,6 +67,11 @@ export const Header = (props: Props) => {
         method: 'post',
       })
       updateAuthUser(null)
+
+      // NOTE: middlewareのrememberRouteの更新を待機してから初期化する
+      setTimeout(() => {
+        updateRememberRoute('/')
+      }, 0)
     } catch (e) {
       if (!isAxiosError(e) || e.response?.status !== 401) return
       console.log(e)

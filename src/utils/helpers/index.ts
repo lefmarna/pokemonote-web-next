@@ -4,7 +4,7 @@ export {
   DEFAULT_META_TITLE,
   DEFAULT_META_DESCRIPTION,
   getMetadata,
-} from './metaHelpers'
+} from './metadataHelpers'
 export {
   convertToInteger,
   numberToInt,
