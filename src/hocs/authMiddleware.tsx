@@ -1,6 +1,6 @@
 'use client'
 
-import { usePathname, useRouter } from 'next/navigation'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import React, { useEffect } from 'react'
 import { LoadingPageTemplate } from '@/components/templates/LoadingPageTemplate'
 import { useAuthUserState } from '@/store/authUserState'
@@ -16,14 +16,23 @@ export const authMiddleware = (WrappedComponent: ComponentType) => {
 
     const router = useRouter()
     const path = usePathname()
+    const queries = useSearchParams()
+    const queryParams = queries.toString() ? `?${queries.toString()}` : ''
 
     // 初期化が終わっていて、ユーザーがログインしていない場合、ログインページにリダイレクト
     useEffect(() => {
       if (!isInitialization || authUser) return
 
-      updateRememberRoute(path)
+      updateRememberRoute(`${path}${queryParams}`)
       router.push('/login')
-    }, [isInitialization, authUser, router, path, updateRememberRoute])
+    }, [
+      isInitialization,
+      authUser,
+      router,
+      path,
+      queryParams,
+      updateRememberRoute,
+    ])
 
     // 初期化が終わっていない（認証状態がまだ確認できない）時に表示される
     if (!authUser) {
