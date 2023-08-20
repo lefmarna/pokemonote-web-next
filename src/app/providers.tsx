@@ -5,7 +5,7 @@ import { RecoilRoot } from 'recoil'
 import { SWRConfig } from 'swr'
 import type { AxiosError } from '@/libs/axios'
 import { $axios } from '@/libs/axios'
-import { theme } from '@/utils/theme'
+import { theme } from '@/libs/mui'
 import type { ReactNode } from 'react'
 
 type Props = {

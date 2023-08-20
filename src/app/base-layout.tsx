@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { Header } from '@/components/organisms/Header'
 import { Sidebar } from '@/components/organisms/Sidebar'
-import { useMediaQueryUp } from '@/utils/theme'
+import { useMediaQueryUp } from '@/hooks/style/useMediaQueries'
 import type { ReactNode } from 'react'
 
 type Props = {

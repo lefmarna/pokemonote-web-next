@@ -6,14 +6,15 @@ import { useCallback, useEffect, useState } from 'react'
 import { RecoilRoot } from 'recoil'
 import useSWR, { SWRConfig } from 'swr'
 import '@/styles/globals.scss'
+import { theme } from '@/libs/mui'
 import { Header } from '@/components/organisms/Header'
 import { Sidebar } from '@/components/organisms/Sidebar'
 import SnackbarComponent from '@/components/organisms/SnackBarComponent'
+import { useMediaQueryUp } from '@/hooks/style/useMediaQueries'
 import { useAuthUserMutators } from '@/store/authUserState'
 import { useIsInitializationMutators } from '@/store/isInitializationState'
 import { useNaturesMutators } from '@/store/naturesState'
 import { usePokemonBasicInfosSMutators } from '@/store/pokemonBasicInfosState'
-import { theme, useMediaQueryUp } from '@/utils/theme'
 import type {
   AuthUser,
   Nature,

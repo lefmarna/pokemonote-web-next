@@ -22,8 +22,8 @@ import {
   ListItemText,
 } from '@mui/material'
 import Link from 'next/link'
+import { useMediaQueryUp } from '@/hooks/style/useMediaQueries'
 import { useAuthUserState } from '@/store/authUserState'
-import { useMediaQueryUp } from '@/utils/theme'
 
 type Props = {
   drawer: boolean
