@@ -9,7 +9,7 @@ import {
   Stack,
   Typography,
 } from '@mui/material'
-import { useEmotion } from '@/hooks/style/useEmotion'
+import { SLink } from '@/styles'
 import type { ReactNode } from 'react'
 
 type Props = {
@@ -32,8 +32,6 @@ export const FormTemplate = (props: Props) => {
     links = [],
     onSubmit,
   } = props
-
-  const { StyledLink } = useEmotion()
 
   return (
     <form>
@@ -74,9 +72,9 @@ export const FormTemplate = (props: Props) => {
           <Stack spacing={2} sx={{ mt: 4, fontSize: '.875rem' }}>
             {links.map((link, index) => {
               return (
-                <StyledLink href={link.href} key={index}>
+                <SLink href={link.href} key={index}>
                   {link.text}
-                </StyledLink>
+                </SLink>
               )
             })}
           </Stack>

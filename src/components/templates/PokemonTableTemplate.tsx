@@ -6,8 +6,8 @@ import { IconButton } from '@mui/material'
 import { DataGrid, jaJP } from '@mui/x-data-grid'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useState } from 'react'
-import { useEmotion } from '@/hooks/style/useEmotion'
 import { useAuthUserState } from '@/store/authUserState'
+import { SLink } from '@/styles'
 import { requestApi } from '@/utils/helpers'
 import type { PokemonSummary } from '@/types/openapi/schemas'
 import type { GridRenderCellParams } from '@mui/x-data-grid'
@@ -19,7 +19,6 @@ type Props = {
 
 export const PokemonTableTemplate = (props: Props) => {
   const { title, pokemons = [] } = props
-  const { StyledLink } = useEmotion()
 
   const router = useRouter()
   const searchParams = useSearchParams()
@@ -38,14 +37,14 @@ export const PokemonTableTemplate = (props: Props) => {
       headerName: 'ポケモン名',
       flex: 1,
       renderCell: (params: GridRenderCellParams<PokemonSummary>) => (
-        <StyledLink
+        <SLink
           href={{
             pathname: '/pokemons/show',
             query: { id: params.row.id },
           }}
         >
           {params.row.pokemonName}
-        </StyledLink>
+        </SLink>
       ),
     },
     { field: 'level', headerName: 'レベル', flex: 1 },
@@ -82,14 +81,14 @@ export const PokemonTableTemplate = (props: Props) => {
             </IconButton>
           </div>
         ) : (
-          <StyledLink
+          <SLink
             href={{
               pathname: '/users/show',
               query: { username: params.row.user.username },
             }}
           >
             {params.row.user.username}
-          </StyledLink>
+          </SLink>
         ),
     },
   ]

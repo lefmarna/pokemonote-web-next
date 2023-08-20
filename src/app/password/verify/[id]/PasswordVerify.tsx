@@ -7,7 +7,7 @@ import { $axios } from '@/libs/axios'
 import { PasswordInput } from '@/components/forms/PasswordInput'
 import { Title } from '@/components/molecules/Title'
 import { FormTemplate } from '@/components/templates/FormTemplate'
-import { useEmotion } from '@/hooks/style/useEmotion'
+import { SLink } from '@/styles'
 import { exceptionErrorToArray } from '@/utils/helpers'
 
 export const PasswordVerify = () => {
@@ -73,8 +73,6 @@ export const PasswordVerify = () => {
     }
   }
 
-  const { StyledLink } = useEmotion()
-
   if (isConfirm) return <div>パスワード再設定用URLの検証中...</div>
 
   if (isSuccess && !isSubmit) {
@@ -108,7 +106,7 @@ export const PasswordVerify = () => {
           ? 'パスワード再設定が完了しました。'
           : 'パスワード再設定用URLの検証に失敗しました。\nお手数ですが再度お試しください。'}
       </p>
-      <StyledLink href="/">トップページへ戻る</StyledLink>
+      <SLink href="/">トップページへ戻る</SLink>
     </Container>
   )
 }
