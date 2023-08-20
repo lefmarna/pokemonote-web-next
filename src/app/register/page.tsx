@@ -1,5 +1,5 @@
-import { getMetadata } from '@/libs/metadata'
 import { Register } from './Register'
+import { getMetadata } from '@/utils/helpers'
 
 export const metadata = getMetadata('アカウント作成')
 

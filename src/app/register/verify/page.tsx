@@ -1,5 +1,5 @@
-import { getMetadata } from '@/libs/metadata'
 import { RegisterVerify } from './RegisterVerify'
+import { getMetadata } from '@/utils/helpers'
 
 export const metadata = getMetadata('メール認証')
 

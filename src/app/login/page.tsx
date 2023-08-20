@@ -1,5 +1,5 @@
-import { getMetadata } from '@/libs/metadata'
 import { Login } from './Login'
+import { getMetadata } from '@/utils/helpers'
 
 export const metadata = getMetadata('ログイン')
 

@@ -1,5 +1,5 @@
-import { getMetadata } from '@/libs/metadata'
 import { PokemonEdit } from './PokemonEdit'
+import { getMetadata } from '@/utils/helpers'
 
 export const metadata = getMetadata('ポケモン編集')
 

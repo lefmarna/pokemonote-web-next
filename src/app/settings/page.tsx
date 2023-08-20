@@ -1,5 +1,5 @@
-import { getMetadata } from '@/libs/metadata'
 import { Settings } from './Settings'
+import { getMetadata } from '@/utils/helpers'
 
 export const metadata = getMetadata('設定')
 

@@ -1,5 +1,5 @@
-import { getMetadata } from '@/libs/metadata'
 import { LefmarnaOtoiawaseThanks } from './LefmarnaOtoiawaseThanks'
+import { getMetadata } from '@/utils/helpers'
 
 export const metadata = getMetadata('送信成功')
 
