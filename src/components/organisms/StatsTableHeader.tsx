@@ -6,7 +6,7 @@ import { LvField } from './LvField'
 import { SearchField } from '@/components/molecules/SearchField'
 import { useNaturesState } from '@/store/naturesState'
 import { usePokemonBasicInfosState } from '@/store/pokemonBasicInfosState'
-import type { Nature, PokemonBasicInfo } from '@/types/front'
+import type { Nature, PokemonBasicInfo } from '@/types/openapi/schemas'
 
 type Props = {
   basicInfo: PokemonBasicInfo

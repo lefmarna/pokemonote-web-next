@@ -22,13 +22,8 @@ import { usePokemonStats } from '@/hooks/usePokemonStats'
 import { useAuthUserState } from '@/store/authUserState'
 import { MAX_EV, MAX_TOTAL_EV } from '@/utils/constants'
 import { useMediaQueryDown } from '@/utils/theme'
-import type {
-  Nature,
-  NullableStats,
-  Pokemon,
-  PokemonBasicInfo,
-  StatsKey,
-} from '@/types/front'
+import type { NullableStats, Pokemon, StatsKey } from '@/types/front'
+import type { Nature, PokemonBasicInfo } from '@/types/openapi/schemas'
 import type { PokemonPostParams } from '@/types/openapi/schemas'
 import type { ReactNode } from 'react'
 

@@ -6,7 +6,8 @@ import { $axios } from '@/libs/axios'
 import { LoadingPageTemplate } from '@/components/templates/LoadingPageTemplate'
 import { PokemonTableTemplate } from '@/components/templates/PokemonTableTemplate'
 import { useAuthUserState } from '@/store/authUserState'
-import type { ShowUser, User } from '@/types/front'
+import type { ShowUser } from '@/types/front'
+import type { User } from '@/types/openapi/schemas'
 import type { PokemonSummary } from '@/types/openapi/schemas'
 
 export const UserShow = () => {

@@ -8,12 +8,8 @@ import { authMiddleware } from '@/hocs/authMiddleware'
 import { useNaturesState } from '@/store/naturesState'
 import { usePokemonBasicInfosState } from '@/store/pokemonBasicInfosState'
 import { requestApi } from '@/utils/helpers'
-import type {
-  Nature,
-  NullableStats,
-  Pokemon,
-  PokemonBasicInfo,
-} from '@/types/front'
+import type { NullableStats, Pokemon } from '@/types/front'
+import type { Nature, PokemonBasicInfo } from '@/types/openapi/schemas'
 import type { PokemonPostParams } from '@/types/openapi/schemas'
 
 export const PokemonEdit = authMiddleware(() => {
