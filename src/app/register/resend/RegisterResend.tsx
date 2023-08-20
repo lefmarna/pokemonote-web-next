@@ -2,12 +2,10 @@
 
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
-import { $axios } from '@/libs/axios'
 import { EmailInput } from '@/components/forms/EmailInput'
 import { FormTemplate } from '@/components/templates/FormTemplate'
 import { requestApi } from '@/utils/helpers/requestApi'
 import { exceptionErrorToArray } from '@/utils/utilities'
-import type { Email } from '@/types'
 
 export const RegisterResend = () => {
   const router = useRouter()
@@ -16,14 +14,13 @@ export const RegisterResend = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [errors, setErrors] = useState<string[]>([])
 
-  const fetchEmail = () => {
-    return $axios.get<{ data: Email }>('/api/v2/register/fetch')
-  }
-
   // NOTE 登録直後はローカルストレージを活用するため、非同期通信によるメールアドレスの取得は行わない
   if (email === '') {
     ;(async () => {
-      const response = await fetchEmail()
+      const response = await requestApi({
+        url: '/api/v2/register/fetch',
+        method: 'get',
+      })
       if (!response.data) {
         router.push('/')
         return

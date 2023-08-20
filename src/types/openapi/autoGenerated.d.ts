@@ -38,7 +38,7 @@ export interface paths {
     post: {
       requestBody: components['requestBodies']['RegisterTentativeRequestBody']
       responses: {
-        201: components['responses']['RegisterResponse']
+        201: components['responses']['RegisterTentativeResponse']
       }
     }
   }
@@ -46,6 +46,14 @@ export interface paths {
     /** 認証メール再送信API */
     post: {
       requestBody: components['requestBodies']['RegisterResendRequestBody']
+    }
+  }
+  '/api/v2/register/fetch': {
+    /** 認証メール情報取得API */
+    get: {
+      responses: {
+        200: components['responses']['RegisterFetchResponse']
+      }
     }
   }
   '/api/v2/register/verify/{id}': {
@@ -647,7 +655,21 @@ export interface components {
       }
     }
     /** @description OK */
-    RegisterResponse: {
+    RegisterTentativeResponse: {
+      content: {
+        'application/json': {
+          data: {
+            /**
+             * @description メールアドレス
+             * @example test@test.com
+             */
+            email: string
+          }
+        }
+      }
+    }
+    /** @description OK */
+    RegisterFetchResponse: {
       content: {
         'application/json': {
           data: {
