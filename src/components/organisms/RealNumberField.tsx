@@ -3,7 +3,7 @@
 import { Box, Button, Grid, TextField } from '@mui/material'
 import { memo, useEffect, useRef, useState } from 'react'
 import { useResponsiveStyles } from '@/hooks/style/useResponsiveStyles'
-import { convertToInteger } from '@/utils/utilities'
+import { convertToInteger } from '@/utils/helpers'
 import type { StatsKey } from '@/types/front'
 import type { FocusEvent, KeyboardEvent } from 'react'
 

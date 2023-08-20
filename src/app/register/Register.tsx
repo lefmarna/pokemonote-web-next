@@ -8,8 +8,7 @@ import { FormTemplate } from '../../components/templates/FormTemplate'
 import { NicknameInput } from '@/components/forms/NicknameInput'
 import { UsernameInput } from '@/components/forms/UsernameInput'
 import { noAuthMiddleware } from '@/hocs/noAuthMiddleware'
-import { requestApi } from '@/utils/helpers/requestApi'
-import { exceptionErrorToArray } from '@/utils/utilities'
+import { exceptionErrorToArray, requestApi } from '@/utils/helpers'
 
 export const Register = noAuthMiddleware(() => {
   const router = useRouter()

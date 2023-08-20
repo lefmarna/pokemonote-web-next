@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { CalcStatsTemplate } from '@/components/templates/CalcStatsTemplate'
 import { usePokemonMutators, usePokemonState } from '@/store/pokemonState'
-import { requestApi } from '@/utils/helpers/requestApi'
+import { requestApi } from '@/utils/helpers'
 import type { PokemonPostParams } from '@/types/openapi/schemas'
 
 export const CalcStats = () => {

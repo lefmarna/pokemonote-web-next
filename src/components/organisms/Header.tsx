@@ -15,7 +15,7 @@ import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { useAuthUserMutators, useAuthUserState } from '@/store/authUserState'
-import { requestApi } from '@/utils/helpers/requestApi'
+import { requestApi } from '@/utils/helpers'
 import type { MouseEvent } from 'react'
 
 type Props = {

@@ -5,7 +5,7 @@ import { useState } from 'react'
 import { $axios } from '@/libs/axios'
 import { EmailInput } from '@/components/forms/EmailInput'
 import { FormTemplate } from '@/components/templates/FormTemplate'
-import { exceptionErrorToArray } from '@/utils/utilities'
+import { exceptionErrorToArray } from '@/utils/helpers'
 
 export const PasswordForgot = () => {
   const [errors, setErrors] = useState<string[]>()

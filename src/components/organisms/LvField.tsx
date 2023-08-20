@@ -5,7 +5,7 @@ import { memo, useRef } from 'react'
 import { CalcButton } from '@/components/molecules/CalcButton'
 import { useResponsiveStyles } from '@/hooks/style/useResponsiveStyles'
 import { DEFAULT_LEVEL, MAX_LEVEL } from '@/utils/constants'
-import { convertToInteger } from '@/utils/utilities'
+import { convertToInteger } from '@/utils/helpers'
 import type { ChangeEvent, MouseEvent } from 'react'
 
 type Props = {

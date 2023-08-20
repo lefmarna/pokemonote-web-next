@@ -8,7 +8,7 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { useState } from 'react'
 import { useEmotion } from '@/hooks/style/useEmotion'
 import { useAuthUserState } from '@/store/authUserState'
-import { requestApi } from '@/utils/helpers/requestApi'
+import { requestApi } from '@/utils/helpers'
 import type { PokemonSummary } from '@/types/openapi/schemas'
 import type { GridRenderCellParams } from '@mui/x-data-grid'
 

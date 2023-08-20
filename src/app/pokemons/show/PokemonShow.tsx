@@ -12,12 +12,11 @@ import {
 } from '@mui/material'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import { $axios } from '@/libs/axios'
 import { LoadingPageTemplate } from '@/components/templates/LoadingPageTemplate'
 import { useEmotion } from '@/hooks/style/useEmotion'
 import { useAuthUserState } from '@/store/authUserState'
 import { usePokemonBasicInfosState } from '@/store/pokemonBasicInfosState'
-import { requestApi } from '@/utils/helpers/requestApi'
+import { requestApi } from '@/utils/helpers'
 import type { PokemonBasicInfo, PokemonSummary } from '@/types/openapi/schemas'
 
 export const PokemonShow = () => {

@@ -4,8 +4,7 @@ import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { EmailInput } from '@/components/forms/EmailInput'
 import { FormTemplate } from '@/components/templates/FormTemplate'
-import { requestApi } from '@/utils/helpers/requestApi'
-import { exceptionErrorToArray } from '@/utils/utilities'
+import { exceptionErrorToArray, requestApi } from '@/utils/helpers'
 
 export const RegisterResend = () => {
   const router = useRouter()

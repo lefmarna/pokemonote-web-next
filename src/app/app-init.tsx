@@ -6,7 +6,7 @@ import { useAuthUserMutators } from '@/store/authUserState'
 import { useIsInitializationMutators } from '@/store/isInitializationState'
 import { useNaturesMutators } from '@/store/naturesState'
 import { usePokemonBasicInfosSMutators } from '@/store/pokemonBasicInfosState'
-import { requestApi } from '@/utils/helpers/requestApi'
+import { requestApi } from '@/utils/helpers'
 
 export const AppInit = () => {
   const { updateAuthUser } = useAuthUserMutators()

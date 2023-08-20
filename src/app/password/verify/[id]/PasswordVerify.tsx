@@ -8,7 +8,7 @@ import { PasswordInput } from '@/components/forms/PasswordInput'
 import { Title } from '@/components/molecules/Title'
 import { FormTemplate } from '@/components/templates/FormTemplate'
 import { useEmotion } from '@/hooks/style/useEmotion'
-import { exceptionErrorToArray } from '@/utils/utilities'
+import { exceptionErrorToArray } from '@/utils/helpers'
 
 export const PasswordVerify = () => {
   const params = useParams()

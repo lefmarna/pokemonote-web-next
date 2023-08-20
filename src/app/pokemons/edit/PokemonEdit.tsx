@@ -7,7 +7,7 @@ import { LoadingPageTemplate } from '@/components/templates/LoadingPageTemplate'
 import { authMiddleware } from '@/hocs/authMiddleware'
 import { useNaturesState } from '@/store/naturesState'
 import { usePokemonBasicInfosState } from '@/store/pokemonBasicInfosState'
-import { requestApi } from '@/utils/helpers/requestApi'
+import { requestApi } from '@/utils/helpers'
 import type {
   Nature,
   NullableStats,

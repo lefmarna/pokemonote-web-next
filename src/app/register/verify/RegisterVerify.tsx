@@ -3,7 +3,7 @@
 import { useRouter, useSearchParams } from 'next/navigation'
 import { noAuthMiddleware } from '@/hocs/noAuthMiddleware'
 import { useAuthUserMutators } from '@/store/authUserState'
-import { requestApi } from '@/utils/helpers/requestApi'
+import { requestApi } from '@/utils/helpers'
 
 export const RegisterVerify = noAuthMiddleware(() => {
   const router = useRouter()

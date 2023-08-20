@@ -10,7 +10,7 @@ import {
   convertToInteger,
   numberToInt,
   valueVerification,
-} from '@/utils/utilities'
+} from '@/utils/helpers'
 import type { Nature, Pokemon, StatsKey } from '@/types/front'
 
 // ポケモンのステータス計算に関するカスタムフック

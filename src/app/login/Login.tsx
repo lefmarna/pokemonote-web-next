@@ -14,8 +14,7 @@ import {
   useRememberRouteState,
 } from '@/store/rememberRouteState'
 import { useSnackbarMutators } from '@/store/snackbarState'
-import { requestApi } from '@/utils/helpers/requestApi'
-import { exceptionErrorToArray } from '@/utils/utilities'
+import { exceptionErrorToArray, requestApi } from '@/utils/helpers'
 
 export const Login = noAuthMiddleware(() => {
   const router = useRouter()
