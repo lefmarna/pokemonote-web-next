@@ -10,7 +10,7 @@ import { StatsTableHeader } from '@/components/organisms/StatsTableHeader'
 import { usePokemonStats } from '@/hooks/usePokemonStats'
 import { usePokemonMutators } from '@/store/pokemonState'
 import { usePokemonState } from '@/store/pokemonState'
-import type { StatsKey } from '@/types'
+import type { StatsKey } from '@/types/front'
 
 export const CalcSpeed = () => {
   const pokemon = usePokemonState()

@@ -6,7 +6,7 @@ import { CalcButton } from '@/components/molecules/CalcButton'
 import { useResponsiveStyles } from '@/hooks/style/useResponsiveStyles'
 import { MAX_IV } from '@/utils/constants'
 import { convertToInteger } from '@/utils/utilities'
-import type { NullableStats, StatsKey } from '@/types'
+import type { NullableStats, StatsKey } from '@/types/front'
 import type { ChangeEvent, MouseEvent } from 'react'
 
 type Props = {

@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 import { atom, useRecoilValue, useSetRecoilState } from 'recoil'
-import type { AuthUser } from '@/types'
+import type { AuthUser } from '@/types/front'
 
 const authUserRecoilState = atom<AuthUser | null>({
   key: 'authUserState',

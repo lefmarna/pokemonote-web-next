@@ -11,7 +11,7 @@ import {
   numberToInt,
   valueVerification,
 } from '@/utils/utilities'
-import type { Nature, Pokemon, StatsKey } from '@/types'
+import type { Nature, Pokemon, StatsKey } from '@/types/front'
 
 // ポケモンのステータス計算に関するカスタムフック
 export const usePokemonStats = (pokemon: Pokemon) => {

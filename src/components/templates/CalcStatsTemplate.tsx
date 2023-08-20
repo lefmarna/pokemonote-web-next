@@ -28,7 +28,7 @@ import type {
   Pokemon,
   PokemonBasicInfo,
   StatsKey,
-} from '@/types'
+} from '@/types/front'
 import type { PokemonPostParams } from '@/types/openapi/schemas'
 import type { ReactNode } from 'react'
 

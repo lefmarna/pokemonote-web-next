@@ -11,7 +11,7 @@ import { DataGrid, jaJP } from '@mui/x-data-grid'
 import React, { useState } from 'react'
 import { Title } from '@/components/molecules/Title'
 import { usePokemonBasicInfosState } from '@/store/pokemonBasicInfosState'
-import type { PokemonBasicInfo, RankCheckbox, Stats } from '@/types'
+import type { PokemonBasicInfo, RankCheckbox, Stats } from '@/types/front'
 import type { GridSortModel, GridValueGetterParams } from '@mui/x-data-grid'
 
 export const BaseStatsRanking = () => {

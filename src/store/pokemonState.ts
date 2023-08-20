@@ -1,6 +1,11 @@
 import { useCallback } from 'react'
 import { atom, useRecoilValue, useSetRecoilState } from 'recoil'
-import type { Nature, NullableStats, Pokemon, PokemonBasicInfo } from '@/types'
+import type {
+  Nature,
+  NullableStats,
+  Pokemon,
+  PokemonBasicInfo,
+} from '@/types/front'
 
 const pokemonRecoilState = atom<Pokemon>({
   key: 'PokemonState',

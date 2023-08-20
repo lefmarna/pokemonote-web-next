@@ -38,6 +38,7 @@ export interface paths {
     post: {
       requestBody: components['requestBodies']['RegisterTentativeRequestBody']
       responses: {
+        200: components['responses']['RegisterTentativeResponse']
         201: components['responses']['RegisterTentativeResponse']
       }
     }

@@ -14,7 +14,7 @@ import { useIsInitializationMutators } from '@/store/isInitializationState'
 import { useNaturesMutators } from '@/store/naturesState'
 import { usePokemonBasicInfosSMutators } from '@/store/pokemonBasicInfosState'
 import { theme, useMediaQueryUp } from '@/utils/theme'
-import type { AuthUser, Nature, PokemonBasicInfo } from '@/types'
+import type { AuthUser, Nature, PokemonBasicInfo } from '@/types/front'
 import type { AxiosError } from 'axios'
 import type { AppProps } from 'next/app'
 

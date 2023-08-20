@@ -21,7 +21,7 @@ import {
 } from '@mui/material'
 import { memo, useState } from 'react'
 import { useAuthUserState } from '@/store/authUserState'
-import type { NullableStats, Stats } from '@/types'
+import type { NullableStats, Stats } from '@/types/front'
 import type { SelectChangeEvent } from '@mui/material'
 import type { ChangeEvent } from 'react'
 

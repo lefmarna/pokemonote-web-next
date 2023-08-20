@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 import { atom, useRecoilValue, useSetRecoilState } from 'recoil'
-import type { Nature } from '@/types'
+import type { Nature } from '@/types/front'
 
 export const naturesRecoilState = atom<Nature[]>({
   key: 'naturesState',
