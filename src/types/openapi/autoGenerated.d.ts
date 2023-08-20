@@ -36,10 +36,16 @@ export interface paths {
   '/api/v2/register/tentative': {
     /** アカウント仮登録API */
     post: {
-      requestBody: components['requestBodies']['RegisterRequestBody']
+      requestBody: components['requestBodies']['RegisterTentativeRequestBody']
       responses: {
         201: components['responses']['RegisterResponse']
       }
+    }
+  }
+  '/api/v2/register/resend': {
+    /** 認証メール再送信API */
+    post: {
+      requestBody: components['requestBodies']['RegisterResendRequestBody']
     }
   }
   '/api/v2/register/verify/{id}': {
@@ -806,7 +812,7 @@ export interface components {
   parameters: never
   requestBodies: {
     /** @description アカウント仮登録リクエストボディ */
-    RegisterRequestBody: {
+    RegisterTentativeRequestBody: {
       content: {
         'multipart/form-data': {
           /**
@@ -834,6 +840,18 @@ export interface components {
            * @example test1234
            */
           password_confirmation: string
+        }
+      }
+    }
+    /** @description 認証メール再送信リクエストボディ */
+    RegisterResendRequestBody: {
+      content: {
+        'application/json': {
+          /**
+           * @description メールアドレス
+           * @example test@test.com
+           */
+          email: string
         }
       }
     }

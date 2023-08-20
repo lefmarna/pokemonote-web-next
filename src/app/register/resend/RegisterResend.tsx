@@ -5,6 +5,7 @@ import { useState } from 'react'
 import { $axios } from '@/libs/axios'
 import { EmailInput } from '@/components/forms/EmailInput'
 import { FormTemplate } from '@/components/templates/FormTemplate'
+import { requestApi } from '@/utils/helpers/requestApi'
 import { exceptionErrorToArray } from '@/utils/utilities'
 import type { Email } from '@/types'
 
@@ -34,8 +35,12 @@ export const RegisterResend = () => {
   const resend = async (): Promise<void> => {
     try {
       setIsLoading(true)
-      await $axios.post('/api/v2/register/resend', {
-        email: email,
+      await requestApi({
+        url: '/api/v2/register/resend',
+        method: 'post',
+        data: {
+          email,
+        },
       })
       alert('メールを再送信しました。')
       setErrors([])

@@ -62,7 +62,7 @@ export const Login = noAuthMiddleware(() => {
 
       if (!_authUser.isAuthenticated) {
         localStorage.setItem('email', _authUser.email)
-        router.push('/email/resend')
+        router.push('/register/resend')
         return
       }
 
