@@ -77,6 +77,18 @@ export interface paths {
       }
     }
   }
+  '/api/v2/password/email': {
+    /** パスワード再設定メール送信API */
+    post: {
+      requestBody: components['requestBodies']['ResetPasswordSendEmailRequestBody']
+    }
+  }
+  '/api/v2/password/reset': {
+    /** パスワード再設定API */
+    put: {
+      requestBody: components['requestBodies']['ResetPasswordResetRequestBody']
+    }
+  }
   '/api/v2/pokemons': {
     /** ポケモン一覧API */
     get: {
@@ -868,6 +880,35 @@ export interface components {
     }
     /** @description 認証メール再送信リクエストボディ */
     RegisterResendRequestBody: {
+      content: {
+        'application/json': {
+          /**
+           * @description メールアドレス
+           * @example test@test.com
+           */
+          email: string
+        }
+      }
+    }
+    /** @description パスワード再設定リクエストボディ */
+    ResetPasswordResetRequestBody: {
+      content: {
+        'application/json': {
+          /**
+           * @description 新しいパスワード
+           * @example test1234
+           */
+          newPassword: string
+          /**
+           * @description 確認用パスワード
+           * @example test1234
+           */
+          newPassword_confirmation: string
+        }
+      }
+    }
+    /** @description パスワード再設定メール送信リクエストボディ */
+    ResetPasswordSendEmailRequestBody: {
       content: {
         'application/json': {
           /**

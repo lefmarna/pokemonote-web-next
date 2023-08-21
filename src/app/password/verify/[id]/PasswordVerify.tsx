@@ -8,7 +8,7 @@ import { PasswordInput } from '@/components/forms/PasswordInput'
 import { Title } from '@/components/molecules/Title'
 import { FormTemplate } from '@/components/templates/FormTemplate'
 import { SLink } from '@/styles'
-import { exceptionErrorToArray } from '@/utils/helpers'
+import { exceptionErrorToArray, requestApi } from '@/utils/helpers'
 
 export const PasswordVerify = () => {
   const params = useParams()
@@ -21,8 +21,8 @@ export const PasswordVerify = () => {
   const [errors, setErrors] = useState<string[]>([])
 
   const [resetPasswordParams, setResetPasswordParams] = useState({
-    new_password: '',
-    new_password_confirmation: '',
+    newPassword: '',
+    newPassword_confirmation: '',
   })
 
   const updateRestPasswordParams = (
@@ -35,11 +35,11 @@ export const PasswordVerify = () => {
   }
 
   const updateNewPassword = (newPassword: string) => {
-    updateRestPasswordParams({ new_password: newPassword })
+    updateRestPasswordParams({ newPassword: newPassword })
   }
 
   const updateNewPasswordConfirmation = (newPassword: string) => {
-    updateRestPasswordParams({ new_password_confirmation: newPassword })
+    updateRestPasswordParams({ newPassword_confirmation: newPassword })
   }
 
   useEffect(() => {
@@ -63,7 +63,11 @@ export const PasswordVerify = () => {
   const submit = async () => {
     setIsLoading(true)
     try {
-      await $axios.put('/api/v2/password/reset', resetPasswordParams)
+      await requestApi({
+        url: '/api/v2/password/reset',
+        method: 'put',
+        data: resetPasswordParams,
+      })
       setIsSubmit(true)
       setErrors([])
     } catch (error) {
@@ -85,12 +89,12 @@ export const PasswordVerify = () => {
         onSubmit={submit}
       >
         <PasswordInput
-          value={resetPasswordParams.new_password}
+          value={resetPasswordParams.newPassword}
           label="新しいパスワード"
           setValue={updateNewPassword}
         />
         <PasswordInput
-          value={resetPasswordParams.new_password_confirmation}
+          value={resetPasswordParams.newPassword_confirmation}
           label="確認用パスワード"
           setValue={updateNewPasswordConfirmation}
         />

@@ -22,7 +22,7 @@ export const RegisterResend = noAuthMiddleware(() => {
         method: 'get',
       })
       if (!response.data) {
-        router.push('/')
+        router.replace('/')
         return
       }
       setEmail(response.data.data.email)
