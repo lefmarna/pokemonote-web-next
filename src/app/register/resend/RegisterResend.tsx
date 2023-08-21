@@ -4,9 +4,10 @@ import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { EmailInput } from '@/components/forms/EmailInput'
 import { FormTemplate } from '@/components/templates/FormTemplate'
+import { noAuthMiddleware } from '@/hocs/noAuthMiddleware'
 import { exceptionErrorToArray, requestApi } from '@/utils/helpers'
 
-export const RegisterResend = () => {
+export const RegisterResend = noAuthMiddleware(() => {
   const router = useRouter()
 
   const [email, setEmail] = useState(localStorage.getItem('email') ?? '')
@@ -66,4 +67,4 @@ export const RegisterResend = () => {
       <EmailInput value={email} setValue={setEmail} required />
     </FormTemplate>
   )
-}
+})
