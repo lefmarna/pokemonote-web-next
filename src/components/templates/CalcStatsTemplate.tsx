@@ -11,7 +11,7 @@ import {
 } from '@mui/material'
 import { Box } from '@mui/system'
 import { useState } from 'react'
-import { Title } from '../molecules/Title'
+import { Title } from '@/components/molecules/Title'
 import { BaseStatsField } from '@/components/organisms/BaseStatsField'
 import { CalcStatsOptions } from '@/components/organisms/CalcStatsOptions'
 import { EffortValueField } from '@/components/organisms/EffortValueField'
