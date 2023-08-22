@@ -1,7 +1,7 @@
 'use client'
 
 import { Container } from '@mui/material'
-import { useParams, useSearchParams } from 'next/navigation'
+import { useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { $axios } from '@/libs/axios'
 import { PasswordInput } from '@/components/forms/PasswordInput'
@@ -11,7 +11,6 @@ import { SLink } from '@/styles'
 import { exceptionErrorToArray, requestApi } from '@/utils/helpers'
 
 export const PasswordVerify = () => {
-  const params = useParams()
   const searchParams = useSearchParams()
 
   const [isConfirm, setIsConfirm] = useState(true)
@@ -46,7 +45,9 @@ export const PasswordVerify = () => {
     ;(async () => {
       try {
         await $axios.get(
-          `/api/v2/password/verify/${params.id}?expires=${searchParams.get(
+          `/api/v2/password/verify/${searchParams.get(
+            'id'
+          )}?expires=${searchParams.get(
             'expires'
           )}&signature=${searchParams.get('signature')}`
         )
@@ -58,7 +59,7 @@ export const PasswordVerify = () => {
         setIsConfirm(false)
       }
     })()
-  }, [params.id, searchParams])
+  }, [searchParams])
 
   const submit = async () => {
     setIsLoading(true)

@@ -81,6 +81,9 @@ export interface paths {
     /** パスワード再設定メール送信API */
     post: {
       requestBody: components['requestBodies']['ResetPasswordSendEmailRequestBody']
+      responses: {
+        204: components['responses']
+      }
     }
   }
   '/api/v2/password/reset': {
@@ -842,6 +845,10 @@ export interface components {
           }
         }
       }
+    }
+    /** @description No Content */
+    '': {
+      content: never
     }
   }
   parameters: never
