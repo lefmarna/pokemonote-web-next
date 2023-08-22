@@ -61,11 +61,11 @@ export interface paths {
     /** アカウント本登録API */
     get: {
       parameters: {
-        query?: {
+        query: {
           /** @description 有効期限 */
-          expires?: string
+          expires: string
           /** @description 署名 */
-          signature?: string
+          signature: string
         }
         path: {
           /** @description ユーザーID */
@@ -81,6 +81,26 @@ export interface paths {
     /** パスワード再設定メール送信API */
     post: {
       requestBody: components['requestBodies']['ResetPasswordSendEmailRequestBody']
+      responses: {
+        204: components['responses']
+      }
+    }
+  }
+  '/api/v2/password/verify/{user_id}': {
+    /** パスワード再設定メール検証API */
+    get: {
+      parameters: {
+        query: {
+          /** @description 有効期限 */
+          expires: string
+          /** @description 署名 */
+          signature: string
+        }
+        path: {
+          /** @description ユーザーID */
+          id: string
+        }
+      }
       responses: {
         204: components['responses']
       }

@@ -3,7 +3,6 @@
 import { Container } from '@mui/material'
 import { useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import { $axios } from '@/libs/axios'
 import { PasswordInput } from '@/components/forms/PasswordInput'
 import { Title } from '@/components/molecules/Title'
 import { FormTemplate } from '@/components/templates/FormTemplate'
@@ -44,13 +43,17 @@ export const PasswordVerify = () => {
   useEffect(() => {
     ;(async () => {
       try {
-        await $axios.get(
-          `/api/v2/password/verify/${searchParams.get(
-            'id'
-          )}?expires=${searchParams.get(
-            'expires'
-          )}&signature=${searchParams.get('signature')}`
-        )
+        await requestApi({
+          url: '/api/v2/password/verify/{user_id}',
+          method: 'get',
+          pathParameters: {
+            id: searchParams.get('id') ?? '',
+          },
+          queryParameters: {
+            expires: searchParams.get('expires') ?? '',
+            signature: searchParams.get('signature') ?? '',
+          },
+        })
         setIsSuccess(true)
       } catch (error) {
         console.log(error)
