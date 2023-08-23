@@ -9,6 +9,7 @@ import {
   Divider,
   List,
   ListItem,
+  ListItemButton,
   ListItemIcon,
   ListItemText,
   TextField,
@@ -116,82 +117,116 @@ export const Settings = authMiddleware(() => {
     router.replace('/login')
   }
 
+  type ModalType = 'name' | 'email' | 'password' | 'unsubscribe'
+
+  const [modalType, setModalType] = useState<ModalType | null>(null)
+
+  const handleOpenModal = (modalType: ModalType) => () => {
+    setModalType(modalType)
+  }
+
+  const onCloseModal = () => {
+    setModalType(null)
+  }
+
   return (
     <Container>
       <Card sx={{ maxWidth: 540, mx: 'auto', mt: 5 }}>
         <CardHeader>Pokemonote - 設定</CardHeader>
-        <DialogCard
-          title="Pokemonote - アカウント情報の変更"
-          submitButtonText="変更する"
-          isLoading={isLoading}
-          onSubmit={updateAccount}
-        >
-          <TextField
-            value={updateAccountParams.username}
-            onChange={(e) =>
-              setUpdateAccountParams({
-                ...updateAccountParams,
-                username: e.target.value,
-              })
-            }
-            label="ユーザー名"
-            placeholder="英数5〜15文字で入力してください。"
-          />
-          <TextField
-            value={updateAccountParams.nickname}
-            onChange={(e) =>
-              setUpdateAccountParams({
-                ...updateAccountParams,
-                nickname: e.target.value,
-              })
-            }
-            label="ニックネーム"
-            placeholder="4〜50文字で入力してください。"
-          />
-          <List>
-            {updateAccountErrors.map((error, index) => (
-              <ListItem key={index}>
-                <ListItemIcon>
-                  <Alert severity="error" icon={<ErrorOutline />} />
-                </ListItemIcon>
-                <ListItemText>{error}</ListItemText>
-              </ListItem>
-            ))}
-          </List>
-        </DialogCard>
-        <Divider />
-        <DialogCard
-          title="Pokemonote - メールアドレスの変更"
-          submitButtonText="確認メールを送信する"
-          isLoading={isLoading}
-          onSubmit={updateEmail}
-        >
-          {/* 各フィールドの内容を実装してください */}
-        </DialogCard>
-        <Divider />
-        <DialogCard
-          title="Pokemonote - パスワードの更新"
-          submitButtonText="更新する"
-          isLoading={isLoading}
-          onSubmit={updatePassword}
-        >
-          {/* 各フィールドの内容を実装してください */}
-        </DialogCard>
-        <Divider />
-        <DialogCard
-          title="Pokemonote - アカウント退会"
-          submitButtonText="退会する"
-          isDanger={true}
-          isLoading={isLoading}
-          onSubmit={unsubscribe}
-        >
-          <div>
-            これまでに投稿されたポケモンのデータも全て削除されます。
-            <br />
-            本当に退会してもよろしいですか？
-          </div>
-        </DialogCard>
+        <List>
+          <ListItemButton onClick={handleOpenModal('name')}>
+            アカウント情報の変更
+          </ListItemButton>
+          <ListItemButton onClick={handleOpenModal('email')}>
+            メールアドレスの変更
+          </ListItemButton>
+          <ListItemButton onClick={handleOpenModal('password')}>
+            パスワードの更新
+          </ListItemButton>
+          <ListItemButton onClick={handleOpenModal('unsubscribe')}>
+            退会
+          </ListItemButton>
+        </List>
       </Card>
+      <DialogCard
+        title="Pokemonote - アカウント情報の変更"
+        submitButtonText="変更する"
+        isLoading={isLoading}
+        onSubmit={updateAccount}
+        open={modalType === 'name'}
+        onClose={onCloseModal}
+      >
+        <TextField
+          value={updateAccountParams.username}
+          onChange={(e) =>
+            setUpdateAccountParams({
+              ...updateAccountParams,
+              username: e.target.value,
+            })
+          }
+          label="ユーザー名"
+          placeholder="英数5〜15文字で入力してください。"
+        />
+        <TextField
+          value={updateAccountParams.nickname}
+          onChange={(e) =>
+            setUpdateAccountParams({
+              ...updateAccountParams,
+              nickname: e.target.value,
+            })
+          }
+          label="ニックネーム"
+          placeholder="4〜50文字で入力してください。"
+        />
+        <List>
+          {updateAccountErrors.map((error, index) => (
+            <ListItem key={index}>
+              <ListItemIcon>
+                <Alert severity="error" icon={<ErrorOutline />} />
+              </ListItemIcon>
+              <ListItemText>{error}</ListItemText>
+            </ListItem>
+          ))}
+        </List>
+      </DialogCard>
+      <Divider />
+      <DialogCard
+        title="Pokemonote - メールアドレスの変更"
+        submitButtonText="確認メールを送信する"
+        isLoading={isLoading}
+        onSubmit={updateEmail}
+        open={modalType === 'email'}
+        onClose={onCloseModal}
+      >
+        {/* 各フィールドの内容を実装してください */}
+      </DialogCard>
+      <Divider />
+      <DialogCard
+        title="Pokemonote - パスワードの更新"
+        submitButtonText="更新する"
+        isLoading={isLoading}
+        onSubmit={updatePassword}
+        open={modalType === 'password'}
+        onClose={onCloseModal}
+      >
+        {/* 各フィールドの内容を実装してください */}
+      </DialogCard>
+      <Divider />
+      <DialogCard
+        title="Pokemonote - アカウント退会"
+        submitButtonText="退会する"
+        isDanger={true}
+        isLoading={isLoading}
+        onSubmit={unsubscribe}
+        open={modalType === 'unsubscribe'}
+        onClose={onCloseModal}
+      >
+        <div>
+          これまでに投稿されたポケモンのデータも全て削除されます。
+          <br />
+          本当に退会してもよろしいですか？
+        </div>
+      </DialogCard>
     </Container>
   )
 })
