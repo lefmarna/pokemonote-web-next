@@ -54,7 +54,6 @@ export const Settings = authMiddleware(() => {
         updateAccountParams
       )
       alert('ユーザー情報を更新しました')
-      // closeDialog()
       setUpdateAccountParams({
         username: '',
         nickname: '',
@@ -113,7 +112,6 @@ export const Settings = authMiddleware(() => {
       setIsLoading(false)
     }
     updateAuthUser(null)
-    // dialog.value = false
     router.replace('/login')
   }
 
@@ -132,7 +130,7 @@ export const Settings = authMiddleware(() => {
   return (
     <Container>
       <Card sx={{ maxWidth: 540, mx: 'auto', mt: 5 }}>
-        <CardHeader>Pokemonote - 設定</CardHeader>
+        <CardHeader title="Pokemonote - 設定" />
         <List>
           <ListItemButton onClick={handleOpenModal('name')}>
             アカウント情報の変更
@@ -189,7 +187,6 @@ export const Settings = authMiddleware(() => {
           ))}
         </List>
       </DialogCard>
-      <Divider />
       <DialogCard
         title="Pokemonote - メールアドレスの変更"
         submitButtonText="確認メールを送信する"
@@ -200,7 +197,6 @@ export const Settings = authMiddleware(() => {
       >
         {/* 各フィールドの内容を実装してください */}
       </DialogCard>
-      <Divider />
       <DialogCard
         title="Pokemonote - パスワードの更新"
         submitButtonText="更新する"
@@ -211,7 +207,6 @@ export const Settings = authMiddleware(() => {
       >
         {/* 各フィールドの内容を実装してください */}
       </DialogCard>
-      <Divider />
       <DialogCard
         title="Pokemonote - アカウント退会"
         submitButtonText="退会する"

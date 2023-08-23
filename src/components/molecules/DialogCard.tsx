@@ -1,6 +1,12 @@
 'use client'
 
-import { Dialog, Card, CardActions, CardHeader } from '@mui/material'
+import {
+  Dialog,
+  Card,
+  CardActions,
+  CardHeader,
+  CardContent,
+} from '@mui/material'
 import Button from '@mui/material/Button'
 import CircularProgress from '@mui/material/CircularProgress'
 import type { ReactNode } from 'react'
@@ -38,17 +44,17 @@ export const DialogCard = (props: Props) => {
   const submitButtonColor = isDanger ? 'error' : 'primary'
 
   return (
-    <Dialog open={open} onClose={onClose} maxWidth="sm">
-      {children}
-      <Card>
-        <CardHeader className="justify-center">{title}</CardHeader>
-        <CardActions className="justify-space-around">
+    <Dialog open={open} onClose={onClose} maxWidth="sm" sx={{ py: 3 }}>
+      <Card sx={{ p: 3 }}>
+        <CardHeader title={title} />
+        <CardContent>{children}</CardContent>
+        <CardActions sx={{ display: 'flex', justifyContent: 'center' }}>
           <Button
             variant="outlined"
             color="secondary"
             disabled={isLoading}
             onClick={onClose}
-            style={{ minWidth: 125 }}
+            sx={{ minWidth: 125 }}
           >
             {cancelButtonText}
           </Button>
@@ -57,7 +63,7 @@ export const DialogCard = (props: Props) => {
             color={submitButtonColor}
             disabled={isLoading}
             onClick={handleSubmit}
-            style={{ minWidth: 125 }}
+            sx={{ minWidth: 125 }}
           >
             {isLoading ? <CircularProgress size={24} /> : submitButtonText}
           </Button>
