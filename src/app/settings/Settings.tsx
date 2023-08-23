@@ -17,6 +17,9 @@ import {
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { $axios, isAxiosError } from '@/libs/axios'
+import { EmailInput } from '@/components/forms/EmailInput'
+import { NicknameInput } from '@/components/forms/NicknameInput'
+import { UsernameInput } from '@/components/forms/UsernameInput'
 import { DialogCard } from '@/components/molecules/DialogCard'
 import { authMiddleware } from '@/hocs/authMiddleware'
 import { useAuthUserMutators } from '@/store/authUserState'
@@ -33,9 +36,9 @@ export const Settings = authMiddleware(() => {
   })
   const [updateAccountErrors, setUpdateAccountErrors] = useState<string[]>([])
   const [updateEmailParams, setUpdateEmailParams] = useState({
-    current_email: '',
-    new_email: '',
-    new_email_confirmation: '',
+    currentEmail: '',
+    newEmail: '',
+    newEmail_confirmation: '',
   })
   const [updateEmailErrors, setUpdateEmailErrors] = useState<string[]>([])
   const [passwordParams, setPasswordParams] = useState({
@@ -154,27 +157,27 @@ export const Settings = authMiddleware(() => {
         open={modalType === 'name'}
         onClose={onCloseModal}
       >
-        <TextField
-          value={updateAccountParams.username}
-          onChange={(e) =>
-            setUpdateAccountParams({
-              ...updateAccountParams,
-              username: e.target.value,
-            })
-          }
-          label="ユーザー名"
-          placeholder="英数5〜15文字で入力してください。"
-        />
-        <TextField
+        <NicknameInput
           value={updateAccountParams.nickname}
-          onChange={(e) =>
-            setUpdateAccountParams({
-              ...updateAccountParams,
-              nickname: e.target.value,
+          setValue={(nickname: string) =>
+            setUpdateAccountParams((prevParams) => {
+              return {
+                ...prevParams,
+                nickname,
+              }
             })
           }
-          label="ニックネーム"
-          placeholder="4〜50文字で入力してください。"
+        />
+        <UsernameInput
+          value={updateAccountParams.username}
+          setValue={(username: string) =>
+            setUpdateAccountParams((prevParams) => {
+              return {
+                ...prevParams,
+                username,
+              }
+            })
+          }
         />
         <List>
           {updateAccountErrors.map((error, index) => (
@@ -195,7 +198,42 @@ export const Settings = authMiddleware(() => {
         open={modalType === 'email'}
         onClose={onCloseModal}
       >
-        {/* 各フィールドの内容を実装してください */}
+        <EmailInput
+          value={updateEmailParams.currentEmail}
+          label="現在のメールアドレス"
+          setValue={(currentEmail: string) => {
+            setUpdateEmailParams((prevParams) => {
+              return {
+                ...prevParams,
+                currentEmail,
+              }
+            })
+          }}
+        />
+        <EmailInput
+          value={updateEmailParams.newEmail}
+          label="新しいメールアドレス"
+          setValue={(newEmail: string) => {
+            setUpdateEmailParams((prevParams) => {
+              return {
+                ...prevParams,
+                newEmail,
+              }
+            })
+          }}
+        />
+        <EmailInput
+          value={updateEmailParams.newEmail_confirmation}
+          label="新しいメールアドレス（確認用）"
+          setValue={(newEmail_confirmation: string) => {
+            setUpdateEmailParams((prevParams) => {
+              return {
+                ...prevParams,
+                newEmail_confirmation,
+              }
+            })
+          }}
+        />
       </DialogCard>
       <DialogCard
         title="Pokemonote - パスワードの更新"

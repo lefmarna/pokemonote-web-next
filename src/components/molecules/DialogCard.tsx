@@ -6,6 +6,7 @@ import {
   CardActions,
   CardHeader,
   CardContent,
+  Stack,
 } from '@mui/material'
 import Button from '@mui/material/Button'
 import CircularProgress from '@mui/material/CircularProgress'
@@ -47,7 +48,9 @@ export const DialogCard = (props: Props) => {
     <Dialog open={open} onClose={onClose} maxWidth="sm" sx={{ py: 3 }}>
       <Card sx={{ p: 3 }}>
         <CardHeader title={title} />
-        <CardContent>{children}</CardContent>
+        <CardContent>
+          <Stack spacing={4}>{children}</Stack>
+        </CardContent>
         <CardActions sx={{ display: 'flex', justifyContent: 'center' }}>
           <Button
             variant="outlined"
