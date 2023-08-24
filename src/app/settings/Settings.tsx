@@ -6,19 +6,18 @@ import {
   Card,
   CardHeader,
   Container,
-  Divider,
   List,
   ListItem,
   ListItemButton,
   ListItemIcon,
   ListItemText,
-  TextField,
 } from '@mui/material'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { $axios, isAxiosError } from '@/libs/axios'
 import { EmailInput } from '@/components/forms/EmailInput'
 import { NicknameInput } from '@/components/forms/NicknameInput'
+import { PasswordInput } from '@/components/forms/PasswordInput'
 import { UsernameInput } from '@/components/forms/UsernameInput'
 import { DialogCard } from '@/components/molecules/DialogCard'
 import { authMiddleware } from '@/hocs/authMiddleware'
@@ -43,8 +42,8 @@ export const Settings = authMiddleware(() => {
   const [updateEmailErrors, setUpdateEmailErrors] = useState<string[]>([])
   const [passwordParams, setPasswordParams] = useState({
     current_password: '',
-    new_password: '',
-    new_password_confirmation: '',
+    newPassword: '',
+    newPassword_confirmation: '',
   })
   const [updatePasswordErrors, setUpdatePasswordErrors] = useState<string[]>([])
 
@@ -92,8 +91,8 @@ export const Settings = authMiddleware(() => {
       // closeDialog()
       setPasswordParams({
         current_password: '',
-        new_password: '',
-        new_password_confirmation: '',
+        newPassword: '',
+        newPassword_confirmation: '',
       })
       setUpdatePasswordErrors([])
     } catch (error) {
@@ -243,7 +242,42 @@ export const Settings = authMiddleware(() => {
         open={modalType === 'password'}
         onClose={onCloseModal}
       >
-        {/* 各フィールドの内容を実装してください */}
+        <PasswordInput
+          value={passwordParams.current_password}
+          label="現在のパスワード"
+          setValue={(current_password: string) => {
+            setPasswordParams((prevParams) => {
+              return {
+                ...prevParams,
+                current_password,
+              }
+            })
+          }}
+        />
+        <PasswordInput
+          value={passwordParams.newPassword}
+          label="新しいパスワード"
+          setValue={(newPassword: string) => {
+            setPasswordParams((prevParams) => {
+              return {
+                ...prevParams,
+                newPassword,
+              }
+            })
+          }}
+        />
+        <PasswordInput
+          value={passwordParams.newPassword_confirmation}
+          label="確認用パスワード"
+          setValue={(newPassword_confirmation: string) => {
+            setPasswordParams((prevParams) => {
+              return {
+                ...prevParams,
+                newPassword_confirmation,
+              }
+            })
+          }}
+        />
       </DialogCard>
       <DialogCard
         title="Pokemonote - アカウント退会"
