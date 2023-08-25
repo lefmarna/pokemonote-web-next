@@ -188,6 +188,14 @@ export interface paths {
       }
     }
   }
+  '/api/v2/settings/unsubscribe': {
+    /** 退会API */
+    delete: {
+      responses: {
+        204: components['responses']
+      }
+    }
+  }
 }
 
 export type webhooks = Record<string, never>

@@ -116,7 +116,10 @@ export const Settings = authMiddleware(() => {
   const unsubscribe = async () => {
     setIsLoading(true)
     try {
-      await $axios.delete(`/settings/unsubscribe`)
+      await requestApi({
+        url: '/api/v2/settings/unsubscribe',
+        method: 'delete',
+      })
     } catch (error) {
       if (!isAxiosError(error) || error.response?.status !== 401) return
       console.log(error)
