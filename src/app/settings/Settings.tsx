@@ -42,7 +42,7 @@ export const Settings = authMiddleware(() => {
   })
   const [updateEmailErrors, setUpdateEmailErrors] = useState<string[]>([])
   const [passwordParams, setPasswordParams] = useState({
-    current_password: '',
+    currentPassword: '',
     newPassword: '',
     newPassword_confirmation: '',
   })
@@ -93,11 +93,14 @@ export const Settings = authMiddleware(() => {
   const updatePassword = async () => {
     setIsLoading(true)
     try {
-      await $axios.put('/settings/password', passwordParams)
+      await requestApi({
+        url: '/api/v2/settings/password',
+        method: 'put',
+        data: passwordParams,
+      })
       alert('パスワードを更新しました')
-      // closeDialog()
       setPasswordParams({
-        current_password: '',
+        currentPassword: '',
         newPassword: '',
         newPassword_confirmation: '',
       })
@@ -250,13 +253,13 @@ export const Settings = authMiddleware(() => {
         onClose={onCloseModal}
       >
         <PasswordInput
-          value={passwordParams.current_password}
+          value={passwordParams.currentPassword}
           label="現在のパスワード"
-          setValue={(current_password: string) => {
+          setValue={(currentPassword: string) => {
             setPasswordParams((prevParams) => {
               return {
                 ...prevParams,
-                current_password,
+                currentPassword,
               }
             })
           }}

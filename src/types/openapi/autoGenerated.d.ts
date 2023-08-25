@@ -173,7 +173,16 @@ export interface paths {
   '/api/v2/settings/account': {
     /** アカウント情報更新API */
     put: {
-      requestBody: components['requestBodies']['AccountUpdateRequestBody']
+      requestBody: components['requestBodies']['SettingAccountUpdateRequestBody']
+      responses: {
+        204: components['responses']
+      }
+    }
+  }
+  '/api/v2/settings/password': {
+    /** パスワード更新API */
+    put: {
+      requestBody: components['requestBodies']['SettingPasswordUpdateRequestBody']
       responses: {
         204: components['responses']
       }
@@ -677,7 +686,7 @@ export interface components {
       username: string
       /**
        * @description 表示名
-       * @example テスト
+       * @example テストアカウント
        */
       nickname: string
     }
@@ -984,8 +993,30 @@ export interface components {
         'application/json': components['schemas']['PokemonPostParams']
       }
     }
+    /** @description パスワード更新用リクエストボディ */
+    SettingPasswordUpdateRequestBody: {
+      content: {
+        'application/json': {
+          /**
+           * @description 現在のパスワード
+           * @example test1234
+           */
+          currentPassword: string
+          /**
+           * @description 新しいパスワード
+           * @example test12345
+           */
+          newPassword: string
+          /**
+           * @description 確認用パスワード
+           * @example test12345
+           */
+          newPassword_confirmation: string
+        }
+      }
+    }
     /** @description アカウント情報更新用リクエストボディ */
-    AccountUpdateRequestBody: {
+    SettingAccountUpdateRequestBody: {
       content: {
         'application/json': components['schemas']['User']
       }
