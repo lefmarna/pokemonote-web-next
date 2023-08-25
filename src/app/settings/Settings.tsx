@@ -21,11 +21,12 @@ import { PasswordInput } from '@/components/forms/PasswordInput'
 import { UsernameInput } from '@/components/forms/UsernameInput'
 import { DialogCard } from '@/components/molecules/DialogCard'
 import { authMiddleware } from '@/hocs/authMiddleware'
-import { useAuthUserMutators } from '@/store/authUserState'
-import { exceptionErrorToArray } from '@/utils/helpers'
+import { useAuthUserMutators, useAuthUserState } from '@/store/authUserState'
+import { exceptionErrorToArray, requestApi } from '@/utils/helpers'
 
 export const Settings = authMiddleware(() => {
   const router = useRouter()
+  const authUser = useAuthUserState()
   const { updateAuthUser } = useAuthUserMutators()
 
   const [isLoading, setIsLoading] = useState(false)
@@ -49,19 +50,25 @@ export const Settings = authMiddleware(() => {
 
   // アカウント情報の更新処理
   const updateAccount = async () => {
+    if (authUser === null) return
+
     setIsLoading(true)
     try {
-      const response = await $axios.put(
-        '/settings/account',
-        updateAccountParams
-      )
+      await requestApi({
+        url: '/api/v2/settings/account',
+        method: 'put',
+        data: updateAccountParams,
+      })
       alert('ユーザー情報を更新しました')
+      updateAuthUser({
+        ...authUser,
+        ...updateAccountParams,
+      })
       setUpdateAccountParams({
         username: '',
         nickname: '',
       })
       setUpdateAccountErrors([])
-      updateAuthUser(response.data.data)
     } catch (error) {
       setUpdateAccountErrors(exceptionErrorToArray(error, [401, 422]))
     } finally {
@@ -156,17 +163,6 @@ export const Settings = authMiddleware(() => {
         open={modalType === 'name'}
         onClose={onCloseModal}
       >
-        <NicknameInput
-          value={updateAccountParams.nickname}
-          setValue={(nickname: string) =>
-            setUpdateAccountParams((prevParams) => {
-              return {
-                ...prevParams,
-                nickname,
-              }
-            })
-          }
-        />
         <UsernameInput
           value={updateAccountParams.username}
           setValue={(username: string) =>
@@ -174,6 +170,17 @@ export const Settings = authMiddleware(() => {
               return {
                 ...prevParams,
                 username,
+              }
+            })
+          }
+        />
+        <NicknameInput
+          value={updateAccountParams.nickname}
+          setValue={(nickname: string) =>
+            setUpdateAccountParams((prevParams) => {
+              return {
+                ...prevParams,
+                nickname,
               }
             })
           }

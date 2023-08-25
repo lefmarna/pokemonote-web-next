@@ -170,6 +170,15 @@ export interface paths {
       }
     }
   }
+  '/api/v2/settings/account': {
+    /** アカウント情報更新API */
+    put: {
+      requestBody: components['requestBodies']['AccountUpdateRequestBody']
+      responses: {
+        204: components['responses']
+      }
+    }
+  }
 }
 
 export type webhooks = Record<string, never>
@@ -973,6 +982,12 @@ export interface components {
     PokemonUpdateRequestBody: {
       content: {
         'application/json': components['schemas']['PokemonPostParams']
+      }
+    }
+    /** @description アカウント情報更新用リクエストボディ */
+    AccountUpdateRequestBody: {
+      content: {
+        'application/json': components['schemas']['User']
       }
     }
   }
