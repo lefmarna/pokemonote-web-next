@@ -188,6 +188,28 @@ export interface paths {
       }
     }
   }
+  '/api/v2/settings/email/verify/{userId}/{encryptedEmail}': {
+    /** メールアドレス更新用メール検証API */
+    get: {
+      parameters: {
+        query: {
+          /** @description 有効期限 */
+          expires: string
+          /** @description 署名 */
+          signature: string
+        }
+        path: {
+          /** @description ユーザーID */
+          userId: string
+          /** @description 暗号化済メールアドレス */
+          encryptedEmail: string
+        }
+      }
+      responses: {
+        200: components['responses']['SettingEmailVerifyResponse']
+      }
+    }
+  }
   '/api/v2/settings/password': {
     /** パスワード更新API */
     put: {
@@ -898,6 +920,14 @@ export interface components {
             sumEffortValue: number
             user: components['schemas']['User']
           }
+        }
+      }
+    }
+    /** @description OK */
+    SettingEmailVerifyResponse: {
+      content: {
+        'application/json': {
+          data: components['schemas']['AuthUser']
         }
       }
     }
