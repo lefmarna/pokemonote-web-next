@@ -6,6 +6,7 @@ import {
   Card,
   CardHeader,
   Container,
+  Divider,
   List,
   ListItem,
   ListItemButton,
@@ -150,19 +151,31 @@ export const Settings = authMiddleware(() => {
 
   return (
     <Container>
-      <Card sx={{ maxWidth: 540, mx: 'auto', mt: 5 }}>
-        <CardHeader title="Pokemonote - 設定" />
+      <Card sx={{ maxWidth: 540, mx: 'auto', mt: 5, pt: 2, px: 2 }}>
+        <CardHeader
+          title="Pokemonote - 設定"
+          titleTypographyProps={{ align: 'center' }}
+        />
         <List>
-          <ListItemButton onClick={handleOpenModal('name')}>
+          <ListItemButton sx={{ py: 1.5 }} onClick={handleOpenModal('name')}>
             アカウント情報の変更
           </ListItemButton>
-          <ListItemButton onClick={handleOpenModal('email')}>
+          <Divider />
+          <ListItemButton sx={{ py: 1.5 }} onClick={handleOpenModal('email')}>
             メールアドレスの変更
           </ListItemButton>
-          <ListItemButton onClick={handleOpenModal('password')}>
+          <Divider />
+          <ListItemButton
+            sx={{ py: 1.5 }}
+            onClick={handleOpenModal('password')}
+          >
             パスワードの更新
           </ListItemButton>
-          <ListItemButton onClick={handleOpenModal('unsubscribe')}>
+          <Divider />
+          <ListItemButton
+            sx={{ py: 1.5 }}
+            onClick={handleOpenModal('unsubscribe')}
+          >
             退会
           </ListItemButton>
         </List>

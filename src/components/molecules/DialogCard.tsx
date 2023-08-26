@@ -46,11 +46,11 @@ export const DialogCard = (props: Props) => {
   return (
     <Dialog open={open} onClose={onClose} maxWidth="sm" sx={{ py: 3 }}>
       <Card sx={{ p: 3 }}>
-        <CardHeader title={title} />
+        <CardHeader title={title} titleTypographyProps={{ align: 'center' }} />
         <CardContent>
           <Stack spacing={4}>{children}</Stack>
         </CardContent>
-        <CardActions sx={{ display: 'flex', justifyContent: 'center' }}>
+        <CardActions sx={{ display: 'flex', justifyContent: 'space-around' }}>
           <Button
             variant="outlined"
             color="secondary"
