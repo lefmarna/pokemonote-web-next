@@ -179,6 +179,15 @@ export interface paths {
       }
     }
   }
+  '/api/v2/settings/email': {
+    /** メールアドレス更新用メール送信API */
+    post: {
+      requestBody: components['requestBodies']['SettingEmailUpdateRequestBody']
+      responses: {
+        204: components['responses']
+      }
+    }
+  }
   '/api/v2/settings/password': {
     /** パスワード更新API */
     put: {
@@ -1020,6 +1029,28 @@ export interface components {
            * @example test12345
            */
           newPassword_confirmation: string
+        }
+      }
+    }
+    /** @description メールアドレス更新用リクエストボディ */
+    SettingEmailUpdateRequestBody: {
+      content: {
+        'application/json': {
+          /**
+           * @description 現在のメールアドレス
+           * @example test@test.com
+           */
+          currentEmail: string
+          /**
+           * @description 新しいメールアドレス
+           * @example example@example.co.jp
+           */
+          newEmail: string
+          /**
+           * @description 新しいメールアドレス（確認用）
+           * @example example@example.co.jp
+           */
+          newEmail_confirmation: string
         }
       }
     }

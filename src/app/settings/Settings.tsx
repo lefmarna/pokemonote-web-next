@@ -10,7 +10,7 @@ import {
 } from '@mui/material'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
-import { $axios, isAxiosError } from '@/libs/axios'
+import { isAxiosError } from '@/libs/axios'
 import { EmailInput } from '@/components/forms/EmailInput'
 import { NicknameInput } from '@/components/forms/NicknameInput'
 import { PasswordInput } from '@/components/forms/PasswordInput'
@@ -48,8 +48,6 @@ export const Settings = authMiddleware(() => {
 
   // アカウント情報の更新処理
   const updateAccount = async () => {
-    if (authUser === null) return
-
     setIsLoading(true)
     try {
       await requestApi({
@@ -59,6 +57,9 @@ export const Settings = authMiddleware(() => {
       })
       alert('ユーザー情報を更新しました')
       onCloseModal()
+
+      if (authUser === null) return
+
       updateAuthUser({
         ...authUser,
         ...updateAccountParams,
@@ -74,7 +75,11 @@ export const Settings = authMiddleware(() => {
   const updateEmail = async () => {
     setIsLoading(true)
     try {
-      await $axios.post('/settings/email', updateEmailParams)
+      await requestApi({
+        url: '/api/v2/settings/email',
+        method: 'post',
+        data: updateEmailParams,
+      })
       router.push('/settings/email/confirm')
       onCloseModal()
     } catch (error) {
