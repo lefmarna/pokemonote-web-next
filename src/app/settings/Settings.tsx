@@ -1,17 +1,12 @@
 'use client'
 
-import { ErrorOutline } from '@mui/icons-material'
 import {
-  Alert,
   Card,
   CardHeader,
   Container,
   Divider,
   List,
-  ListItem,
   ListItemButton,
-  ListItemIcon,
-  ListItemText,
 } from '@mui/material'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
@@ -21,6 +16,7 @@ import { NicknameInput } from '@/components/forms/NicknameInput'
 import { PasswordInput } from '@/components/forms/PasswordInput'
 import { UsernameInput } from '@/components/forms/UsernameInput'
 import { DialogCard } from '@/components/molecules/DialogCard'
+import { ErrorList } from '@/components/molecules/ErrorList'
 import { authMiddleware } from '@/hocs/authMiddleware'
 import { useAuthUserMutators, useAuthUserState } from '@/store/authUserState'
 import { MODAL_CLOSE_TIME_MS } from '@/utils/constants'
@@ -67,12 +63,6 @@ export const Settings = authMiddleware(() => {
         ...authUser,
         ...updateAccountParams,
       })
-      await sleep(MODAL_CLOSE_TIME_MS)
-      setUpdateAccountParams({
-        username: '',
-        nickname: '',
-      })
-      setUpdateAccountErrors([])
     } catch (error) {
       setUpdateAccountErrors(exceptionErrorToArray(error, [401, 422]))
     } finally {
@@ -105,13 +95,6 @@ export const Settings = authMiddleware(() => {
       })
       alert('パスワードを更新しました')
       onCloseModal()
-      await sleep(MODAL_CLOSE_TIME_MS)
-      setPasswordParams({
-        currentPassword: '',
-        newPassword: '',
-        newPassword_confirmation: '',
-      })
-      setUpdatePasswordErrors([])
     } catch (error) {
       setUpdatePasswordErrors(exceptionErrorToArray(error, [401, 422]))
     } finally {
@@ -145,8 +128,32 @@ export const Settings = authMiddleware(() => {
     setModalType(modalType)
   }
 
-  const onCloseModal = () => {
+  const onCloseModal = async () => {
     setModalType(null)
+    await sleep(MODAL_CLOSE_TIME_MS)
+
+    // アカウント情報のフォームを初期化
+    setUpdateAccountParams({
+      username: '',
+      nickname: '',
+    })
+    setUpdateAccountErrors([])
+
+    // メールアドレスのフォームを初期化
+    setUpdateEmailParams({
+      currentEmail: '',
+      newEmail: '',
+      newEmail_confirmation: '',
+    })
+    setUpdateEmailErrors([])
+
+    // パスワードのフォームを初期化
+    setPasswordParams({
+      currentPassword: '',
+      newPassword: '',
+      newPassword_confirmation: '',
+    })
+    setUpdatePasswordErrors([])
   }
 
   return (
@@ -210,16 +217,7 @@ export const Settings = authMiddleware(() => {
             })
           }
         />
-        <List>
-          {updateAccountErrors.map((error, index) => (
-            <ListItem key={index}>
-              <ListItemIcon>
-                <Alert severity="error" icon={<ErrorOutline />} />
-              </ListItemIcon>
-              <ListItemText>{error}</ListItemText>
-            </ListItem>
-          ))}
-        </List>
+        <ErrorList errors={updateAccountErrors} />
       </DialogCard>
       <DialogCard
         title="Pokemonote - メールアドレスの変更"
@@ -265,6 +263,7 @@ export const Settings = authMiddleware(() => {
             })
           }}
         />
+        <ErrorList errors={updateEmailErrors} />
       </DialogCard>
       <DialogCard
         title="Pokemonote - パスワードの更新"
@@ -310,6 +309,7 @@ export const Settings = authMiddleware(() => {
             })
           }}
         />
+        <ErrorList errors={updatePasswordErrors} />
       </DialogCard>
       <DialogCard
         title="Pokemonote - アカウント退会"
