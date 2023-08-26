@@ -10,3 +10,4 @@ export {
   MAX_REAL_NUMBER,
   RANKS,
 } from './pokemonConfig'
+export { MODAL_CLOSE_TIME_MS } from './timerConfig'

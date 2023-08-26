@@ -22,7 +22,8 @@ import { UsernameInput } from '@/components/forms/UsernameInput'
 import { DialogCard } from '@/components/molecules/DialogCard'
 import { authMiddleware } from '@/hocs/authMiddleware'
 import { useAuthUserMutators, useAuthUserState } from '@/store/authUserState'
-import { exceptionErrorToArray, requestApi } from '@/utils/helpers'
+import { MODAL_CLOSE_TIME_MS } from '@/utils/constants'
+import { exceptionErrorToArray, requestApi, sleep } from '@/utils/helpers'
 
 export const Settings = authMiddleware(() => {
   const router = useRouter()
@@ -60,10 +61,12 @@ export const Settings = authMiddleware(() => {
         data: updateAccountParams,
       })
       alert('ユーザー情報を更新しました')
+      onCloseModal()
       updateAuthUser({
         ...authUser,
         ...updateAccountParams,
       })
+      await sleep(MODAL_CLOSE_TIME_MS)
       setUpdateAccountParams({
         username: '',
         nickname: '',
@@ -82,6 +85,7 @@ export const Settings = authMiddleware(() => {
     try {
       await $axios.post('/settings/email', updateEmailParams)
       router.push('/settings/email/confirm')
+      onCloseModal()
     } catch (error) {
       setUpdateEmailErrors(exceptionErrorToArray(error, [401, 422]))
     } finally {
@@ -99,6 +103,8 @@ export const Settings = authMiddleware(() => {
         data: passwordParams,
       })
       alert('パスワードを更新しました')
+      onCloseModal()
+      await sleep(MODAL_CLOSE_TIME_MS)
       setPasswordParams({
         currentPassword: '',
         newPassword: '',

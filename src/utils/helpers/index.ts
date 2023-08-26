@@ -10,3 +10,4 @@ export {
   numberToInt,
   valueVerification,
 } from './numberHelpers'
+export { sleep } from './timerHelpers'

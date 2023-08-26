@@ -39,7 +39,6 @@ export const DialogCard = (props: Props) => {
 
   const handleSubmit = () => {
     onSubmit()
-    onClose()
   }
 
   const submitButtonColor = isDanger ? 'error' : 'primary'
