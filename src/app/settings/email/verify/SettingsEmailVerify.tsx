@@ -17,7 +17,7 @@ export const SettingsEmailVerify = () => {
   ;(async () => {
     try {
       const response = await requestApi({
-        url: '/api/v2/settings/email/verify/{userId}/{encryptedEmail}',
+        url: '/api/v2/settings/email/verify/{id}/{encryptedEmail}',
         method: 'get',
         pathParameters: {
           userId: searchParams.get('id') ?? '',

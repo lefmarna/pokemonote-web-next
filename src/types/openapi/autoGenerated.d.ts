@@ -147,6 +147,9 @@ export interface paths {
         }
       }
       requestBody: components['requestBodies']['PokemonUpdateRequestBody']
+      responses: {
+        204: components['responses']
+      }
     }
     /** ポケモン削除API */
     delete: {
@@ -154,6 +157,9 @@ export interface paths {
         path: {
           id: string
         }
+      }
+      responses: {
+        204: components['responses']
       }
     }
   }
@@ -167,6 +173,15 @@ export interface paths {
       }
       responses: {
         200: components['responses']['PokemonEditResponse']
+      }
+    }
+  }
+  '/api/v2/lefmarna-otoiawase': {
+    /** お問い合わせAPI */
+    post: {
+      requestBody: components['requestBodies']['LefmarnaOtoiawaseSendRequestBody']
+      responses: {
+        204: components['responses']
       }
     }
   }
@@ -188,7 +203,7 @@ export interface paths {
       }
     }
   }
-  '/api/v2/settings/email/verify/{userId}/{encryptedEmail}': {
+  '/api/v2/settings/email/verify/{id}/{encryptedEmail}': {
     /** メールアドレス更新用メール検証API */
     get: {
       parameters: {
@@ -938,6 +953,28 @@ export interface components {
   }
   parameters: never
   requestBodies: {
+    /** @description お問い合わせリクエストボディ */
+    LefmarnaOtoiawaseSendRequestBody: {
+      content: {
+        'application/json': {
+          /**
+           * @description お名前
+           * @example バサギリ
+           */
+          name: string
+          /**
+           * @description メールアドレス
+           * @example test@test.com
+           */
+          email: string
+          /**
+           * @description お問い合わせ内容
+           * @example バサギリの種族値、攻撃と特防に間違いがあります。
+           */
+          message: string
+        }
+      }
+    }
     /** @description アカウント仮登録リクエストボディ */
     RegisterTentativeRequestBody: {
       content: {

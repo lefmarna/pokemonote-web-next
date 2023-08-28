@@ -12,6 +12,7 @@ import {
 } from '@mui/material'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
+import { requestApi } from '@/utils/helpers'
 
 export const LefmarnaOtoiawase = () => {
   const router = useRouter()
@@ -25,12 +26,14 @@ export const LefmarnaOtoiawase = () => {
     event.preventDefault()
     setIsLoading(true)
     try {
-      await fetch('/lefmarna-otoiawase', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
+      await requestApi({
+        url: '/api/v2/lefmarna-otoiawase',
+        method: 'post',
+        data: {
+          name,
+          email,
+          message,
         },
-        body: JSON.stringify({ name, email, message }),
       })
       router.push('/lefmarna-otoiawase/thanks')
     } catch (error) {
