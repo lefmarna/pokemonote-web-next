@@ -20,6 +20,14 @@ export interface paths {
       }
     }
   }
+  '/api/v2/top': {
+    /** トップページ情報取得API */
+    get: {
+      responses: {
+        200: components['responses']['StaticDataResponse']
+      }
+    }
+  }
   '/api/v2/login': {
     /** ログインAPI */
     post: {
@@ -794,10 +802,14 @@ export interface components {
     StaticDataResponse: {
       content: {
         'application/json': {
+          /** @description トップページ情報 */
           data: {
-            pokemonBasicInfos: components['schemas']['PokemonBasicInfo'][]
-            natures: components['schemas']['Nature'][]
-          }
+            /**
+             * @description ポケモン名
+             * @example カイリュー
+             */
+            name: string
+          }[]
         }
       }
     }
