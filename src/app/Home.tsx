@@ -20,6 +20,11 @@ import { LoadingPageTemplate } from '@/components/templates/LoadingPageTemplate'
 import { SH2 } from '@/styles'
 import type { Response } from '@/types/openapi/extractor'
 
+const HeadlineTitle = styled(SH2)`
+  text-align: center;
+  margin: 8px;
+`
+
 const UpdateDate = styled.h3`
   padding: 3px 0px;
   margin-bottom: 3px;
@@ -50,12 +55,12 @@ export const Home = () => {
           height={492}
         />
       </Grow>
-      <Container>
+      <Container sx={{ pt: 4, px: 4, pb: 2 }}>
         <Grid container spacing={2} alignItems="stretch">
           <Grid item xs={12} md={6} order={{ xs: 1, md: 2 }}>
-            <Card elevation={3}>
-              <CardContent sx={{ textAlign: 'center' }}>
-                <SH2>人気のポケモン</SH2>
+            <Card elevation={2}>
+              <CardContent sx={{ p: 0 }}>
+                <HeadlineTitle>人気のポケモン</HeadlineTitle>
                 <List>
                   {ranking.map((item, index) => (
                     <ListItem key={item.name}>
@@ -67,9 +72,9 @@ export const Home = () => {
             </Card>
           </Grid>
           <Grid item xs={12} md={6} order={{ xs: 2, md: 1 }}>
-            <Card elevation={3}>
-              <CardContent>
-                <SH2>更新情報</SH2>
+            <Card elevation={2}>
+              <CardContent sx={{ p: 0 }}>
+                <HeadlineTitle>更新情報</HeadlineTitle>
                 <Paper style={{ maxHeight: 280, overflow: 'auto' }}>
                   <Box sx={{ mx: 2 }}>
                     <div>
@@ -148,11 +153,11 @@ export const Home = () => {
             </Card>
           </Grid>
         </Grid>
-        <Grid container spacing={2}>
+        <Grid container spacing={2} sx={{ mt: 4 }}>
           <Grid item xs={12}>
-            <Card elevation={3}>
-              <CardContent>
-                <SH2>Pokemonoteについて</SH2>
+            <Card elevation={2}>
+              <CardContent sx={{ p: 0 }}>
+                <HeadlineTitle>Pokemonoteについて</HeadlineTitle>
                 <Box sx={{ px: 2, pt: 2, pb: 1 }}>
                   <p>
                     当サイトは、個人の運営するファンサイトであり、株式会社ポケモンや任天堂、その他各企業様とは一切関係ありません。
