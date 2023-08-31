@@ -1,12 +1,13 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
+import useSWR from 'swr'
 import { $axios } from '@/libs/axios'
 import { useAuthUserMutators } from '@/store/authUserState'
 import { useIsInitializationMutators } from '@/store/isInitializationState'
 import { useNaturesMutators } from '@/store/naturesState'
 import { usePokemonBasicInfosSMutators } from '@/store/pokemonBasicInfosState'
-import { requestApi } from '@/utils/helpers'
+import type { Response } from '@/types/openapi/extractor'
 
 export const AppInit = () => {
   const { updateAuthUser } = useAuthUserMutators()
@@ -16,32 +17,39 @@ export const AppInit = () => {
 
   const { completeInitialization } = useIsInitializationMutators()
 
+  // CSRFトークンの取得完了フラグ
+  const [isCompleteCsrfCookie, setIsCompleteCsrfCookie] = useState(false)
+
+  const checkLoginPath = '/api/v2/init/login'
+  const { data: loginData } = useSWR<Response<typeof checkLoginPath, 'get'>>(
+    isCompleteCsrfCookie ? checkLoginPath : null
+  )
+
+  const initFetchPath = '/api/v2/init/fetch'
+  const { data: StaticData } = useSWR<Response<typeof initFetchPath, 'get'>>(
+    isCompleteCsrfCookie ? initFetchPath : null
+  )
+
   useEffect(() => {
     ;(async () => {
       await $axios.get('/sanctum/csrf-cookie')
-
-      const [loginData, StaticData] = await Promise.all([
-        requestApi({
-          url: '/api/v2/init/login',
-          method: 'get',
-        }),
-        requestApi({
-          url: '/api/v2/init/fetch',
-          method: 'get',
-        }),
-      ])
-
-      updateAuthUser(loginData.data.data)
-      updatePokemonBasicInfos(StaticData.data.data.pokemonBasicInfos)
-      updateNatures(StaticData.data.data.natures)
-
-      completeInitialization()
+      setIsCompleteCsrfCookie(true)
     })()
+  }, [])
+
+  useEffect(() => {
+    if (!loginData || !StaticData) return
+    updateAuthUser(loginData.data)
+    updatePokemonBasicInfos(StaticData.data.pokemonBasicInfos)
+    updateNatures(StaticData.data.natures)
+    completeInitialization()
   }, [
+    loginData,
+    StaticData,
     completeInitialization,
     updateAuthUser,
-    updateNatures,
     updatePokemonBasicInfos,
+    updateNatures,
   ])
 
   return null
