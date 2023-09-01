@@ -1,13 +1,12 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import useSWR from 'swr'
 import { $axios } from '@/libs/axios'
+import { useOpenApiSWR } from '@/libs/swr'
 import { useAuthUserMutators } from '@/store/authUserState'
 import { useIsInitializationMutators } from '@/store/isInitializationState'
 import { useNaturesMutators } from '@/store/naturesState'
 import { usePokemonBasicInfosSMutators } from '@/store/pokemonBasicInfosState'
-import type { Response } from '@/types/openapi/extractor'
 
 export const AppInit = () => {
   const { updateAuthUser } = useAuthUserMutators()
@@ -20,14 +19,12 @@ export const AppInit = () => {
   // CSRFトークンの取得完了フラグ
   const [isCompleteCsrfCookie, setIsCompleteCsrfCookie] = useState(false)
 
-  const checkLoginPath = '/api/v2/init/login'
-  const { data: loginData } = useSWR<Response<typeof checkLoginPath, 'get'>>(
-    isCompleteCsrfCookie ? checkLoginPath : null
+  const { data: loginData } = useOpenApiSWR(
+    isCompleteCsrfCookie ? '/api/v2/init/login' : null
   )
 
-  const initFetchPath = '/api/v2/init/fetch'
-  const { data: StaticData } = useSWR<Response<typeof initFetchPath, 'get'>>(
-    isCompleteCsrfCookie ? initFetchPath : null
+  const { data: StaticData } = useOpenApiSWR(
+    isCompleteCsrfCookie ? '/api/v2/init/fetch' : null
   )
 
   useEffect(() => {

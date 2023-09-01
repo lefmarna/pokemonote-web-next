@@ -2,7 +2,7 @@
 
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useCallback, useEffect, useState } from 'react'
-import useSWR from 'swr'
+import { useOpenApiSWR } from '@/libs/swr'
 import { CalcStatsTemplate } from '@/components/templates/CalcStatsTemplate'
 import { LoadingPageTemplate } from '@/components/templates/LoadingPageTemplate'
 import { authMiddleware } from '@/hocs/authMiddleware'
@@ -10,7 +10,6 @@ import { useNaturesState } from '@/store/naturesState'
 import { usePokemonBasicInfosState } from '@/store/pokemonBasicInfosState'
 import { requestApi } from '@/utils/helpers'
 import type { NullableStats, Pokemon } from '@/types/front'
-import type { Response } from '@/types/openapi/extractor'
 import type { Nature, PokemonBasicInfo } from '@/types/openapi/schemas'
 import type { PokemonPostParams } from '@/types/openapi/schemas'
 
@@ -26,9 +25,11 @@ export const PokemonEdit = authMiddleware(() => {
   const pokemonBasicInfos = usePokemonBasicInfosState()
   const natures = useNaturesState()
 
-  const { data } = useSWR<Response<'/api/v2/pokemons/{id}/edit', 'get'>>(
-    `/api/v2/pokemons/${pokemonId}/edit`
-  )
+  const { data } = useOpenApiSWR('/api/v2/pokemons/{id}/edit', {
+    pathParameters: {
+      id: pokemonId ?? '',
+    },
+  })
 
   useEffect(() => {
     if (data === undefined) return
