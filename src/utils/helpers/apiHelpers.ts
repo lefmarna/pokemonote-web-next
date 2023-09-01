@@ -8,63 +8,78 @@ import type {
 } from '@/types/openapi/extractor'
 import type { AxiosRequestConfig, AxiosResponse } from 'axios'
 
+type RequestBodyType<
+  Path extends keyof paths,
+  Method extends keyof paths[Path],
+> = paths[Path][Method] extends {
+  requestBody: {
+    content: {
+      'application/json': RequestBody<Path, Method>
+    }
+  }
+}
+  ? { data: RequestBody<Path, Method> }
+  : paths[Path][Method] extends {
+      requestBody?: {
+        content: {
+          'application/json': infer Data
+        }
+      }
+    }
+  ? { data?: Data }
+  : paths[Path][Method] extends {
+      requestBody: {
+        content: {
+          'multipart/form-data': object
+        }
+      }
+    }
+  ? { data: FormData }
+  : paths[Path][Method] extends {
+      requestBody?: {
+        content: {
+          'multipart/form-data'?: object
+        }
+      }
+    }
+  ? { data?: FormData }
+  : { data?: undefined }
+
+type PathParametersType<
+  Path extends keyof paths,
+  Method extends keyof paths[Path],
+> = paths[Path][Method] extends {
+  parameters: { path: PathParameters<Path, Method> }
+}
+  ? { pathParameters: PathParameters<Path, Method> }
+  : paths[Path][Method] extends {
+      parameters: { path?: PathParameters<Path, Method> }
+    }
+  ? { pathParameters?: PathParameters<Path, Method> }
+  : { pathParameters?: undefined }
+
+type QueryParametersType<
+  Path extends keyof paths,
+  Method extends keyof paths[Path],
+> = paths[Path][Method] extends {
+  parameters: { query: QueryParameters<Path, Method> }
+}
+  ? { queryParameters: QueryParameters<Path, Method> }
+  : paths[Path][Method] extends {
+      parameters: { query?: QueryParameters<Path, Method> }
+    }
+  ? { queryParameters?: QueryParameters<Path, Method> }
+  : { queryParameters?: undefined }
+
 type CustomAxiosRequestConfig<
   Path extends keyof paths,
   Method extends keyof paths[Path],
 > = Omit<AxiosRequestConfig, 'data'> & {
   url: Path
   method: Method
-} & (paths[Path][Method] extends {
-    requestBody: {
-      content: {
-        'application/json': RequestBody<Path, Method>
-      }
-    }
-  }
-    ? { data: RequestBody<Path, Method> }
-    : paths[Path][Method] extends {
-        requestBody?: {
-          content: {
-            'application/json': infer Data
-          }
-        }
-      }
-    ? { data?: Data }
-    : paths[Path][Method] extends {
-        requestBody: {
-          content: {
-            'multipart/form-data': object
-          }
-        }
-      }
-    ? { data: FormData }
-    : paths[Path][Method] extends {
-        requestBody?: {
-          content: {
-            'multipart/form-data'?: object
-          }
-        }
-      }
-    ? { data?: FormData }
-    : { data?: undefined }) &
-  (paths[Path][Method] extends {
-    parameters: { path: PathParameters<Path, Method> }
-  }
-    ? { pathParameters: PathParameters<Path, Method> }
-    : paths[Path][Method] extends {
-        parameters: { path?: PathParameters<Path, Method> }
-      }
-    ? { pathParameters?: PathParameters<Path, Method> }
-    : { pathParameters?: undefined }) &
-  (paths[Path][Method] extends {
-    parameters: { query: QueryParameters<Path, Method> }
-  }
-    ? { queryParameters: QueryParameters<Path, Method> }
-    : paths[Path][Method] extends {
-        parameters: { query?: QueryParameters<Path, Method> }
-      }
-    ? { queryParameters?: QueryParameters<Path, Method> }
-    : { queryParameters?: undefined })
+} & RequestBodyType<Path, Method> &
+  PathParametersType<Path, Method> &
+  QueryParametersType<Path, Method>
 
 /**
  * 汎用APIコール関数

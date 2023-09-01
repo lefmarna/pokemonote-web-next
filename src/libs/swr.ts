@@ -4,13 +4,12 @@ import type { Response } from '@/types/openapi/extractor'
 import type { SWRConfiguration } from 'swr'
 
 export const useOpenApiSWR = <
-  Path extends keyof paths,
-  Method extends keyof paths[Path] = 'get' extends keyof paths[Path]
-    ? 'get'
-    : never,
+  T extends {
+    [K in keyof paths]: 'get' extends keyof paths[K] ? K : never
+  }[keyof paths],
 >(
-  url: Path,
+  url: T,
   options?: SWRConfiguration
 ) => {
-  return useSWR<Response<Path, Method>>(url, options)
+  return useSWR<Response<T, 'get'>>(url, options)
 }
