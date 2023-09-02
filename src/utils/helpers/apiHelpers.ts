@@ -48,31 +48,16 @@ type RequestBodyType<
   ? { data?: FormData }
   : { data?: undefined }
 
-type PathParametersType<
+type ParametersType<
   Path extends OpenApiPath,
   Method extends OpenApiMethod<Path>,
-> = paths[Path][Method] extends {
-  parameters: { path: PathParameters<Path, Method> }
-}
-  ? { pathParameters: PathParameters<Path, Method> }
-  : paths[Path][Method] extends {
-      parameters: { path?: PathParameters<Path, Method> }
-    }
-  ? { pathParameters?: PathParameters<Path, Method> }
-  : { pathParameters?: undefined }
-
-type QueryParametersType<
-  Path extends OpenApiPath,
-  Method extends OpenApiMethod<Path>,
-> = paths[Path][Method] extends {
-  parameters: { query: QueryParameters<Path, Method> }
-}
-  ? { queryParameters: QueryParameters<Path, Method> }
-  : paths[Path][Method] extends {
-      parameters: { query?: QueryParameters<Path, Method> }
-    }
-  ? { queryParameters?: QueryParameters<Path, Method> }
-  : { queryParameters?: undefined }
+  Type extends 'path' | 'query',
+  Params,
+> = paths[Path][Method] extends { parameters: { [key in Type]: Params } }
+  ? { [key in `${Type}Parameters`]: Params }
+  : paths[Path][Method] extends { parameters: { [key in Type]?: Params } }
+  ? { [key in `${Type}Parameters`]?: Params }
+  : { [key in `${Type}Parameters`]?: undefined }
 
 type CustomAxiosRequestConfig<
   Path extends OpenApiPath,
@@ -81,8 +66,8 @@ type CustomAxiosRequestConfig<
   url: Path
   method: Method
 } & RequestBodyType<Path, Method> &
-  PathParametersType<Path, Method> &
-  QueryParametersType<Path, Method>
+  ParametersType<Path, Method, 'path', PathParameters<Path, Method>> &
+  ParametersType<Path, Method, 'query', QueryParameters<Path, Method>>
 
 /**
  * 汎用APIコール関数
