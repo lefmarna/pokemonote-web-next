@@ -7,41 +7,25 @@ import type {
 } from '@/types/openapi/extractor'
 import type { SWRConfiguration } from 'swr'
 
-type PathParametersType<
-  T extends {
-    [K in keyof paths]: 'get' extends keyof paths[K] ? K : never
-  }[keyof paths],
-> = paths[T]['get'] extends {
-  parameters: { path: PathParameters<T, 'get'> }
-}
-  ? { pathParameters: PathParameters<T, 'get'> }
-  : paths[T]['get'] extends {
-      parameters: { path?: PathParameters<T, 'get'> }
-    }
-  ? { pathParameters?: PathParameters<T, 'get'> }
-  : { pathParameters?: undefined }
+type OpenApiGetPath = {
+  [K in keyof paths]: 'get' extends keyof paths[K] ? K : never
+}[keyof paths]
 
-type QueryParametersType<
-  T extends {
-    [K in keyof paths]: 'get' extends keyof paths[K] ? K : never
-  }[keyof paths],
-> = paths[T]['get'] extends {
-  parameters: { query: QueryParameters<T, 'get'> }
-}
-  ? { queryParameters: QueryParameters<T, 'get'> }
-  : paths[T]['get'] extends {
-      parameters: { query?: QueryParameters<T, 'get'> }
-    }
-  ? { queryParameters?: QueryParameters<T, 'get'> }
-  : { queryParameters?: undefined }
+type ParametersType<
+  Path extends OpenApiGetPath,
+  Type extends 'path' | 'query',
+  Parameters,
+> = paths[Path]['get'] extends { parameters: { [K in Type]: Parameters } }
+  ? { [K in `${Type}Parameters`]: Parameters }
+  : paths[Path]['get'] extends { parameters: { [K in Type]?: Parameters } }
+  ? { [K in `${Type}Parameters`]?: Parameters }
+  : { [K in `${Type}Parameters`]?: undefined }
 
-export const useOpenApiSWR = <
-  T extends {
-    [K in keyof paths]: 'get' extends keyof paths[K] ? K : never
-  }[keyof paths],
->(
+export const useOpenApiSWR = <T extends OpenApiGetPath>(
   url: T | null,
-  options?: SWRConfiguration & PathParametersType<T> & QueryParametersType<T>
+  options?: SWRConfiguration &
+    ParametersType<T, 'path', PathParameters<T, 'get'>> &
+    ParametersType<T, 'query', QueryParameters<T, 'get'>>
 ) => {
   const { pathParameters, queryParameters, ...swrOptions } = options ?? {}
 
@@ -59,11 +43,7 @@ export const useOpenApiSWR = <
 /**
  * URLのパスパラメータを置換する
  */
-const replaceUrlPaths = <
-  T extends {
-    [K in keyof paths]: 'get' extends keyof paths[K] ? K : never
-  }[keyof paths],
->(
+const replaceUrlPaths = <T extends OpenApiGetPath>(
   url: T,
   pathParameters?: PathParameters<T, 'get'>
 ) => {
@@ -78,11 +58,7 @@ const replaceUrlPaths = <
 /**
  * URLのクエリパラメータを付与する
  */
-const addUrlQueries = <
-  T extends {
-    [K in keyof paths]: 'get' extends keyof paths[K] ? K : never
-  }[keyof paths],
->(
+const addUrlQueries = <T extends OpenApiGetPath>(
   url: string,
   queryParameters?: QueryParameters<T, 'get'>
 ) => {
