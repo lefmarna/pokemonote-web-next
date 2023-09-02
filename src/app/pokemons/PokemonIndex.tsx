@@ -5,7 +5,9 @@ import { LoadingPageTemplate } from '@/components/templates/LoadingPageTemplate'
 import { PokemonTableTemplate } from '@/components/templates/PokemonTableTemplate'
 
 export const PokemonIndex = () => {
-  const { data, isLoading } = useOpenApiSWR('/api/v2/pokemons')
+  const { data, isLoading } = useOpenApiSWR({
+    url: '/api/v2/pokemons',
+  })
 
   if (isLoading) return <LoadingPageTemplate />
 
