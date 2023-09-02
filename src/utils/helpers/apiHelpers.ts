@@ -135,7 +135,7 @@ const addUrlQueries = <
   if (!queryParameters) return url
 
   const queries = Object.entries(queryParameters)
-    .filter(([, value]) => value !== null || value !== undefined)
+    .filter(([, value]) => value !== null && value !== undefined)
     .map(([key, value]) => {
       return `${key}=${encodeURIComponent(String(value))}`
     })

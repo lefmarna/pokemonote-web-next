@@ -20,11 +20,19 @@ export const AppInit = () => {
   const [isCompleteCsrfCookie, setIsCompleteCsrfCookie] = useState(false)
 
   const { data: loginData } = useOpenApiSWR(
-    isCompleteCsrfCookie ? '/api/v2/init/login' : null
+    isCompleteCsrfCookie
+      ? {
+          url: '/api/v2/init/login',
+        }
+      : null
   )
 
   const { data: StaticData } = useOpenApiSWR(
-    isCompleteCsrfCookie ? '/api/v2/init/fetch' : null
+    isCompleteCsrfCookie
+      ? {
+          url: '/api/v2/init/fetch',
+        }
+      : null
   )
 
   useEffect(() => {

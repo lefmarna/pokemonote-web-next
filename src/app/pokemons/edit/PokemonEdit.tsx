@@ -25,8 +25,9 @@ export const PokemonEdit = authMiddleware(() => {
   const pokemonBasicInfos = usePokemonBasicInfosState()
   const natures = useNaturesState()
 
-  const { data } = useOpenApiSWR('/api/v2/pokemons/{id}/edit', {
-    pathParameters: {
+  const { data } = useOpenApiSWR({
+    url: '/api/v2/pokemons/{id}/edit',
+    path: {
       id: pokemonId ?? '',
     },
   })

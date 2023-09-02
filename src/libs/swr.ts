@@ -11,33 +11,39 @@ type OpenApiGetPath = {
   [K in keyof paths]: 'get' extends keyof paths[K] ? K : never
 }[keyof paths]
 
+type OpenApiSWRKey<T extends OpenApiGetPath> = {
+  url: T
+} & ParametersType<T, 'path', PathParameters<T, 'get'>> &
+  ParametersType<T, 'query', QueryParameters<T, 'get'>>
+
 type ParametersType<
   Path extends OpenApiGetPath,
   Type extends 'path' | 'query',
-  Parameters,
-> = paths[Path]['get'] extends { parameters: { [K in Type]: Parameters } }
-  ? { [K in `${Type}Parameters`]: Parameters }
-  : paths[Path]['get'] extends { parameters: { [K in Type]?: Parameters } }
-  ? { [K in `${Type}Parameters`]?: Parameters }
-  : { [K in `${Type}Parameters`]?: undefined }
+  Params,
+> = paths[Path]['get'] extends { parameters: { [K in Type]: Params } }
+  ? { [K in Type]: Params }
+  : paths[Path]['get'] extends { parameters: { [K in Type]?: Params } }
+  ? { [K in Type]?: Params }
+  : { [K in Type]?: undefined }
 
+/**
+ * OpenAPIのエンドポイントをサジェストしてくれたり型情報を返してくれるuseSWRのラッパー
+ */
 export const useOpenApiSWR = <T extends OpenApiGetPath>(
-  url: T | null,
-  options?: SWRConfiguration &
-    ParametersType<T, 'path', PathParameters<T, 'get'>> &
-    ParametersType<T, 'query', QueryParameters<T, 'get'>>
+  key: OpenApiSWRKey<T> | null,
+  options?: SWRConfiguration
 ) => {
-  const { pathParameters, queryParameters, ...swrOptions } = options ?? {}
+  const composedUrl = key !== null ? composeUrl(key) : null
 
-  const params = {
-    options: swrOptions,
-    url:
-      url !== null
-        ? addUrlQueries(replaceUrlPaths(url, pathParameters), queryParameters)
-        : null,
-  }
+  return useSWR<Response<T, 'get'>>(composedUrl, options)
+}
 
-  return useSWR<Response<T, 'get'>>(params.url, params.options)
+/**
+ * keyからURLを作成する
+ */
+const composeUrl = <T extends OpenApiGetPath>(key: OpenApiSWRKey<T>) => {
+  const { url, path, query } = key
+  return addUrlQueries(replaceUrlPaths(url, path), query)
 }
 
 /**
@@ -65,7 +71,7 @@ const addUrlQueries = <T extends OpenApiGetPath>(
   if (!queryParameters) return url
 
   const queries = Object.entries(queryParameters)
-    .filter(([, value]) => value !== null || value !== undefined)
+    .filter(([, value]) => value !== null && value !== undefined)
     .map(([key, value]) => {
       return `${key}=${encodeURIComponent(String(value))}`
     })
