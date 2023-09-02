@@ -8,9 +8,12 @@ import type {
 } from '@/types/openapi/extractor'
 import type { AxiosRequestConfig, AxiosResponse } from 'axios'
 
+type OpenApiPath = keyof paths
+type OpenApiMethod<Path extends OpenApiPath> = keyof paths[Path]
+
 type RequestBodyType<
-  Path extends keyof paths,
-  Method extends keyof paths[Path],
+  Path extends OpenApiPath,
+  Method extends OpenApiMethod<Path>,
 > = paths[Path][Method] extends {
   requestBody: {
     content: {
@@ -46,8 +49,8 @@ type RequestBodyType<
   : { data?: undefined }
 
 type PathParametersType<
-  Path extends keyof paths,
-  Method extends keyof paths[Path],
+  Path extends OpenApiPath,
+  Method extends OpenApiMethod<Path>,
 > = paths[Path][Method] extends {
   parameters: { path: PathParameters<Path, Method> }
 }
@@ -59,8 +62,8 @@ type PathParametersType<
   : { pathParameters?: undefined }
 
 type QueryParametersType<
-  Path extends keyof paths,
-  Method extends keyof paths[Path],
+  Path extends OpenApiPath,
+  Method extends OpenApiMethod<Path>,
 > = paths[Path][Method] extends {
   parameters: { query: QueryParameters<Path, Method> }
 }
@@ -72,8 +75,8 @@ type QueryParametersType<
   : { queryParameters?: undefined }
 
 type CustomAxiosRequestConfig<
-  Path extends keyof paths,
-  Method extends keyof paths[Path],
+  Path extends OpenApiPath,
+  Method extends OpenApiMethod<Path>,
 > = Omit<AxiosRequestConfig, 'data'> & {
   url: Path
   method: Method
@@ -85,8 +88,8 @@ type CustomAxiosRequestConfig<
  * 汎用APIコール関数
  */
 export const requestApi = async <
-  Path extends keyof paths,
-  Method extends keyof paths[Path],
+  Path extends OpenApiPath,
+  Method extends OpenApiMethod<Path>,
 >(
   config: CustomAxiosRequestConfig<Path, Method>
 ) => {
@@ -108,8 +111,8 @@ export const requestApi = async <
  * URLのパスパラメータを置換する
  */
 const replaceUrlPaths = <
-  Path extends keyof paths,
-  Method extends keyof paths[Path],
+  Path extends OpenApiPath,
+  Method extends OpenApiMethod<Path>,
 >(
   url: Path,
   pathParameters?: PathParameters<Path, Method>
@@ -126,8 +129,8 @@ const replaceUrlPaths = <
  * URLのクエリパラメータを付与する
  */
 const addUrlQueries = <
-  Path extends keyof paths,
-  Method extends keyof paths[Path],
+  Path extends OpenApiPath,
+  Method extends OpenApiMethod<Path>,
 >(
   url: string,
   queryParameters?: QueryParameters<Path, Method>
