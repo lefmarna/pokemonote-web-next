@@ -19,11 +19,11 @@ export const SettingsEmailVerify = () => {
       const response = await requestApi({
         url: '/api/v2/settings/email/verify/{id}/{encryptedEmail}',
         method: 'get',
-        pathParameters: {
+        path: {
           userId: searchParams.get('id') ?? '',
           encryptedEmail: searchParams.get('encryptedEmail') ?? '',
         },
-        queryParameters: {
+        query: {
           expires: searchParams.get('expires') ?? '',
           signature: searchParams.get('signature') ?? '',
         },

@@ -165,7 +165,7 @@ export const PokemonEdit = authMiddleware(() => {
       await requestApi({
         url: '/api/v2/pokemons/{id}',
         method: 'put',
-        pathParameters: {
+        path: {
           id: pokemonId ?? '',
         },
         data: params,

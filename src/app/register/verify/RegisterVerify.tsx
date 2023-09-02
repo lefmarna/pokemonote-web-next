@@ -16,10 +16,10 @@ export const RegisterVerify = noAuthMiddleware(() => {
       const response = await requestApi({
         url: '/api/v2/register/verify/{id}',
         method: 'get',
-        pathParameters: {
+        path: {
           id: searchParams.get('id') ?? '',
         },
-        queryParameters: {
+        query: {
           expires: searchParams.get('expires') ?? '',
           signature: searchParams.get('signature') ?? '',
         },

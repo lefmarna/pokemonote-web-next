@@ -40,7 +40,7 @@ export const PokemonShow = () => {
         const response = await requestApi({
           url: '/api/v2/pokemons/{id}',
           method: 'get',
-          pathParameters: {
+          path: {
             id: searchParams.get('id') ?? '',
           },
         })
@@ -77,7 +77,7 @@ export const PokemonShow = () => {
       await requestApi({
         url: '/api/v2/pokemons/{id}',
         method: 'delete',
-        pathParameters: {
+        path: {
           id: String(id),
         },
       })

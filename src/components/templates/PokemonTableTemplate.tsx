@@ -112,7 +112,7 @@ export const PokemonTableTemplate = (props: Props) => {
       await requestApi({
         url: '/api/v2/pokemons/{id}',
         method: 'delete',
-        pathParameters: {
+        path: {
           id: String(id),
         },
       })

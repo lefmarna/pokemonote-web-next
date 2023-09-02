@@ -46,10 +46,10 @@ export const PasswordVerify = () => {
         await requestApi({
           url: '/api/v2/password/verify/{user_id}',
           method: 'get',
-          pathParameters: {
+          path: {
             id: searchParams.get('id') ?? '',
           },
-          queryParameters: {
+          query: {
             expires: searchParams.get('expires') ?? '',
             signature: searchParams.get('signature') ?? '',
           },
