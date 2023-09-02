@@ -5,7 +5,7 @@ import { useSearchParams } from 'next/navigation'
 import { useState } from 'react'
 import { Title } from '@/components/molecules/Title'
 import { useAuthUserMutators } from '@/store/authUserState'
-import { requestApi } from '@/utils/helpers'
+import { requestOpenApi } from '@/utils/helpers'
 
 export const SettingsEmailVerify = () => {
   const searchParams = useSearchParams()
@@ -16,7 +16,7 @@ export const SettingsEmailVerify = () => {
 
   ;(async () => {
     try {
-      const response = await requestApi({
+      const response = await requestOpenApi({
         url: '/api/v2/settings/email/verify/{id}/{encryptedEmail}',
         method: 'get',
         path: {

@@ -16,7 +16,7 @@ import { LoadingPageTemplate } from '@/components/templates/LoadingPageTemplate'
 import { useAuthUserState } from '@/store/authUserState'
 import { usePokemonBasicInfosState } from '@/store/pokemonBasicInfosState'
 import { SLink } from '@/styles'
-import { requestApi } from '@/utils/helpers'
+import { requestOpenApi } from '@/utils/helpers'
 import type { PokemonBasicInfo, PokemonSummary } from '@/types/openapi/schemas'
 
 export const PokemonShow = () => {
@@ -37,7 +37,7 @@ export const PokemonShow = () => {
   useEffect(() => {
     ;(async () => {
       try {
-        const response = await requestApi({
+        const response = await requestOpenApi({
           url: '/api/v2/pokemons/{id}',
           method: 'get',
           path: {
@@ -74,7 +74,7 @@ export const PokemonShow = () => {
 
   const handleDeleteItem = async (id: number) => {
     try {
-      await requestApi({
+      await requestOpenApi({
         url: '/api/v2/pokemons/{id}',
         method: 'delete',
         path: {

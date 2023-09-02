@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { EmailInput } from '@/components/forms/EmailInput'
 import { FormTemplate } from '@/components/templates/FormTemplate'
-import { exceptionErrorToArray, requestApi } from '@/utils/helpers'
+import { exceptionErrorToArray, requestOpenApi } from '@/utils/helpers'
 
 export const PasswordForgot = () => {
   const [errors, setErrors] = useState<string[]>()
@@ -17,7 +17,7 @@ export const PasswordForgot = () => {
     setIsLoading(true)
 
     try {
-      await requestApi({
+      await requestOpenApi({
         url: '/api/v2/password/email',
         method: 'post',
         data: {

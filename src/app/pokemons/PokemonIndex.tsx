@@ -1,11 +1,11 @@
 'use client'
 
-import { useOpenApiSWR } from '@/libs/swr'
+import { useSWROpenApi } from '@/libs/swr'
 import { LoadingPageTemplate } from '@/components/templates/LoadingPageTemplate'
 import { PokemonTableTemplate } from '@/components/templates/PokemonTableTemplate'
 
 export const PokemonIndex = () => {
-  const { data, isLoading } = useOpenApiSWR({
+  const { data, isLoading } = useSWROpenApi({
     url: '/api/v2/pokemons',
   })
 

@@ -9,7 +9,7 @@ import { FormTemplate } from '@/components/templates/FormTemplate'
 import { noAuthMiddleware } from '@/hocs/noAuthMiddleware'
 import { useAuthUserMutators } from '@/store/authUserState'
 import { useSnackbarMutators } from '@/store/snackbarState'
-import { exceptionErrorToArray, requestApi } from '@/utils/helpers'
+import { exceptionErrorToArray, requestOpenApi } from '@/utils/helpers'
 
 export const Login = noAuthMiddleware(() => {
   const router = useRouter()
@@ -28,7 +28,7 @@ export const Login = noAuthMiddleware(() => {
     setIsLoading(true)
 
     try {
-      const response = await requestApi({
+      const response = await requestOpenApi({
         url: '/api/v2/login',
         method: 'post',
         data: {

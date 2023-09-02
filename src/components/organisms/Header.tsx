@@ -16,7 +16,7 @@ import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { useAuthUserMutators, useAuthUserState } from '@/store/authUserState'
 import { useRememberRouteMutators } from '@/store/rememberRouteState'
-import { requestApi } from '@/utils/helpers'
+import { requestOpenApi } from '@/utils/helpers'
 import type { MouseEvent } from 'react'
 
 type Props = {
@@ -62,7 +62,7 @@ export const Header = (props: Props) => {
     setIsLoading(true)
 
     try {
-      await requestApi({
+      await requestOpenApi({
         url: '/api/v2/logout',
         method: 'post',
       })

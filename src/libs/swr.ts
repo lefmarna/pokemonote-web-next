@@ -22,7 +22,7 @@ type OpenApiSWRKey<Path extends OpenApiGetPath> = {
 /**
  * OpenAPIのエンドポイントをサジェストしてくれたり型情報を返してくれるuseSWRのラッパー
  */
-export const useOpenApiSWR = <Path extends OpenApiGetPath>(
+export const useSWROpenApi = <Path extends OpenApiGetPath>(
   key: OpenApiSWRKey<Path> | null,
   options?: SWRConfiguration
 ) => {

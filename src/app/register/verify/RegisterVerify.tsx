@@ -3,7 +3,7 @@
 import { useRouter, useSearchParams } from 'next/navigation'
 import { noAuthMiddleware } from '@/hocs/noAuthMiddleware'
 import { useAuthUserMutators } from '@/store/authUserState'
-import { requestApi } from '@/utils/helpers'
+import { requestOpenApi } from '@/utils/helpers'
 
 export const RegisterVerify = noAuthMiddleware(() => {
   const router = useRouter()
@@ -13,7 +13,7 @@ export const RegisterVerify = noAuthMiddleware(() => {
 
   ;(async () => {
     try {
-      const response = await requestApi({
+      const response = await requestOpenApi({
         url: '/api/v2/register/verify/{id}',
         method: 'get',
         path: {

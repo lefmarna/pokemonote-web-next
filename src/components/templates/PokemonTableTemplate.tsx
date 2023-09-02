@@ -8,7 +8,7 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { useState } from 'react'
 import { useAuthUserState } from '@/store/authUserState'
 import { SLink } from '@/styles'
-import { requestApi } from '@/utils/helpers'
+import { requestOpenApi } from '@/utils/helpers'
 import type { PokemonSummary } from '@/types/openapi/schemas'
 import type { GridRenderCellParams } from '@mui/x-data-grid'
 
@@ -109,7 +109,7 @@ export const PokemonTableTemplate = (props: Props) => {
 
   const deletePokemon = async (id: number): Promise<void> => {
     try {
-      await requestApi({
+      await requestOpenApi({
         url: '/api/v2/pokemons/{id}',
         method: 'delete',
         path: {

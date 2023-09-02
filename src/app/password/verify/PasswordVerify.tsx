@@ -7,7 +7,7 @@ import { PasswordInput } from '@/components/forms/PasswordInput'
 import { Title } from '@/components/molecules/Title'
 import { FormTemplate } from '@/components/templates/FormTemplate'
 import { SLink } from '@/styles'
-import { exceptionErrorToArray, requestApi } from '@/utils/helpers'
+import { exceptionErrorToArray, requestOpenApi } from '@/utils/helpers'
 
 export const PasswordVerify = () => {
   const searchParams = useSearchParams()
@@ -43,7 +43,7 @@ export const PasswordVerify = () => {
   useEffect(() => {
     ;(async () => {
       try {
-        await requestApi({
+        await requestOpenApi({
           url: '/api/v2/password/verify/{user_id}',
           method: 'get',
           path: {
@@ -67,7 +67,7 @@ export const PasswordVerify = () => {
   const submit = async () => {
     setIsLoading(true)
     try {
-      await requestApi({
+      await requestOpenApi({
         url: '/api/v2/password/reset',
         method: 'put',
         data: resetPasswordParams,

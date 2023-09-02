@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { $axios } from '@/libs/axios'
-import { useOpenApiSWR } from '@/libs/swr'
+import { useSWROpenApi } from '@/libs/swr'
 import { useAuthUserMutators } from '@/store/authUserState'
 import { useIsInitializationMutators } from '@/store/isInitializationState'
 import { useNaturesMutators } from '@/store/naturesState'
@@ -19,7 +19,7 @@ export const AppInit = () => {
   // CSRFトークンの取得完了フラグ
   const [isCompleteCsrfCookie, setIsCompleteCsrfCookie] = useState(false)
 
-  const { data: loginData } = useOpenApiSWR(
+  const { data: loginData } = useSWROpenApi(
     isCompleteCsrfCookie
       ? {
           url: '/api/v2/init/login',
@@ -27,7 +27,7 @@ export const AppInit = () => {
       : null
   )
 
-  const { data: StaticData } = useOpenApiSWR(
+  const { data: StaticData } = useSWROpenApi(
     isCompleteCsrfCookie
       ? {
           url: '/api/v2/init/fetch',

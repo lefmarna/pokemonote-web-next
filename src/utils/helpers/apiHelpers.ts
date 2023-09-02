@@ -61,7 +61,7 @@ type CustomAxiosRequestConfig<
 /**
  * 汎用APIコール関数
  */
-export const requestApi = async <
+export const requestOpenApi = async <
   Path extends OpenApiPath,
   Method extends OpenApiMethod<Path>,
 >(
