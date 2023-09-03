@@ -30,6 +30,9 @@ export type QueryParameter<
 export type Schema<T extends keyof components['schemas']> =
   components['schemas'][T]
 
+/**
+ * リクエストボディのプロパティを必須と任意の判別を行いつつdataのキーに格納された型情報
+ */
 export type RequestBodyProperties<
   Path extends OpenApiPath,
   Method extends OpenApiMethod<Path>,
@@ -67,6 +70,12 @@ export type RequestBodyProperties<
   ? { data?: FormData }
   : { data?: undefined }
 
+/**
+ * エンドポイントのpath・queryパラメータを必須と任意の判別を行い、それぞれpath・queryのキーに格納された型情報
+ *
+ * NOTE: parametersが空のときpathとqueryの型はそれぞれunknownとなるが、運用的にはありえないので問題ない認識
+ *
+ */
 export type ParameterProperties<
   Path extends OpenApiPath,
   Method extends OpenApiMethod<Path>,
