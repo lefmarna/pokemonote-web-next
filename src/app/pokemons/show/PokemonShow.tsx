@@ -12,6 +12,7 @@ import {
 } from '@mui/material'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
+import { useSWROpenApi } from '@/libs/swr'
 import { LoadingPageTemplate } from '@/components/templates/LoadingPageTemplate'
 import { useAuthUserState } from '@/store/authUserState'
 import { usePokemonBasicInfosState } from '@/store/pokemonBasicInfosState'
@@ -34,25 +35,26 @@ export const PokemonShow = () => {
   const [pokemonBasicInfo, setPokemonBasicInfo] =
     useState<PokemonBasicInfo | null>(null)
 
+  const { data, error } = useSWROpenApi({
+    url: '/api/v2/pokemons/{id}',
+    path: {
+      id: searchParams.get('id') ?? '',
+    },
+  })
+
   useEffect(() => {
-    ;(async () => {
-      try {
-        const response = await requestOpenApi({
-          url: '/api/v2/pokemons/{id}',
-          method: 'get',
-          path: {
-            id: searchParams.get('id') ?? '',
-          },
-        })
-        const { description: _description, ..._pokemonSummary } =
-          response.data.data
-        setDescription(_description)
-        setPokemonSummary(_pokemonSummary)
-      } catch (error) {
-        router.push('/')
-      }
-    })()
-  }, [searchParams, router])
+    if (data === undefined) return
+
+    const { description: _description, ..._pokemonSummary } = data.data
+    setDescription(_description)
+    setPokemonSummary(_pokemonSummary)
+  }, [data])
+
+  useEffect(() => {
+    if (error === undefined) return
+
+    router.push('/')
+  }, [error, router])
 
   useEffect(() => {
     const targetPokemonBasicInfo = pokemonBasicInfos.find(
