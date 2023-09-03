@@ -33,7 +33,7 @@ type RequestBodyType<
   : paths[Path][Method] extends {
       requestBody: {
         content: {
-          'multipart/form-data': object
+          'multipart/form-data': Record<string, unknown>
         }
       }
     }
@@ -41,7 +41,7 @@ type RequestBodyType<
   : paths[Path][Method] extends {
       requestBody?: {
         content: {
-          'multipart/form-data'?: object
+          'multipart/form-data'?: Record<string, unknown>
         }
       }
     }
