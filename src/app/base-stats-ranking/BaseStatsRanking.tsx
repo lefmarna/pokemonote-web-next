@@ -205,7 +205,7 @@ export const BaseStatsRanking = () => {
             rows={filteredPokemonList()}
             sortingOrder={['desc', 'asc']}
             autoHeight
-            componentsProps={{
+            slotProps={{
               pagination: {
                 rowsPerPageOptions: [20, 50, 100],
               },
