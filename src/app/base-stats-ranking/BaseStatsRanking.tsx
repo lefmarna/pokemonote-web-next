@@ -7,7 +7,13 @@ import {
   Checkbox,
   FormControlLabel,
 } from '@mui/material'
-import { DataGrid, jaJP } from '@mui/x-data-grid'
+import {
+  DataGrid,
+  GridToolbar,
+  getGridNumericOperators,
+  getGridStringOperators,
+  jaJP,
+} from '@mui/x-data-grid'
 import React, { useState } from 'react'
 import { Title } from '@/components/molecules/Title'
 import { usePokemonBasicInfosState } from '@/store/pokemonBasicInfosState'
@@ -67,48 +73,71 @@ export const BaseStatsRanking = () => {
     setIsNotShowStats({ ...isNotShowStats, [value]: !isNotShowStats[value] })
   }
 
+  // DataGridにおけるフィルターの要素を絞り込む（type: string）
+  const filterStringOperators = getGridStringOperators().filter((operator) => {
+    return operator.value === 'contains'
+  })
+
+  // DataGridにおけるフィルターの要素を絞り込む(type: number)
+  const filterNumericOperators = getGridNumericOperators().filter(
+    (operator) => {
+      return (
+        operator.value === '=' ||
+        operator.value === '>=' ||
+        operator.value === '<='
+      )
+    }
+  )
+
   // DataGridに表示させる内容とオプションの設定
   const columns = [
-    { field: 'name', headerName: 'ポケモン名', minWidth: 150 },
+    {
+      field: 'name',
+      headerName: 'ポケモン名',
+      type: 'string',
+      flex: 1,
+      minWidth: 200,
+      filterOperators: filterStringOperators,
+    },
     {
       field: 'hp',
       headerName: 'ＨＰ',
       type: 'number',
-      minWidth: 100,
       valueGetter: (params: GridValueGetterParams<PokemonBasicInfo>) =>
         params.row.baseStats.hp,
+      filterOperators: filterNumericOperators,
     },
     {
       field: 'attack',
       headerName: '攻撃',
       type: 'number',
-      minWidth: 100,
       valueGetter: (params: GridValueGetterParams<PokemonBasicInfo>) => {
         return isNotShowStats.attack ? '' : params.row.baseStats.attack
       },
+      filterOperators: filterNumericOperators,
     },
     {
       field: 'defense',
       headerName: '防御',
       type: 'number',
-      minWidth: 100,
+      filterOperators: filterNumericOperators,
       valueGetter: (params: GridValueGetterParams<PokemonBasicInfo>) =>
         params.row.baseStats.defense,
     },
     {
-      field: 'sp_attack',
+      field: 'spAttack',
       headerName: '特攻',
       type: 'number',
-      minWidth: 100,
+      filterOperators: filterNumericOperators,
       valueGetter: (params: GridValueGetterParams<PokemonBasicInfo>) => {
         return isNotShowStats.spAttack ? '' : params.row.baseStats.spAttack
       },
     },
     {
-      field: 'sp_defense',
+      field: 'spDefense',
       headerName: '特防',
       type: 'number',
-      minWidth: 100,
+      filterOperators: filterNumericOperators,
       valueGetter: (params: GridValueGetterParams<PokemonBasicInfo>) =>
         params.row.baseStats.spDefense,
     },
@@ -116,7 +145,7 @@ export const BaseStatsRanking = () => {
       field: 'speed',
       headerName: '素早',
       type: 'number',
-      minWidth: 100,
+      filterOperators: filterNumericOperators,
       valueGetter: (params: GridValueGetterParams<PokemonBasicInfo>) => {
         return isNotShowStats.speed ? '' : params.row.baseStats.speed
       },
@@ -125,7 +154,7 @@ export const BaseStatsRanking = () => {
       field: 'total',
       headerName: '合計',
       type: 'number',
-      minWidth: 100,
+      filterOperators: filterNumericOperators,
       valueGetter: (params: GridValueGetterParams<PokemonBasicInfo>) =>
         calcBaseStatsTotal(params.row.baseStats),
     },
@@ -204,12 +233,50 @@ export const BaseStatsRanking = () => {
             getRowId={getRowId}
             rows={filteredPokemonList()}
             sortingOrder={['desc', 'asc']}
-            autoHeight
+            slots={{
+              toolbar: GridToolbar,
+            }}
             slotProps={{
-              pagination: {
-                rowsPerPageOptions: [20, 50, 100],
+              toolbar: {
+                printOptions: {
+                  disableToolbarButton: true,
+                },
+                showQuickFilter: true,
+              },
+              filterPanel: {},
+            }}
+            sx={{
+              border: 'none',
+              '& .MuiDataGrid-main': {
+                boxShadow:
+                  '0 2px 1px -1px rgba(0,0,0,.2),0 1px 1px 0 rgba(0,0,0,.14),0 1px 3px 0 rgba(0,0,0,.12)',
+              },
+              '& .MuiDataGrid-toolbarContainer': {
+                mb: 2,
+              },
+              '& .MuiDataGrid-row:nth-of-type(odd)': {
+                backgroundColor: '#F0F8FF',
+              },
+              '& .MuiDataGrid-row:hover': {
+                backgroundColor: 'rgba(0, 0, 0, 0.04)',
+              },
+              '& .MuiDataGrid-cell:focus-within': {
+                outline: 'none',
+              },
+              '& .MuiDataGrid-columnHeader:focus': {
+                outline: 'none',
+              },
+              '& .MuiDataGrid-columnHeader:focus-within': {
+                outline: 'none',
+              },
+              '& .MuiDataGrid-cell:focus': {
+                outline: 'none',
               },
             }}
+            disableColumnMenu
+            disableColumnSelector
+            disableDensitySelector
+            disableRowSelectionOnClick
             localeText={jaJP.components.MuiDataGrid.defaultProps.localeText}
             sortModel={sortModel}
             onSortModelChange={(model) => setSortModel(model)}
