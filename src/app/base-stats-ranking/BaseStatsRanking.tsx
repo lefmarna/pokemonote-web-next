@@ -6,6 +6,7 @@ import {
   Typography,
   Checkbox,
   FormControlLabel,
+  Divider,
 } from '@mui/material'
 import {
   DataGrid,
@@ -16,6 +17,7 @@ import {
 } from '@mui/x-data-grid'
 import React, { useState } from 'react'
 import { Title } from '@/components/molecules/Title'
+import { useMediaQueryDown } from '@/hooks/style/useMediaQueries'
 import { usePokemonBasicInfosState } from '@/store/pokemonBasicInfosState'
 import type { RankCheckbox, Stats } from '@/types/front'
 import type { PokemonBasicInfo } from '@/types/openapi/schemas'
@@ -154,6 +156,7 @@ export const BaseStatsRanking = () => {
       field: 'total',
       headerName: '合計',
       type: 'number',
+      cellClassName: 'pr-2',
       filterOperators: filterNumericOperators,
       valueGetter: (params: GridValueGetterParams<PokemonBasicInfo>) =>
         calcBaseStatsTotal(params.row.baseStats),
@@ -181,6 +184,8 @@ export const BaseStatsRanking = () => {
     },
   ])
 
+  const isSmallDownScreen = useMediaQueryDown('sm')
+
   return (
     <Container>
       <Title text="種族値ランキング（ポケモンSV）" />
@@ -203,6 +208,7 @@ export const BaseStatsRanking = () => {
               label={rank.text}
             />
           ))}
+          {isSmallDownScreen && <Divider />}
           {/* </FormGroup> */}
         </Grid>
         <Grid item xs={12} md={6}>
@@ -226,6 +232,7 @@ export const BaseStatsRanking = () => {
             />
           ))}
           {/* </FormGroup> */}
+          {isSmallDownScreen && <Divider />}
         </Grid>
         <Grid item xs={12}>
           <DataGrid
@@ -241,12 +248,20 @@ export const BaseStatsRanking = () => {
                 printOptions: {
                   disableToolbarButton: true,
                 },
+                csvOptions: {
+                  disableToolbarButton: isSmallDownScreen,
+                },
                 showQuickFilter: true,
               },
-              filterPanel: {},
             }}
             sx={{
               border: 'none',
+              '& .pr-2': {
+                pr: 2,
+              },
+              '& .MuiDataGrid-columnHeader': {
+                pr: 2,
+              },
               '& .MuiDataGrid-main': {
                 boxShadow:
                   '0 2px 1px -1px rgba(0,0,0,.2),0 1px 1px 0 rgba(0,0,0,.14),0 1px 3px 0 rgba(0,0,0,.12)',
@@ -260,9 +275,6 @@ export const BaseStatsRanking = () => {
               '& .MuiDataGrid-row:hover': {
                 backgroundColor: 'rgba(0, 0, 0, 0.04)',
               },
-              '& .MuiDataGrid-cell:focus-within': {
-                outline: 'none',
-              },
               '& .MuiDataGrid-columnHeader:focus': {
                 outline: 'none',
               },
@@ -272,7 +284,11 @@ export const BaseStatsRanking = () => {
               '& .MuiDataGrid-cell:focus': {
                 outline: 'none',
               },
+              '& .MuiDataGrid-cell:focus-within': {
+                outline: 'none',
+              },
             }}
+            disableColumnFilter={isSmallDownScreen}
             disableColumnMenu
             disableColumnSelector
             disableDensitySelector
