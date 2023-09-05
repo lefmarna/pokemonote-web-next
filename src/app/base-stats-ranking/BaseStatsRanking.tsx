@@ -91,6 +91,10 @@ export const BaseStatsRanking = () => {
     }
   )
 
+  const isSmallDownScreen = useMediaQueryDown('sm')
+
+  const statsWidth = isSmallDownScreen ? undefined : 115
+
   // DataGridに表示させる内容とオプションの設定
   const columns = [
     {
@@ -105,6 +109,7 @@ export const BaseStatsRanking = () => {
       field: 'hp',
       headerName: 'ＨＰ',
       type: 'number',
+      minWidth: statsWidth,
       valueGetter: (params: GridValueGetterParams<PokemonBasicInfo>) =>
         params.row.baseStats.hp,
       filterOperators: filterNumericOperators,
@@ -113,6 +118,7 @@ export const BaseStatsRanking = () => {
       field: 'attack',
       headerName: '攻撃',
       type: 'number',
+      minWidth: statsWidth,
       valueGetter: (params: GridValueGetterParams<PokemonBasicInfo>) => {
         return isNotShowStats.attack ? '' : params.row.baseStats.attack
       },
@@ -122,6 +128,7 @@ export const BaseStatsRanking = () => {
       field: 'defense',
       headerName: '防御',
       type: 'number',
+      minWidth: statsWidth,
       filterOperators: filterNumericOperators,
       valueGetter: (params: GridValueGetterParams<PokemonBasicInfo>) =>
         params.row.baseStats.defense,
@@ -130,6 +137,7 @@ export const BaseStatsRanking = () => {
       field: 'spAttack',
       headerName: '特攻',
       type: 'number',
+      minWidth: statsWidth,
       filterOperators: filterNumericOperators,
       valueGetter: (params: GridValueGetterParams<PokemonBasicInfo>) => {
         return isNotShowStats.spAttack ? '' : params.row.baseStats.spAttack
@@ -139,6 +147,7 @@ export const BaseStatsRanking = () => {
       field: 'spDefense',
       headerName: '特防',
       type: 'number',
+      minWidth: statsWidth,
       filterOperators: filterNumericOperators,
       valueGetter: (params: GridValueGetterParams<PokemonBasicInfo>) =>
         params.row.baseStats.spDefense,
@@ -147,6 +156,7 @@ export const BaseStatsRanking = () => {
       field: 'speed',
       headerName: '素早',
       type: 'number',
+      minWidth: statsWidth,
       filterOperators: filterNumericOperators,
       valueGetter: (params: GridValueGetterParams<PokemonBasicInfo>) => {
         return isNotShowStats.speed ? '' : params.row.baseStats.speed
@@ -156,6 +166,7 @@ export const BaseStatsRanking = () => {
       field: 'total',
       headerName: '合計',
       type: 'number',
+      minWidth: statsWidth,
       cellClassName: 'pr-2',
       filterOperators: filterNumericOperators,
       valueGetter: (params: GridValueGetterParams<PokemonBasicInfo>) =>
@@ -183,8 +194,6 @@ export const BaseStatsRanking = () => {
       sort: 'desc',
     },
   ])
-
-  const isSmallDownScreen = useMediaQueryDown('sm')
 
   return (
     <Container>
