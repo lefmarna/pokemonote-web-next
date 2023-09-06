@@ -120,6 +120,19 @@ export interface paths {
       requestBody: components['requestBodies']['ResetPasswordResetRequestBody']
     }
   }
+  '/api/v2/users/{username}': {
+    /** ユーザー詳細API */
+    get: {
+      parameters: {
+        path: {
+          username: string
+        }
+      }
+      responses: {
+        200: components['responses']['UserShowResponse']
+      }
+    }
+  }
   '/api/v2/pokemons': {
     /** ポケモン一覧API */
     get: {
@@ -957,6 +970,18 @@ export interface components {
              */
             sumEffortValue: number
             user: components['schemas']['User']
+          }
+        }
+      }
+    }
+    /** @description OK */
+    UserShowResponse: {
+      content: {
+        'application/json': {
+          data: {
+            user: components['schemas']['User']
+            /** @description 投稿者のポケモン */
+            pokemons: components['schemas']['PokemonSummary'][]
           }
         }
       }
