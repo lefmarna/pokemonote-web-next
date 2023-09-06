@@ -37,12 +37,7 @@ export const PokemonTableTemplate = (props: Props) => {
       headerName: 'ポケモン名',
       flex: 1,
       renderCell: (params: GridRenderCellParams<PokemonSummary>) => (
-        <SLink
-          href={{
-            pathname: '/pokemons/show',
-            query: { id: params.row.id },
-          }}
-        >
+        <SLink href={{ pathname: `/pokemons/${params.row.id}/` }}>
           {params.row.pokemonName}
         </SLink>
       ),
@@ -72,7 +67,9 @@ export const PokemonTableTemplate = (props: Props) => {
         params.row.user.username === searchParams.get('username') ? (
           <div>
             <IconButton
-              onClick={() => router.push(`/pokemons/edit/?id=${params.row.id}`)}
+              onClick={() =>
+                router.push(`/pokemons/edit/?id=${params.row.id}/`)
+              }
             >
               <EditIcon />
             </IconButton>
