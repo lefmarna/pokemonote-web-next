@@ -170,7 +170,7 @@ export const PokemonEdit = authMiddleware(() => {
         },
         data: params,
       })
-      router.push(`/pokemons/${pokemonId}`)
+      router.push(`/pokemons/show?id=${pokemonId}`)
     } catch (error) {
       console.log(error)
     } finally {

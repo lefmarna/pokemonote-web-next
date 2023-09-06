@@ -29,7 +29,7 @@ export const CalcStats = () => {
         method: 'post',
         data: params,
       })
-      router.push(`/pokemons/${response.data.data.id}`)
+      router.push(`/pokemons/show?id=${response.data.data.id}`)
     } catch (error) {
       console.log(error)
     } finally {
