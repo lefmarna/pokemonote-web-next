@@ -1,8 +1,16 @@
 'use client'
 
 import {
+  Checkbox,
   Container,
+  Divider,
+  FormControl,
+  FormControlLabel,
   Grid,
+  InputLabel,
+  MenuItem,
+  Select,
+  Switch,
   Table,
   TableBody,
   TableCell,
@@ -21,10 +29,17 @@ import { usePokemonMutators } from '@/store/pokemonState'
 import { usePokemonState } from '@/store/pokemonState'
 import { RANKS } from '@/utils/constants'
 import type { StatsKey } from '@/types/front'
+import type { SelectChangeEvent } from '@mui/material'
 
 export const CalcSpeed = () => {
   const pokemon = usePokemonState()
   const [option, setOption] = useState(false)
+
+  const [tailwind, setTailwind] = useState(1)
+  const [paralysis, setParalysis] = useState(10)
+  const [swamp, setSwamp] = useState(100)
+  const [selectItem, setSelectItem] = useState(10)
+  const [selectAbility, setSelectAbility] = useState(10)
 
   const { updateBasicInfo, updateNature, updateLevel, updateIvs, updateEvs } =
     usePokemonMutators()
@@ -54,6 +69,67 @@ export const CalcSpeed = () => {
 
   const calcBaseSpeed = (percent: number) => {
     return Math.floor((realNumbers.speed * percent) / 100)
+  }
+
+  /**
+   * 素早さリストに表示する値を計算する
+   */
+  const calcSpeed = (percent: number) => {
+    // 特性が「はやあし・かるわざ」のときは計算の順番を変える
+    if (selectAbility === 2) {
+      return Math.floor(
+        (Math.floor(
+          (Math.floor((calcBaseSpeed(percent) * selectItem) / 10) * paralysis) /
+            10
+        ) *
+          2 *
+          tailwind *
+          swamp) /
+          100
+      )
+      // 特性がその他であれば通常通り計算する
+    } else {
+      return Math.floor(
+        (Math.floor(
+          (Math.floor(
+            (Math.floor((calcBaseSpeed(percent) * selectAbility) / 10) *
+              selectItem) /
+              10
+          ) *
+            paralysis) /
+            10
+        ) *
+          tailwind *
+          swamp) /
+          100
+      )
+    }
+  }
+
+  const displaySpeed = (percent: number) => {
+    return `${calcBaseSpeed(percent)} (${calcSpeed(percent)})`
+  }
+
+  const SPEED_ITEMS = [
+    { name: 'スピードパウダー (×2)', value: 20 },
+    { name: 'こだわりスカーフ (×1.5)', value: 15 },
+    { name: '--- 道具を選択 ---', value: 10 },
+    { name: 'くろいてっきゅう (×0.5)', value: 5 },
+  ]
+
+  const SPEED_ABILITIES = [
+    { name: 'すいすい・ようりょくそ (×2)', value: 20 },
+    { name: 'はやあし・かるわざ (×2)', value: 2 },
+    { name: '--- 特性を選択 ---', value: 10 },
+    { name: 'スロースタート (×0.5)', value: 5 },
+  ]
+
+  const handleChangeSelectItem = (event: SelectChangeEvent<number>) => {
+    setSelectItem(Number(event.target.value))
+  }
+
+  const handleChangeSelectAbility = (event: SelectChangeEvent<number>) => {
+    setSelectAbility(Number(event.target.value))
   }
 
   return (
@@ -97,6 +173,61 @@ export const CalcSpeed = () => {
                 updateRealNumber={updateRealNumber}
               />
             </Grid>
+            <div className="px-0 pt-3">
+              <div>
+                <FormControl fullWidth>
+                  <InputLabel id="item-label">道具</InputLabel>
+                  <Select
+                    labelId="item-label"
+                    value={selectItem}
+                    onChange={handleChangeSelectItem}
+                  >
+                    {SPEED_ITEMS.map((item) => (
+                      <MenuItem key={item.name} value={item.value}>
+                        {item.name}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+
+                <FormControl fullWidth>
+                  <InputLabel id="ability-label">特性</InputLabel>
+                  <Select
+                    labelId="item-label"
+                    value={selectAbility}
+                    onChange={handleChangeSelectAbility}
+                  >
+                    {SPEED_ABILITIES.map((item) => (
+                      <MenuItem key={item.name} value={item.value}>
+                        {item.name}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </div>
+
+              <div className="d-flex pa-3">
+                <FormControlLabel
+                  control={<Checkbox /* その他のprops */ />}
+                  label="おいかぜ (×2.0)"
+                />
+                <FormControlLabel
+                  control={<Checkbox /* その他のprops */ />}
+                  label="まひ (×0.5)"
+                />
+                <FormControlLabel
+                  control={<Checkbox /* その他のprops */ />}
+                  label="湿原 (×0.25)"
+                />
+              </div>
+
+              <p>オプション</p>
+              <FormControlLabel
+                control={<Switch /* v-modelに相当する処理を追加 */ />}
+                label="±4以上も表示する"
+              />
+              <Divider />
+            </div>
           </Grid>
           {/* 画面右 */}
           <Grid item md={9} xs={18} sx={{ mr: { xs: 1, md: 0 } }}>
@@ -114,7 +245,7 @@ export const CalcSpeed = () => {
                       {formatRank(rank.magnification)}
                     </TableCell>
                     <TableCell align="center">
-                      {calcBaseSpeed(rank.percent)}
+                      {displaySpeed(rank.percent)}
                     </TableCell>
                   </TableRow>
                 ))}
