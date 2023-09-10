@@ -30,14 +30,15 @@ import { usePokemonState } from '@/store/pokemonState'
 import { RANKS } from '@/utils/constants'
 import type { StatsKey } from '@/types/front'
 import type { SelectChangeEvent } from '@mui/material'
+import type { ChangeEvent } from 'react'
 
 export const CalcSpeed = () => {
   const pokemon = usePokemonState()
   const [option, setOption] = useState(false)
 
-  const [tailwind, setTailwind] = useState(1)
-  const [paralysis, setParalysis] = useState(10)
-  const [swamp, setSwamp] = useState(100)
+  const [isTailwind, setIsTailwind] = useState(false)
+  const [isParalysis, setIsParalysis] = useState(false)
+  const [isSwampyField, setIsSwampyField] = useState(false)
   const [selectItem, setSelectItem] = useState(10)
   const [selectAbility, setSelectAbility] = useState(10)
 
@@ -75,6 +76,10 @@ export const CalcSpeed = () => {
    * 素早さリストに表示する値を計算する
    */
   const calcSpeed = (percent: number) => {
+    const tailwind = isTailwind ? 2 : 1
+    const paralysis = isParalysis ? 5 : 10
+    const swampyField = isSwampyField ? 25 : 100
+
     // 特性が「はやあし・かるわざ」のときは計算の順番を変える
     if (selectAbility === 2) {
       return Math.floor(
@@ -84,7 +89,7 @@ export const CalcSpeed = () => {
         ) *
           2 *
           tailwind *
-          swamp) /
+          swampyField) /
           100
       )
       // 特性がその他であれば通常通り計算する
@@ -100,7 +105,7 @@ export const CalcSpeed = () => {
             10
         ) *
           tailwind *
-          swamp) /
+          swampyField) /
           100
       )
     }
@@ -130,6 +135,10 @@ export const CalcSpeed = () => {
 
   const handleChangeSelectAbility = (event: SelectChangeEvent<number>) => {
     setSelectAbility(Number(event.target.value))
+  }
+
+  const handleOptionChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setOption(event.target.checked)
   }
 
   return (
@@ -208,22 +217,39 @@ export const CalcSpeed = () => {
 
               <div className="d-flex pa-3">
                 <FormControlLabel
-                  control={<Checkbox /* その他のprops */ />}
+                  control={
+                    <Checkbox
+                      value={isTailwind}
+                      onChange={(e) => setIsTailwind(e.target.checked)}
+                    />
+                  }
                   label="おいかぜ (×2.0)"
                 />
                 <FormControlLabel
-                  control={<Checkbox /* その他のprops */ />}
+                  control={
+                    <Checkbox
+                      value={isParalysis}
+                      onChange={(e) => setIsParalysis(e.target.checked)}
+                    />
+                  }
                   label="まひ (×0.5)"
                 />
                 <FormControlLabel
-                  control={<Checkbox /* その他のprops */ />}
+                  control={
+                    <Checkbox
+                      value={isSwampyField}
+                      onChange={(e) => setIsSwampyField(e.target.checked)}
+                    />
+                  }
                   label="湿原 (×0.25)"
                 />
               </div>
 
               <p>オプション</p>
               <FormControlLabel
-                control={<Switch /* v-modelに相当する処理を追加 */ />}
+                control={
+                  <Switch checked={option} onChange={handleOptionChange} />
+                }
                 label="±4以上も表示する"
               />
               <Divider />
