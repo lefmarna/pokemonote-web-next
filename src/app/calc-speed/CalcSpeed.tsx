@@ -1,6 +1,7 @@
 'use client'
 
 import {
+  Box,
   Checkbox,
   Container,
   Divider,
@@ -184,13 +185,9 @@ export const CalcSpeed = () => {
             </Grid>
             <div className="px-0 pt-3">
               <div>
-                <FormControl fullWidth>
-                  <InputLabel id="item-label">道具</InputLabel>
-                  <Select
-                    labelId="item-label"
-                    value={selectItem}
-                    onChange={handleChangeSelectItem}
-                  >
+                <FormControl variant="standard" fullWidth sx={{ mt: 3 }}>
+                  <InputLabel>道具</InputLabel>
+                  <Select value={selectItem} onChange={handleChangeSelectItem}>
                     {SPEED_ITEMS.map((item) => (
                       <MenuItem key={item.name} value={item.value}>
                         {item.name}
@@ -199,10 +196,9 @@ export const CalcSpeed = () => {
                   </Select>
                 </FormControl>
 
-                <FormControl fullWidth>
-                  <InputLabel id="ability-label">特性</InputLabel>
+                <FormControl variant="standard" fullWidth sx={{ mt: 3 }}>
+                  <InputLabel>特性</InputLabel>
                   <Select
-                    labelId="item-label"
                     value={selectAbility}
                     onChange={handleChangeSelectAbility}
                   >
@@ -215,7 +211,7 @@ export const CalcSpeed = () => {
                 </FormControl>
               </div>
 
-              <div className="d-flex pa-3">
+              <Box sx={{ my: 3 }}>
                 <FormControlLabel
                   control={
                     <Checkbox
@@ -243,7 +239,7 @@ export const CalcSpeed = () => {
                   }
                   label="湿原 (×0.25)"
                 />
-              </div>
+              </Box>
 
               <p>オプション</p>
               <FormControlLabel
