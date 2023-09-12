@@ -183,7 +183,7 @@ export const CalcSpeed = () => {
                 updateRealNumber={updateRealNumber}
               />
             </Grid>
-            <div className="px-0 pt-3">
+            <div>
               <div>
                 <FormControl variant="standard" fullWidth sx={{ mt: 3 }}>
                   <InputLabel>道具</InputLabel>
