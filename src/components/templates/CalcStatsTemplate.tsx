@@ -11,24 +11,19 @@ import {
 } from '@mui/material'
 import { Box } from '@mui/system'
 import { useState } from 'react'
-import { Title } from '../molecules/Title'
+import { Title } from '@/components/molecules/Title'
 import { BaseStatsField } from '@/components/organisms/BaseStatsField'
 import { CalcStatsOptions } from '@/components/organisms/CalcStatsOptions'
 import { EffortValueField } from '@/components/organisms/EffortValueField'
 import { IndividualValueField } from '@/components/organisms/IndividualValueField'
 import { RealNumberField } from '@/components/organisms/RealNumberField'
 import { StatsTableHeader } from '@/components/organisms/StatsTableHeader'
+import { useMediaQueryDown } from '@/hooks/style/useMediaQueries'
 import { usePokemonStats } from '@/hooks/usePokemonStats'
 import { useAuthUserState } from '@/store/authUserState'
 import { MAX_EV, MAX_TOTAL_EV } from '@/utils/constants'
-import { useMediaQueryDown } from '@/utils/theme'
-import type {
-  Nature,
-  NullableStats,
-  Pokemon,
-  PokemonBasicInfo,
-  StatsKey,
-} from '@/types'
+import type { NullableStats, Pokemon, StatsKey } from '@/types/front'
+import type { Nature, PokemonBasicInfo } from '@/types/openapi/schemas'
 import type { PokemonPostParams } from '@/types/openapi/schemas'
 import type { ReactNode } from 'react'
 

@@ -1,10 +1,10 @@
 import './globals.scss'
 import { Inter } from 'next/font/google'
-import { DEFAULT_META_DESCRIPTION, DEFAULT_META_TITLE } from '@/libs/metadata'
 import { AppInit } from './app-init'
 import { BaseLayout } from './base-layout'
 import { Providers } from './providers'
 import SnackbarComponent from '@/components/organisms/SnackBarComponent'
+import { DEFAULT_META_DESCRIPTION, DEFAULT_META_TITLE } from '@/utils/helpers'
 import type { Metadata } from 'next'
 import type { ReactNode } from 'react'
 

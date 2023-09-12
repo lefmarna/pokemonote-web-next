@@ -1,5 +1,5 @@
-import { getMetadata } from '@/libs/metadata'
 import { CalcSpeed } from './CalcSpeed'
+import { getMetadata } from '@/utils/helpers'
 
 export const metadata = getMetadata(
   '素早さ計算機（ポケモンSV）',

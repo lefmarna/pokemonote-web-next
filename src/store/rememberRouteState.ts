@@ -3,7 +3,7 @@ import { atom, useRecoilValue, useSetRecoilState } from 'recoil'
 
 const rememberRouteRecoilState = atom({
   key: 'rememberRouteState',
-  default: '',
+  default: '/',
 })
 
 export const useRememberRouteState = () => {

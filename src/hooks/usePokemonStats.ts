@@ -10,8 +10,9 @@ import {
   convertToInteger,
   numberToInt,
   valueVerification,
-} from '@/utils/utilities'
-import type { Nature, Pokemon, StatsKey } from '@/types'
+} from '@/utils/helpers'
+import type { Pokemon, StatsKey } from '@/types/front'
+import type { Nature } from '@/types/openapi/schemas'
 
 // ポケモンのステータス計算に関するカスタムフック
 export const usePokemonStats = (pokemon: Pokemon) => {

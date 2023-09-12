@@ -6,13 +6,11 @@
     "autodocs",
     "axios",
     "commitlint",
-    "DEFENCE",
     "HABCDS",
     "hocs",
     "nextjs",
     "openapi",
-    "stylelint",
-    "unoptimized"
+    "stylelint"
   ],
   "flagWords": [],
   "ignorePaths": [

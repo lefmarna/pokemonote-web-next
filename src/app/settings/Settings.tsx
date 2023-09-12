@@ -1,7 +1,336 @@
 'use client'
 
+import {
+  Card,
+  CardHeader,
+  Container,
+  Divider,
+  List,
+  ListItemButton,
+} from '@mui/material'
+import { useRouter } from 'next/navigation'
+import { useState } from 'react'
+import { isAxiosError } from '@/libs/axios'
+import { EmailInput } from '@/components/forms/EmailInput'
+import { NicknameInput } from '@/components/forms/NicknameInput'
+import { PasswordInput } from '@/components/forms/PasswordInput'
+import { UsernameInput } from '@/components/forms/UsernameInput'
+import { DialogCard } from '@/components/molecules/DialogCard'
+import { ErrorList } from '@/components/molecules/ErrorList'
 import { authMiddleware } from '@/hocs/authMiddleware'
+import { useAuthUserMutators, useAuthUserState } from '@/store/authUserState'
+import { MODAL_CLOSE_TIME_MS } from '@/utils/constants'
+import { exceptionErrorToArray, requestOpenApi, sleep } from '@/utils/helpers'
 
 export const Settings = authMiddleware(() => {
-  return <>設定</>
+  const router = useRouter()
+  const authUser = useAuthUserState()
+  const { updateAuthUser } = useAuthUserMutators()
+
+  const [isLoading, setIsLoading] = useState(false)
+  const [updateAccountParams, setUpdateAccountParams] = useState({
+    username: '',
+    nickname: '',
+  })
+  const [updateAccountErrors, setUpdateAccountErrors] = useState<string[]>([])
+  const [updateEmailParams, setUpdateEmailParams] = useState({
+    currentEmail: '',
+    newEmail: '',
+    newEmail_confirmation: '',
+  })
+  const [updateEmailErrors, setUpdateEmailErrors] = useState<string[]>([])
+  const [passwordParams, setPasswordParams] = useState({
+    currentPassword: '',
+    newPassword: '',
+    newPassword_confirmation: '',
+  })
+  const [updatePasswordErrors, setUpdatePasswordErrors] = useState<string[]>([])
+
+  // アカウント情報の更新処理
+  const updateAccount = async () => {
+    setIsLoading(true)
+    try {
+      await requestOpenApi({
+        url: '/api/v2/settings/account',
+        method: 'put',
+        data: updateAccountParams,
+      })
+      alert('ユーザー情報を更新しました')
+      onCloseModal()
+
+      if (authUser === null) return
+
+      updateAuthUser({
+        ...authUser,
+        ...updateAccountParams,
+      })
+    } catch (error) {
+      setUpdateAccountErrors(exceptionErrorToArray(error, [401, 422]))
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  // メールアドレスの更新処理
+  const updateEmail = async () => {
+    setIsLoading(true)
+    try {
+      await requestOpenApi({
+        url: '/api/v2/settings/email',
+        method: 'post',
+        data: updateEmailParams,
+      })
+      router.push('/settings/email/confirm')
+      onCloseModal()
+    } catch (error) {
+      setUpdateEmailErrors(exceptionErrorToArray(error, [401, 422]))
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  // パスワードの更新処理
+  const updatePassword = async () => {
+    setIsLoading(true)
+    try {
+      await requestOpenApi({
+        url: '/api/v2/settings/password',
+        method: 'put',
+        data: passwordParams,
+      })
+      alert('パスワードを更新しました')
+      onCloseModal()
+    } catch (error) {
+      setUpdatePasswordErrors(exceptionErrorToArray(error, [401, 422]))
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  // 退会処理
+  const unsubscribe = async () => {
+    setIsLoading(true)
+    try {
+      await requestOpenApi({
+        url: '/api/v2/settings/unsubscribe',
+        method: 'delete',
+      })
+    } catch (error) {
+      if (!isAxiosError(error) || error.response?.status !== 401) return
+      console.log(error)
+    } finally {
+      setIsLoading(false)
+    }
+    updateAuthUser(null)
+    router.replace('/login')
+  }
+
+  type ModalType = 'name' | 'email' | 'password' | 'unsubscribe'
+
+  const [modalType, setModalType] = useState<ModalType | null>(null)
+
+  const handleOpenModal = (modalType: ModalType) => () => {
+    setModalType(modalType)
+  }
+
+  const onCloseModal = async () => {
+    setModalType(null)
+    await sleep(MODAL_CLOSE_TIME_MS)
+
+    // アカウント情報のフォームを初期化
+    setUpdateAccountParams({
+      username: '',
+      nickname: '',
+    })
+    setUpdateAccountErrors([])
+
+    // メールアドレスのフォームを初期化
+    setUpdateEmailParams({
+      currentEmail: '',
+      newEmail: '',
+      newEmail_confirmation: '',
+    })
+    setUpdateEmailErrors([])
+
+    // パスワードのフォームを初期化
+    setPasswordParams({
+      currentPassword: '',
+      newPassword: '',
+      newPassword_confirmation: '',
+    })
+    setUpdatePasswordErrors([])
+  }
+
+  return (
+    <Container>
+      <Card sx={{ maxWidth: 540, mx: 'auto', mt: 5, pt: 2, px: 2 }}>
+        <CardHeader
+          title="Pokemonote - 設定"
+          titleTypographyProps={{ align: 'center' }}
+        />
+        <List>
+          <ListItemButton sx={{ py: 1.5 }} onClick={handleOpenModal('name')}>
+            アカウント情報の変更
+          </ListItemButton>
+          <Divider />
+          <ListItemButton sx={{ py: 1.5 }} onClick={handleOpenModal('email')}>
+            メールアドレスの変更
+          </ListItemButton>
+          <Divider />
+          <ListItemButton
+            sx={{ py: 1.5 }}
+            onClick={handleOpenModal('password')}
+          >
+            パスワードの更新
+          </ListItemButton>
+          <Divider />
+          <ListItemButton
+            sx={{ py: 1.5 }}
+            onClick={handleOpenModal('unsubscribe')}
+          >
+            退会
+          </ListItemButton>
+        </List>
+      </Card>
+      <DialogCard
+        title="Pokemonote - アカウント情報の変更"
+        submitButtonText="変更する"
+        isLoading={isLoading}
+        onSubmit={updateAccount}
+        open={modalType === 'name'}
+        onClose={onCloseModal}
+      >
+        <UsernameInput
+          value={updateAccountParams.username}
+          setValue={(username: string) =>
+            setUpdateAccountParams((prevParams) => {
+              return {
+                ...prevParams,
+                username,
+              }
+            })
+          }
+        />
+        <NicknameInput
+          value={updateAccountParams.nickname}
+          setValue={(nickname: string) =>
+            setUpdateAccountParams((prevParams) => {
+              return {
+                ...prevParams,
+                nickname,
+              }
+            })
+          }
+        />
+        <ErrorList errors={updateAccountErrors} />
+      </DialogCard>
+      <DialogCard
+        title="Pokemonote - メールアドレスの変更"
+        submitButtonText="確認メールを送信する"
+        isLoading={isLoading}
+        onSubmit={updateEmail}
+        open={modalType === 'email'}
+        onClose={onCloseModal}
+      >
+        <EmailInput
+          value={updateEmailParams.currentEmail}
+          label="現在のメールアドレス"
+          setValue={(currentEmail: string) => {
+            setUpdateEmailParams((prevParams) => {
+              return {
+                ...prevParams,
+                currentEmail,
+              }
+            })
+          }}
+        />
+        <EmailInput
+          value={updateEmailParams.newEmail}
+          label="新しいメールアドレス"
+          setValue={(newEmail: string) => {
+            setUpdateEmailParams((prevParams) => {
+              return {
+                ...prevParams,
+                newEmail,
+              }
+            })
+          }}
+        />
+        <EmailInput
+          value={updateEmailParams.newEmail_confirmation}
+          label="新しいメールアドレス（確認用）"
+          setValue={(newEmail_confirmation: string) => {
+            setUpdateEmailParams((prevParams) => {
+              return {
+                ...prevParams,
+                newEmail_confirmation,
+              }
+            })
+          }}
+        />
+        <ErrorList errors={updateEmailErrors} />
+      </DialogCard>
+      <DialogCard
+        title="Pokemonote - パスワードの更新"
+        submitButtonText="更新する"
+        isLoading={isLoading}
+        onSubmit={updatePassword}
+        open={modalType === 'password'}
+        onClose={onCloseModal}
+      >
+        <PasswordInput
+          value={passwordParams.currentPassword}
+          label="現在のパスワード"
+          setValue={(currentPassword: string) => {
+            setPasswordParams((prevParams) => {
+              return {
+                ...prevParams,
+                currentPassword,
+              }
+            })
+          }}
+        />
+        <PasswordInput
+          value={passwordParams.newPassword}
+          label="新しいパスワード"
+          setValue={(newPassword: string) => {
+            setPasswordParams((prevParams) => {
+              return {
+                ...prevParams,
+                newPassword,
+              }
+            })
+          }}
+        />
+        <PasswordInput
+          value={passwordParams.newPassword_confirmation}
+          label="確認用パスワード"
+          setValue={(newPassword_confirmation: string) => {
+            setPasswordParams((prevParams) => {
+              return {
+                ...prevParams,
+                newPassword_confirmation,
+              }
+            })
+          }}
+        />
+        <ErrorList errors={updatePasswordErrors} />
+      </DialogCard>
+      <DialogCard
+        title="Pokemonote - アカウント退会"
+        submitButtonText="退会する"
+        isDanger={true}
+        isLoading={isLoading}
+        onSubmit={unsubscribe}
+        open={modalType === 'unsubscribe'}
+        onClose={onCloseModal}
+      >
+        <div>
+          これまでに投稿されたポケモンのデータも全て削除されます。
+          <br />
+          本当に退会してもよろしいですか？
+        </div>
+      </DialogCard>
+    </Container>
+  )
 })

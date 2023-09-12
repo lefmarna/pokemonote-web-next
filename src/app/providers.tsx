@@ -1,11 +1,11 @@
 'use client'
 
 import { ThemeProvider } from '@mui/material'
+import { useRouter } from 'next/navigation'
 import { RecoilRoot } from 'recoil'
 import { SWRConfig } from 'swr'
-import type { AxiosError } from '@/libs/axios'
-import { $axios } from '@/libs/axios'
-import { theme } from '@/utils/theme'
+import { $axios, isAxiosError } from '@/libs/axios'
+import { theme } from '@/libs/mui'
 import type { ReactNode } from 'react'
 
 type Props = {
@@ -13,18 +13,30 @@ type Props = {
 }
 
 export const Providers = ({ children }: Props) => {
+  const router = useRouter()
+
   const swrConfigValue = {
     fetcher: (url: string) => $axios.get(url).then((res) => res.data),
-    onError: (error: AxiosError) => {
-      switch (error.status) {
-        case 404:
-          console.log(error)
+    onError: (e: unknown) => {
+      // Network Error
+      if (!isAxiosError(e)) {
+        console.log(e)
+        return
+      }
+
+      // HTTP Error
+      switch (e.response?.status) {
+        case 401:
+          router.replace('/login')
           break
         case 403:
-          console.log(error)
+          router.replace('/')
+          break
+        case 404:
+          router.replace('/')
           break
         default:
-          console.log(error)
+          console.log(e)
       }
     },
   }

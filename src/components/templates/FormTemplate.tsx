@@ -1,15 +1,9 @@
 'use client'
 
 import { LoadingButton } from '@mui/lab'
-import {
-  Container,
-  List,
-  ListItem,
-  ListItemText,
-  Stack,
-  Typography,
-} from '@mui/material'
-import { useEmotion } from '@/hooks/style/useEmotion'
+import { Container, Stack, Typography } from '@mui/material'
+import { ErrorList } from '../molecules/ErrorList'
+import { SLink } from '@/styles'
 import type { ReactNode } from 'react'
 
 type Props = {
@@ -33,8 +27,6 @@ export const FormTemplate = (props: Props) => {
     onSubmit,
   } = props
 
-  const { StyledLink } = useEmotion()
-
   return (
     <form>
       <Container maxWidth="sm" sx={{ pt: 5 }}>
@@ -55,28 +47,14 @@ export const FormTemplate = (props: Props) => {
             </LoadingButton>
           )}
         </Stack>
-        {errors.length > 0 && (
-          <List sx={{ mt: 3 }}>
-            {errors.map((error, index) => {
-              return (
-                <ListItem disableGutters key={index}>
-                  <ListItemText
-                    primaryTypographyProps={{ color: 'error.main' }}
-                  >
-                    {error}
-                  </ListItemText>
-                </ListItem>
-              )
-            })}
-          </List>
-        )}
+        <ErrorList errors={errors} sx={{ mt: 3 }} />
         {links.length > 0 && (
           <Stack spacing={2} sx={{ mt: 4, fontSize: '.875rem' }}>
             {links.map((link, index) => {
               return (
-                <StyledLink href={link.href} key={index}>
+                <SLink href={link.href} key={index}>
                   {link.text}
-                </StyledLink>
+                </SLink>
               )
             })}
           </Stack>

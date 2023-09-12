@@ -1,5 +1,5 @@
-import { getMetadata } from '@/libs/metadata'
 import { BaseStatsRanking } from './BaseStatsRanking'
+import { getMetadata } from '@/utils/helpers'
 
 export const metadata = getMetadata(
   '種族値ランキング（ポケモンSV）',

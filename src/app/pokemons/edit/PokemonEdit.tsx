@@ -2,13 +2,15 @@
 
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useCallback, useEffect, useState } from 'react'
+import { useSWROpenApi } from '@/libs/swr'
 import { CalcStatsTemplate } from '@/components/templates/CalcStatsTemplate'
 import { LoadingPageTemplate } from '@/components/templates/LoadingPageTemplate'
 import { authMiddleware } from '@/hocs/authMiddleware'
 import { useNaturesState } from '@/store/naturesState'
 import { usePokemonBasicInfosState } from '@/store/pokemonBasicInfosState'
-import { requestApi } from '@/utils/helpers/requestApi'
-import type { Nature, NullableStats, Pokemon, PokemonBasicInfo } from '@/types'
+import { requestOpenApi } from '@/utils/helpers'
+import type { NullableStats, Pokemon } from '@/types/front'
+import type { Nature, PokemonBasicInfo } from '@/types/openapi/schemas'
 import type { PokemonPostParams } from '@/types/openapi/schemas'
 
 export const PokemonEdit = authMiddleware(() => {
@@ -23,36 +25,31 @@ export const PokemonEdit = authMiddleware(() => {
   const pokemonBasicInfos = usePokemonBasicInfosState()
   const natures = useNaturesState()
 
+  const { data } = useSWROpenApi({
+    url: '/api/v2/pokemons/{id}/edit',
+    path: {
+      id: pokemonId ?? '',
+    },
+  })
+
   useEffect(() => {
-    ;(async () => {
-      try {
-        const response = await requestApi({
-          url: '/api/v2/pokemons/{id}/edit',
-          method: 'get',
-          pathParameters: {
-            id: pokemonId ?? '',
-          },
-        })
-        const data = response.data.data
-        const basicInfo = pokemonBasicInfos.find(
-          (basicInfo: PokemonBasicInfo) => basicInfo.name === data.pokemonName
-        )
-        const nature = natures.find(
-          (nature: Nature) => nature.name === data.natureName
-        )
+    if (data === undefined) return
 
-        if (basicInfo === undefined || nature === undefined) return
+    const basicInfo = pokemonBasicInfos.find(
+      (basicInfo: PokemonBasicInfo) => basicInfo.name === data.data.pokemonName
+    )
+    const nature = natures.find(
+      (nature: Nature) => nature.name === data.data.natureName
+    )
 
-        setPokemon({
-          ...data,
-          basicInfo: basicInfo,
-          nature: nature,
-        })
-      } catch (error) {
-        router.push('/')
-      }
-    })()
-  }, [pokemonId, router, natures, pokemonBasicInfos])
+    if (basicInfo === undefined || nature === undefined) return
+
+    setPokemon({
+      ...data.data,
+      basicInfo: basicInfo,
+      nature: nature,
+    })
+  }, [data, natures, pokemonBasicInfos])
 
   /**
    * ポケモンの基本情報を更新する
@@ -165,10 +162,10 @@ export const PokemonEdit = authMiddleware(() => {
   const sendPokemon = async (params: PokemonPostParams) => {
     setIsLoading(true)
     try {
-      await requestApi({
+      await requestOpenApi({
         url: '/api/v2/pokemons/{id}',
         method: 'put',
-        pathParameters: {
+        path: {
           id: pokemonId ?? '',
         },
         data: params,

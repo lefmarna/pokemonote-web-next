@@ -2,11 +2,11 @@
 
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import { $axios } from '@/libs/axios'
+import { useSWROpenApi } from '@/libs/swr'
 import { LoadingPageTemplate } from '@/components/templates/LoadingPageTemplate'
 import { PokemonTableTemplate } from '@/components/templates/PokemonTableTemplate'
 import { useAuthUserState } from '@/store/authUserState'
-import type { ShowUser, User } from '@/types'
+import type { User } from '@/types/openapi/schemas'
 import type { PokemonSummary } from '@/types/openapi/schemas'
 
 export const UserShow = () => {
@@ -17,20 +17,25 @@ export const UserShow = () => {
   const router = useRouter()
   const searchParams = useSearchParams()
 
+  const { data, error } = useSWROpenApi({
+    url: '/api/v2/users/{username}',
+    path: {
+      username: searchParams.get('username') ?? '',
+    },
+  })
+
   useEffect(() => {
-    ;(async () => {
-      try {
-        const response = await $axios.get<{ data: ShowUser }>(
-          `/api/v2/users/${searchParams.get('username')}`
-        )
-        const showUser = response.data.data
-        setUser(showUser.user)
-        setPokemonSummaries(showUser.pokemons)
-      } catch (error) {
-        router.push('/')
-      }
-    })()
-  }, [searchParams, router])
+    if (data === undefined) return
+
+    setUser(data.data.user)
+    setPokemonSummaries(data.data.pokemons)
+  }, [data])
+
+  useEffect(() => {
+    if (error === undefined) return
+
+    router.push('/')
+  }, [error, router])
 
   if (user === null) return <LoadingPageTemplate />
 

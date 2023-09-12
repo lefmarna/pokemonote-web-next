@@ -12,17 +12,16 @@ import {
 } from '@mui/material'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import { $axios } from '@/libs/axios'
+import { useSWROpenApi } from '@/libs/swr'
 import { LoadingPageTemplate } from '@/components/templates/LoadingPageTemplate'
-import { useEmotion } from '@/hooks/style/useEmotion'
 import { useAuthUserState } from '@/store/authUserState'
 import { usePokemonBasicInfosState } from '@/store/pokemonBasicInfosState'
-import { requestApi } from '@/utils/helpers/requestApi'
+import { SLink } from '@/styles'
+import { requestOpenApi } from '@/utils/helpers'
 import type { PokemonBasicInfo, PokemonSummary } from '@/types/openapi/schemas'
 
 export const PokemonShow = () => {
   const searchParams = useSearchParams()
-  const { StyledLink } = useEmotion()
 
   const router = useRouter()
   const authUser = useAuthUserState()
@@ -36,25 +35,26 @@ export const PokemonShow = () => {
   const [pokemonBasicInfo, setPokemonBasicInfo] =
     useState<PokemonBasicInfo | null>(null)
 
+  const { data, error } = useSWROpenApi({
+    url: '/api/v2/pokemons/{id}',
+    path: {
+      id: searchParams.get('id') ?? '',
+    },
+  })
+
   useEffect(() => {
-    ;(async () => {
-      try {
-        const response = await requestApi({
-          url: '/api/v2/pokemons/{id}',
-          method: 'get',
-          pathParameters: {
-            id: searchParams.get('id') ?? '',
-          },
-        })
-        const { description: _description, ..._pokemonSummary } =
-          response.data.data
-        setDescription(_description)
-        setPokemonSummary(_pokemonSummary)
-      } catch (error) {
-        router.push('/')
-      }
-    })()
-  }, [searchParams, router])
+    if (data === undefined) return
+
+    const { description: _description, ..._pokemonSummary } = data.data
+    setDescription(_description)
+    setPokemonSummary(_pokemonSummary)
+  }, [data])
+
+  useEffect(() => {
+    if (error === undefined) return
+
+    router.push('/')
+  }, [error, router])
 
   useEffect(() => {
     const targetPokemonBasicInfo = pokemonBasicInfos.find(
@@ -76,8 +76,14 @@ export const PokemonShow = () => {
 
   const handleDeleteItem = async (id: number) => {
     try {
-      await $axios.delete(`/api/v2/pokemons/${id}`)
-      router.push(`/users/${authUser?.username}`)
+      await requestOpenApi({
+        url: '/api/v2/pokemons/{id}',
+        method: 'delete',
+        path: {
+          id: String(id),
+        },
+      })
+      router.replace(`/users/show/?username=${authUser?.username}`)
     } catch (error) {
       router.push('/')
     }
@@ -150,14 +156,14 @@ export const PokemonShow = () => {
       ) : (
         <Typography>
           投稿者：
-          <StyledLink
+          <SLink
             href={{
               pathname: '/users/show',
               query: { username: pokemonSummary.user.username },
             }}
           >
             {pokemonSummary.user.nickname}
-          </StyledLink>
+          </SLink>
         </Typography>
       )}
     </Container>

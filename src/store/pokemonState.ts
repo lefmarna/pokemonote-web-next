@@ -1,6 +1,7 @@
 import { useCallback } from 'react'
 import { atom, useRecoilValue, useSetRecoilState } from 'recoil'
-import type { Nature, NullableStats, Pokemon, PokemonBasicInfo } from '@/types'
+import type { NullableStats, Pokemon } from '@/types/front'
+import type { Nature, PokemonBasicInfo } from '@/types/openapi/schemas'
 
 const pokemonRecoilState = atom<Pokemon>({
   key: 'PokemonState',

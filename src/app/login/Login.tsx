@@ -1,29 +1,19 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
-import { $axios } from '@/libs/axios'
+import { useState } from 'react'
 import { EmailInput } from '@/components/forms/EmailInput'
 import { PasswordInput } from '@/components/forms/PasswordInput'
 import { MessageAlert } from '@/components/organisms/MessageAlert'
 import { FormTemplate } from '@/components/templates/FormTemplate'
 import { noAuthMiddleware } from '@/hocs/noAuthMiddleware'
-import { useAuthUserMutators, useAuthUserState } from '@/store/authUserState'
-import { useIsInitializationState } from '@/store/isInitializationState'
-import {
-  useRememberRouteMutators,
-  useRememberRouteState,
-} from '@/store/rememberRouteState'
+import { useAuthUserMutators } from '@/store/authUserState'
 import { useSnackbarMutators } from '@/store/snackbarState'
-import { exceptionErrorToArray } from '@/utils/utilities'
-import type { AuthUser } from '@/types'
+import { exceptionErrorToArray, requestOpenApi } from '@/utils/helpers'
 
 export const Login = noAuthMiddleware(() => {
   const router = useRouter()
   const { updateAuthUser } = useAuthUserMutators()
-  const authUser = useAuthUserState()
-  const rememberRoute = useRememberRouteState()
-  const { updateRememberRoute } = useRememberRouteMutators()
   const [isShowAlert, setIsShowAlert] = useState(false)
 
   const [isLoading, setIsLoading] = useState(false)
@@ -32,34 +22,25 @@ export const Login = noAuthMiddleware(() => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
-  const isInitialization = useIsInitializationState()
-
   const { showSnackBar } = useSnackbarMutators()
-
-  useEffect(() => {
-    if (!authUser || !isInitialization) return
-
-    if (rememberRoute !== '') {
-      updateRememberRoute('')
-      router.push(rememberRoute)
-    } else {
-      router.push('/')
-    }
-  }, [authUser, isInitialization, rememberRoute, router, updateRememberRoute])
 
   const login = async () => {
     setIsLoading(true)
 
     try {
-      const response = await $axios.post<{ data: AuthUser }>('/api/v2/login', {
-        email,
-        password,
+      const response = await requestOpenApi({
+        url: '/api/v2/login',
+        method: 'post',
+        data: {
+          email,
+          password,
+        },
       })
       const _authUser = response.data.data
 
       if (!_authUser.isAuthenticated) {
         localStorage.setItem('email', _authUser.email)
-        router.push('/email/resend')
+        router.push('/register/resend')
         return
       }
 

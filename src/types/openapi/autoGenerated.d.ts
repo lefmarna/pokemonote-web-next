@@ -4,6 +4,14 @@
  */
 
 export interface paths {
+  '/api/v2/init/login': {
+    /** ログイン状態確認API */
+    get: {
+      responses: {
+        200: components['responses']['CheckLoginDataResponse']
+      }
+    }
+  }
   '/api/v2/init/fetch': {
     /** 静的データ取得API */
     get: {
@@ -12,15 +20,60 @@ export interface paths {
       }
     }
   }
-  '/api/v2/email/verify/{id}': {
+  '/api/v2/top': {
+    /** トップページ情報取得API */
+    get: {
+      responses: {
+        200: components['responses']['TopResponse']
+      }
+    }
+  }
+  '/api/v2/login': {
+    /** ログインAPI */
+    post: {
+      requestBody: components['requestBodies']['LoginRequestBody']
+      responses: {
+        200: components['responses']['LoginResponse']
+      }
+    }
+  }
+  '/api/v2/logout': {
+    /** ログアウトAPI */
+    post: {}
+  }
+  '/api/v2/register/tentative': {
+    /** アカウント仮登録API */
+    post: {
+      requestBody: components['requestBodies']['RegisterTentativeRequestBody']
+      responses: {
+        200: components['responses']['RegisterTentativeResponse']
+        201: components['responses']['RegisterTentativeResponse']
+      }
+    }
+  }
+  '/api/v2/register/resend': {
+    /** 認証メール再送信API */
+    post: {
+      requestBody: components['requestBodies']['RegisterResendRequestBody']
+    }
+  }
+  '/api/v2/register/fetch': {
+    /** 認証メール情報取得API */
+    get: {
+      responses: {
+        200: components['responses']['RegisterFetchResponse']
+      }
+    }
+  }
+  '/api/v2/register/verify/{id}': {
     /** アカウント本登録API */
     get: {
       parameters: {
-        query?: {
+        query: {
           /** @description 有効期限 */
-          expires?: string
+          expires: string
           /** @description 署名 */
-          signature?: string
+          signature: string
         }
         path: {
           /** @description ユーザーID */
@@ -29,6 +82,54 @@ export interface paths {
       }
       responses: {
         200: components['responses']['EmailVerifyResponse']
+      }
+    }
+  }
+  '/api/v2/password/email': {
+    /** パスワード再設定メール送信API */
+    post: {
+      requestBody: components['requestBodies']['ResetPasswordSendEmailRequestBody']
+      responses: {
+        204: components['responses']
+      }
+    }
+  }
+  '/api/v2/password/verify/{user_id}': {
+    /** パスワード再設定メール検証API */
+    get: {
+      parameters: {
+        query: {
+          /** @description 有効期限 */
+          expires: string
+          /** @description 署名 */
+          signature: string
+        }
+        path: {
+          /** @description ユーザーID */
+          id: string
+        }
+      }
+      responses: {
+        204: components['responses']
+      }
+    }
+  }
+  '/api/v2/password/reset': {
+    /** パスワード再設定API */
+    put: {
+      requestBody: components['requestBodies']['ResetPasswordResetRequestBody']
+    }
+  }
+  '/api/v2/users/{username}': {
+    /** ユーザー詳細API */
+    get: {
+      parameters: {
+        path: {
+          username: string
+        }
+      }
+      responses: {
+        200: components['responses']['UserShowResponse']
       }
     }
   }
@@ -67,6 +168,20 @@ export interface paths {
         }
       }
       requestBody: components['requestBodies']['PokemonUpdateRequestBody']
+      responses: {
+        204: components['responses']
+      }
+    }
+    /** ポケモン削除API */
+    delete: {
+      parameters: {
+        path: {
+          id: string
+        }
+      }
+      responses: {
+        204: components['responses']
+      }
     }
   }
   '/api/v2/pokemons/{id}/edit': {
@@ -79,6 +194,72 @@ export interface paths {
       }
       responses: {
         200: components['responses']['PokemonEditResponse']
+      }
+    }
+  }
+  '/api/v2/lefmarna-otoiawase': {
+    /** お問い合わせAPI */
+    post: {
+      requestBody: components['requestBodies']['LefmarnaOtoiawaseSendRequestBody']
+      responses: {
+        204: components['responses']
+      }
+    }
+  }
+  '/api/v2/settings/account': {
+    /** アカウント情報更新API */
+    put: {
+      requestBody: components['requestBodies']['SettingAccountUpdateRequestBody']
+      responses: {
+        204: components['responses']
+      }
+    }
+  }
+  '/api/v2/settings/email': {
+    /** メールアドレス更新用メール送信API */
+    post: {
+      requestBody: components['requestBodies']['SettingEmailUpdateRequestBody']
+      responses: {
+        204: components['responses']
+      }
+    }
+  }
+  '/api/v2/settings/email/verify/{id}/{encryptedEmail}': {
+    /** メールアドレス更新用メール検証API */
+    get: {
+      parameters: {
+        query: {
+          /** @description 有効期限 */
+          expires: string
+          /** @description 署名 */
+          signature: string
+        }
+        path: {
+          /** @description ユーザーID */
+          userId: string
+          /** @description 暗号化済メールアドレス */
+          encryptedEmail: string
+        }
+      }
+      responses: {
+        200: components['responses']['SettingEmailVerifyResponse']
+      }
+    }
+  }
+  '/api/v2/settings/password': {
+    /** パスワード更新API */
+    put: {
+      requestBody: components['requestBodies']['SettingPasswordUpdateRequestBody']
+      responses: {
+        204: components['responses']
+      }
+    }
+  }
+  '/api/v2/settings/unsubscribe': {
+    /** 退会API */
+    delete: {
+      responses: {
+        204: components['responses']
       }
     }
   }
@@ -580,7 +761,7 @@ export interface components {
       username: string
       /**
        * @description 表示名
-       * @example テスト
+       * @example テストアカウント
        */
       nickname: string
     }
@@ -595,6 +776,42 @@ export interface components {
       }
     }
     /** @description OK */
+    LoginResponse: {
+      content: {
+        'application/json': {
+          data: components['schemas']['AuthUser']
+        }
+      }
+    }
+    /** @description OK */
+    RegisterTentativeResponse: {
+      content: {
+        'application/json': {
+          data: {
+            /**
+             * @description メールアドレス
+             * @example test@test.com
+             */
+            email: string
+          }
+        }
+      }
+    }
+    /** @description OK */
+    RegisterFetchResponse: {
+      content: {
+        'application/json': {
+          data: {
+            /**
+             * @description メールアドレス
+             * @example test@test.com
+             */
+            email: string
+          }
+        }
+      }
+    }
+    /** @description OK */
     StaticDataResponse: {
       content: {
         'application/json': {
@@ -602,6 +819,56 @@ export interface components {
             pokemonBasicInfos: components['schemas']['PokemonBasicInfo'][]
             natures: components['schemas']['Nature'][]
           }
+        }
+      }
+    }
+    /** @description OK */
+    CheckLoginDataResponse: {
+      content: {
+        'application/json': {
+          /** @description 認証ユーザー */
+          data: {
+            /**
+             * @description ユーザーID
+             * @example 1
+             */
+            id: number
+            /**
+             * @description ユーザー名
+             * @example test
+             */
+            username: string
+            /**
+             * @description 表示名
+             * @example テスト
+             */
+            nickname: string
+            /**
+             * @description メールアドレス
+             * @example test@test.com
+             */
+            email: string
+            /**
+             * @description 認証済みかどうか
+             * @example true
+             */
+            isAuthenticated: boolean
+          } | null
+        }
+      }
+    }
+    /** @description OK */
+    TopResponse: {
+      content: {
+        'application/json': {
+          /** @description トップページ情報 */
+          data: {
+            /**
+             * @description ポケモン名
+             * @example カイリュー
+             */
+            name: string
+          }[]
         }
       }
     }
@@ -707,9 +974,145 @@ export interface components {
         }
       }
     }
+    /** @description OK */
+    UserShowResponse: {
+      content: {
+        'application/json': {
+          data: {
+            user: components['schemas']['User']
+            /** @description 投稿者のポケモン */
+            pokemons: components['schemas']['PokemonSummary'][]
+          }
+        }
+      }
+    }
+    /** @description OK */
+    SettingEmailVerifyResponse: {
+      content: {
+        'application/json': {
+          data: components['schemas']['AuthUser']
+        }
+      }
+    }
+    /** @description No Content */
+    '': {
+      content: never
+    }
   }
   parameters: never
   requestBodies: {
+    /** @description お問い合わせリクエストボディ */
+    LefmarnaOtoiawaseSendRequestBody: {
+      content: {
+        'application/json': {
+          /**
+           * @description お名前
+           * @example バサギリ
+           */
+          name: string
+          /**
+           * @description メールアドレス
+           * @example test@test.com
+           */
+          email: string
+          /**
+           * @description お問い合わせ内容
+           * @example バサギリの種族値、攻撃と特防に間違いがあります。
+           */
+          message: string
+        }
+      }
+    }
+    /** @description アカウント仮登録リクエストボディ */
+    RegisterTentativeRequestBody: {
+      content: {
+        'multipart/form-data': {
+          /**
+           * @description ユーザー名
+           * @example test
+           */
+          username: string
+          /**
+           * @description 表示名
+           * @example テスト
+           */
+          nickname: string
+          /**
+           * @description メールアドレス
+           * @example test@test.com
+           */
+          email: string
+          /**
+           * @description パスワード
+           * @example test1234
+           */
+          password: string
+          /**
+           * @description パスワード確認用
+           * @example test1234
+           */
+          password_confirmation: string
+        }
+      }
+    }
+    /** @description 認証メール再送信リクエストボディ */
+    RegisterResendRequestBody: {
+      content: {
+        'application/json': {
+          /**
+           * @description メールアドレス
+           * @example test@test.com
+           */
+          email: string
+        }
+      }
+    }
+    /** @description パスワード再設定リクエストボディ */
+    ResetPasswordResetRequestBody: {
+      content: {
+        'application/json': {
+          /**
+           * @description 新しいパスワード
+           * @example test1234
+           */
+          newPassword: string
+          /**
+           * @description 確認用パスワード
+           * @example test1234
+           */
+          newPassword_confirmation: string
+        }
+      }
+    }
+    /** @description パスワード再設定メール送信リクエストボディ */
+    ResetPasswordSendEmailRequestBody: {
+      content: {
+        'application/json': {
+          /**
+           * @description メールアドレス
+           * @example test@test.com
+           */
+          email: string
+        }
+      }
+    }
+    /** @description ログインリクエストボディ */
+    LoginRequestBody: {
+      content: {
+        'application/json': {
+          /**
+           * @description メールアドレス
+           * @example test@test.com
+           */
+          email: string
+          /**
+           * @description パスワード
+           * @example test1234
+           */
+          password: string
+        }
+      }
+    }
     /** @description ポケモン保存用リクエストボディ */
     PokemonStoreRequestBody: {
       content: {
@@ -720,6 +1123,56 @@ export interface components {
     PokemonUpdateRequestBody: {
       content: {
         'application/json': components['schemas']['PokemonPostParams']
+      }
+    }
+    /** @description パスワード更新用リクエストボディ */
+    SettingPasswordUpdateRequestBody: {
+      content: {
+        'application/json': {
+          /**
+           * @description 現在のパスワード
+           * @example test1234
+           */
+          currentPassword: string
+          /**
+           * @description 新しいパスワード
+           * @example test12345
+           */
+          newPassword: string
+          /**
+           * @description 確認用パスワード
+           * @example test12345
+           */
+          newPassword_confirmation: string
+        }
+      }
+    }
+    /** @description メールアドレス更新用リクエストボディ */
+    SettingEmailUpdateRequestBody: {
+      content: {
+        'application/json': {
+          /**
+           * @description 現在のメールアドレス
+           * @example test@test.com
+           */
+          currentEmail: string
+          /**
+           * @description 新しいメールアドレス
+           * @example example@example.co.jp
+           */
+          newEmail: string
+          /**
+           * @description 新しいメールアドレス（確認用）
+           * @example example@example.co.jp
+           */
+          newEmail_confirmation: string
+        }
+      }
+    }
+    /** @description アカウント情報更新用リクエストボディ */
+    SettingAccountUpdateRequestBody: {
+      content: {
+        'application/json': components['schemas']['User']
       }
     }
   }

@@ -1,13 +1,13 @@
 'use client'
 
-import useSWR from 'swr'
+import { useSWROpenApi } from '@/libs/swr'
 import { LoadingPageTemplate } from '@/components/templates/LoadingPageTemplate'
 import { PokemonTableTemplate } from '@/components/templates/PokemonTableTemplate'
-import type { Response } from '@/types/openapi/extractor'
 
 export const PokemonIndex = () => {
-  const path = '/api/v2/pokemons'
-  const { data, isLoading } = useSWR<Response<typeof path, 'get'>>(path)
+  const { data, isLoading } = useSWROpenApi({
+    url: '/api/v2/pokemons',
+  })
 
   if (isLoading) return <LoadingPageTemplate />
 

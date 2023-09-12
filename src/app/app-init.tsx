@@ -1,13 +1,12 @@
 'use client'
 
-import { useEffect } from 'react'
-import useSWR from 'swr'
+import { useEffect, useState } from 'react'
+import { $axios } from '@/libs/axios'
+import { useSWROpenApi } from '@/libs/swr'
 import { useAuthUserMutators } from '@/store/authUserState'
 import { useIsInitializationMutators } from '@/store/isInitializationState'
 import { useNaturesMutators } from '@/store/naturesState'
 import { usePokemonBasicInfosSMutators } from '@/store/pokemonBasicInfosState'
-import type { Response } from '@/types/openapi/extractor'
-import type { AuthUser } from '@/types/openapi/schemas'
 
 export const AppInit = () => {
   const { updateAuthUser } = useAuthUserMutators()
@@ -17,28 +16,35 @@ export const AppInit = () => {
 
   const { completeInitialization } = useIsInitializationMutators()
 
-  const { data: loginData } = useSWR<{
-    data: {
-      authUser: AuthUser | null
-    }
-  }>('/api/v2/init/login', {
-    revalidateOnFocus: false,
-    revalidateOnReconnect: false,
-  })
+  // CSRFトークンの取得完了フラグ
+  const [isCompleteCsrfCookie, setIsCompleteCsrfCookie] = useState(false)
 
-  const initFetchPath = '/api/v2/init/fetch'
+  const { data: loginData } = useSWROpenApi(
+    isCompleteCsrfCookie
+      ? {
+          url: '/api/v2/init/login',
+        }
+      : null
+  )
 
-  const { data: StaticData } = useSWR<Response<typeof initFetchPath, 'get'>>(
-    initFetchPath,
-    {
-      revalidateOnFocus: false,
-      revalidateOnReconnect: false,
-    }
+  const { data: StaticData } = useSWROpenApi(
+    isCompleteCsrfCookie
+      ? {
+          url: '/api/v2/init/fetch',
+        }
+      : null
   )
 
   useEffect(() => {
+    ;(async () => {
+      await $axios.get('/sanctum/csrf-cookie')
+      setIsCompleteCsrfCookie(true)
+    })()
+  }, [])
+
+  useEffect(() => {
     if (!loginData || !StaticData) return
-    updateAuthUser(loginData.data.authUser)
+    updateAuthUser(loginData.data)
     updatePokemonBasicInfos(StaticData.data.pokemonBasicInfos)
     updateNatures(StaticData.data.natures)
     completeInitialization()

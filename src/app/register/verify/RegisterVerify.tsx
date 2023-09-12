@@ -3,9 +3,9 @@
 import { useRouter, useSearchParams } from 'next/navigation'
 import { noAuthMiddleware } from '@/hocs/noAuthMiddleware'
 import { useAuthUserMutators } from '@/store/authUserState'
-import { requestApi } from '@/utils/helpers/requestApi'
+import { requestOpenApi } from '@/utils/helpers'
 
-export const EmailVerify = noAuthMiddleware(() => {
+export const RegisterVerify = noAuthMiddleware(() => {
   const router = useRouter()
   const searchParams = useSearchParams()
 
@@ -13,13 +13,13 @@ export const EmailVerify = noAuthMiddleware(() => {
 
   ;(async () => {
     try {
-      const response = await requestApi({
-        url: `/api/v2/email/verify/{id}`,
+      const response = await requestOpenApi({
+        url: '/api/v2/register/verify/{id}',
         method: 'get',
-        pathParameters: {
+        path: {
           id: searchParams.get('id') ?? '',
         },
-        queryParameters: {
+        query: {
           expires: searchParams.get('expires') ?? '',
           signature: searchParams.get('signature') ?? '',
         },

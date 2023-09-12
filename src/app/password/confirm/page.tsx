@@ -1,5 +1,5 @@
-import { getMetadata } from '@/libs/metadata'
 import { PasswordConfirm } from './PasswordConfirm'
+import { getMetadata } from '@/utils/helpers'
 
 export const metadata = getMetadata('パスワード再設定の受付')
 

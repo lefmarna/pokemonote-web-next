@@ -14,8 +14,9 @@ import { isAxiosError } from 'axios'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
-import { $axios } from '@/libs/axios'
 import { useAuthUserMutators, useAuthUserState } from '@/store/authUserState'
+import { useRememberRouteMutators } from '@/store/rememberRouteState'
+import { requestOpenApi } from '@/utils/helpers'
 import type { MouseEvent } from 'react'
 
 type Props = {
@@ -33,6 +34,7 @@ export const Header = (props: Props) => {
 
   const authUser = useAuthUserState()
   const { updateAuthUser } = useAuthUserMutators()
+  const { updateRememberRoute } = useRememberRouteMutators()
 
   const openProfileMenu = (event: MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget)
@@ -60,8 +62,16 @@ export const Header = (props: Props) => {
     setIsLoading(true)
 
     try {
-      await $axios.post('/api/v2/logout')
+      await requestOpenApi({
+        url: '/api/v2/logout',
+        method: 'post',
+      })
       updateAuthUser(null)
+
+      // NOTE: middlewareのrememberRouteの更新を待機してから初期化する
+      setTimeout(() => {
+        updateRememberRoute('/')
+      }, 0)
     } catch (e) {
       if (!isAxiosError(e) || e.response?.status !== 401) return
       console.log(e)

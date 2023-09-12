@@ -2,29 +2,27 @@
 
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
-import { $axios } from '@/libs/axios'
 import { EmailInput } from '@/components/forms/EmailInput'
 import { FormTemplate } from '@/components/templates/FormTemplate'
-import { exceptionErrorToArray } from '@/utils/utilities'
-import type { Email } from '@/types'
+import { noAuthMiddleware } from '@/hocs/noAuthMiddleware'
+import { exceptionErrorToArray, requestOpenApi } from '@/utils/helpers'
 
-export const EmailResend = () => {
+export const RegisterResend = noAuthMiddleware(() => {
   const router = useRouter()
 
   const [email, setEmail] = useState(localStorage.getItem('email') ?? '')
   const [isLoading, setIsLoading] = useState(false)
   const [errors, setErrors] = useState<string[]>([])
 
-  const fetchEmail = () => {
-    return $axios.get<{ data: Email }>('/api/v2/email/fetch')
-  }
-
   // NOTE 登録直後はローカルストレージを活用するため、非同期通信によるメールアドレスの取得は行わない
   if (email === '') {
     ;(async () => {
-      const response = await fetchEmail()
+      const response = await requestOpenApi({
+        url: '/api/v2/register/fetch',
+        method: 'get',
+      })
       if (!response.data) {
-        router.push('/')
+        router.replace('/')
         return
       }
       setEmail(response.data.data.email)
@@ -34,8 +32,12 @@ export const EmailResend = () => {
   const resend = async (): Promise<void> => {
     try {
       setIsLoading(true)
-      await $axios.post('/api/v2/email/resend', {
-        email: email,
+      await requestOpenApi({
+        url: '/api/v2/register/resend',
+        method: 'post',
+        data: {
+          email,
+        },
       })
       alert('メールを再送信しました。')
       setErrors([])
@@ -65,4 +67,4 @@ export const EmailResend = () => {
       <EmailInput value={email} setValue={setEmail} required />
     </FormTemplate>
   )
-}
+})

@@ -1,17 +1,15 @@
 'use client'
 
 import { Container } from '@mui/material'
-import { useParams, useSearchParams } from 'next/navigation'
+import { useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import { $axios } from '@/libs/axios'
 import { PasswordInput } from '@/components/forms/PasswordInput'
 import { Title } from '@/components/molecules/Title'
 import { FormTemplate } from '@/components/templates/FormTemplate'
-import { useEmotion } from '@/hooks/style/useEmotion'
-import { exceptionErrorToArray } from '@/utils/utilities'
+import { SLink } from '@/styles'
+import { exceptionErrorToArray, requestOpenApi } from '@/utils/helpers'
 
 export const PasswordVerify = () => {
-  const params = useParams()
   const searchParams = useSearchParams()
 
   const [isConfirm, setIsConfirm] = useState(true)
@@ -21,8 +19,8 @@ export const PasswordVerify = () => {
   const [errors, setErrors] = useState<string[]>([])
 
   const [resetPasswordParams, setResetPasswordParams] = useState({
-    new_password: '',
-    new_password_confirmation: '',
+    newPassword: '',
+    newPassword_confirmation: '',
   })
 
   const updateRestPasswordParams = (
@@ -35,21 +33,27 @@ export const PasswordVerify = () => {
   }
 
   const updateNewPassword = (newPassword: string) => {
-    updateRestPasswordParams({ new_password: newPassword })
+    updateRestPasswordParams({ newPassword: newPassword })
   }
 
   const updateNewPasswordConfirmation = (newPassword: string) => {
-    updateRestPasswordParams({ new_password_confirmation: newPassword })
+    updateRestPasswordParams({ newPassword_confirmation: newPassword })
   }
 
   useEffect(() => {
     ;(async () => {
       try {
-        await $axios.get(
-          `/api/v2/password/verify/${params.id}?expires=${searchParams.get(
-            'expires'
-          )}&signature=${searchParams.get('signature')}`
-        )
+        await requestOpenApi({
+          url: '/api/v2/password/verify/{user_id}',
+          method: 'get',
+          path: {
+            id: searchParams.get('id') ?? '',
+          },
+          query: {
+            expires: searchParams.get('expires') ?? '',
+            signature: searchParams.get('signature') ?? '',
+          },
+        })
         setIsSuccess(true)
       } catch (error) {
         console.log(error)
@@ -58,12 +62,16 @@ export const PasswordVerify = () => {
         setIsConfirm(false)
       }
     })()
-  }, [params.id, searchParams])
+  }, [searchParams])
 
   const submit = async () => {
     setIsLoading(true)
     try {
-      await $axios.put('/api/v2/password/reset', resetPasswordParams)
+      await requestOpenApi({
+        url: '/api/v2/password/reset',
+        method: 'put',
+        data: resetPasswordParams,
+      })
       setIsSubmit(true)
       setErrors([])
     } catch (error) {
@@ -72,8 +80,6 @@ export const PasswordVerify = () => {
       setIsLoading(false)
     }
   }
-
-  const { StyledLink } = useEmotion()
 
   if (isConfirm) return <div>パスワード再設定用URLの検証中...</div>
 
@@ -87,12 +93,12 @@ export const PasswordVerify = () => {
         onSubmit={submit}
       >
         <PasswordInput
-          value={resetPasswordParams.new_password}
+          value={resetPasswordParams.newPassword}
           label="新しいパスワード"
           setValue={updateNewPassword}
         />
         <PasswordInput
-          value={resetPasswordParams.new_password_confirmation}
+          value={resetPasswordParams.newPassword_confirmation}
           label="確認用パスワード"
           setValue={updateNewPasswordConfirmation}
         />
@@ -108,7 +114,7 @@ export const PasswordVerify = () => {
           ? 'パスワード再設定が完了しました。'
           : 'パスワード再設定用URLの検証に失敗しました。\nお手数ですが再度お試しください。'}
       </p>
-      <StyledLink href="/">トップページへ戻る</StyledLink>
+      <SLink href="/">トップページへ戻る</SLink>
     </Container>
   )
 }

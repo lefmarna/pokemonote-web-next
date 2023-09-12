@@ -5,7 +5,9 @@ import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { Header } from '@/components/organisms/Header'
 import { Sidebar } from '@/components/organisms/Sidebar'
-import { useMediaQueryUp } from '@/utils/theme'
+import { LoadingPageTemplate } from '@/components/templates/LoadingPageTemplate'
+import { useMediaQueryUp } from '@/hooks/style/useMediaQueries'
+import { useIsInitializationState } from '@/store/isInitializationState'
 import type { ReactNode } from 'react'
 
 type Props = {
@@ -20,6 +22,7 @@ export const BaseLayout = (props: Props) => {
   const isLargeUpScreen = useMediaQueryUp('lg')
   const [drawer, setDrawer] = useState(isLargeUpScreen)
   const [isFirstRender, setIsFirstRender] = useState(true)
+  const isInitialization = useIsInitializationState()
 
   const onCloseDrawer = () => {
     setDrawer(false)
@@ -42,6 +45,8 @@ export const BaseLayout = (props: Props) => {
   }, [pathname, setDrawer, isLargeUpScreen])
 
   if (isFirstRender) return null
+
+  if (isInitialization === false) return <LoadingPageTemplate />
 
   return (
     <>

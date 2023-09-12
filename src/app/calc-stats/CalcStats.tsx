@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { CalcStatsTemplate } from '@/components/templates/CalcStatsTemplate'
 import { usePokemonMutators, usePokemonState } from '@/store/pokemonState'
-import { requestApi } from '@/utils/helpers/requestApi'
+import { requestOpenApi } from '@/utils/helpers'
 import type { PokemonPostParams } from '@/types/openapi/schemas'
 
 export const CalcStats = () => {
@@ -24,7 +24,7 @@ export const CalcStats = () => {
   const sendPokemon = async (params: PokemonPostParams) => {
     setIsLoading(true)
     try {
-      const response = await requestApi({
+      const response = await requestOpenApi({
         url: '/api/v2/pokemons',
         method: 'post',
         data: params,

@@ -1,5 +1,5 @@
-import { getMetadata } from '@/libs/metadata'
 import { PasswordVerify } from './PasswordVerify'
+import { getMetadata } from '@/utils/helpers'
 
 export const metadata = getMetadata('パスワード再設定')
 

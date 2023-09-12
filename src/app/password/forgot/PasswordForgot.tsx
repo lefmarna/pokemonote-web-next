@@ -2,10 +2,9 @@
 
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
-import { $axios } from '@/libs/axios'
 import { EmailInput } from '@/components/forms/EmailInput'
 import { FormTemplate } from '@/components/templates/FormTemplate'
-import { exceptionErrorToArray } from '@/utils/utilities'
+import { exceptionErrorToArray, requestOpenApi } from '@/utils/helpers'
 
 export const PasswordForgot = () => {
   const [errors, setErrors] = useState<string[]>()
@@ -18,13 +17,15 @@ export const PasswordForgot = () => {
     setIsLoading(true)
 
     try {
-      const response = await $axios.post('/api/v2/password/email', {
-        email: email,
+      await requestOpenApi({
+        url: '/api/v2/password/email',
+        method: 'post',
+        data: {
+          email,
+        },
       })
 
       router.push('/password/confirm')
-
-      console.log(response)
     } catch (error) {
       setErrors(exceptionErrorToArray(error))
     } finally {
