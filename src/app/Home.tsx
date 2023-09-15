@@ -58,7 +58,7 @@ export const Home = () => {
       <Container sx={{ pt: 4, px: 4, pb: 2 }}>
         <Grid container spacing={2} alignItems="stretch">
           <Grid item xs={12} md={6} order={{ xs: 1, md: 2 }}>
-            <Card elevation={2}>
+            <Card elevation={2} sx={{ height: '100%' }}>
               <CardContent sx={{ p: 0 }}>
                 <HeadlineTitle>人気のポケモン</HeadlineTitle>
                 <List>
@@ -72,10 +72,16 @@ export const Home = () => {
             </Card>
           </Grid>
           <Grid item xs={12} md={6} order={{ xs: 2, md: 1 }}>
-            <Card elevation={2}>
+            <Card
+              elevation={2}
+              sx={{
+                height: '100%',
+                '& .MuiCardContent-root:last-child': { paddingBottom: 0 },
+              }}
+            >
               <CardContent sx={{ p: 0 }}>
                 <HeadlineTitle>更新情報</HeadlineTitle>
-                <Paper style={{ maxHeight: 280, overflow: 'auto' }}>
+                <Paper sx={{ maxHeight: 280, overflow: 'auto', pb: 0 }}>
                   <Box sx={{ mx: 2 }}>
                     <div>
                       <UpdateDate>2023-05-30</UpdateDate>
