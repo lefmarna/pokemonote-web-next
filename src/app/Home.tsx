@@ -44,6 +44,67 @@ export const Home = () => {
 
   if (isLoading) return <LoadingPageTemplate />
 
+  const getUpdateInformation = () => {
+    return [
+      {
+        date: '2023-09-14',
+        text: '種族値ランキングの「SVに登場しないポケモン」をチェックしていない状態でのフィルタリングから「碧の仮面」で解禁されたポケモンを除外',
+      },
+      {
+        date: '2023-09-13',
+        text: 'ポケモンSVのDLC「ゼロの秘宝 - 碧の仮面」に登場するポケモンに対応',
+      },
+      {
+        date: '2023-05-30',
+        text: '種族値ランキングでホームの解禁ポケモンに対応',
+      },
+      {
+        date: '2023-02-28',
+        text: 'ウネルミナモ・テツノイサハ対応',
+      },
+      {
+        date: '2023-02-13',
+        text: '「パスワードをお忘れの方はこちら」機能の実装',
+      },
+      {
+        date: '2023-02-07',
+        text: 'メールアドレスの更新機能の公開',
+      },
+      {
+        date: '2023-02-04',
+        text: 'メールアドレスの更新機能の実装（正常に動作しなかったため一旦公開停止）',
+      },
+      {
+        date: '2023-01-11',
+        text: 'アカウント情報の変更機能の実装',
+      },
+      {
+        date: '2022-12-31',
+        text: 'パスワードの更新機能の実装',
+      },
+      {
+        date: '2022-12-23',
+        text: 'ステータス計算機で保存されたはずのポケモンの説明が表示されない不具合の修正',
+      },
+      {
+        date: '2022-12-03',
+        text: 'ポケモンSV対応完了',
+      },
+      {
+        date: '2022-11-26',
+        text: 'ポケモンSV対応準備（随時追加予定）',
+      },
+      {
+        date: '2021-11-18',
+        text: '『Pokemonote』α版を公開しました。',
+      },
+      {
+        date: '2021-04-30',
+        text: '『Pokemonote』プロトタイプを公開しました。',
+      },
+    ]
+  }
+
   return (
     <div>
       <Grow in={true} style={{ transformOrigin: '0 0 0' }} timeout={1000}>
@@ -82,78 +143,12 @@ export const Home = () => {
               <CardContent sx={{ p: 0 }}>
                 <HeadlineTitle>更新情報</HeadlineTitle>
                 <Paper sx={{ maxHeight: 280, overflow: 'auto', pb: 0 }}>
-                  <Box sx={{ mx: 2 }}>
-                    <div>
-                      <UpdateDate>2023-05-30</UpdateDate>
-                      <p>種族値ランキングでホームの解禁ポケモンに対応</p>
-                    </div>
-                    <div>
-                      <UpdateDate>2023-02-28</UpdateDate>
-                      <p>ウネルミナモ・テツノイサハ対応</p>
-                    </div>
-                    <div>
-                      <UpdateDate>2023-02-13</UpdateDate>
-                      <p>「パスワードをお忘れの方はこちら」機能の実装</p>
-                    </div>
-                  </Box>
-                  <Box sx={{ mx: 2 }}>
-                    <div>
-                      <UpdateDate>2023-02-07</UpdateDate>
-                      <p>メールアドレスの更新機能の公開</p>
-                    </div>
-                  </Box>
-                  <Box sx={{ mx: 2 }}>
-                    <div>
-                      <UpdateDate>2023-02-04</UpdateDate>
-                      <p>
-                        メールアドレスの更新機能の実装（正常に動作しなかったため一旦公開停止）
-                      </p>
-                    </div>
-                  </Box>
-                  <Box sx={{ mx: 2 }}>
-                    <div>
-                      <UpdateDate>2023-01-11</UpdateDate>
-                      <p>アカウント情報の変更機能の実装</p>
-                    </div>
-                  </Box>
-                  <Box sx={{ mx: 2 }}>
-                    <div>
-                      <UpdateDate>2022-12-31</UpdateDate>
-                      <p>パスワードの更新機能の実装</p>
-                    </div>
-                  </Box>
-                  <Box sx={{ mx: 2 }}>
-                    <div>
-                      <UpdateDate>2022-12-23</UpdateDate>
-                      <p>
-                        ステータス計算機で保存されたはずのポケモンの説明が表示されない不具合の修正
-                      </p>
-                    </div>
-                  </Box>
-                  <Box sx={{ mx: 2 }}>
-                    <div>
-                      <UpdateDate>2022-12-03</UpdateDate>
-                      <p>ポケモンSV対応完了</p>
-                    </div>
-                  </Box>
-                  <Box sx={{ mx: 2 }}>
-                    <div>
-                      <UpdateDate>2022-11-26</UpdateDate>
-                      <p>ポケモンSV対応準備（随時追加予定）</p>
-                    </div>
-                  </Box>
-                  <Box sx={{ mx: 2 }}>
-                    <div>
-                      <UpdateDate>2021-11-18</UpdateDate>
-                      <p>『Pokemonote』α版を公開しました。</p>
-                    </div>
-                  </Box>
-                  <Box sx={{ mx: 2 }}>
-                    <div>
-                      <UpdateDate>2021-04-30</UpdateDate>
-                      <p>『Pokemonote』プロトタイプを公開しました。</p>
-                    </div>
-                  </Box>
+                  {getUpdateInformation().map((updateInformation, index) => (
+                    <Box sx={{ mx: 2 }} key={index}>
+                      <UpdateDate>{updateInformation.date}</UpdateDate>
+                      <p>{updateInformation.text}</p>
+                    </Box>
+                  ))}
                 </Paper>
               </CardContent>
             </Card>
