@@ -15,7 +15,7 @@ import {
   getGridStringOperators,
   jaJP,
 } from '@mui/x-data-grid'
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { Title } from '@/components/molecules/Title'
 import { useMediaQueryDown } from '@/hooks/style/useMediaQueries'
 import { usePokemonBasicInfosState } from '@/store/pokemonBasicInfosState'
@@ -47,14 +47,17 @@ export const BaseStatsRanking = () => {
     { text: '素早さ', value: 'speed' },
   ]
 
-  const ranksCheckboxes: RankCheckbox[] = [
-    { text: '伝説', value: 'legendary' },
-    { text: '幻', value: 'mythical' },
-    { text: 'メガシンカ', value: 'mega' },
-    { text: 'SVに登場しないポケモン', value: 'sv' },
-  ]
+  const ranksCheckboxes: RankCheckbox[] = useMemo(
+    () => [
+      { text: '伝説', value: 'legendary' },
+      { text: '幻', value: 'mythical' },
+      { text: 'メガシンカ', value: 'mega' },
+      { text: 'SVに登場しないポケモン', value: 'sv' },
+    ],
+    []
+  )
 
-  const filteredPokemonList = () => {
+  const filteredPokemonList = useMemo(() => {
     return pokemonBasicInfos.filter((pokemon) =>
       ranksCheckboxes.every((checkbox) => {
         if (isShowRanks[checkbox.value]) return true
@@ -63,7 +66,7 @@ export const BaseStatsRanking = () => {
         return pokemon.ranks.includes(checkbox.value)
       })
     )
-  }
+  }, [isShowRanks, pokemonBasicInfos, ranksCheckboxes])
 
   // 【特別なポケモンを表示する】のオンオフを切り替える
   const rankChange = (value: keyof typeof isShowRanks): void => {
@@ -247,7 +250,7 @@ export const BaseStatsRanking = () => {
           <DataGrid
             columns={columns}
             getRowId={getRowId}
-            rows={filteredPokemonList()}
+            rows={filteredPokemonList}
             sortingOrder={['desc', 'asc']}
             slots={{
               toolbar: GridToolbar,
