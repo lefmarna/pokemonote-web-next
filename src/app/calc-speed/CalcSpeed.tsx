@@ -25,6 +25,7 @@ import { EffortValueField } from '@/components/organisms/EffortValueField'
 import { IndividualValueField } from '@/components/organisms/IndividualValueField'
 import { RealNumberField } from '@/components/organisms/RealNumberField'
 import { StatsTableHeader } from '@/components/organisms/StatsTableHeader'
+import { useMediaQueryDown } from '@/hooks/style/useMediaQueries'
 import { usePokemonStats } from '@/hooks/usePokemonStats'
 import { usePokemonMutators } from '@/store/pokemonState'
 import { usePokemonState } from '@/store/pokemonState'
@@ -36,6 +37,7 @@ import type { ChangeEvent } from 'react'
 export const CalcSpeed = () => {
   const pokemon = usePokemonState()
   const [option, setOption] = useState(false)
+  const isMiddleDownScreen = useMediaQueryDown('md')
 
   const [isTailwind, setIsTailwind] = useState(false)
   const [isParalysis, setIsParalysis] = useState(false)
@@ -248,7 +250,7 @@ export const CalcSpeed = () => {
                 }
                 label="±4以上も表示する"
               />
-              <Divider />
+              {isMiddleDownScreen && <Divider />}
             </div>
           </Grid>
           {/* 画面右 */}
