@@ -4,7 +4,6 @@ import {
   Box,
   Checkbox,
   Container,
-  Divider,
   FormControl,
   FormControlLabel,
   Grid,
@@ -25,7 +24,6 @@ import { EffortValueField } from '@/components/organisms/EffortValueField'
 import { IndividualValueField } from '@/components/organisms/IndividualValueField'
 import { RealNumberField } from '@/components/organisms/RealNumberField'
 import { StatsTableHeader } from '@/components/organisms/StatsTableHeader'
-import { useMediaQueryDown } from '@/hooks/style/useMediaQueries'
 import { usePokemonStats } from '@/hooks/usePokemonStats'
 import { usePokemonMutators } from '@/store/pokemonState'
 import { usePokemonState } from '@/store/pokemonState'
@@ -37,7 +35,6 @@ import type { ChangeEvent } from 'react'
 export const CalcSpeed = () => {
   const pokemon = usePokemonState()
   const [option, setOption] = useState(false)
-  const isMiddleDownScreen = useMediaQueryDown('md')
 
   const [isTailwind, setIsTailwind] = useState(false)
   const [isParalysis, setIsParalysis] = useState(false)
@@ -250,11 +247,18 @@ export const CalcSpeed = () => {
                 }
                 label="±4以上も表示する"
               />
-              {isMiddleDownScreen && <Divider />}
             </div>
           </Grid>
           {/* 画面右 */}
-          <Grid item md={9} xs={18} sx={{ mr: { xs: 1, md: 0 } }}>
+          <Grid
+            item
+            md={9}
+            xs={18}
+            sx={{
+              mr: { xs: 1, md: 0 },
+              my: { xs: 2, sm: 2, md: 0, lg: 0, xl: 0 },
+            }}
+          >
             <Table style={{ width: '100%' }}>
               <TableHead>
                 <TableRow>
