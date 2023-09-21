@@ -259,7 +259,7 @@ export const CalcSpeed = () => {
               my: { xs: 2, sm: 2, md: 0, lg: 0, xl: 0 },
             }}
           >
-            <Table style={{ width: '100%' }}>
+            <Table sx={{ width: '100%' }}>
               <TableHead>
                 <TableRow>
                   <TableCell align="center">ランク</TableCell>
@@ -269,10 +269,10 @@ export const CalcSpeed = () => {
               <TableBody>
                 {filteredRanks().map((rank) => (
                   <TableRow key={rank.id}>
-                    <TableCell align="center">
+                    <TableCell align="center" sx={{ width: '45%' }}>
                       {formatRank(rank.magnification)}
                     </TableCell>
-                    <TableCell align="center">
+                    <TableCell align="center" sx={{ width: '55%' }}>
                       {displaySpeed(rank.percent)}
                     </TableCell>
                   </TableRow>
