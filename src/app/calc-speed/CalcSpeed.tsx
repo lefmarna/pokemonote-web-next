@@ -17,7 +17,7 @@ import {
   TableHead,
   TableRow,
 } from '@mui/material'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { Title } from '@/components/molecules/Title'
 import { BaseStatsField } from '@/components/organisms/BaseStatsField'
 import { EffortValueField } from '@/components/organisms/EffortValueField'
@@ -57,10 +57,10 @@ export const CalcSpeed = () => {
     updateEvs({ [statKey]: newEv })
   }
 
-  const filteredRanks = () => {
+  const filteredRanks = useMemo(() => {
     if (option === true) return RANKS
     return RANKS.filter((rank) => Math.abs(rank.magnification) <= 3)
-  }
+  }, [option])
 
   const formatRank = (magnification: number): string => {
     if (magnification > 0) return `+${magnification}`
@@ -267,8 +267,13 @@ export const CalcSpeed = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {filteredRanks().map((rank) => (
-                  <TableRow key={rank.id}>
+                {filteredRanks.map((rank, index) => (
+                  <TableRow
+                    key={rank.id}
+                    sx={{
+                      backgroundColor: index % 2 === 0 ? '#F0F8FF' : undefined,
+                    }}
+                  >
                     <TableCell align="center" sx={{ width: '45%' }}>
                       {formatRank(rank.magnification)}
                     </TableCell>
