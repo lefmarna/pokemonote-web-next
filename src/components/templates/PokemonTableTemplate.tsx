@@ -6,6 +6,7 @@ import { IconButton } from '@mui/material'
 import { DataGrid, jaJP } from '@mui/x-data-grid'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useState } from 'react'
+import { PostedPokemon } from '@/components/organisms/PostedPokemon'
 import { useAuthUserState } from '@/store/authUserState'
 import { SLink } from '@/styles'
 import { requestOpenApi } from '@/utils/helpers'
@@ -137,6 +138,7 @@ export const PokemonTableTemplate = (props: Props) => {
         autoHeight
         localeText={jaJP.components.MuiDataGrid.defaultProps.localeText}
       />
+      <PostedPokemon />
     </div>
   )
 }
