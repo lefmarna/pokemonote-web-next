@@ -2,7 +2,7 @@
 
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
-import { IconButton } from '@mui/material'
+import { Container, IconButton } from '@mui/material'
 import { DataGrid, jaJP } from '@mui/x-data-grid'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useState } from 'react'
@@ -129,7 +129,7 @@ export const PokemonTableTemplate = (props: Props) => {
   }
 
   return (
-    <div style={{ height: 400, width: '100%' }}>
+    <Container>
       <div>{title}</div>
       <DataGrid
         columns={columns}
@@ -139,6 +139,6 @@ export const PokemonTableTemplate = (props: Props) => {
         localeText={jaJP.components.MuiDataGrid.defaultProps.localeText}
       />
       <PostedPokemon />
-    </div>
+    </Container>
   )
 }
