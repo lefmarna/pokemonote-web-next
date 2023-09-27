@@ -1,14 +1,23 @@
 import { Box } from '@mui/material'
 
-export const PostedPokemon = () => {
+type Props = {
+  pokemonName: string
+  level: number
+  natureName: string
+  stats: string
+}
+
+export const PostedPokemon = (props: Props) => {
+  const { pokemonName, level, natureName, stats } = props
+
   return (
     <div>
-      <div>ポケモン名</div>
-      <Box sx={{ display: 'flex' }}>
-        <div>Lv 50</div>
-        <Box sx={{ ml: 2 }}>がんばりや</Box>
+      <div>{pokemonName}</div>
+      <Box sx={{ display: 'flex', alignItems: 'center' }}>
+        <Box>Lv {level}</Box>
+        <Box sx={{ ml: 2 }}>{natureName}</Box>
       </Box>
-      <div>300-120-120-120-120-120</div>
+      <div>{stats}</div>
     </div>
   )
 }

@@ -138,7 +138,12 @@ export const PokemonTableTemplate = (props: Props) => {
         autoHeight
         localeText={jaJP.components.MuiDataGrid.defaultProps.localeText}
       />
-      <PostedPokemon />
+      <PostedPokemon
+        pokemonName="アーボ"
+        level={50}
+        natureName="いじっぱり"
+        stats="300-120-120-120-120-120"
+      />
     </Container>
   )
 }
