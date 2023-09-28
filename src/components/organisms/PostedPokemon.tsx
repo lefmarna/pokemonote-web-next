@@ -12,12 +12,13 @@ export const PostedPokemon = (props: Props) => {
 
   return (
     <div>
-      <div>{pokemonName}</div>
+      <Box>{pokemonName}</Box>
       <Box sx={{ display: 'flex', alignItems: 'center' }}>
         <Box>Lv {level}</Box>
         <Box sx={{ ml: 2 }}>{natureName}</Box>
       </Box>
-      <div>{stats}</div>
+      <Box sx={{ fontSize: '12px' }}>{stats}</Box>
+      <Box>投稿者：</Box>
     </div>
   )
 }

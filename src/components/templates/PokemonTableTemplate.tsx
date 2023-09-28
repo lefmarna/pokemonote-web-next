@@ -139,10 +139,10 @@ export const PokemonTableTemplate = (props: Props) => {
         localeText={jaJP.components.MuiDataGrid.defaultProps.localeText}
       />
       <PostedPokemon
-        pokemonName="アーボ"
+        pokemonName="ヒヒダルマ(ダルマ・ガラル)"
         level={50}
         natureName="いじっぱり"
-        stats="300-120-120-120-120-120"
+        stats="291(155)-289(119)-264(150)-175(138)-244(177)-201(173)"
       />
     </Container>
   )
