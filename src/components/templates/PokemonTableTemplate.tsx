@@ -2,10 +2,11 @@
 
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
-import { IconButton } from '@mui/material'
+import { Container, IconButton } from '@mui/material'
 import { DataGrid, jaJP } from '@mui/x-data-grid'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useState } from 'react'
+import { PostedPokemon } from '@/components/organisms/PostedPokemon'
 import { useAuthUserState } from '@/store/authUserState'
 import { SLink } from '@/styles'
 import { requestOpenApi } from '@/utils/helpers'
@@ -128,7 +129,7 @@ export const PokemonTableTemplate = (props: Props) => {
   }
 
   return (
-    <div style={{ height: 400, width: '100%' }}>
+    <Container>
       <div>{title}</div>
       <DataGrid
         columns={columns}
@@ -137,6 +138,12 @@ export const PokemonTableTemplate = (props: Props) => {
         autoHeight
         localeText={jaJP.components.MuiDataGrid.defaultProps.localeText}
       />
-    </div>
+      <PostedPokemon
+        pokemonName="ヒヒダルマ(ダルマ・ガラル)"
+        level={50}
+        natureName="いじっぱり"
+        stats="291(155)-289(119)-264(150)-175(138)-244(177)-201(173)"
+      />
+    </Container>
   )
 }

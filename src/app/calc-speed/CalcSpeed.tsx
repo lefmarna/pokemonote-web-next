@@ -4,7 +4,6 @@ import {
   Box,
   Checkbox,
   Container,
-  Divider,
   FormControl,
   FormControlLabel,
   Grid,
@@ -18,7 +17,7 @@ import {
   TableHead,
   TableRow,
 } from '@mui/material'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { Title } from '@/components/molecules/Title'
 import { BaseStatsField } from '@/components/organisms/BaseStatsField'
 import { EffortValueField } from '@/components/organisms/EffortValueField'
@@ -58,10 +57,10 @@ export const CalcSpeed = () => {
     updateEvs({ [statKey]: newEv })
   }
 
-  const filteredRanks = () => {
+  const filteredRanks = useMemo(() => {
     if (option === true) return RANKS
     return RANKS.filter((rank) => Math.abs(rank.magnification) <= 3)
-  }
+  }, [option])
 
   const formatRank = (magnification: number): string => {
     if (magnification > 0) return `+${magnification}`
@@ -248,12 +247,19 @@ export const CalcSpeed = () => {
                 }
                 label="±4以上も表示する"
               />
-              <Divider />
             </div>
           </Grid>
           {/* 画面右 */}
-          <Grid item md={9} xs={18} sx={{ mr: { xs: 1, md: 0 } }}>
-            <Table style={{ width: '100%' }}>
+          <Grid
+            item
+            md={9}
+            xs={18}
+            sx={{
+              mr: { xs: 1, md: 0 },
+              my: { xs: 2, sm: 2, md: 0, lg: 0, xl: 0 },
+            }}
+          >
+            <Table sx={{ width: '100%' }}>
               <TableHead>
                 <TableRow>
                   <TableCell align="center">ランク</TableCell>
@@ -261,12 +267,17 @@ export const CalcSpeed = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {filteredRanks().map((rank) => (
-                  <TableRow key={rank.id}>
-                    <TableCell align="center">
+                {filteredRanks.map((rank, index) => (
+                  <TableRow
+                    key={rank.id}
+                    sx={{
+                      backgroundColor: index % 2 === 0 ? '#F0F8FF' : undefined,
+                    }}
+                  >
+                    <TableCell align="center" sx={{ width: '45%' }}>
                       {formatRank(rank.magnification)}
                     </TableCell>
-                    <TableCell align="center">
+                    <TableCell align="center" sx={{ width: '55%' }}>
                       {displaySpeed(rank.percent)}
                     </TableCell>
                   </TableRow>
