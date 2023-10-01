@@ -1,6 +1,7 @@
 'use client'
 
-import { ThemeProvider } from '@mui/material'
+import { CssBaseline } from '@mui/material'
+import { ThemeProvider } from '@mui/material/styles'
 import { useRouter } from 'next/navigation'
 import { RecoilRoot } from 'recoil'
 import { SWRConfig } from 'swr'
@@ -43,6 +44,7 @@ export const Providers = ({ children }: Props) => {
 
   return (
     <ThemeProvider theme={theme}>
+      {/* <CssBaseline /> */}
       <RecoilRoot>
         <SWRConfig value={swrConfigValue}>{children}</SWRConfig>
       </RecoilRoot>
