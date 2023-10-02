@@ -11,6 +11,9 @@ import type { ReactNode } from 'react'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_FRONTEND_URL ?? 'http://localhost:3000'
+  ),
   title: {
     default: DEFAULT_META_TITLE,
     template: `%s | ${DEFAULT_META_TITLE}`,
