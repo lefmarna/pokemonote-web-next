@@ -39,7 +39,8 @@ jobs:
         run: npm run build
         env:
           NEXT_PUBLIC_ANALYTICS_ID: ${{ secrets.ANALYTICS_ID }}
-          NEXT_PUBLIC_BASE_URL: ${{ github.ref_name == 'main' && secrets.PROD_BASE_URL || secrets.DEV_BASE_URL }}
+          NEXT_PUBLIC_FRONTEND_BASE_URL: ${{ github.ref_name == 'main' && secrets.PROD_FRONTEND_BASE_URL || secrets.DEV_FRONTEND_BASE_URL }}
+          NEXT_PUBLIC_BACKEND_BASE_URL: ${{ github.ref_name == 'main' && secrets.PROD_BACKEND_BASE_URL || secrets.DEV_BACKEND_BASE_URL }}
           NEXT_PUBLIC_NODE_ENV: ${{ github.ref_name == 'main' && 'develop' || 'develop' }} # 本番リリース時には左辺を'production'に変更する
           NEXT_PUBLIC_PAYJP_PUBLIC_KEY: ${{ secrets.PAYJP_PUBLIC_KEY }}
 
