@@ -108,7 +108,7 @@ export const Header = (props: Props) => {
               maxWidth: 'calc(100vw - 116px - 32px)',
             }}
           >
-            <Image alt="Pokemonote" src="/images/logo.svg" fill />
+            <Image alt="Pokemonote" src="/images/logo.svg" fill priority />
           </Box>
           <Box sx={{ flexGrow: 1 }} />
           <Box>
