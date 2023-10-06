@@ -111,9 +111,13 @@ export const Home = () => {
         <Image
           src="/images/pokemonote.svg"
           alt="Pokemonote"
-          layout="responsive"
+          style={{
+            width: '100%',
+            height: 'auto',
+          }}
           width={1640}
           height={492}
+          priority
         />
       </Grow>
       <Container sx={{ pt: 4, px: 4, pb: 2 }}>
