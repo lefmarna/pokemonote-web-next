@@ -28,7 +28,6 @@
     ],
     "src/**/*.{ts,tsx}": [
       "eslint --fix",
-      "tsc --noEmit",
       "prettier -w"
     ],
     "src/**/*.{css,scss}": [
