@@ -199,7 +199,7 @@ export const BaseStatsRanking = () => {
   ])
 
   return (
-    <Container>
+    <Container sx={{ py: 2, px: 1.5 }}>
       <Title text="種族値ランキング（ポケモンSV）" />
       <Grid container spacing={3}>
         <Grid item xs={12} md={6}>
