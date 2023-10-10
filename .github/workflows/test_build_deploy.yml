@@ -38,7 +38,7 @@ jobs:
       - name: npm run build
         run: npm run build
         env:
-          NEXT_PUBLIC_GA_TRACKING_ID: ${{ secrets.GA_TRACKING_ID }}
+          NEXT_PUBLIC_GA_TRACKING_ID: ${{ github.ref_name == 'main' && secrets.PROD_GA_TRACKING_ID || secrets.DEV_GA_TRACKING_ID }}
           NEXT_PUBLIC_FRONTEND_BASE_URL: ${{ github.ref_name == 'main' && secrets.PROD_FRONTEND_BASE_URL || secrets.DEV_FRONTEND_BASE_URL }}
           NEXT_PUBLIC_BACKEND_BASE_URL: ${{ github.ref_name == 'main' && secrets.PROD_BACKEND_BASE_URL || secrets.DEV_BACKEND_BASE_URL }}
           NEXT_PUBLIC_NODE_ENV: ${{ github.ref_name == 'main' && 'develop' || 'develop' }} # 本番リリース時には左辺を'production'に変更する
