@@ -173,7 +173,10 @@ export const Sidebar = (props: Props) => {
         ))}
       </List>
       <Divider />
-      <Adsense />
+      <Adsense
+        slot="4559543564"
+        style={{ display: 'inline-block', width: '232px', marginTop: '12px' }}
+      />
       <ListItem>
         <ListItemText primary="Others" />
       </ListItem>
