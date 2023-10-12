@@ -48,9 +48,6 @@ export const Adsense = (props: Props) => {
       <ins
         className="adsbygoogle"
         style={style}
-        data-adtest={
-          process.env.NEXT_PUBLIC_NODE_ENV === 'production' ? 'off' : 'on'
-        }
         data-ad-client="ca-pub-3240586325286249"
         data-ad-slot={slot}
         data-ad-format={format}
