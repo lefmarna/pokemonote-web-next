@@ -22,6 +22,7 @@ import {
   ListItemText,
 } from '@mui/material'
 import Link from 'next/link'
+import { Adsense } from './Adsense'
 import { useMediaQueryUp } from '@/hooks/style/useMediaQueries'
 import { useAuthUserState } from '@/store/authUserState'
 
@@ -172,6 +173,7 @@ export const Sidebar = (props: Props) => {
         ))}
       </List>
       <Divider />
+      <Adsense />
       <ListItem>
         <ListItemText primary="Others" />
       </ListItem>
