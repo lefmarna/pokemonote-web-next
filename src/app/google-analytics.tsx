@@ -12,6 +12,7 @@ export const GoogleAnalytics = () => {
 
   useEffect(() => {
     if (GA_TRACKING_ID === undefined) return
+    if (typeof window === 'undefined') return
 
     const url =
       searchParams.toString() === '' ? pathname : `${pathname}?${searchParams}`
