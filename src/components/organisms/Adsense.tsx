@@ -1,5 +1,4 @@
-import { usePathname, useSearchParams } from 'next/navigation'
-import { useEffect, useMemo } from 'react'
+import { useEffect } from 'react'
 import type { CSSProperties } from 'react'
 
 declare global {
@@ -23,15 +22,6 @@ export const Adsense = (props: Props) => {
     responsive = 'false',
   } = props
 
-  const pathname = usePathname()
-  const searchParams = useSearchParams()
-
-  const asPath = useMemo(() => {
-    return searchParams.toString() === ''
-      ? pathname
-      : `${pathname}?${searchParams}`
-  }, [pathname, searchParams])
-
   useEffect(() => {
     try {
       if (typeof window === 'undefined') return
@@ -39,20 +29,18 @@ export const Adsense = (props: Props) => {
     } catch (error) {
       console.error(error)
     }
-  }, [asPath])
+  }, [])
 
   if (process.env.NEXT_PUBLIC_NODE_ENV === 'local') return null
 
   return (
-    <div key={asPath}>
-      <ins
-        className="adsbygoogle"
-        style={style}
-        data-ad-client="ca-pub-3240586325286249"
-        data-ad-slot={slot}
-        data-ad-format={format}
-        data-full-width-responsive={responsive}
-      />
-    </div>
+    <ins
+      className="adsbygoogle"
+      style={style}
+      data-ad-client="ca-pub-3240586325286249"
+      data-ad-slot={slot}
+      data-ad-format={format}
+      data-full-width-responsive={responsive}
+    />
   )
 }
