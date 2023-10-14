@@ -1,4 +1,5 @@
-import { useEffect } from 'react'
+'use client'
+
 import type { CSSProperties } from 'react'
 
 declare global {
@@ -22,25 +23,23 @@ export const Adsense = (props: Props) => {
     responsive = 'false',
   } = props
 
-  useEffect(() => {
-    try {
-      if (typeof window === 'undefined') return
-      ;(window.adsbygoogle = window.adsbygoogle || []).push({})
-    } catch (error) {
-      console.error(error)
-    }
-  }, [])
-
   if (process.env.NEXT_PUBLIC_NODE_ENV === 'local') return null
 
   return (
-    <ins
-      className="adsbygoogle"
-      style={style}
-      data-ad-client="ca-pub-3240586325286249"
-      data-ad-slot={slot}
-      data-ad-format={format}
-      data-full-width-responsive={responsive}
-    />
+    <>
+      <ins
+        className="adsbygoogle"
+        style={style}
+        data-ad-client="ca-pub-3240586325286249"
+        data-ad-slot={slot}
+        data-ad-format={format}
+        data-full-width-responsive={responsive}
+      />
+      <script
+        dangerouslySetInnerHTML={{
+          __html: '(window.adsbygoogle = window.adsbygoogle || []).push({});',
+        }}
+      />
+    </>
   )
 }
