@@ -121,10 +121,7 @@ export const Home = () => {
           priority
         />
       </Grow>
-      <Adsense
-        slot="4559543564"
-        style={{ display: 'inline-block', width: '232px', marginTop: '12px' }}
-      />
+      <Adsense slot="4559543564" />
       <Container sx={{ pt: 4, px: 4, pb: 2 }}>
         <Grid container spacing={2} alignItems="stretch">
           <Grid item xs={12} md={6} order={{ xs: 1, md: 2 }}>
