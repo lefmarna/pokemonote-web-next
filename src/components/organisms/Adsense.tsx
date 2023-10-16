@@ -19,8 +19,8 @@ export const Adsense = (props: Props) => {
   const {
     slot,
     style = { display: 'block' },
-    format,
-    responsive = 'false',
+    format = 'auto',
+    responsive = 'true',
   } = props
 
   if (process.env.NEXT_PUBLIC_NODE_ENV === 'local') return null
