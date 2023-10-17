@@ -16,7 +16,6 @@ import {
 import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 import useSWR from 'swr'
-import { Adsense } from '@/components/organisms/Adsense'
 import { LoadingPageTemplate } from '@/components/templates/LoadingPageTemplate'
 import { SH2 } from '@/styles'
 import type { Response } from '@/types/openapi/extractor'
@@ -121,7 +120,6 @@ export const Home = () => {
           priority
         />
       </Grow>
-      <Adsense slot="4559543564" />
       <Container sx={{ pt: 4, px: 4, pb: 2 }}>
         <Grid container spacing={2} alignItems="stretch">
           <Grid item xs={12} md={6} order={{ xs: 1, md: 2 }}>
