@@ -27,12 +27,12 @@ import { useMediaQueryUp } from '@/hooks/style/useMediaQueries'
 import { useAuthUserState } from '@/store/authUserState'
 
 type Props = {
-  drawer: boolean
+  open: boolean
   onCloseDrawer: () => void
 }
 
 export const Sidebar = (props: Props) => {
-  const { drawer, onCloseDrawer } = props
+  const { open, onCloseDrawer } = props
 
   const authUser = useAuthUserState()
 
@@ -110,7 +110,7 @@ export const Sidebar = (props: Props) => {
 
   return (
     <Drawer
-      open={drawer}
+      open={open}
       onClose={onCloseDrawer}
       anchor="left"
       variant={isLargeUpScreen ? 'persistent' : 'temporary'}
