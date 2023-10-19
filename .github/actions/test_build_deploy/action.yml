@@ -1,15 +1,17 @@
 name: 'npm ci'
-description: 'install packages'
+description: 'Install packages'
 runs:
   using: 'composite'
   steps:
     - name: Restore cache
+      id: node_modules
       uses: actions/cache@v3
       with:
-        path: ~/.npm
+        path: node_modules
         key: ${{ runner.os }}-next-npm-${{ hashFiles('package-lock.json') }}
         restore-keys: ${{ runner.os }}-next-npm-
 
     - name: npm ci
+      if: steps.node_modules.outputs.cache-hit != 'true'
       run: npm ci
       shell: bash
