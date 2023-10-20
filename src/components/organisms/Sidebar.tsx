@@ -22,7 +22,7 @@ import {
   ListItemText,
 } from '@mui/material'
 import Link from 'next/link'
-import { Adsense } from './Adsense'
+import { AdCode } from './AdCode'
 import { useMediaQueryUp } from '@/hooks/style/useMediaQueries'
 import { useAuthUserState } from '@/store/authUserState'
 
@@ -173,7 +173,7 @@ export const Sidebar = (props: Props) => {
         ))}
       </List>
       <Divider />
-      <Adsense
+      <AdCode
         slot="4559543564"
         style={{ display: 'inline-block', width: '232px', marginTop: '12px' }}
       />

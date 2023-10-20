@@ -16,7 +16,7 @@ type Props = {
   responsive?: string
 }
 
-export const Adsense = memo(function Adsense(props: Props) {
+export const AdCode = memo(function AdCode(props: Props) {
   const {
     slot,
     style = { display: 'block' },
