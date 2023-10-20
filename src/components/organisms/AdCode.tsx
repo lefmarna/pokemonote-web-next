@@ -26,7 +26,6 @@ export const AdCode = memo(function AdCode(props: Props) {
 
   useEffect(() => {
     if (typeof window === 'undefined') return
-    console.log('push ads')
     ;(window.adsbygoogle = window.adsbygoogle || []).push({})
   }, [])
 
