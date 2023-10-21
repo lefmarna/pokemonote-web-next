@@ -168,7 +168,12 @@ export const Sidebar = (props: Props) => {
       <Divider />
       <AdCode
         slot="4559543564"
-        style={{ display: 'inline-block', width: '232px', marginTop: '12px' }}
+        style={{
+          display: 'inline-block',
+          width: '232px',
+          height: '232px',
+          marginTop: '12px',
+        }}
       />
       <ListItem>
         <ListItemText primary="Others" />
