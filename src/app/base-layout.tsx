@@ -24,7 +24,7 @@ export const BaseLayout = (props: Props) => {
   const [isFirstRender, setIsFirstRender] = useState(true)
   const isInitialization = useIsInitializationState()
 
-  const onCloseDrawer = () => {
+  const onClose = () => {
     setOpen(false)
   }
 
@@ -50,12 +50,11 @@ export const BaseLayout = (props: Props) => {
 
   return (
     <>
-      <Sidebar open={open} onCloseDrawer={onCloseDrawer} />
+      <Sidebar open={open} onClose={onClose} />
       <Box
         component="main"
         sx={{
-          marginLeft: isLargeUpScreen && open ? '260px' : '0px',
-          transition: 'margin-left 225ms cubic-bezier(0.4, 0, 0.2, 1)',
+          marginLeft: isLargeUpScreen && open ? '275.523px' : '0px',
         }}
       >
         <Header toggleDrawer={toggleDrawer} />

@@ -14,6 +14,7 @@ import { isAxiosError } from 'axios'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
+import { useMediaQueryDown } from '@/hooks/style/useMediaQueries'
 import { useAuthUserMutators, useAuthUserState } from '@/store/authUserState'
 import { useRememberRouteMutators } from '@/store/rememberRouteState'
 import { requestOpenApi } from '@/utils/helpers'
@@ -82,20 +83,24 @@ export const Header = (props: Props) => {
     router.replace('/login')
   }
 
+  const isLargeDownScreen = useMediaQueryDown('lg')
+
   return (
     <Box>
       <AppBar position="sticky" color="primary">
         <Toolbar sx={{ display: 'flex', maxHeight: '64px' }}>
-          <IconButton
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            onClick={toggleDrawer}
-            size="large"
-            sx={{ '&:hover': { bgcolor: '#2B81D6' } }}
-          >
-            <MenuIcon />
-          </IconButton>
+          {isLargeDownScreen && (
+            <IconButton
+              edge="start"
+              color="inherit"
+              aria-label="menu"
+              onClick={toggleDrawer}
+              size="large"
+              sx={{ '&:hover': { bgcolor: '#2B81D6' } }}
+            >
+              <MenuIcon />
+            </IconButton>
+          )}
           <Box
             onClick={returnTopPage}
             sx={{

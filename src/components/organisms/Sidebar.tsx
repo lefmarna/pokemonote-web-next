@@ -28,11 +28,11 @@ import { useAuthUserState } from '@/store/authUserState'
 
 type Props = {
   open: boolean
-  onCloseDrawer: () => void
+  onClose: () => void
 }
 
 export const Sidebar = (props: Props) => {
-  const { open, onCloseDrawer } = props
+  const { open, onClose } = props
 
   const authUser = useAuthUserState()
 
@@ -111,16 +111,9 @@ export const Sidebar = (props: Props) => {
   return (
     <Drawer
       open={open}
-      onClose={onCloseDrawer}
+      onClose={onClose}
       anchor="left"
       variant={isLargeUpScreen ? 'persistent' : 'temporary'}
-      sx={{
-        width: '260px',
-        '& .MuiDrawer-paper': {
-          boxSizing: 'border-box',
-          transition: 'width 225ms cubic-bezier(0.4, 0, 0.2, 1)',
-        },
-      }}
     >
       <Divider />
       <ListItem>
