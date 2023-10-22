@@ -1,5 +1,10 @@
+import { BaseLayout } from './base-layout'
 import { Home } from './Home'
 
 export default function Page() {
-  return <Home />
+  return (
+    <BaseLayout>
+      <Home />
+    </BaseLayout>
+  )
 }

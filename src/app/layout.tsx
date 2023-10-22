@@ -54,7 +54,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <body className={inter.className}>
         <Providers>
           <AppInit />
-          <BaseLayout>{children}</BaseLayout>
+          {children}
           <SnackbarComponent />
         </Providers>
       </body>
