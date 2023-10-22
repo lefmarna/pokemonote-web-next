@@ -2,6 +2,7 @@
 
 import { usePathname, useSearchParams } from 'next/navigation'
 import { useEffect } from 'react'
+import { sleep } from '@/utils/helpers'
 import type { CSSProperties } from 'react'
 
 declare global {
@@ -30,7 +31,13 @@ export const AdCode = (props: Props) => {
 
   useEffect(() => {
     if (typeof window === 'undefined') return
-    ;(window.adsbygoogle = window.adsbygoogle || []).push({})
+
+    const enableAdCode = async () => {
+      await sleep(1000)
+      ;(window.adsbygoogle = window.adsbygoogle || []).push({})
+    }
+
+    enableAdCode()
   }, [pathname, searchParams])
 
   console.log('ad code')
