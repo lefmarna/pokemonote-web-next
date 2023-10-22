@@ -45,6 +45,7 @@ export const AdCode = (props: Props) => {
       data-ad-client="ca-pub-3240586325286249"
       data-ad-slot={slot}
       data-ad-format={format}
+      data-adtest={process.env.NEXT_PUBLIC_NODE_ENV !== 'production'}
       data-full-width-responsive={responsive}
     />
     // </div>
