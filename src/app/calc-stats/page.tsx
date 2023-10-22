@@ -1,5 +1,4 @@
 import { CalcStats } from './CalcStats'
-import { BaseLayout } from '../base-layout'
 import { getMetadata } from '@/utils/helpers'
 
 export const metadata = getMetadata(
@@ -8,9 +7,5 @@ export const metadata = getMetadata(
 )
 
 export default function Page() {
-  return (
-    <BaseLayout>
-      <CalcStats />
-    </BaseLayout>
-  )
+  return <CalcStats />
 }
