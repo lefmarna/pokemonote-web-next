@@ -1,6 +1,5 @@
 'use client'
 
-import Script from 'next/script'
 import { memo } from 'react'
 import type { CSSProperties } from 'react'
 
@@ -28,22 +27,13 @@ export const AdCode = memo(function AdCode(props: Props) {
   if (process.env.NEXT_PUBLIC_NODE_ENV === 'local') return null
 
   return (
-    <>
-      <ins
-        className="adsbygoogle"
-        style={style}
-        data-ad-client="ca-pub-3240586325286249"
-        data-ad-slot={slot}
-        data-ad-format={format}
-        data-full-width-responsive={responsive}
-      />
-      <Script
-        id={String(Math.random())}
-        strategy="lazyOnload"
-        dangerouslySetInnerHTML={{
-          __html: '(window.adsbygoogle = window.adsbygoogle || []).push({});',
-        }}
-      />
-    </>
+    <ins
+      className="adsbygoogle"
+      style={style}
+      data-ad-client="ca-pub-3240586325286249"
+      data-ad-slot={slot}
+      data-ad-format={format}
+      data-full-width-responsive={responsive}
+    />
   )
 })
