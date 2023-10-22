@@ -1,6 +1,7 @@
 'use client'
 
-import { memo, useEffect } from 'react'
+import Script from 'next/script'
+import { memo } from 'react'
 import type { CSSProperties } from 'react'
 
 declare global {
@@ -24,11 +25,6 @@ export const AdCode = memo(function AdCode(props: Props) {
     responsive = 'true',
   } = props
 
-  useEffect(() => {
-    if (typeof window === 'undefined') return
-    ;(window.adsbygoogle = window.adsbygoogle || []).push({})
-  }, [])
-
   if (process.env.NEXT_PUBLIC_NODE_ENV === 'local') return null
 
   return (
@@ -41,11 +37,13 @@ export const AdCode = memo(function AdCode(props: Props) {
         data-ad-format={format}
         data-full-width-responsive={responsive}
       />
-      <script
+      <Script
+        id={String(Math.random())}
+        strategy="lazyOnload"
         dangerouslySetInnerHTML={{
           __html: '(window.adsbygoogle = window.adsbygoogle || []).push({});',
         }}
-      ></script>
+      />
     </>
   )
 })
