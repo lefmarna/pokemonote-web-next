@@ -1,7 +1,7 @@
 'use client'
 
 import Script from 'next/script'
-import { memo, useEffect, useState } from 'react'
+import { memo } from 'react'
 import type { CSSProperties } from 'react'
 
 declare global {
@@ -27,16 +27,7 @@ export const AdCode = memo(function AdCode(props: Props) {
 
   console.log('ad code')
 
-  const [isLoading, setIsLoading] = useState(true)
-
-  useEffect(() => {
-    setTimeout(() => {
-      setIsLoading(false)
-    }, 3000)
-  }, [])
-
   if (process.env.NEXT_PUBLIC_NODE_ENV === 'local') return null
-  if (isLoading) return null
 
   return (
     <>
