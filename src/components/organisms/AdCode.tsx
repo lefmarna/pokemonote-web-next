@@ -1,6 +1,6 @@
 'use client'
 
-import { usePathname, useSearchParams } from 'next/navigation'
+// import { usePathname, useSearchParams } from 'next/navigation'
 import { useEffect } from 'react'
 import type { CSSProperties } from 'react'
 
@@ -25,28 +25,28 @@ export const AdCode = (props: Props) => {
     responsive = 'true',
   } = props
 
-  const pathname = usePathname()
-  const searchParams = useSearchParams()
+  // const pathname = usePathname()
+  // const searchParams = useSearchParams()
 
   useEffect(() => {
     if (typeof window === 'undefined') return
     ;(window.adsbygoogle = window.adsbygoogle || []).push({})
-  }, [pathname, searchParams])
+  }, [])
 
   console.log('ad code')
 
   if (process.env.NEXT_PUBLIC_NODE_ENV === 'local') return null
 
   return (
-    <div key={pathname + searchParams}>
-      <ins
-        className="adsbygoogle"
-        style={style}
-        data-ad-client="ca-pub-3240586325286249"
-        data-ad-slot={slot}
-        data-ad-format={format}
-        data-full-width-responsive={responsive}
-      />
-    </div>
+    // <div key={pathname + searchParams}>
+    <ins
+      className="adsbygoogle"
+      style={style}
+      data-ad-client="ca-pub-3240586325286249"
+      data-ad-slot={slot}
+      data-ad-format={format}
+      data-full-width-responsive={responsive}
+    />
+    // </div>
   )
 }
