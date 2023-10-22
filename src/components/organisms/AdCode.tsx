@@ -1,7 +1,6 @@
 'use client'
 
 import Script from 'next/script'
-import { memo } from 'react'
 import type { CSSProperties } from 'react'
 
 declare global {
@@ -17,7 +16,7 @@ type Props = {
   responsive?: string
 }
 
-export const AdCode = memo(function AdCode(props: Props) {
+export const AdCode = (props: Props) => {
   const {
     slot,
     style = { display: 'block' },
@@ -48,4 +47,4 @@ export const AdCode = memo(function AdCode(props: Props) {
       />
     </>
   )
-})
+}
