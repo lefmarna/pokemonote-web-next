@@ -1,5 +1,6 @@
 'use client'
 
+import { usePathname, useSearchParams } from 'next/navigation'
 import { memo, useEffect } from 'react'
 import type { CSSProperties } from 'react'
 
@@ -24,10 +25,13 @@ export const AdCode = memo(function AdCode(props: Props) {
     responsive = 'true',
   } = props
 
+  const pathname = usePathname()
+  const searchParams = useSearchParams()
+
   useEffect(() => {
     if (typeof window === 'undefined') return
     ;(window.adsbygoogle = window.adsbygoogle || []).push({})
-  }, [])
+  }, [pathname, searchParams])
 
   if (process.env.NEXT_PUBLIC_NODE_ENV === 'local') return null
 
