@@ -1,6 +1,6 @@
 'use client'
 
-import { memo, useEffect } from 'react'
+import { memo } from 'react'
 import type { CSSProperties } from 'react'
 
 declare global {
@@ -24,21 +24,23 @@ export const AdCode = memo(function AdCode(props: Props) {
     responsive = 'true',
   } = props
 
-  useEffect(() => {
-    if (typeof window === 'undefined') return
-    ;(window.adsbygoogle = window.adsbygoogle || []).push({})
-  }, [])
-
   if (process.env.NEXT_PUBLIC_NODE_ENV === 'local') return null
 
   return (
-    <ins
-      className="adsbygoogle"
-      style={style}
-      data-ad-client="ca-pub-3240586325286249"
-      data-ad-slot={slot}
-      data-ad-format={format}
-      data-full-width-responsive={responsive}
-    />
+    <>
+      <ins
+        className="adsbygoogle"
+        style={style}
+        data-ad-client="ca-pub-3240586325286249"
+        data-ad-slot={slot}
+        data-ad-format={format}
+        data-full-width-responsive={responsive}
+      />
+      <script
+        dangerouslySetInnerHTML={{
+          __html: '(window.adsbygoogle = window.adsbygoogle || []).push({});',
+        }}
+      ></script>
+    </>
   )
 })
