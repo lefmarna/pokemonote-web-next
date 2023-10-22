@@ -168,6 +168,7 @@ export const Sidebar = (props: Props) => {
       <Divider />
       <AdCode
         slot="4559543564"
+        format="rectangle"
         style={{
           display: 'inline-block',
           width: '232px',
