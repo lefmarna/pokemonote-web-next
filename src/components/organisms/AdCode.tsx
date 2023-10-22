@@ -1,6 +1,6 @@
 'use client'
 
-import { memo } from 'react'
+import { memo, useEffect } from 'react'
 import type { CSSProperties } from 'react'
 
 declare global {
@@ -23,6 +23,11 @@ export const AdCode = memo(function AdCode(props: Props) {
     format = 'auto',
     responsive = 'true',
   } = props
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    ;(window.adsbygoogle = window.adsbygoogle || []).push({})
+  }, [])
 
   if (process.env.NEXT_PUBLIC_NODE_ENV === 'local') return null
 
