@@ -1,6 +1,7 @@
 'use client'
 
-import Script from 'next/script'
+import { usePathname, useSearchParams } from 'next/navigation'
+import { useEffect } from 'react'
 import type { CSSProperties } from 'react'
 
 declare global {
@@ -24,12 +25,20 @@ export const AdCode = (props: Props) => {
     responsive = 'true',
   } = props
 
+  const pathname = usePathname()
+  const searchParams = useSearchParams()
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    ;(window.adsbygoogle = window.adsbygoogle || []).push({})
+  }, [pathname, searchParams])
+
   console.log('ad code')
 
   if (process.env.NEXT_PUBLIC_NODE_ENV === 'local') return null
 
   return (
-    <>
+    <div key={pathname + searchParams}>
       <ins
         className="adsbygoogle"
         style={style}
@@ -38,13 +47,6 @@ export const AdCode = (props: Props) => {
         data-ad-format={format}
         data-full-width-responsive={responsive}
       />
-      <Script
-        id={String(Math.random())}
-        strategy="lazyOnload"
-        dangerouslySetInnerHTML={{
-          __html: '(window.adsbygoogle = window.adsbygoogle || []).push({});',
-        }}
-      />
-    </>
+    </div>
   )
 }
