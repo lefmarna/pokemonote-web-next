@@ -39,9 +39,6 @@ export const AppInit = () => {
     ;(async () => {
       await $axios.get('/sanctum/csrf-cookie')
       setIsCompleteCsrfCookie(true)
-
-      if (typeof window === 'undefined') return
-      ;(window.adsbygoogle = window.adsbygoogle || []).push({})
     })()
   }, [])
 

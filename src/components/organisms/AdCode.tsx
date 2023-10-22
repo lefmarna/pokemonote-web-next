@@ -32,10 +32,10 @@ export const AdCode = (props: Props) => {
   //   if (typeof window === 'undefined') return
   //   ;(window.adsbygoogle = window.adsbygoogle || []).push({})
   // }, [])
-
-  console.log('ad code')
-
+  if (typeof window === 'undefined') return null
   if (process.env.NEXT_PUBLIC_NODE_ENV === 'local') return null
+  ;(window.adsbygoogle = window.adsbygoogle || []).push({})
+  console.log('ad code')
 
   return (
     // <div key={pathname + searchParams}>
