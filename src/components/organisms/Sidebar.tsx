@@ -12,6 +12,7 @@ import {
 import CatchingPokemonIcon from '@mui/icons-material/CatchingPokemon'
 import HomeIcon from '@mui/icons-material/Home'
 import {
+  Box,
   Divider,
   Drawer,
   Icon,
@@ -166,16 +167,18 @@ export const Sidebar = (props: Props) => {
         ))}
       </List>
       <Divider />
-      <AdCode
-        slot="4559543564"
-        format="rectangle"
-        style={{
-          display: 'inline-block',
-          width: '232px',
-          height: '232px',
-          marginTop: '12px',
-        }}
-      />
+      <Box sx={{ textAlign: 'center', margin: '0 auto' }}>
+        <AdCode
+          slot="4559543564"
+          format="rectangle"
+          style={{
+            display: 'inline-block',
+            width: '232px',
+            height: '232px',
+            marginTop: '12px',
+          }}
+        />
+      </Box>
       <ListItem>
         <ListItemText primary="Others" />
       </ListItem>
