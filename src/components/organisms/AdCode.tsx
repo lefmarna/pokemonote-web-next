@@ -25,6 +25,8 @@ export const AdCode = memo(function AdCode(props: Props) {
     responsive = 'true',
   } = props
 
+  console.log('ad code')
+
   if (process.env.NEXT_PUBLIC_NODE_ENV === 'local') return null
 
   return (
