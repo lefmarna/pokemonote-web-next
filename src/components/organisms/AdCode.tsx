@@ -1,7 +1,6 @@
 'use client'
 
-// import { usePathname, useSearchParams } from 'next/navigation'
-import { useEffect } from 'react'
+import { memo } from 'react'
 import type { CSSProperties } from 'react'
 
 declare global {
@@ -17,7 +16,7 @@ type Props = {
   responsive?: string
 }
 
-export const AdCode = (props: Props) => {
+export const AdCode = memo(function AdCode(props: Props) {
   const {
     slot,
     style = { display: 'block' },
@@ -33,10 +32,11 @@ export const AdCode = (props: Props) => {
   // ;(window.adsbygoogle = window.adsbygoogle || []).push({})
   // console.log('ad code')
   // }, [])
-  // if (typeof window === 'undefined') return null
-  // ;(window.adsbygoogle = window.adsbygoogle || []).push({})
 
+  if (typeof window === 'undefined') return null
   if (process.env.NEXT_PUBLIC_NODE_ENV === 'local') return null
+  ;(window.adsbygoogle = window.adsbygoogle || []).push({})
+
   return (
     // <div key={pathname + searchParams}>
     <ins
@@ -50,4 +50,4 @@ export const AdCode = (props: Props) => {
     />
     // </div>
   )
-}
+})
