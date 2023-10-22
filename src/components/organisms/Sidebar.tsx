@@ -167,18 +167,6 @@ export const Sidebar = (props: Props) => {
         ))}
       </List>
       <Divider />
-      <Box sx={{ mx: 'auto' }}>
-        <AdCode
-          slot="4559543564"
-          format="rectangle"
-          style={{
-            display: 'block',
-            width: '100%',
-            height: '232px',
-            marginTop: '12px',
-          }}
-        />
-      </Box>
       <ListItem>
         <ListItemText primary="Others" />
       </ListItem>

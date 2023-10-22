@@ -28,10 +28,10 @@ export const AdCode = (props: Props) => {
   // const pathname = usePathname()
   // const searchParams = useSearchParams()
 
-  useEffect(() => {
-    if (typeof window === 'undefined') return
-    ;(window.adsbygoogle = window.adsbygoogle || []).push({})
-  }, [])
+  // useEffect(() => {
+  //   if (typeof window === 'undefined') return
+  //   ;(window.adsbygoogle = window.adsbygoogle || []).push({})
+  // }, [])
 
   console.log('ad code')
 
