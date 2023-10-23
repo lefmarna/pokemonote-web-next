@@ -173,7 +173,7 @@ export const Sidebar = (props: Props) => {
           format="rectangle"
           style={{
             display: 'block',
-            width: '100%',
+            width: '232px',
             height: '232px',
             marginTop: '12px',
           }}
