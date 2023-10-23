@@ -1,6 +1,7 @@
 'use client'
 
-import { memo } from 'react'
+import { usePathname } from 'next/navigation'
+import { memo, useEffect } from 'react'
 import type { CSSProperties } from 'react'
 
 declare global {
@@ -24,32 +25,32 @@ export const AdCode = memo(function AdCode(props: Props) {
     responsive = 'true',
   } = props
 
-  // const pathname = usePathname()
-  // const searchParams = useSearchParams()
+  const pathname = usePathname()
 
-  // useEffect(() => {
-  // if (typeof window === 'undefined') return
-  // ;(window.adsbygoogle = window.adsbygoogle || []).push({})
-  // console.log('ad code')
-  // }, [])
+  useEffect(() => {
+    if (typeof window === 'undefined') return
 
-  if (typeof window === 'undefined') return null
-  if (process.env.NEXT_PUBLIC_NODE_ENV === 'local') return null
-  ;(window.adsbygoogle = window.adsbygoogle || []).push({})
+    try {
+      ;(window.adsbygoogle = window.adsbygoogle || []).push({})
+      console.log('ad code')
+    } catch (e) {
+      console.error(e)
+    }
+  }, [pathname])
 
   return (
-    // <div key={pathname + searchParams}>
-    <ins
-      className="adsbygoogle"
-      style={style}
-      data-ad-client="ca-pub-3240586325286249"
-      data-ad-slot={slot}
-      data-ad-format={format}
-      data-adtest={
-        process.env.NEXT_PUBLIC_NODE_ENV !== 'production' ? 'on' : 'off'
-      }
-      data-full-width-responsive={responsive}
-    />
-    // </div>
+    <div key={pathname}>
+      <ins
+        className="adsbygoogle"
+        style={style}
+        data-ad-client="ca-pub-3240586325286249"
+        data-ad-slot={slot}
+        data-ad-format={format}
+        data-adtest={
+          process.env.NEXT_PUBLIC_NODE_ENV !== 'production' ? 'on' : 'off'
+        }
+        data-full-width-responsive={responsive}
+      />
+    </div>
   )
 })
