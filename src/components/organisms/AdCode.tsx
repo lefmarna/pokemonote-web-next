@@ -16,7 +16,7 @@ type Props = {
   responsive?: string
 }
 
-export const AdCode = (props: Props) => {
+export const AdCode = memo(function AdCode(props: Props) {
   const {
     slot,
     style = { display: 'block' },
@@ -29,7 +29,6 @@ export const AdCode = (props: Props) => {
 
     try {
       ;(window.adsbygoogle = window.adsbygoogle || []).push({})
-      console.log('ad code')
     } catch (e) {
       console.error(e)
     }
@@ -48,4 +47,4 @@ export const AdCode = (props: Props) => {
       data-full-width-responsive={responsive}
     />
   )
-}
+})
