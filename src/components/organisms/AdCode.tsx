@@ -1,6 +1,6 @@
 'use client'
 
-import { memo, useEffect } from 'react'
+import { memo, useLayoutEffect } from 'react'
 import type { CSSProperties } from 'react'
 
 declare global {
@@ -24,7 +24,7 @@ export const AdCode = memo(function AdCode(props: Props) {
     responsive = 'true',
   } = props
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (typeof window === 'undefined') return
 
     try {
