@@ -3,12 +3,6 @@
 import { memo, useLayoutEffect } from 'react'
 import type { CSSProperties } from 'react'
 
-declare global {
-  interface Window {
-    adsbygoogle: { [key: string]: unknown }[]
-  }
-}
-
 type Props = {
   slot: string
   style?: CSSProperties

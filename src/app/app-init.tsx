@@ -42,13 +42,6 @@ export const AppInit = () => {
     })()
   }, [])
 
-  // useEffect(() => {
-  //   if (isCompleteCsrfCookie !== false) return
-  //   if (typeof window === 'undefined') return
-  //   console.log('init')
-  //   ;(window.adsbygoogle = window.adsbygoogle || []).push({})
-  // }, [isCompleteCsrfCookie])
-
   useEffect(() => {
     if (!loginData || !StaticData) return
     updateAuthUser(loginData.data)
