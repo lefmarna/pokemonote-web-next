@@ -89,8 +89,8 @@ export const CalcStatsTemplate = (props: Props) => {
 
   const durabilityAdjustment = (
     calcStyle: string,
-    selectDefenceEnhancement: number,
-    selectSpDefenceEnhancement: number
+    selectDefenseEnhancement: number,
+    selectSpDefenseEnhancement: number
   ) => {
     // 攻撃、特攻、素早さの努力値を除いた値を求める
     const remainderEffortValue =
@@ -101,22 +101,22 @@ export const CalcStatsTemplate = (props: Props) => {
 
     // 計算に使う努力値を一時的に格納しておくための変数
     let tmpHpEV = remainderEffortValue // HPから順に計算していくので、最初に余りの努力値をそのまま代入している
-    let tmpDefenceEV = 0
-    let tmpSpDefenceEV = 0
+    let tmpDefenseEV = 0
+    let tmpSpDefenseEV = 0
 
     // 計算に使う実数値を一時的に格納しておくための変数
     let tmpHp = 0
-    let tmpDefence = 0
-    let tmpSpDefence = 0
+    let tmpDefense = 0
+    let tmpSpDefense = 0
 
     // 実数値の計算は耐久補正込で行うが、代入する際には元の値を使うため、別の変数を用意することにした
-    let tmpDefenceEnhancement = 0
-    let tmpSpDefenceEnhancement = 0
+    let tmpDefenseEnhancement = 0
+    let tmpSpDefenseEnhancement = 0
 
     // 最終的に代入することになる実数値を格納しておくための変数
     let resultHp = 0
-    let resultDefence = 0
-    let resultSpDefence = 0
+    let resultDefense = 0
+    let resultSpDefense = 0
 
     // 計算された耐久指数を比較していくのに用いる変数
     let oldHBD = 0
@@ -133,52 +133,52 @@ export const CalcStatsTemplate = (props: Props) => {
       // HPの努力値からHPの実数値を計算
       tmpHp = getRealNumber('hp', tmpHpEV)
 
-      tmpSpDefenceEV = remainderEffortValue - tmpHpEV
+      tmpSpDefenseEV = remainderEffortValue - tmpHpEV
 
-      if (tmpSpDefenceEV > MAX_EV) {
-        tmpSpDefenceEV = MAX_EV
+      if (tmpSpDefenseEV > MAX_EV) {
+        tmpSpDefenseEV = MAX_EV
       }
 
       // 防御より先に特防を計算することで、端数が出た場合に特防に割り振られるようになる(ダウンロード対策でB<Dのほうが好まれることから、このような仕様にしている)
-      while (tmpSpDefenceEV >= 0) {
+      while (tmpSpDefenseEV >= 0) {
         // 特防の努力値から特防の実数値を計算
-        tmpSpDefence = getRealNumber('spDefense', tmpSpDefenceEV)
+        tmpSpDefense = getRealNumber('spDefense', tmpSpDefenseEV)
 
-        tmpDefenceEV = remainderEffortValue - tmpHpEV - tmpSpDefenceEV
+        tmpDefenseEV = remainderEffortValue - tmpHpEV - tmpSpDefenseEV
 
         // 防御の仮努力値が最大値を超えてしまう場合には値を更新しない
-        if (tmpDefenceEV > MAX_EV) break
+        if (tmpDefenseEV > MAX_EV) break
 
         // 防御の努力値から防御の実数値を計算
-        tmpDefence = getRealNumber('defense', tmpDefenceEV)
+        tmpDefense = getRealNumber('defense', tmpDefenseEV)
 
         // 耐久補正込での耐久値を求める
-        tmpDefenceEnhancement = Math.floor(
-          tmpDefence * selectDefenceEnhancement
+        tmpDefenseEnhancement = Math.floor(
+          tmpDefense * selectDefenseEnhancement
         )
-        tmpSpDefenceEnhancement = Math.floor(
-          tmpSpDefence * selectSpDefenceEnhancement
+        tmpSpDefenseEnhancement = Math.floor(
+          tmpSpDefense * selectSpDefenseEnhancement
         )
 
         // 耐久指数を計算する（計算スタイルによって結果が異なる）
         if (calcStyle === 'balance') {
           newHBD =
-            (tmpHp * tmpDefenceEnhancement * tmpSpDefenceEnhancement) /
-            (tmpDefenceEnhancement + tmpSpDefenceEnhancement)
+            (tmpHp * tmpDefenseEnhancement * tmpSpDefenseEnhancement) /
+            (tmpDefenseEnhancement + tmpSpDefenseEnhancement)
         }
 
         if (calcStyle === 'performance') {
-          newHBD = tmpHp * (tmpDefenceEnhancement + tmpSpDefenceEnhancement)
+          newHBD = tmpHp * (tmpDefenseEnhancement + tmpSpDefenseEnhancement)
 
           // NOTE 結果が同じ時には防御と特防の差が小さい方が好ましいため、最も差分の小さな値を入れるようにしている
           if (oldHBD === newHBD && resultHp === tmpHp) {
             const diff = Math.abs(
-              tmpDefenceEnhancement - tmpSpDefenceEnhancement
+              tmpDefenseEnhancement - tmpSpDefenseEnhancement
             )
             if (tmpDiff === null || tmpDiff > diff) {
               tmpDiff = diff
-              resultDefence = tmpDefence
-              resultSpDefence = tmpSpDefence
+              resultDefense = tmpDefense
+              resultSpDefense = tmpSpDefense
             }
           }
         }
@@ -187,11 +187,11 @@ export const CalcStatsTemplate = (props: Props) => {
         if (oldHBD < newHBD) {
           oldHBD = newHBD
           resultHp = tmpHp
-          resultDefence = tmpDefence
-          resultSpDefence = tmpSpDefence
+          resultDefense = tmpDefense
+          resultSpDefense = tmpSpDefense
           tmpDiff = null
         }
-        tmpSpDefenceEV--
+        tmpSpDefenseEV--
       }
       tmpHpEV--
     }
@@ -199,8 +199,8 @@ export const CalcStatsTemplate = (props: Props) => {
     // 最も優秀だった結果を代入する
     updateEvs({
       hp: getEv(resultHp, 'hp'),
-      defense: getEv(resultDefence, 'defense'),
-      spDefense: getEv(resultSpDefence, 'spDefense'),
+      defense: getEv(resultDefense, 'defense'),
+      spDefense: getEv(resultSpDefense, 'spDefense'),
     })
   }
 

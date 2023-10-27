@@ -33,8 +33,8 @@ type Props = {
   updateEvs: (newIvs: Partial<NullableStats>) => void
   durabilityAdjustment: (
     calcStyle: string,
-    selectDefenceEnhancement: number,
-    selectSpDefenceEnhancement: number
+    selectDefenseEnhancement: number,
+    selectSpDefenseEnhancement: number
   ) => void
   submit: () => void
   updateDescription: (newDescription: string) => void
@@ -52,18 +52,18 @@ export const CalcStatsOptions = memo(function CalcStatsOptions(props: Props) {
     updateDescription,
   } = props
 
-  const [selectDefenceEnhancement, setSelectDefenceEnhancement] = useState(1)
-  const [selectSpDefenceEnhancement, setSelectSpDefenceEnhancement] =
+  const [selectDefenseEnhancement, setSelectDefenseEnhancement] = useState(1)
+  const [selectSpDefenseEnhancement, setSelectSpDefenseEnhancement] =
     useState(1)
   const [calcStyle, setCalcStyle] = useState('balance')
 
-  const updateSelectDefenceEnhancement = (event: SelectChangeEvent<number>) => {
-    setSelectDefenceEnhancement(Number(event.target.value))
+  const updateSelectDefenseEnhancement = (event: SelectChangeEvent<number>) => {
+    setSelectDefenseEnhancement(Number(event.target.value))
   }
-  const updateSelectSpDefenceEnhancement = (
+  const updateSelectSpDefenseEnhancement = (
     event: SelectChangeEvent<number>
   ) => {
-    setSelectSpDefenceEnhancement(Number(event.target.value))
+    setSelectSpDefenseEnhancement(Number(event.target.value))
   }
 
   const updateCalcStyle = (
@@ -77,7 +77,7 @@ export const CalcStatsOptions = memo(function CalcStatsOptions(props: Props) {
   const physicalDurability = () => {
     return (
       realNumbers.hp *
-      Math.floor(realNumbers.defense * selectDefenceEnhancement)
+      Math.floor(realNumbers.defense * selectDefenseEnhancement)
     )
   }
 
@@ -85,7 +85,7 @@ export const CalcStatsOptions = memo(function CalcStatsOptions(props: Props) {
   const specialDurability = () => {
     return (
       realNumbers.hp *
-      Math.floor(realNumbers.spDefense * selectSpDefenceEnhancement)
+      Math.floor(realNumbers.spDefense * selectSpDefenseEnhancement)
     )
   }
 
@@ -115,8 +115,8 @@ export const CalcStatsOptions = memo(function CalcStatsOptions(props: Props) {
     updateDescription(event.target.value)
   }
 
-  const [isDefenceSelected, setIsDefenceSelected] = useState(false)
-  const [isSpDefenceSelected, setIsSpDefenceSelected] = useState(false)
+  const [isDefenseSelected, setIsDefenseSelected] = useState(false)
+  const [isSpDefenseSelected, setIsSpDefenseSelected] = useState(false)
 
   return (
     <Grid container spacing={2}>
@@ -150,7 +150,7 @@ export const CalcStatsOptions = memo(function CalcStatsOptions(props: Props) {
                       variant="subtitle1"
                       sx={{
                         color: (theme) =>
-                          isDefenceSelected || isSpDefenceSelected
+                          isDefenseSelected || isSpDefenseSelected
                             ? theme.palette.primary.main
                             : 'initial',
                       }}
@@ -160,10 +160,10 @@ export const CalcStatsOptions = memo(function CalcStatsOptions(props: Props) {
                     <FormControl variant="standard" fullWidth sx={{ mt: 1 }}>
                       <InputLabel>防御</InputLabel>
                       <Select
-                        value={selectDefenceEnhancement}
-                        onChange={updateSelectDefenceEnhancement}
-                        onFocus={() => setIsDefenceSelected(true)}
-                        onBlur={() => setIsDefenceSelected(false)}
+                        value={selectDefenseEnhancement}
+                        onChange={updateSelectDefenseEnhancement}
+                        onFocus={() => setIsDefenseSelected(true)}
+                        onBlur={() => setIsDefenseSelected(false)}
                         sx={{ textAlign: 'left' }}
                       >
                         {magnificationItems.map((item) => (
@@ -176,10 +176,10 @@ export const CalcStatsOptions = memo(function CalcStatsOptions(props: Props) {
                     <FormControl variant="standard" fullWidth sx={{ mt: 2 }}>
                       <InputLabel>特防</InputLabel>
                       <Select
-                        value={selectSpDefenceEnhancement}
-                        onChange={updateSelectSpDefenceEnhancement}
-                        onFocus={() => setIsSpDefenceSelected(true)}
-                        onBlur={() => setIsSpDefenceSelected(false)}
+                        value={selectSpDefenseEnhancement}
+                        onChange={updateSelectSpDefenseEnhancement}
+                        onFocus={() => setIsSpDefenseSelected(true)}
+                        onBlur={() => setIsSpDefenseSelected(false)}
                         sx={{ textAlign: 'left' }}
                       >
                         {magnificationItems.map((item) => (
@@ -231,8 +231,8 @@ export const CalcStatsOptions = memo(function CalcStatsOptions(props: Props) {
                   onClick={() =>
                     durabilityAdjustment(
                       calcStyle,
-                      selectDefenceEnhancement,
-                      selectSpDefenceEnhancement
+                      selectDefenseEnhancement,
+                      selectSpDefenseEnhancement
                     )
                   }
                 >
