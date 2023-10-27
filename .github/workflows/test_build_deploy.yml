@@ -2,26 +2,32 @@ name: test_build_deploy
 on: push
 
 jobs:
-  # test:
-  #   runs-on: ubuntu-latest
-  #   container:
-  #     image: node:18.18.0
+  test:
+    runs-on: ubuntu-latest
+    container:
+      image: node:18.18.0
 
-  #   steps:
-  #     - uses: actions/checkout@v3
+    steps:
+      - uses: actions/checkout@v3
 
-  #     - name: npm install
-  #       uses: ./.github/actions/test_build_deploy
+      - name: Install packages
+        uses: ./.github/actions/test_build_deploy
 
-  #     - name: Test
-  #       run: npm run test
+      - name: Lint with TypeScript Compiler
+        run: npm run lint:ts
+
+      - name: Lint with ESLint
+        run: npm run lint:es
+
+      # - name: Test
+      #   run: npm run test
 
   build:
     runs-on: ubuntu-latest
     container:
       image: node:18.18.0
     if: github.ref_name == 'main' || github.ref_name == 'develop'
-    # needs: test
+    needs: test
     steps:
       - uses: actions/checkout@v3
 
