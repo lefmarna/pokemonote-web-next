@@ -1,8 +1,8 @@
 'use client'
 
+import styled from '@emotion/styled'
 import { LoadingButton } from '@mui/lab'
 import {
-  Box,
   Button,
   Card,
   CardActions,
@@ -24,6 +24,34 @@ import { useAuthUserState } from '@/store/authUserState'
 import type { NullableStats, Stats } from '@/types/front'
 import type { SelectChangeEvent } from '@mui/material'
 import type { ChangeEvent } from 'react'
+
+const MyCard = styled('div')`
+  height: 100%;
+  background-color: #fff;
+  color: rgba(0, 0, 0, 0.87);
+  border-radius: 24px;
+  border: thin solid rgba(0, 0, 0, 0.12);
+  display: block;
+  max-width: 100%;
+  outline: none;
+  text-decoration: none;
+  transition-property: box-shadow, opacity;
+  word-wrap: break-word;
+  position: relative;
+  white-space: normal;
+`
+
+const MyCardTitle = styled('div')`
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 1.25rem;
+  font-weight: 500;
+  letter-spacing: 0.0125em;
+  line-height: 2rem;
+  word-break: break-all;
+  padding: 16px;
+`
 
 type Props = {
   buttonText: string
@@ -121,14 +149,16 @@ export const CalcStatsOptions = memo(function CalcStatsOptions(props: Props) {
   return (
     <Grid container spacing={2}>
       <Grid item xs={12} md={6}>
-        <Box>耐久指数</Box>
-        <Typography variant="body1" gutterBottom>
-          総合：{physicalDurability() + specialDurability()}
-          <br />
-          物理：{physicalDurability()}
-          <br />
-          特殊：{specialDurability()}
-        </Typography>
+        <MyCard>
+          <MyCardTitle>耐久指数</MyCardTitle>
+          <Typography variant="body1" gutterBottom sx={{ px: 2, pb: 2 }}>
+            総合：{physicalDurability() + specialDurability()}
+            <br />
+            物理：{physicalDurability()}
+            <br />
+            特殊：{specialDurability()}
+          </Typography>
+        </MyCard>
       </Grid>
       <Grid item xs={12} md={6}>
         公開
