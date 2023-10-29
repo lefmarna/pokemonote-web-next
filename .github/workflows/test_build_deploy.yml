@@ -69,7 +69,7 @@ jobs:
           path: ./out-dir
       - name: Deploy to XSERVER
         env:
-          DEPLOY_DIRECTORY: ${{ github.ref_name == 'main' && secrets.PRODUCTION_DIRECTORY || secrets.DEVELOPMENT_DIRECTORY }}
+          DEPLOY_DIRECTORY: ${{ github.ref_name == 'main' && secrets.PROD_DIRECTORY || secrets.DEV_DIRECTORY }}
         run: |
           echo "${{ secrets.XSERVER_PRIVATE_KEY }}" > x-server.key
           chmod 600 x-server.key
