@@ -41,7 +41,7 @@ export const PasswordVerify = () => {
   }
 
   useEffect(() => {
-    ;(async () => {
+    const verify = async () => {
       try {
         await requestOpenApi({
           url: '/api/v2/password/verify/{user_id}',
@@ -61,7 +61,9 @@ export const PasswordVerify = () => {
       } finally {
         setIsConfirm(false)
       }
-    })()
+    }
+
+    verify()
   }, [searchParams])
 
   const submit = async () => {

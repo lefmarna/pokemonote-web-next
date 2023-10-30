@@ -11,7 +11,7 @@ export const RegisterVerify = noAuthMiddleware(() => {
 
   const { updateAuthUser } = useAuthUserMutators()
 
-  ;(async () => {
+  const register = async () => {
     try {
       const response = await requestOpenApi({
         url: '/api/v2/register/verify/{id}',
@@ -31,7 +31,8 @@ export const RegisterVerify = noAuthMiddleware(() => {
       console.log(error)
     }
     router.push('/')
-  })()
+  }
+  register()
 
   return <div>メール認証中...</div>
 })

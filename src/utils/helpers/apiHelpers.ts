@@ -2,10 +2,10 @@ import { $axios } from '@/libs/axios'
 import type {
   OpenApiMethod,
   OpenApiPath,
-  ParameterProperties,
+  ParameterProperty,
   PathParameter,
   QueryParameter,
-  RequestBodyProperties,
+  RequestBodyProperty,
   Response,
 } from '@/types/openapi/extractor'
 import type { AxiosRequestConfig, AxiosResponse } from 'axios'
@@ -16,9 +16,9 @@ type CustomAxiosRequestConfig<
 > = Omit<AxiosRequestConfig, 'data'> & {
   url: Path
   method: Method
-} & RequestBodyProperties<Path, Method> &
-  ParameterProperties<Path, Method, PathParameter<Path, Method>, 'path'> &
-  ParameterProperties<Path, Method, QueryParameter<Path, Method>, 'query'>
+} & RequestBodyProperty<Path, Method> &
+  ParameterProperty<Path, Method, PathParameter<Path, Method>, 'path'> &
+  ParameterProperty<Path, Method, QueryParameter<Path, Method>, 'query'>
 
 /**
  * 汎用APIコール関数
@@ -75,9 +75,7 @@ export const addUrlQueries = <
 
   const queries = Object.entries(query)
     .filter(([, value]) => value !== null && value !== undefined)
-    .map(([key, value]) => {
-      return `${key}=${encodeURIComponent(String(value))}`
-    })
+    .map(([key, value]) => `${key}=${encodeURIComponent(String(value))}`)
 
   if (queries.length === 0) return url
 

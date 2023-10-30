@@ -33,7 +33,7 @@ export type Schema<T extends keyof components['schemas']> =
 /**
  * リクエストボディのプロパティを必須と任意の判別を行いつつdataのキーに格納された型情報
  */
-export type RequestBodyProperties<
+export type RequestBodyProperty<
   Path extends OpenApiPath,
   Method extends OpenApiMethod<Path>,
 > = paths[Path][Method] extends {
@@ -76,7 +76,7 @@ export type RequestBodyProperties<
  * NOTE: parametersが空のときpathとqueryの型はそれぞれunknownとなるが、運用的にはありえないので問題ない認識
  *
  */
-export type ParameterProperties<
+export type ParameterProperty<
   Path extends OpenApiPath,
   Method extends OpenApiMethod<Path>,
   Params,
