@@ -164,7 +164,7 @@ export const CalcStatsOptions = memo(function CalcStatsOptions(props: Props) {
         公開
       </Grid>
       <Grid item xs={12}>
-        <Card sx={{ borderRadius: '16px' }}>
+        <MyCard>
           <CardContent>
             <Typography variant="h5" align="center">
               耐久調整
@@ -271,7 +271,7 @@ export const CalcStatsOptions = memo(function CalcStatsOptions(props: Props) {
               </Grid>
             </Grid>
           </CardActions>
-        </Card>
+        </MyCard>
       </Grid>
       <Grid item xs={12}>
         <TextField
