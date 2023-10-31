@@ -106,7 +106,7 @@ export interface paths {
         }
         path: {
           /** @description ユーザーID */
-          id: string
+          user_id: string
         }
       }
       responses: {
@@ -1179,6 +1179,8 @@ export interface components {
   headers: never
   pathItems: never
 }
+
+export type $defs = Record<string, never>
 
 export type external = Record<string, never>
 

@@ -47,7 +47,7 @@ export const PasswordVerify = () => {
           url: '/api/v2/password/verify/{user_id}',
           method: 'get',
           path: {
-            id: searchParams.get('id') ?? '',
+            user_id: searchParams.get('id') ?? '',
           },
           query: {
             expires: searchParams.get('expires') ?? '',
