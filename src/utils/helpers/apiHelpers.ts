@@ -5,7 +5,7 @@ import type {
   ParameterProperty,
   PathParameter,
   QueryParameter,
-  RequestBodyProperty,
+  RequestBody,
   Response,
 } from '@/types/openapi/extractor'
 import type { AxiosRequestConfig, AxiosResponse } from 'axios'
@@ -16,7 +16,7 @@ type CustomAxiosRequestConfig<
 > = Omit<AxiosRequestConfig, 'data'> & {
   url: Path
   method: Method
-} & RequestBodyProperty<Path, Method> &
+} & RequestBody<Path, Method> &
   ParameterProperty<Path, Method, PathParameter<Path, Method>, 'path'> &
   ParameterProperty<Path, Method, QueryParameter<Path, Method>, 'query'>
 
