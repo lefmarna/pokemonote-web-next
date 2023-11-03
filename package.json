@@ -46,7 +46,7 @@
     "@mui/lab": "^5.0.0-alpha.151",
     "@mui/material": "^5.14.16",
     "@mui/x-data-grid": "^6.17.0",
-    "axios": "1.5.1",
+    "axios": "^1.6.0",
     "next": "14.0.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
