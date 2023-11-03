@@ -11,12 +11,14 @@ export const RegisterResend = noAuthMiddleware(() => {
   const router = useRouter()
 
   const [email, setEmail] = useState(localStorage.getItem('email') ?? '')
+  localStorage.removeItem('email')
+
   const [isLoading, setIsLoading] = useState(false)
   const [errors, setErrors] = useState<string[]>([])
 
   // NOTE 登録直後はローカルストレージを活用するため、非同期通信によるメールアドレスの取得は行わない
   if (email === '') {
-    ;(async () => {
+    const initSetEmail = async () => {
       const response = await requestOpenApi({
         url: '/api/v2/register/fetch',
         method: 'get',
@@ -26,7 +28,9 @@ export const RegisterResend = noAuthMiddleware(() => {
         return
       }
       setEmail(response.data.data.email)
-    })()
+    }
+
+    initSetEmail()
   }
 
   const resend = async (): Promise<void> => {

@@ -9,6 +9,9 @@ import { FormTemplate } from '@/components/templates/FormTemplate'
 import { SLink } from '@/styles'
 import { exceptionErrorToArray, requestOpenApi } from '@/utils/helpers'
 
+/**
+ * パスワード再設定の申請
+ */
 export const PasswordVerify = () => {
   const searchParams = useSearchParams()
 
@@ -44,10 +47,10 @@ export const PasswordVerify = () => {
     const verify = async () => {
       try {
         await requestOpenApi({
-          url: '/api/v2/password/verify/{user_id}',
+          url: '/api/v2/password/verify/{userId}',
           method: 'get',
           path: {
-            user_id: searchParams.get('id') ?? '',
+            userId: searchParams.get('id') ?? '',
           },
           query: {
             expires: searchParams.get('expires') ?? '',

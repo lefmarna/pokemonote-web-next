@@ -6,6 +6,9 @@ import { EmailInput } from '@/components/forms/EmailInput'
 import { FormTemplate } from '@/components/templates/FormTemplate'
 import { exceptionErrorToArray, requestOpenApi } from '@/utils/helpers'
 
+/**
+ * パスワード再設定の申請
+ */
 export const PasswordForgot = () => {
   const [errors, setErrors] = useState<string[]>()
   const [isLoading, setIsLoading] = useState(false)

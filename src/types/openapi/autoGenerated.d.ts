@@ -94,7 +94,7 @@ export interface paths {
       }
     }
   }
-  '/api/v2/password/verify/{user_id}': {
+  '/api/v2/password/verify/{userId}': {
     /** パスワード再設定メール検証API */
     get: {
       parameters: {
@@ -106,7 +106,7 @@ export interface paths {
         }
         path: {
           /** @description ユーザーID */
-          user_id: string
+          userId: string
         }
       }
       responses: {
@@ -224,7 +224,7 @@ export interface paths {
       }
     }
   }
-  '/api/v2/settings/email/verify/{id}/{encryptedEmail}': {
+  '/api/v2/settings/email/verify/{userId}/{encryptedEmail}': {
     /** メールアドレス更新用メール検証API */
     get: {
       parameters: {

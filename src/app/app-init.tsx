@@ -36,10 +36,12 @@ export const AppInit = () => {
   )
 
   useEffect(() => {
-    ;(async () => {
+    const getCsrfCookie = async () => {
       await $axios.get('/sanctum/csrf-cookie')
       setIsCompleteCsrfCookie(true)
-    })()
+    }
+
+    getCsrfCookie()
   }, [])
 
   useEffect(() => {
