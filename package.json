@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "fix": "prettier -w --loglevel warn '**/*.{js,jsx,ts,tsx,html,json,md}'",
+    "fix": "prettier -w --log-level warn '**/*.{js,jsx,ts,tsx,html,json,md}'",
     "lint": "next lint",
     "lint:ts": "tsc --pretty --noEmit",
     "lint:fix": "npm run -s lint:es:fix && npm run -s lint:style:fix",
