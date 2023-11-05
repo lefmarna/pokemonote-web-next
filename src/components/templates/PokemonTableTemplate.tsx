@@ -3,9 +3,10 @@
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
 import { Container, Grid, IconButton } from '@mui/material'
-import { DataGrid, jaJP } from '@mui/x-data-grid'
+// import { DataGrid, jaJP } from '@mui/x-data-grid'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useState } from 'react'
+import { Title } from '@/components/molecules/Title'
 import { PostedPokemon } from '@/components/organisms/PostedPokemon'
 import { useAuthUserState } from '@/store/authUserState'
 import { SLink } from '@/styles'
@@ -94,12 +95,6 @@ export const PokemonTableTemplate = (props: Props) => {
     },
   ]
 
-  const writeToClipboard = (clipText: string): void => {
-    navigator.clipboard.writeText(clipText).catch((e) => {
-      console.error(e)
-    })
-  }
-
   const editItem = (item: PokemonSummary): void => {
     if (item.user.username === authUser?.username) {
       router.push(`/pokemons/edit?id=${item.id}`)
@@ -129,18 +124,18 @@ export const PokemonTableTemplate = (props: Props) => {
   }
 
   return (
-    <Container>
-      <div>{title}</div>
-      <DataGrid
+    <Container disableGutters>
+      <Title text={title} />
+      {/* <DataGrid
         columns={columns}
         rows={filteredPokemons}
         sortingOrder={['desc', 'asc']}
         autoHeight
         localeText={jaJP.components.MuiDataGrid.defaultProps.localeText}
-      />
+      /> */}
       <Grid container>
-        {pokemons.map((pokemon) => (
-          <PostedPokemon key={pokemon.id} pokemon={pokemon} />
+        {pokemons.map((pokemon, index) => (
+          <PostedPokemon key={pokemon.id} pokemon={pokemon} index={index} />
         ))}
       </Grid>
     </Container>
