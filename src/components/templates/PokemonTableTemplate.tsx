@@ -126,16 +126,9 @@ export const PokemonTableTemplate = (props: Props) => {
   return (
     <Container disableGutters>
       <Title text={title} />
-      {/* <DataGrid
-        columns={columns}
-        rows={filteredPokemons}
-        sortingOrder={['desc', 'asc']}
-        autoHeight
-        localeText={jaJP.components.MuiDataGrid.defaultProps.localeText}
-      /> */}
       <Grid container>
-        {pokemons.map((pokemon, index) => (
-          <PostedPokemon key={pokemon.id} pokemon={pokemon} index={index} />
+        {pokemons.map((pokemon) => (
+          <PostedPokemon key={pokemon.id} title={title} pokemon={pokemon} />
         ))}
       </Grid>
     </Container>
