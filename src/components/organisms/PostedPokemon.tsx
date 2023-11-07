@@ -50,6 +50,7 @@ export const PostedPokemon = (props: Props) => {
   const nameWrapper = {
     display: 'flex',
     justifyContent: 'space-between',
+    alignItems: 'center',
     flexWrap: 'wrap',
   }
 
@@ -65,11 +66,26 @@ export const PostedPokemon = (props: Props) => {
         }}
       >
         <Box sx={nameWrapper}>
-          <Box sx={{ fontSize: '1.1rem', fontWeight: 'bold', mb: 1 }}>
+          <Box
+            sx={{
+              whiteSpace: 'nowrap',
+              fontSize: '18px',
+              fontWeight: 'bold',
+              mb: 1,
+            }}
+          >
             {/* {'ヒヒダルマ(ダルマ・ガラル)'} */}
             {pokemon.pokemonName}
           </Box>
-          <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+          <Box
+            sx={{
+              width: '140px',
+              display: 'flex',
+              justifyContent: 'start',
+              alignItems: 'center',
+              mb: 1,
+            }}
+          >
             <Box>Lv {pokemon.level ?? ''}</Box>
             <Box sx={{ ml: 2 }}>{pokemon.natureName}</Box>
           </Box>
@@ -89,7 +105,7 @@ export const PostedPokemon = (props: Props) => {
             sx={{
               whiteSpace: 'nowrap',
               overflow: 'hidden',
-              textOverflow: 'ellipsis',
+              fontSize: '12px',
             }}
           >
             投稿者：
