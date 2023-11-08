@@ -5,9 +5,13 @@ import EditIcon from '@mui/icons-material/Edit'
 import { Container, Grid, IconButton } from '@mui/material'
 // import { DataGrid, jaJP } from '@mui/x-data-grid'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import { Title } from '@/components/molecules/Title'
 import { PostedPokemon } from '@/components/organisms/PostedPokemon'
+import {
+  useMediaQueryDown,
+  useMediaQueryUp,
+} from '@/hooks/style/useMediaQueries'
 import { useAuthUserState } from '@/store/authUserState'
 import { SLink } from '@/styles'
 import { requestOpenApi } from '@/utils/helpers'
@@ -123,12 +127,27 @@ export const PokemonTableTemplate = (props: Props) => {
     }
   }
 
+  const isMdUp = useMediaQueryUp('md')
+
+  const isLastLine = useCallback(
+    (index: number) => {
+      if (isMdUp) return index >= pokemons.length - 2
+      return index === pokemons.length - 1
+    },
+    [pokemons.length, isMdUp]
+  )
+
   return (
     <Container disableGutters>
       <Title text={title} />
       <Grid container>
-        {pokemons.map((pokemon) => (
-          <PostedPokemon key={pokemon.id} title={title} pokemon={pokemon} />
+        {pokemons.map((pokemon, index) => (
+          <PostedPokemon
+            key={pokemon.id}
+            title={title}
+            pokemon={pokemon}
+            isLastLine={isLastLine(index)}
+          />
         ))}
       </Grid>
     </Container>

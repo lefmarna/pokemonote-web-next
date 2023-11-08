@@ -1,18 +1,34 @@
+import styled from '@emotion/styled'
 import { Box, Button, Grid } from '@mui/material'
 import { useRouter } from 'next/navigation'
+import { theme } from '@/libs/mui'
 import { useMediaQueryDown } from '@/hooks/style/useMediaQueries'
 import { useAuthUserState } from '@/store/authUserState'
 import { SLink } from '@/styles'
 import type { PokemonSummary } from '@/types/openapi/schemas'
 import type { MouseEvent } from 'react'
 
+const StyledBox = styled(Box)(
+  ({ isSmDown, isLastLine }: { isSmDown: boolean; isLastLine: boolean }) => ({
+    borderTop: `0.5px solid ${theme.palette.divider}`,
+    borderBottom: isLastLine ? `0.5px solid ${theme.palette.divider}` : 'none',
+    borderLeft: isSmDown ? 'none' : `0.5px solid ${theme.palette.divider}`,
+    borderRight: isSmDown ? 'none' : `0.5px solid ${theme.palette.divider}`,
+    fontSize: '15px',
+    margin: '0 auto',
+    marginBottom: '-0.5px',
+    maxWidth: isSmDown ? '100%' : 'calc(100% - 24px)',
+  })
+)
+
 type Props = {
   title: string
   pokemon: PokemonSummary
+  isLastLine: boolean
 }
 
 export const PostedPokemon = (props: Props) => {
-  const { title, pokemon } = props
+  const { title, pokemon, isLastLine } = props
   const isSmDown = useMediaQueryDown('sm')
   const authUser = useAuthUserState()
   const router = useRouter()
@@ -56,15 +72,7 @@ export const PostedPokemon = (props: Props) => {
 
   return (
     <Grid item xs={12} md={6}>
-      <Box
-        sx={{
-          maxWidth: isSmDown ? '100%' : 'calc(100% - 24px)',
-          border: '0.5px solid #E0E0E0',
-          p: 2,
-          fontSize: '15px',
-          mx: 'auto',
-        }}
-      >
+      <StyledBox isSmDown={isSmDown} isLastLine={isLastLine} sx={{ p: 2 }}>
         <Box sx={nameWrapper}>
           <Box
             sx={{
@@ -119,7 +127,7 @@ export const PostedPokemon = (props: Props) => {
             </SLink>
           </Box>
         )}
-      </Box>
+      </StyledBox>
     </Grid>
   )
 }
