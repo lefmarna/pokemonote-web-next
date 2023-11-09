@@ -8,13 +8,14 @@ import { SLink } from '@/styles'
 import type { PokemonSummary } from '@/types/openapi/schemas'
 import type { MouseEvent } from 'react'
 
-const StyledBox = styled(Box)(
+const StyledBox = styled('div')(
   ({ isSmDown, isLastLine }: { isSmDown: boolean; isLastLine: boolean }) => ({
     borderTop: `0.5px solid ${theme.palette.divider}`,
     borderBottom: isLastLine ? `0.5px solid ${theme.palette.divider}` : 'none',
     borderLeft: isSmDown ? 'none' : `0.5px solid ${theme.palette.divider}`,
     borderRight: isSmDown ? 'none' : `0.5px solid ${theme.palette.divider}`,
     fontSize: '15px',
+    padding: `${theme.spacing(2)}`,
     margin: '0 auto',
     marginBottom: '-0.5px',
     maxWidth: isSmDown ? '100%' : 'calc(100% - 24px)',
@@ -72,7 +73,7 @@ export const PostedPokemon = (props: Props) => {
 
   return (
     <Grid item xs={12} md={6}>
-      <StyledBox isSmDown={isSmDown} isLastLine={isLastLine} sx={{ p: 2 }}>
+      <StyledBox isSmDown={isSmDown} isLastLine={isLastLine}>
         <Box sx={nameWrapper}>
           <Box
             sx={{

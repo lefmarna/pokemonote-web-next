@@ -3,15 +3,11 @@
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
 import { Container, Grid, IconButton } from '@mui/material'
-// import { DataGrid, jaJP } from '@mui/x-data-grid'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useState } from 'react'
 import { Title } from '@/components/molecules/Title'
 import { PostedPokemon } from '@/components/organisms/PostedPokemon'
-import {
-  useMediaQueryDown,
-  useMediaQueryUp,
-} from '@/hooks/style/useMediaQueries'
+import { useMediaQueryUp } from '@/hooks/style/useMediaQueries'
 import { useAuthUserState } from '@/store/authUserState'
 import { SLink } from '@/styles'
 import { requestOpenApi } from '@/utils/helpers'
