@@ -43,7 +43,7 @@ export const PostedPokemon = (props: Props) => {
 
   const editPokemon = () => {
     if (pokemon.user.username === authUser?.username) {
-      router.push(`/pokemons/${pokemon.id}/edit`)
+      router.push(`/pokemons/edit?id=${pokemon.id}`)
     } else {
       router.push('/')
     }
