@@ -8,7 +8,6 @@ import { useCallback, useState } from 'react'
 import { Title } from '@/components/molecules/Title'
 import { PostedPokemon } from '@/components/organisms/PostedPokemon'
 import { useMediaQueryUp } from '@/hooks/style/useMediaQueries'
-import { useAuthUserState } from '@/store/authUserState'
 import { SLink } from '@/styles'
 import { requestOpenApi } from '@/utils/helpers'
 import type { PokemonSummary } from '@/types/openapi/schemas'
@@ -24,8 +23,6 @@ export const PokemonTableTemplate = (props: Props) => {
 
   const router = useRouter()
   const searchParams = useSearchParams()
-
-  const authUser = useAuthUserState()
 
   const [deletedPokemonIds, setDeletedPokemonIds] = useState<number[]>([])
 
