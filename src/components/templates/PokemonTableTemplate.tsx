@@ -78,7 +78,7 @@ export const PokemonTableTemplate = (props: Props) => {
             >
               <EditIcon />
             </IconButton>
-            <IconButton onClick={() => deletePokemon(params.row.id)}>
+            <IconButton onClick={() => handleDeletePokemon(params.row.id)}>
               <DeleteIcon />
             </IconButton>
           </div>
@@ -95,15 +95,7 @@ export const PokemonTableTemplate = (props: Props) => {
     },
   ]
 
-  const editItem = (item: PokemonSummary): void => {
-    if (item.user.username === authUser?.username) {
-      router.push(`/pokemons/edit?id=${item.id}`)
-    } else {
-      router.push('/')
-    }
-  }
-
-  const deletePokemon = async (id: number): Promise<void> => {
+  const handleDeletePokemon = async (id: number) => {
     try {
       await requestOpenApi({
         url: '/api/v2/pokemons/{id}',
@@ -137,11 +129,12 @@ export const PokemonTableTemplate = (props: Props) => {
     <Container disableGutters>
       <Title text={title} />
       <Grid container>
-        {pokemons.map((pokemon, index) => (
+        {filteredPokemons.map((pokemon, index) => (
           <PostedPokemon
             key={pokemon.id}
             title={title}
             pokemon={pokemon}
+            handleDeletePokemon={handleDeletePokemon}
             isLastLine={isLastLine(index)}
           />
         ))}

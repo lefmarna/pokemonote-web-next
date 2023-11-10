@@ -25,11 +25,12 @@ const StyledBox = styled('div')(
 type Props = {
   title: string
   pokemon: PokemonSummary
+  handleDeletePokemon: (id: number) => Promise<void>
   isLastLine: boolean
 }
 
 export const PostedPokemon = (props: Props) => {
-  const { title, pokemon, isLastLine } = props
+  const { title, pokemon, handleDeletePokemon, isLastLine } = props
   const isSmDown = useMediaQueryDown('sm')
   const authUser = useAuthUserState()
   const router = useRouter()
@@ -49,19 +50,8 @@ export const PostedPokemon = (props: Props) => {
     }
   }
 
-  const deletePokemon = async () => {
-    // try {
-    //   await $axios.delete(`/pokemons/${id}`)
-    //   // 削除するポケモンのデータを探す
-    //   const deletePokemon = pokemonTable.value.findIndex(
-    //     (pokemon: Pokemon) => pokemon.id === id
-    //   )
-    //   // 配列から要素を削除
-    //   pokemonTable.value.splice(deletePokemon, 1)
-    // } catch (error) {
-    //   console.log(error)
-    //   router.push('/')
-    // }
+  const onClickDeleteButton = () => {
+    handleDeletePokemon(pokemon.id)
   }
 
   const nameWrapper = {
@@ -107,7 +97,7 @@ export const PostedPokemon = (props: Props) => {
         authUser?.username === pokemon.user.username ? (
           <div>
             <Button onClick={editPokemon}>編集</Button>
-            <Button onClick={deletePokemon}>削除</Button>
+            <Button onClick={onClickDeleteButton}>削除</Button>
           </div>
         ) : (
           <Box
