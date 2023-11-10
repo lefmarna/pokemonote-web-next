@@ -10,14 +10,14 @@ import type { MouseEvent } from 'react'
 
 const StyledBox = styled('div')(
   ({ isSmDown, isLastLine }: { isSmDown: boolean; isLastLine: boolean }) => ({
-    borderTop: `0.5px solid ${theme.palette.divider}`,
-    borderBottom: isLastLine ? `0.5px solid ${theme.palette.divider}` : 'none',
-    borderLeft: isSmDown ? 'none' : `0.5px solid ${theme.palette.divider}`,
-    borderRight: isSmDown ? 'none' : `0.5px solid ${theme.palette.divider}`,
+    borderTop: `1px solid ${theme.palette.divider}`,
+    borderBottom: isLastLine ? `1px solid ${theme.palette.divider}` : 'none',
+    borderLeft: isSmDown ? 'none' : `1px solid ${theme.palette.divider}`,
+    borderRight: isSmDown ? 'none' : `1px solid ${theme.palette.divider}`,
     fontSize: '15px',
     padding: `${theme.spacing(2)}`,
     margin: '0 auto',
-    marginBottom: '-0.5px',
+    marginBottom: '-1px',
     maxWidth: isSmDown ? '100%' : 'calc(100% - 24px)',
   })
 )
@@ -68,12 +68,12 @@ export const PostedPokemon = (props: Props) => {
           <Box
             sx={{
               whiteSpace: 'nowrap',
+              overflow: 'hidden',
               fontSize: '18px',
               fontWeight: 'bold',
               mb: 1,
             }}
           >
-            {/* {'ヒヒダルマ(ダルマ・ガラル)'} */}
             {pokemon.pokemonName}
           </Box>
           <Box
