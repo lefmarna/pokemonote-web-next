@@ -1,17 +1,15 @@
 'use client'
 
-import DeleteIcon from '@mui/icons-material/Delete'
-import EditIcon from '@mui/icons-material/Edit'
-import { Container, Grid, IconButton } from '@mui/material'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { AccountCircle } from '@mui/icons-material'
+import { Box, Container, Grid, Pagination, TextField } from '@mui/material'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useCallback, useState } from 'react'
 import { Title } from '@/components/molecules/Title'
 import { PostedPokemon } from '@/components/organisms/PostedPokemon'
 import { useMediaQueryUp } from '@/hooks/style/useMediaQueries'
-import { SLink } from '@/styles'
 import { requestOpenApi } from '@/utils/helpers'
 import type { PokemonSummary } from '@/types/openapi/schemas'
-import type { GridRenderCellParams } from '@mui/x-data-grid'
+import type { ChangeEvent, KeyboardEvent } from 'react'
 
 type Props = {
   title: string
@@ -22,97 +20,90 @@ export const PokemonTableTemplate = (props: Props) => {
   const { title, pokemons = [] } = props
 
   const router = useRouter()
-  const searchParams = useSearchParams()
+  const pathname = usePathname()
+  const isMdUp = useMediaQueryUp('md')
 
+  const searchParams = useSearchParams()
+  const initSearch = searchParams.get('search')
+
+  const [searchText, setSearchText] = useState(initSearch)
   const [deletedPokemonIds, setDeletedPokemonIds] = useState<number[]>([])
 
   const filteredPokemons = pokemons.filter((pokemon) => {
     return !deletedPokemonIds.includes(pokemon.id)
   })
 
-  const columns = [
-    {
-      field: 'pokemonName',
-      headerName: 'ポケモン名',
-      flex: 1,
-      renderCell: (params: GridRenderCellParams<PokemonSummary>) => (
-        <SLink
-          href={{
-            pathname: '/pokemons/show',
-            query: { id: params.row.id },
-          }}
-        >
-          {params.row.pokemonName}
-        </SLink>
-      ),
-    },
-    { field: 'level', headerName: 'レベル', flex: 1 },
-    { field: 'natureName', headerName: '性格', flex: 1 },
-    {
-      field: 'stats',
-      headerName: 'ステータス',
-      flex: 1,
-      renderCell: (params: GridRenderCellParams<PokemonSummary>) => (
-        <div>
-          {params.row.stats}
-          <IconButton
-            onClick={() => navigator.clipboard.writeText(params.row.stats)}
-          >
-            <EditIcon />
-          </IconButton>
-        </div>
-      ),
-    },
-    {
-      field: 'username',
-      headerName: '投稿者',
-      flex: 1,
-      renderCell: (params: GridRenderCellParams<PokemonSummary>) =>
-        params.row.user.username === searchParams.get('username') ? (
-          <div>
-            <IconButton
-              onClick={() => router.push(`/pokemons/edit/?id=${params.row.id}`)}
-            >
-              <EditIcon />
-            </IconButton>
-            <IconButton onClick={() => handleDeletePokemon(params.row.id)}>
-              <DeleteIcon />
-            </IconButton>
-          </div>
-        ) : (
-          <SLink
-            href={{
-              pathname: '/users/show',
-              query: { username: params.row.user.username },
-            }}
-          >
-            {params.row.user.username}
-          </SLink>
-        ),
-    },
-  ]
+  const createUrlWithParams = (
+    pathname: string,
+    params: Record<string, string | null>
+  ): string => {
+    const query = Object.keys(params)
+      .filter((key) => params[key] != null)
+      .map((key) => `${key}=${encodeURIComponent(params[key] as string)}`)
+      .join('&')
 
-  const handleDeletePokemon = async (id: number) => {
-    try {
-      await requestOpenApi({
-        url: '/api/v2/pokemons/{id}',
-        method: 'delete',
-        path: {
-          id: String(id),
-        },
-      })
-      // フロント側でもテーブルから削除する必要がある
-      setDeletedPokemonIds((prevDeletedPokemonIds) => [
-        ...prevDeletedPokemonIds,
-        id,
-      ])
-    } catch (error) {
-      console.log(error)
-      router.push('/')
-    }
+    return `${pathname}${query ? `?${query}` : ''}`
   }
 
-  const isMdUp = useMediaQueryUp('md')
+  const handleChangePage = (e: ChangeEvent<unknown>, value: number) => {
+    const url = createUrlWithParams(pathname, {
+      page: value ? String(value) : null,
+      search: searchText,
+    })
+    router.push(url)
+  }
+
+  const onChangeSearchText = (e: ChangeEvent<HTMLInputElement>) => {
+    setSearchText(e.target.value)
+  }
+
+  const onKeyDownSearchText = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key !== 'Enter' || e.nativeEvent.isComposing) return
+    if (!(e.target instanceof HTMLInputElement)) return
+
+    const currentPage = searchParams.get('page')
+    const url = createUrlWithParams(pathname, {
+      page: currentPage,
+      search: searchText,
+    })
+    router.push(url, {
+      scroll: false,
+    })
+  }
+
+  const onBlurSearchText = () => {
+    const currentPage = searchParams.get('page')
+    const url = createUrlWithParams(pathname, {
+      page: currentPage,
+      search: searchText,
+    })
+    router.push(url, {
+      scroll: false,
+    })
+  }
+
+  const handleDeletePokemon = useCallback(
+    async (id: number) => {
+      try {
+        await requestOpenApi({
+          url: '/api/v2/pokemons/{id}',
+          method: 'delete',
+          path: {
+            id: String(id),
+          },
+        })
+        // フロント側でもテーブルから削除する必要がある
+        setDeletedPokemonIds((prevDeletedPokemonIds) => [
+          ...prevDeletedPokemonIds,
+          id,
+        ])
+      } catch (error) {
+        console.log(error)
+        router.push('/')
+      }
+    },
+    [router]
+  )
 
   const isLastLine = useCallback(
     (index: number) => {
@@ -123,8 +114,19 @@ export const PokemonTableTemplate = (props: Props) => {
   )
 
   return (
-    <Container disableGutters>
-      <Title text={title} />
+    <Container disableGutters sx={{ my: 3 }}>
+      <Box sx={{ px: 1.5 }}>
+        <Title text={title} />
+      </Box>
+      <TextField
+        value={searchText ?? ''}
+        onChange={onChangeSearchText}
+        onKeyDown={onKeyDownSearchText}
+        onBlur={onBlurSearchText}
+        InputProps={{
+          startAdornment: <AccountCircle />,
+        }}
+      />
       <Grid container>
         {filteredPokemons.map((pokemon, index) => (
           <PostedPokemon
@@ -135,6 +137,15 @@ export const PokemonTableTemplate = (props: Props) => {
             isLastLine={isLastLine(index)}
           />
         ))}
+        <Grid
+          item
+          sx={{
+            mt: 2,
+            mx: 'auto',
+          }}
+        >
+          <Pagination color="primary" count={10} onChange={handleChangePage} />
+        </Grid>
       </Grid>
     </Container>
   )

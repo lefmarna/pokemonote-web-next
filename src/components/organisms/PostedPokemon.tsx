@@ -1,12 +1,12 @@
 import styled from '@emotion/styled'
 import { Box, Button, Grid } from '@mui/material'
 import { useRouter } from 'next/navigation'
+import { memo, type MouseEvent } from 'react'
 import { theme } from '@/libs/mui'
 import { useMediaQueryDown } from '@/hooks/style/useMediaQueries'
 import { useAuthUserState } from '@/store/authUserState'
 import { SLink } from '@/styles'
 import type { PokemonSummary } from '@/types/openapi/schemas'
-import type { MouseEvent } from 'react'
 
 const StyledBox = styled('div')(
   ({ isSmDown, isLastLine }: { isSmDown: boolean; isLastLine: boolean }) => ({
@@ -29,11 +29,15 @@ type Props = {
   isLastLine: boolean
 }
 
-export const PostedPokemon = (props: Props) => {
+export const PostedPokemon = memo(function PostedPokemon(props: Props) {
   const { title, pokemon, handleDeletePokemon, isLastLine } = props
   const isSmDown = useMediaQueryDown('sm')
   const authUser = useAuthUserState()
   const router = useRouter()
+
+  const onClickPokemonName = () => {
+    router.push(`/pokemons/show?id=${pokemon.id}`)
+  }
 
   const onClickCopyIcon = (event: MouseEvent<HTMLDivElement>) => {
     if (!(event.target instanceof HTMLDivElement)) return
@@ -54,19 +58,22 @@ export const PostedPokemon = (props: Props) => {
     handleDeletePokemon(pokemon.id)
   }
 
-  const nameWrapper = {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    flexWrap: 'wrap',
-  }
-
   return (
     <Grid item xs={12} md={6}>
       <StyledBox isSmDown={isSmDown} isLastLine={isLastLine}>
-        <Box sx={nameWrapper}>
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            flexWrap: 'wrap',
+          }}
+        >
           <Box
+            onClick={onClickPokemonName}
             sx={{
+              cursor: 'pointer',
+              textDecoration: 'underline',
               whiteSpace: 'nowrap',
               overflow: 'hidden',
               fontSize: '18px',
@@ -89,7 +96,10 @@ export const PostedPokemon = (props: Props) => {
             <Box sx={{ ml: 2 }}>{pokemon.natureName}</Box>
           </Box>
         </Box>
-        <Box sx={{ wordBreak: 'break-word', mb: 1 }} onClick={onClickCopyIcon}>
+        <Box
+          sx={{ cursor: 'pointer', wordBreak: 'break-word', mb: 1 }}
+          onClick={onClickCopyIcon}
+        >
           {'291(155)-289(119)-264(150)-175(138)-244(177)-201(173)'}
         </Box>
         {/* <Box sx={{ wordBreak: 'break-word' }}>{pokemon.stats}</Box> */}
@@ -121,4 +131,4 @@ export const PostedPokemon = (props: Props) => {
       </StyledBox>
     </Grid>
   )
-}
+})
