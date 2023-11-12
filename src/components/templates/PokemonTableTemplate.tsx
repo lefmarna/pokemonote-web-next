@@ -3,7 +3,7 @@
 import { AccountCircle } from '@mui/icons-material'
 import { Box, Container, Grid, Pagination, TextField } from '@mui/material'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { Title } from '@/components/molecules/Title'
 import { PostedPokemon } from '@/components/organisms/PostedPokemon'
 import { useMediaQueryUp } from '@/hooks/style/useMediaQueries'
@@ -66,7 +66,7 @@ export const PokemonTableTemplate = (props: Props) => {
       page: currentPage,
       search: searchText,
     })
-    router.push(url, {
+    router.replace(url, {
       scroll: false,
     })
   }
@@ -77,10 +77,14 @@ export const PokemonTableTemplate = (props: Props) => {
       page: currentPage,
       search: searchText,
     })
-    router.push(url, {
+    router.replace(url, {
       scroll: false,
     })
   }
+
+  useEffect(() => {
+    setSearchText(initSearch)
+  }, [initSearch])
 
   const handleDeletePokemon = useCallback(
     async (id: number) => {
