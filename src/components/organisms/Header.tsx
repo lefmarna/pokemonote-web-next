@@ -17,7 +17,7 @@ import { useState } from 'react'
 import { useMediaQueryDown } from '@/hooks/style/useMediaQueries'
 import { useAuthUserMutators, useAuthUserState } from '@/store/authUserState'
 import { useRememberRouteMutators } from '@/store/rememberRouteState'
-import { requestOpenApi } from '@/utils/helpers'
+import { requestOpenapi } from '@/utils/helpers'
 import type { MouseEvent } from 'react'
 
 type Props = {
@@ -63,7 +63,7 @@ export const Header = (props: Props) => {
     setIsLoading(true)
 
     try {
-      await requestOpenApi({
+      await requestOpenapi({
         url: '/api/v2/logout',
         method: 'post',
       })

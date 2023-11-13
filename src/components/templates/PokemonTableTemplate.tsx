@@ -7,7 +7,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { Title } from '@/components/molecules/Title'
 import { PostedPokemon } from '@/components/organisms/PostedPokemon'
 import { useMediaQueryUp } from '@/hooks/style/useMediaQueries'
-import { requestOpenApi } from '@/utils/helpers'
+import { requestOpenapi } from '@/utils/helpers'
 import type { PokemonSummary } from '@/types/openapi/schemas'
 import type { ChangeEvent, KeyboardEvent } from 'react'
 
@@ -89,7 +89,7 @@ export const PokemonTableTemplate = (props: Props) => {
   const handleDeletePokemon = useCallback(
     async (id: number) => {
       try {
-        await requestOpenApi({
+        await requestOpenapi({
           url: '/api/v2/pokemons/{id}',
           method: 'delete',
           path: {

@@ -1,4 +1,4 @@
-export { requestOpenApi } from './apiHelpers'
+export { requestOpenapi } from './apiHelpers'
 export { exceptionErrorToArray } from './errorHelpers'
 export {
   DEFAULT_META_TITLE,

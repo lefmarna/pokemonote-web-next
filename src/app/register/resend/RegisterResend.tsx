@@ -5,7 +5,7 @@ import { useState } from 'react'
 import { EmailInput } from '@/components/forms/EmailInput'
 import { FormTemplate } from '@/components/templates/FormTemplate'
 import { noAuthMiddleware } from '@/hocs/noAuthMiddleware'
-import { exceptionErrorToArray, requestOpenApi } from '@/utils/helpers'
+import { exceptionErrorToArray, requestOpenapi } from '@/utils/helpers'
 
 export const RegisterResend = noAuthMiddleware(() => {
   const router = useRouter()
@@ -19,7 +19,7 @@ export const RegisterResend = noAuthMiddleware(() => {
   // NOTE 登録直後はローカルストレージを活用するため、非同期通信によるメールアドレスの取得は行わない
   if (email === '') {
     const initSetEmail = async () => {
-      const response = await requestOpenApi({
+      const response = await requestOpenapi({
         url: '/api/v2/register/fetch',
         method: 'get',
       })
@@ -36,7 +36,7 @@ export const RegisterResend = noAuthMiddleware(() => {
   const resend = async (): Promise<void> => {
     try {
       setIsLoading(true)
-      await requestOpenApi({
+      await requestOpenapi({
         url: '/api/v2/register/resend',
         method: 'post',
         data: {

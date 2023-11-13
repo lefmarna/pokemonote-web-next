@@ -7,7 +7,7 @@ import { PasswordInput } from '@/components/forms/PasswordInput'
 import { Title } from '@/components/molecules/Title'
 import { FormTemplate } from '@/components/templates/FormTemplate'
 import { SLink } from '@/styles'
-import { exceptionErrorToArray, requestOpenApi } from '@/utils/helpers'
+import { exceptionErrorToArray, requestOpenapi } from '@/utils/helpers'
 
 /**
  * パスワード再設定の申請
@@ -46,7 +46,7 @@ export const PasswordVerify = () => {
   useEffect(() => {
     const verify = async () => {
       try {
-        await requestOpenApi({
+        await requestOpenapi({
           url: '/api/v2/password/verify/{userId}',
           method: 'get',
           path: {
@@ -72,7 +72,7 @@ export const PasswordVerify = () => {
   const submit = async () => {
     setIsLoading(true)
     try {
-      await requestOpenApi({
+      await requestOpenapi({
         url: '/api/v2/password/reset',
         method: 'put',
         data: resetPasswordParams,

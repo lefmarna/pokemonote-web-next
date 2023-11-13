@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { EmailInput } from '@/components/forms/EmailInput'
 import { FormTemplate } from '@/components/templates/FormTemplate'
-import { exceptionErrorToArray, requestOpenApi } from '@/utils/helpers'
+import { exceptionErrorToArray, requestOpenapi } from '@/utils/helpers'
 
 /**
  * パスワード再設定の申請
@@ -20,7 +20,7 @@ export const PasswordForgot = () => {
     setIsLoading(true)
 
     try {
-      await requestOpenApi({
+      await requestOpenapi({
         url: '/api/v2/password/email',
         method: 'post',
         data: {

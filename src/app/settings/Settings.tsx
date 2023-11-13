@@ -20,7 +20,7 @@ import { ErrorList } from '@/components/molecules/ErrorList'
 import { authMiddleware } from '@/hocs/authMiddleware'
 import { useAuthUserMutators, useAuthUserState } from '@/store/authUserState'
 import { MODAL_CLOSE_TIME_MS } from '@/utils/constants'
-import { exceptionErrorToArray, requestOpenApi, sleep } from '@/utils/helpers'
+import { exceptionErrorToArray, requestOpenapi, sleep } from '@/utils/helpers'
 
 export const Settings = authMiddleware(() => {
   const router = useRouter()
@@ -50,7 +50,7 @@ export const Settings = authMiddleware(() => {
   const updateAccount = async () => {
     setIsLoading(true)
     try {
-      await requestOpenApi({
+      await requestOpenapi({
         url: '/api/v2/settings/account',
         method: 'put',
         data: updateAccountParams,
@@ -75,7 +75,7 @@ export const Settings = authMiddleware(() => {
   const updateEmail = async () => {
     setIsLoading(true)
     try {
-      await requestOpenApi({
+      await requestOpenapi({
         url: '/api/v2/settings/email',
         method: 'post',
         data: updateEmailParams,
@@ -93,7 +93,7 @@ export const Settings = authMiddleware(() => {
   const updatePassword = async () => {
     setIsLoading(true)
     try {
-      await requestOpenApi({
+      await requestOpenapi({
         url: '/api/v2/settings/password',
         method: 'put',
         data: passwordParams,
@@ -111,7 +111,7 @@ export const Settings = authMiddleware(() => {
   const unsubscribe = async () => {
     setIsLoading(true)
     try {
-      await requestOpenApi({
+      await requestOpenapi({
         url: '/api/v2/settings/unsubscribe',
         method: 'delete',
       })

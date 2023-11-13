@@ -12,7 +12,7 @@ import {
 } from '@mui/material'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
-import { requestOpenApi } from '@/utils/helpers'
+import { requestOpenapi } from '@/utils/helpers'
 
 export const LefmarnaOtoiawase = () => {
   const router = useRouter()
@@ -26,7 +26,7 @@ export const LefmarnaOtoiawase = () => {
     event.preventDefault()
     setIsLoading(true)
     try {
-      await requestOpenApi({
+      await requestOpenapi({
         url: '/api/v2/lefmarna-otoiawase',
         method: 'post',
         data: {
