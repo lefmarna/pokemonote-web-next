@@ -100,9 +100,8 @@ export const PostedPokemon = memo(function PostedPokemon(props: Props) {
           sx={{ cursor: 'pointer', wordBreak: 'break-word', mb: 1 }}
           onClick={onClickCopyIcon}
         >
-          {'291(155)-289(119)-264(150)-175(138)-244(177)-201(173)'}
+          {pokemon.stats}
         </Box>
-        {/* <Box sx={{ wordBreak: 'break-word' }}>{pokemon.stats}</Box> */}
         {title === 'マイページ' &&
         authUser?.username === pokemon.user.username ? (
           <div>
