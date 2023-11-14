@@ -1,9 +1,10 @@
 'use client'
 
-import { AccountCircle } from '@mui/icons-material'
+import { Search } from '@mui/icons-material'
 import { Box, Container, Grid, Pagination, TextField } from '@mui/material'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useCallback, useEffect, useState } from 'react'
+import { theme } from '@/libs/mui'
 import { Title } from '@/components/molecules/Title'
 import { PostedPokemon } from '@/components/organisms/PostedPokemon'
 import { useMediaQueryUp } from '@/hooks/style/useMediaQueries'
@@ -122,15 +123,19 @@ export const PokemonTableTemplate = (props: Props) => {
       <Box sx={{ px: 1.5 }}>
         <Title text={title} />
       </Box>
-      <TextField
-        value={searchText ?? ''}
-        onChange={onChangeSearchText}
-        onKeyDown={onKeyDownSearchText}
-        onBlur={onBlurSearchText}
-        InputProps={{
-          startAdornment: <AccountCircle />,
-        }}
-      />
+      <Box sx={{ textAlign: 'right', mb: 2, pr: 2 }}>
+        <TextField
+          value={searchText ?? ''}
+          onChange={onChangeSearchText}
+          onKeyDown={onKeyDownSearchText}
+          onBlur={onBlurSearchText}
+          placeholder="Search"
+          variant="standard"
+          InputProps={{
+            endAdornment: <Search sx={{ color: theme.palette.grey[600] }} />,
+          }}
+        />
+      </Box>
       <Grid container>
         {filteredPokemons.map((pokemon, index) => (
           <PostedPokemon
