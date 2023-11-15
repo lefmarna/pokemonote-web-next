@@ -136,6 +136,14 @@ export interface paths {
   '/api/v2/pokemons': {
     /** ポケモン一覧API */
     get: {
+      parameters: {
+        query?: {
+          /** @description ページ */
+          page?: string
+          /** @description 検索ワード */
+          search?: string
+        }
+      }
       responses: {
         200: components['responses']['PokemonIndexResponse']
       }
@@ -900,6 +908,38 @@ export interface components {
         'application/json': {
           /** @description ポケモン一覧 */
           data: components['schemas']['PokemonSummary'][]
+          pagination: {
+            /**
+             * @description 現在のページ数
+             * @example 3
+             */
+            currentPage: number
+            /**
+             * @description 現在のページ
+             * @example 21
+             */
+            from: number
+            /**
+             * @description 現在のページ
+             * @example 21
+             */
+            to: number
+            /**
+             * @description 1ページあたりの件数
+             * @example 10
+             */
+            perPage: number
+            /**
+             * @description 総ページ数
+             * @example 5
+             */
+            count: number
+            /**
+             * @description 総件数
+             * @example 42
+             */
+            total: number
+          }
         }
       }
     }
