@@ -53,7 +53,18 @@ export const PokemonTableTemplate = (props: Props) => {
 
       // 4つ目と8つ目の要素の前にAdCodeを挿入する
       if (index === 3 || index === 7) {
-        return [<AdCode key={`ad-${index}`} slot="1632034496" />, ...item]
+        return [
+          <Grid
+            item
+            xs={12}
+            md={6}
+            key={`ad-${index}`}
+            sx={{ height: '83.5px' }}
+          >
+            <AdCode slot="1632034496" />
+          </Grid>,
+          ...item,
+        ]
       }
 
       return item
