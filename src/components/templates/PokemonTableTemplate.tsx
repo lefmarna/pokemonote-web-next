@@ -5,6 +5,7 @@ import { Box, Container, Grid, Pagination, TextField } from '@mui/material'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useCallback, useState } from 'react'
 import { theme } from '@/libs/mui'
+import { AdCode } from '../organisms/AdCode'
 import { Title } from '@/components/molecules/Title'
 import { PostedPokemon } from '@/components/organisms/PostedPokemon'
 import { useMediaQueryUp } from '@/hooks/style/useMediaQueries'
@@ -37,6 +38,27 @@ export const PokemonTableTemplate = (props: Props) => {
   const filteredPokemons = pokemons.filter((pokemon) => {
     return !deletedPokemonIds.includes(pokemon.id)
   })
+
+  const renderPokemons = () => {
+    return filteredPokemons.flatMap((pokemon, index) => {
+      const item = [
+        <PostedPokemon
+          key={pokemon.id}
+          title={title}
+          pokemon={pokemon}
+          handleDeletePokemon={handleDeletePokemon}
+          isLastLine={isLastLine(index)}
+        />,
+      ]
+
+      // 4つ目と8つ目の要素の前にAdCodeを挿入する
+      if (index === 3 || index === 7) {
+        return [<AdCode key={`ad-${index}`} slot="1632034496" />, ...item]
+      }
+
+      return item
+    })
+  }
 
   const createUrlWithParams = (
     pathname: string,
@@ -138,7 +160,8 @@ export const PokemonTableTemplate = (props: Props) => {
         />
       </Box>
       <Grid container>
-        {filteredPokemons.map((pokemon, index) => (
+        {renderPokemons()}
+        {/* {filteredPokemons.map((pokemon, index) => (
           <PostedPokemon
             key={pokemon.id}
             title={title}
@@ -146,7 +169,7 @@ export const PokemonTableTemplate = (props: Props) => {
             handleDeletePokemon={handleDeletePokemon}
             isLastLine={isLastLine(index)}
           />
-        ))}
+        ))} */}
         <Grid
           item
           sx={{
