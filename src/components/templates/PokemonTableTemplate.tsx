@@ -57,7 +57,9 @@ export const PokemonTableTemplate = (props: Props) => {
 
       return [
         <Grid item xs={12} md={6} key={`ad-${index}`}>
-          <AdCode slot="1632034496" style={{ height: '83.5px' }} />
+          <Box sx={{ height: '83.5px', width: '100%' }}>
+            <AdCode slot="1632034496" />
+          </Box>
         </Grid>,
         ...item,
       ]
