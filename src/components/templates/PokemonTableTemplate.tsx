@@ -3,7 +3,7 @@
 import { Search } from '@mui/icons-material'
 import { Box, Container, Grid, Pagination, TextField } from '@mui/material'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useState } from 'react'
 import { theme } from '@/libs/mui'
 import { Title } from '@/components/molecules/Title'
 import { PostedPokemon } from '@/components/organisms/PostedPokemon'
@@ -29,8 +29,10 @@ export const PokemonTableTemplate = (props: Props) => {
   const searchParams = useSearchParams()
   const initSearch = searchParams.get('search')
 
-  const [searchText, setSearchText] = useState(initSearch)
+  const [searchText, setSearchText] = useState(initSearch ?? '')
   const [deletedPokemonIds, setDeletedPokemonIds] = useState<number[]>([])
+
+  const isSameSearchText = searchText === (initSearch ?? '')
 
   const filteredPokemons = pokemons.filter((pokemon) => {
     return !deletedPokemonIds.includes(pokemon.id)
@@ -63,9 +65,7 @@ export const PokemonTableTemplate = (props: Props) => {
   const onKeyDownSearchText = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key !== 'Enter' || e.nativeEvent.isComposing) return
     if (!(e.target instanceof HTMLInputElement)) return
-
-    const isChangeSearchText = searchText === e.target.value
-    if (!isChangeSearchText) return
+    if (isSameSearchText) return
 
     const url = createUrlWithParams(pathname, {
       page: '1',
@@ -77,19 +77,16 @@ export const PokemonTableTemplate = (props: Props) => {
   }
 
   const onBlurSearchText = () => {
-    const currentPage = searchParams.get('page')
+    if (isSameSearchText) return
+
     const url = createUrlWithParams(pathname, {
-      page: currentPage,
+      page: searchParams.get('page'),
       search: searchText !== '' ? searchText : null,
     })
     router.replace(url, {
       scroll: false,
     })
   }
-
-  useEffect(() => {
-    setSearchText(initSearch)
-  }, [initSearch])
 
   const handleDeletePokemon = useCallback(
     async (id: number) => {
@@ -129,7 +126,7 @@ export const PokemonTableTemplate = (props: Props) => {
       </Box>
       <Box sx={{ textAlign: 'right', mb: 2, pr: 2 }}>
         <TextField
-          value={searchText ?? ''}
+          value={searchText}
           onChange={onChangeSearchText}
           onKeyDown={onKeyDownSearchText}
           onBlur={onBlurSearchText}
@@ -163,6 +160,7 @@ export const PokemonTableTemplate = (props: Props) => {
               count={paginate.count}
               page={paginate.currentPage}
               onChange={handleChangePage}
+              sx={{ mt: 1 }}
             />
           )}
         </Grid>

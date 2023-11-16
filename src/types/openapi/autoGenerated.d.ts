@@ -908,7 +908,7 @@ export interface components {
         'application/json': {
           /** @description ポケモン一覧 */
           data: components['schemas']['PokemonSummary'][]
-          pagination: {
+          paginate: {
             /**
              * @description 現在のページ数
              * @example 3

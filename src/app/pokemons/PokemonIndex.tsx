@@ -8,7 +8,7 @@ import { PokemonTableTemplate } from '@/components/templates/PokemonTableTemplat
 export const PokemonIndex = () => {
   const searchParams = useSearchParams()
 
-  const { data, isLoading, mutate } = useSWROpenApi({
+  const { data, isLoading } = useSWROpenApi({
     url: '/api/v2/pokemons',
     query: {
       page: searchParams.get('page') ?? undefined,
@@ -22,7 +22,7 @@ export const PokemonIndex = () => {
     <PokemonTableTemplate
       title="ポケモン一覧"
       pokemons={data?.data}
-      paginate={data?.pagination}
+      paginate={data?.paginate}
     />
   )
 }
