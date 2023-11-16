@@ -9,16 +9,18 @@ import { Title } from '@/components/molecules/Title'
 import { PostedPokemon } from '@/components/organisms/PostedPokemon'
 import { useMediaQueryUp } from '@/hooks/style/useMediaQueries'
 import { requestOpenapi } from '@/utils/helpers'
+import type { Paginate } from '@/types/front'
 import type { PokemonSummary } from '@/types/openapi/schemas'
 import type { ChangeEvent, KeyboardEvent } from 'react'
 
 type Props = {
   title: string
   pokemons?: PokemonSummary[]
+  paginate?: Paginate
 }
 
 export const PokemonTableTemplate = (props: Props) => {
-  const { title, pokemons = [] } = props
+  const { title, pokemons = [], paginate = undefined } = props
 
   const router = useRouter()
   const pathname = usePathname()
@@ -49,7 +51,7 @@ export const PokemonTableTemplate = (props: Props) => {
   const handleChangePage = (e: ChangeEvent<unknown>, value: number) => {
     const url = createUrlWithParams(pathname, {
       page: value ? String(value) : null,
-      search: searchText,
+      search: searchText !== '' ? searchText : null,
     })
     router.push(url)
   }
@@ -62,10 +64,12 @@ export const PokemonTableTemplate = (props: Props) => {
     if (e.key !== 'Enter' || e.nativeEvent.isComposing) return
     if (!(e.target instanceof HTMLInputElement)) return
 
-    const currentPage = searchParams.get('page')
+    const isChangeSearchText = searchText === e.target.value
+    if (!isChangeSearchText) return
+
     const url = createUrlWithParams(pathname, {
-      page: currentPage,
-      search: searchText,
+      page: '1',
+      search: searchText !== '' ? searchText : null,
     })
     router.replace(url, {
       scroll: false,
@@ -76,7 +80,7 @@ export const PokemonTableTemplate = (props: Props) => {
     const currentPage = searchParams.get('page')
     const url = createUrlWithParams(pathname, {
       page: currentPage,
-      search: searchText,
+      search: searchText !== '' ? searchText : null,
     })
     router.replace(url, {
       scroll: false,
@@ -153,7 +157,14 @@ export const PokemonTableTemplate = (props: Props) => {
             mx: 'auto',
           }}
         >
-          <Pagination color="primary" count={10} onChange={handleChangePage} />
+          {paginate && (
+            <Pagination
+              color="primary"
+              count={paginate.count}
+              page={paginate.currentPage}
+              onChange={handleChangePage}
+            />
+          )}
         </Grid>
       </Grid>
     </Container>
