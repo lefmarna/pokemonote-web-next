@@ -1,5 +1,5 @@
 import styled from '@emotion/styled'
-import { Box, Button, Grid } from '@mui/material'
+import { Box, Button } from '@mui/material'
 import { useRouter } from 'next/navigation'
 import { memo, type MouseEvent } from 'react'
 import { theme } from '@/libs/mui'
@@ -26,11 +26,10 @@ type Props = {
   title: string
   pokemon: PokemonSummary
   handleDeletePokemon: (id: number) => Promise<void>
-  isLastLine: boolean
 }
 
 export const PostedPokemon = memo(function PostedPokemon(props: Props) {
-  const { title, pokemon, handleDeletePokemon, isLastLine } = props
+  const { title, pokemon, handleDeletePokemon } = props
   const isSmDown = useMediaQueryDown('sm')
   const authUser = useAuthUserState()
   const router = useRouter()
@@ -59,75 +58,75 @@ export const PostedPokemon = memo(function PostedPokemon(props: Props) {
   }
 
   return (
-    <Grid item xs={12} md={6}>
-      <StyledBox isSmDown={isSmDown} isLastLine={isLastLine}>
+    // <StyledBox isSmDown={isSmDown} isLastLine={isLastLine}>
+    <>
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          flexWrap: 'wrap',
+        }}
+      >
         <Box
+          onClick={onClickPokemonName}
           sx={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            flexWrap: 'wrap',
+            cursor: 'pointer',
+            textDecoration: 'underline',
+            whiteSpace: 'nowrap',
+            overflow: 'hidden',
+            fontSize: '18px',
+            fontWeight: 'bold',
+            mb: 1,
           }}
         >
-          <Box
-            onClick={onClickPokemonName}
-            sx={{
-              cursor: 'pointer',
-              textDecoration: 'underline',
-              whiteSpace: 'nowrap',
-              overflow: 'hidden',
-              fontSize: '18px',
-              fontWeight: 'bold',
-              mb: 1,
-            }}
-          >
-            {pokemon.pokemonName}
-          </Box>
-          <Box
-            sx={{
-              width: '140px',
-              display: 'flex',
-              justifyContent: 'start',
-              alignItems: 'center',
-              mb: 1,
-            }}
-          >
-            <Box>Lv {pokemon.level ?? ''}</Box>
-            <Box sx={{ ml: 2 }}>{pokemon.natureName}</Box>
-          </Box>
+          {pokemon.pokemonName}
         </Box>
         <Box
-          sx={{ cursor: 'pointer', wordBreak: 'break-word', mb: 1 }}
-          onClick={onClickCopyIcon}
+          sx={{
+            width: '140px',
+            display: 'flex',
+            justifyContent: 'start',
+            alignItems: 'center',
+            mb: 1,
+          }}
         >
-          {pokemon.stats}
+          <Box>Lv {pokemon.level ?? ''}</Box>
+          <Box sx={{ ml: 2 }}>{pokemon.natureName}</Box>
         </Box>
-        {title === 'マイページ' &&
-        authUser?.username === pokemon.user.username ? (
-          <div>
-            <Button onClick={editPokemon}>編集</Button>
-            <Button onClick={onClickDeleteButton}>削除</Button>
-          </div>
-        ) : (
-          <Box
-            sx={{
-              whiteSpace: 'nowrap',
-              overflow: 'hidden',
-              fontSize: '12px',
+      </Box>
+      <Box
+        sx={{ cursor: 'pointer', wordBreak: 'break-word', mb: 1 }}
+        onClick={onClickCopyIcon}
+      >
+        {pokemon.stats}
+      </Box>
+      {title === 'マイページ' &&
+      authUser?.username === pokemon.user.username ? (
+        <div>
+          <Button onClick={editPokemon}>編集</Button>
+          <Button onClick={onClickDeleteButton}>削除</Button>
+        </div>
+      ) : (
+        <Box
+          sx={{
+            whiteSpace: 'nowrap',
+            overflow: 'hidden',
+            fontSize: '12px',
+          }}
+        >
+          投稿者：
+          <SLink
+            href={{
+              pathname: '/users/show',
+              query: { username: pokemon.user.username },
             }}
           >
-            投稿者：
-            <SLink
-              href={{
-                pathname: '/users/show',
-                query: { username: pokemon.user.username },
-              }}
-            >
-              {pokemon.user.nickname}
-            </SLink>
-          </Box>
-        )}
-      </StyledBox>
-    </Grid>
+            {pokemon.user.nickname}
+          </SLink>
+        </Box>
+      )}
+    </>
+    // </StyledBox>
   )
 })

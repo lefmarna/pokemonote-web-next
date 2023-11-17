@@ -1,18 +1,42 @@
 'use client'
 
 import { Search } from '@mui/icons-material'
-import { Box, Container, Grid, Pagination, TextField } from '@mui/material'
+import {
+  Box,
+  Container,
+  Grid,
+  Pagination,
+  TextField,
+  styled,
+} from '@mui/material'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useCallback, useState } from 'react'
 import { theme } from '@/libs/mui'
 import { AdCode } from '../organisms/AdCode'
 import { Title } from '@/components/molecules/Title'
 import { PostedPokemon } from '@/components/organisms/PostedPokemon'
-import { useMediaQueryUp } from '@/hooks/style/useMediaQueries'
+import {
+  useMediaQueryDown,
+  useMediaQueryUp,
+} from '@/hooks/style/useMediaQueries'
 import { requestOpenapi } from '@/utils/helpers'
 import type { Paginate } from '@/types/front'
 import type { PokemonSummary } from '@/types/openapi/schemas'
 import type { ChangeEvent, KeyboardEvent } from 'react'
+
+const StyledBox = styled('div')(
+  ({ isSmDown, isLastLine }: { isSmDown: boolean; isLastLine: boolean }) => ({
+    borderTop: `1px solid ${theme.palette.divider}`,
+    borderBottom: isLastLine ? `1px solid ${theme.palette.divider}` : 'none',
+    borderLeft: isSmDown ? 'none' : `1px solid ${theme.palette.divider}`,
+    borderRight: isSmDown ? 'none' : `1px solid ${theme.palette.divider}`,
+    fontSize: '15px',
+    padding: `${theme.spacing(2)}`,
+    margin: '0 auto',
+    marginBottom: '-1px',
+    maxWidth: isSmDown ? '100%' : 'calc(100% - 24px)',
+  })
+)
 
 type Props = {
   title: string
@@ -26,6 +50,7 @@ export const PokemonTableTemplate = (props: Props) => {
   const router = useRouter()
   const pathname = usePathname()
   const isMdUp = useMediaQueryUp('md')
+  const isSmDown = useMediaQueryDown('sm')
 
   const searchParams = useSearchParams()
   const initSearch = searchParams.get('search')
@@ -42,13 +67,15 @@ export const PokemonTableTemplate = (props: Props) => {
   const renderPokemons = () => {
     return filteredPokemons.flatMap((pokemon, index) => {
       const item = [
-        <PostedPokemon
-          key={pokemon.id}
-          title={title}
-          pokemon={pokemon}
-          handleDeletePokemon={handleDeletePokemon}
-          isLastLine={isLastLine(index)}
-        />,
+        <Grid item xs={12} md={6} key={pokemon.id}>
+          <StyledBox isSmDown={isSmDown} isLastLine={isLastLine(index)}>
+            <PostedPokemon
+              title={title}
+              pokemon={pokemon}
+              handleDeletePokemon={handleDeletePokemon}
+            />
+          </StyledBox>
+        </Grid>,
       ]
 
       // 4つ目と8つ目の要素の前にAdCodeを挿入する
@@ -56,11 +83,13 @@ export const PokemonTableTemplate = (props: Props) => {
 
       return [
         <Grid item xs={12} md={6} key={`ad-${index}`}>
-          <AdCode
-            slot="8228947029"
-            style={{ display: 'block', height: '83.5px' }}
-            format="fluid"
-          />
+          <StyledBox isSmDown={isSmDown} isLastLine={isLastLine(index)}>
+            <AdCode
+              slot="8228947029"
+              style={{ display: 'block', height: '83.5px' }}
+              format="fluid"
+            />
+          </StyledBox>
         </Grid>,
         ...item,
       ]
