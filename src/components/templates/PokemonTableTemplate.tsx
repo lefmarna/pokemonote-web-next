@@ -3,7 +3,6 @@
 import { Search } from '@mui/icons-material'
 import { Box, Container, Grid, Pagination, TextField } from '@mui/material'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import router from 'next/router'
 import { useCallback, useState } from 'react'
 import { theme } from '@/libs/mui'
 import { AdCode } from '../organisms/AdCode'
@@ -57,9 +56,11 @@ export const PokemonTableTemplate = (props: Props) => {
 
       return [
         <Grid item xs={12} md={6} key={`ad-${index}`}>
-          <Box sx={{ height: '83.5px', width: '100%' }}>
-            <AdCode slot="1632034496" />
-          </Box>
+          <AdCode
+            slot="8228947029"
+            style={{ display: 'block', height: '83.5px' }}
+            format="fluid"
+          />
         </Grid>,
         ...item,
       ]
