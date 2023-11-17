@@ -91,7 +91,11 @@ export const PokemonTableTemplate = (props: Props) => {
 
       return [
         <Grid item xs={12} md={6} key={`ad-${index}`}>
-          <StyledBox isSmDown={isSmDown} isLastLine={isLastLine(index)}>
+          <StyledBox
+            isSmDown={isSmDown}
+            isLastLine={isLastLine(index)}
+            isAdsense
+          >
             <AdCode
               slot="8228947029"
               style={{ display: 'block', maxWidth: '100%', height: '83.5px' }}
