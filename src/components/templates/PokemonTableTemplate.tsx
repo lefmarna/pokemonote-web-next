@@ -39,9 +39,9 @@ const StyledBox = styled('div')(
     borderLeft: isSmDown ? 'none' : `1px solid ${theme.palette.divider}`,
     borderRight: isSmDown ? 'none' : `1px solid ${theme.palette.divider}`,
     fontSize: '15px',
-    padding: isAdsense ? 0 : `${theme.spacing(2)}`,
+    padding: isAdsense ? '0 0 -1px 0' : `${theme.spacing(2)}`,
     margin: '0 auto',
-    marginBottom: '-1px',
+    marginBottom: isAdsense ? '0px' : '-1px',
     maxWidth: isSmDown ? '100%' : 'calc(100% - 24px)',
   })
 )
