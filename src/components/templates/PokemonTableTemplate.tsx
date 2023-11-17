@@ -98,7 +98,7 @@ export const PokemonTableTemplate = (props: Props) => {
           >
             <AdCode
               slot="8228947029"
-              style={{ display: 'block', maxWidth: '100%', height: '83.5px' }}
+              style={{ display: 'block', width: '100%', height: '115.5px' }}
               format="fluid"
             />
           </StyledBox>
