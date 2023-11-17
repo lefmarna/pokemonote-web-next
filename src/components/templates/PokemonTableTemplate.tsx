@@ -25,13 +25,21 @@ import type { PokemonSummary } from '@/types/openapi/schemas'
 import type { ChangeEvent, KeyboardEvent } from 'react'
 
 const StyledBox = styled('div')(
-  ({ isSmDown, isLastLine }: { isSmDown: boolean; isLastLine: boolean }) => ({
+  ({
+    isSmDown,
+    isLastLine,
+    isAdsense = false,
+  }: {
+    isSmDown: boolean
+    isLastLine: boolean
+    isAdsense?: boolean
+  }) => ({
     borderTop: `1px solid ${theme.palette.divider}`,
     borderBottom: isLastLine ? `1px solid ${theme.palette.divider}` : 'none',
     borderLeft: isSmDown ? 'none' : `1px solid ${theme.palette.divider}`,
     borderRight: isSmDown ? 'none' : `1px solid ${theme.palette.divider}`,
     fontSize: '15px',
-    padding: `${theme.spacing(2)}`,
+    padding: isAdsense ? 0 : `${theme.spacing(2)}`,
     margin: '0 auto',
     marginBottom: '-1px',
     maxWidth: isSmDown ? '100%' : 'calc(100% - 24px)',
@@ -86,7 +94,7 @@ export const PokemonTableTemplate = (props: Props) => {
           <StyledBox isSmDown={isSmDown} isLastLine={isLastLine(index)}>
             <AdCode
               slot="8228947029"
-              style={{ display: 'block', height: '83.5px' }}
+              style={{ display: 'block', maxWidth: '100%', height: '83.5px' }}
               format="fluid"
             />
           </StyledBox>
