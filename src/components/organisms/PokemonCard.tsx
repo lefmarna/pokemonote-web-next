@@ -1,3 +1,5 @@
+'use client'
+
 import { Box, Button } from '@mui/material'
 import { useRouter } from 'next/navigation'
 import { memo, type MouseEvent } from 'react'

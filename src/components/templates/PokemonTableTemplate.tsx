@@ -3,15 +3,10 @@
 import { Search } from '@mui/icons-material'
 import { Box, Container, Grid, Pagination, TextField } from '@mui/material'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { useCallback, useState } from 'react'
+import { useState } from 'react'
 import { theme } from '@/libs/mui'
 import { Title } from '@/components/molecules/Title'
 import { PokemonCards } from '@/components/organisms/PokemonCards'
-import {
-  useMediaQueryDown,
-  useMediaQueryUp,
-} from '@/hooks/style/useMediaQueries'
-import { requestOpenapi } from '@/utils/helpers'
 import type { Paginate } from '@/types/front'
 import type { PokemonSummary } from '@/types/openapi/schemas'
 import type { ChangeEvent, KeyboardEvent } from 'react'
@@ -24,23 +19,14 @@ type Props = {
 
 export const PokemonTableTemplate = (props: Props) => {
   const { title, pokemons = [], paginate = undefined } = props
-
-  const router = useRouter()
   const pathname = usePathname()
-  const isMdUp = useMediaQueryUp('md')
-  const isSmDown = useMediaQueryDown('sm')
+  const router = useRouter()
 
   const searchParams = useSearchParams()
   const initSearch = searchParams.get('search')
 
   const [searchText, setSearchText] = useState(initSearch ?? '')
-  const [deletedPokemonIds, setDeletedPokemonIds] = useState<number[]>([])
-
   const isSameSearchText = searchText === (initSearch ?? '')
-
-  const filteredPokemons = pokemons.filter((pokemon) => {
-    return !deletedPokemonIds.includes(pokemon.id)
-  })
 
   const createUrlWithParams = (
     pathname: string,
@@ -92,37 +78,6 @@ export const PokemonTableTemplate = (props: Props) => {
     })
   }
 
-  const handleDeletePokemon = useCallback(
-    async (id: number) => {
-      try {
-        await requestOpenapi({
-          url: '/api/v2/pokemons/{id}',
-          method: 'delete',
-          path: {
-            id: String(id),
-          },
-        })
-        // フロント側でもテーブルから削除する必要がある
-        setDeletedPokemonIds((prevDeletedPokemonIds) => [
-          ...prevDeletedPokemonIds,
-          id,
-        ])
-      } catch (error) {
-        console.log(error)
-        router.push('/')
-      }
-    },
-    [router]
-  )
-
-  const isLastLine = useCallback(
-    (index: number) => {
-      if (isMdUp) return index >= pokemons.length - 2
-      return index === pokemons.length - 1
-    },
-    [pokemons.length, isMdUp]
-  )
-
   return (
     <Container disableGutters sx={{ my: 3 }}>
       <Box sx={{ px: 1.5 }}>
@@ -142,12 +97,7 @@ export const PokemonTableTemplate = (props: Props) => {
         />
       </Box>
       <Grid container>
-        <PokemonCards
-          pokemons={filteredPokemons}
-          isSmDown={isSmDown}
-          handleDeletePokemon={handleDeletePokemon}
-          isLastLine={isLastLine}
-        />
+        <PokemonCards pokemons={pokemons} />
         <Grid
           item
           sx={{

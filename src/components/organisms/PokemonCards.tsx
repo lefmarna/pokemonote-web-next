@@ -2,13 +2,19 @@
 
 import { title } from 'process'
 import { Grid, styled } from '@mui/material'
+import { useRouter } from 'next/navigation'
+import { useCallback, useState } from 'react'
 import { theme } from '@/libs/mui'
 import { AdCode } from '@/components/organisms/AdCode'
 import { PokemonCard } from '@/components/organisms/PokemonCard'
-import { useMediaQueryUp } from '@/hooks/style/useMediaQueries'
+import {
+  useMediaQueryDown,
+  useMediaQueryUp,
+} from '@/hooks/style/useMediaQueries'
+import { requestOpenapi } from '@/utils/helpers'
 import type { PokemonSummary } from '@/types/openapi/schemas'
 
-const StyledBox = styled('div')(
+const PokemonCardWrapper = styled('div')(
   ({
     isSmDown,
     isLastLine,
@@ -32,25 +38,61 @@ const StyledBox = styled('div')(
 
 type Props = {
   pokemons: PokemonSummary[]
-  isSmDown: boolean
-  handleDeletePokemon: (id: number) => Promise<void>
-  isLastLine: (index: number) => boolean
 }
 
 export const PokemonCards = (props: Props) => {
-  const { pokemons, isSmDown, handleDeletePokemon, isLastLine } = props
+  const { pokemons } = props
+  const router = useRouter()
+
+  const isSmDown = useMediaQueryDown('sm')
   const isMdUp = useMediaQueryUp('md')
 
-  return pokemons.flatMap((pokemon, index) => {
+  const [deletedPokemonIds, setDeletedPokemonIds] = useState<number[]>([])
+  const filteredPokemons = pokemons.filter((pokemon) => {
+    return !deletedPokemonIds.includes(pokemon.id)
+  })
+
+  const handleDeletePokemon = useCallback(
+    async (id: number) => {
+      try {
+        await requestOpenapi({
+          url: '/api/v2/pokemons/{id}',
+          method: 'delete',
+          path: {
+            id: String(id),
+          },
+        })
+        // フロント側でもテーブルから削除する必要がある
+        setDeletedPokemonIds((prevDeletedPokemonIds) => [
+          ...prevDeletedPokemonIds,
+          id,
+        ])
+      } catch (error) {
+        console.log(error)
+        router.push('/')
+      }
+    },
+    [router]
+  )
+
+  const isLastLine = useCallback(
+    (index: number) => {
+      if (isMdUp) return index >= pokemons.length - 2
+      return index === pokemons.length - 1
+    },
+    [pokemons.length, isMdUp]
+  )
+
+  return filteredPokemons.flatMap((pokemon, index) => {
     const item = (
       <Grid item xs={12} md={6} key={pokemon.id}>
-        <StyledBox isSmDown={isSmDown} isLastLine={isLastLine(index)}>
+        <PokemonCardWrapper isSmDown={isSmDown} isLastLine={isLastLine(index)}>
           <PokemonCard
             title={title}
             pokemon={pokemon}
             handleDeletePokemon={handleDeletePokemon}
           />
-        </StyledBox>
+        </PokemonCardWrapper>
       </Grid>
     )
 
@@ -59,13 +101,13 @@ export const PokemonCards = (props: Props) => {
 
     return [
       <Grid item xs={12} md={6} key={`ad-${index}`}>
-        <StyledBox isSmDown={isSmDown} isLastLine={isLastLine(index)} isAdsense>
-          <AdCode
-            slot="8228947029"
-            style={{ display: 'block', width: '100%' }}
-            format="fluid"
-          />
-        </StyledBox>
+        <PokemonCardWrapper
+          isSmDown={isSmDown}
+          isLastLine={isLastLine(index)}
+          isAdsense
+        >
+          <AdCode slot="8228947029" format="fluid" />
+        </PokemonCardWrapper>
       </Grid>,
       item,
     ]
