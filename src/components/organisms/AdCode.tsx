@@ -1,6 +1,6 @@
 'use client'
 
-import { memo, useLayoutEffect } from 'react'
+import { useLayoutEffect } from 'react'
 import type { CSSProperties } from 'react'
 
 type Props = {
@@ -10,7 +10,7 @@ type Props = {
   responsive?: string
 }
 
-export const AdCode = memo(function AdCode(props: Props) {
+export const AdCode = (props: Props) => {
   const {
     slot,
     style = { display: 'block' },
@@ -41,4 +41,4 @@ export const AdCode = memo(function AdCode(props: Props) {
       data-full-width-responsive={responsive}
     />
   )
-})
+}
