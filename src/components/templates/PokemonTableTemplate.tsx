@@ -1,20 +1,12 @@
 'use client'
 
 import { Search } from '@mui/icons-material'
-import {
-  Box,
-  Container,
-  Grid,
-  Pagination,
-  TextField,
-  styled,
-} from '@mui/material'
+import { Box, Container, Grid, Pagination, TextField } from '@mui/material'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useCallback, useState } from 'react'
 import { theme } from '@/libs/mui'
-import { AdCode } from '../organisms/AdCode'
 import { Title } from '@/components/molecules/Title'
-import { PokemonCard } from '@/components/organisms/PokemonCard'
+import { PokemonCards } from '@/components/organisms/PokemonCards'
 import {
   useMediaQueryDown,
   useMediaQueryUp,
@@ -23,28 +15,6 @@ import { requestOpenapi } from '@/utils/helpers'
 import type { Paginate } from '@/types/front'
 import type { PokemonSummary } from '@/types/openapi/schemas'
 import type { ChangeEvent, KeyboardEvent } from 'react'
-
-const StyledBox = styled('div')(
-  ({
-    isSmDown,
-    isLastLine,
-    isAdsense = false,
-  }: {
-    isSmDown: boolean
-    isLastLine: boolean
-    isAdsense?: boolean
-  }) => ({
-    borderTop: `1px solid ${theme.palette.divider}`,
-    borderBottom: isLastLine ? `1px solid ${theme.palette.divider}` : 'none',
-    borderLeft: isSmDown ? 'none' : `1px solid ${theme.palette.divider}`,
-    borderRight: isSmDown ? 'none' : `1px solid ${theme.palette.divider}`,
-    fontSize: '15px',
-    padding: isAdsense ? '0 0 -1px 0' : `${theme.spacing(2)}`,
-    margin: '0 auto',
-    marginBottom: isAdsense ? '0px' : '-1px',
-    maxWidth: isSmDown ? '100%' : 'calc(100% - 24px)',
-  })
-)
 
 type Props = {
   title: string
@@ -71,42 +41,6 @@ export const PokemonTableTemplate = (props: Props) => {
   const filteredPokemons = pokemons.filter((pokemon) => {
     return !deletedPokemonIds.includes(pokemon.id)
   })
-
-  const renderPokemons = () => {
-    return filteredPokemons.flatMap((pokemon, index) => {
-      const item = [
-        <Grid item xs={12} md={6} key={pokemon.id}>
-          <StyledBox isSmDown={isSmDown} isLastLine={isLastLine(index)}>
-            <PokemonCard
-              title={title}
-              pokemon={pokemon}
-              handleDeletePokemon={handleDeletePokemon}
-            />
-          </StyledBox>
-        </Grid>,
-      ]
-
-      // 4つ並べるごとにAdCodeを挿入する
-      if (index % 4 !== 3 || isMdUp) return item
-
-      return [
-        <Grid item xs={12} md={6} key={`ad-${index}`}>
-          <StyledBox
-            isSmDown={isSmDown}
-            isLastLine={isLastLine(index)}
-            isAdsense
-          >
-            <AdCode
-              slot="8228947029"
-              style={{ display: 'block', width: '100%' }}
-              format="fluid"
-            />
-          </StyledBox>
-        </Grid>,
-        ...item,
-      ]
-    })
-  }
 
   const createUrlWithParams = (
     pathname: string,
@@ -208,16 +142,12 @@ export const PokemonTableTemplate = (props: Props) => {
         />
       </Box>
       <Grid container>
-        {renderPokemons()}
-        {/* {filteredPokemons.map((pokemon, index) => (
-          <PostedPokemon
-            key={pokemon.id}
-            title={title}
-            pokemon={pokemon}
-            handleDeletePokemon={handleDeletePokemon}
-            isLastLine={isLastLine(index)}
-          />
-        ))} */}
+        <PokemonCards
+          pokemons={filteredPokemons}
+          isSmDown={isSmDown}
+          handleDeletePokemon={handleDeletePokemon}
+          isLastLine={isLastLine}
+        />
         <Grid
           item
           sx={{
