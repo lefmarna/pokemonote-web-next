@@ -1,26 +1,9 @@
-import styled from '@emotion/styled'
 import { Box, Button } from '@mui/material'
 import { useRouter } from 'next/navigation'
 import { memo, type MouseEvent } from 'react'
-import { theme } from '@/libs/mui'
-import { useMediaQueryDown } from '@/hooks/style/useMediaQueries'
 import { useAuthUserState } from '@/store/authUserState'
 import { SLink } from '@/styles'
 import type { PokemonSummary } from '@/types/openapi/schemas'
-
-const StyledBox = styled('div')(
-  ({ isSmDown, isLastLine }: { isSmDown: boolean; isLastLine: boolean }) => ({
-    borderTop: `1px solid ${theme.palette.divider}`,
-    borderBottom: isLastLine ? `1px solid ${theme.palette.divider}` : 'none',
-    borderLeft: isSmDown ? 'none' : `1px solid ${theme.palette.divider}`,
-    borderRight: isSmDown ? 'none' : `1px solid ${theme.palette.divider}`,
-    fontSize: '15px',
-    padding: `${theme.spacing(2)}`,
-    margin: '0 auto',
-    marginBottom: '-1px',
-    maxWidth: isSmDown ? '100%' : 'calc(100% - 24px)',
-  })
-)
 
 type Props = {
   title: string
@@ -28,9 +11,8 @@ type Props = {
   handleDeletePokemon: (id: number) => Promise<void>
 }
 
-export const PostedPokemon = memo(function PostedPokemon(props: Props) {
+export const PokemonCard = memo(function PokemonCard(props: Props) {
   const { title, pokemon, handleDeletePokemon } = props
-  const isSmDown = useMediaQueryDown('sm')
   const authUser = useAuthUserState()
   const router = useRouter()
 
@@ -58,7 +40,6 @@ export const PostedPokemon = memo(function PostedPokemon(props: Props) {
   }
 
   return (
-    // <StyledBox isSmDown={isSmDown} isLastLine={isLastLine}>
     <>
       <Box
         sx={{
@@ -127,6 +108,5 @@ export const PostedPokemon = memo(function PostedPokemon(props: Props) {
         </Box>
       )}
     </>
-    // </StyledBox>
   )
 })

@@ -14,7 +14,7 @@ import { useCallback, useState } from 'react'
 import { theme } from '@/libs/mui'
 import { AdCode } from '../organisms/AdCode'
 import { Title } from '@/components/molecules/Title'
-import { PostedPokemon } from '@/components/organisms/PostedPokemon'
+import { PokemonCard } from '@/components/organisms/PokemonCard'
 import {
   useMediaQueryDown,
   useMediaQueryUp,
@@ -77,7 +77,7 @@ export const PokemonTableTemplate = (props: Props) => {
       const item = [
         <Grid item xs={12} md={6} key={pokemon.id}>
           <StyledBox isSmDown={isSmDown} isLastLine={isLastLine(index)}>
-            <PostedPokemon
+            <PokemonCard
               title={title}
               pokemon={pokemon}
               handleDeletePokemon={handleDeletePokemon}
@@ -86,8 +86,8 @@ export const PokemonTableTemplate = (props: Props) => {
         </Grid>,
       ]
 
-      // 4つ目と8つ目の要素の前にAdCodeを挿入する
-      if (index !== 3 && index !== 7) return item
+      // 4つ並べるごとにAdCodeを挿入する
+      if (index % 4 !== 3) return item
 
       return [
         <Grid item xs={12} md={6} key={`ad-${index}`}>
@@ -98,7 +98,7 @@ export const PokemonTableTemplate = (props: Props) => {
           >
             <AdCode
               slot="8228947029"
-              style={{ display: 'block', width: '100%', height: '115.5px' }}
+              style={{ display: 'block', width: '100%' }}
               format="fluid"
             />
           </StyledBox>
