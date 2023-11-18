@@ -87,7 +87,7 @@ export const PokemonTableTemplate = (props: Props) => {
       ]
 
       // 4つ並べるごとにAdCodeを挿入する
-      if (index % 4 !== 3) return item
+      if (index % 4 !== 3 || isMdUp) return item
 
       return [
         <Grid item xs={12} md={6} key={`ad-${index}`}>
