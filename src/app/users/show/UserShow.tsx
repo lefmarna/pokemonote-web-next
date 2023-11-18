@@ -10,14 +10,17 @@ import type { User } from '@/types/openapi/schemas'
 import type { PokemonSummary } from '@/types/openapi/schemas'
 
 export const UserShow = () => {
-  const [user, setUser] = useState<User | null>(null)
-  const [pokemonSummaries, setPokemonSummaries] = useState<PokemonSummary[]>([])
   const authUser = useAuthUserState()
-
   const router = useRouter()
   const searchParams = useSearchParams()
 
-  const { data, error } = useSWROpenApi({
+  const [user, setUser] = useState<User | null>(null)
+  const [pokemonSummaries, setPokemonSummaries] = useState<PokemonSummary[]>([])
+  const [currentPage, setCurrentPage] = useState(
+    searchParams.get('page') ? Number(searchParams.get('page')) : 1
+  )
+
+  const { data, isLoading, error } = useSWROpenApi({
     url: '/api/v2/users/{username}',
     path: {
       username: searchParams.get('username') ?? '',
@@ -37,12 +40,35 @@ export const UserShow = () => {
     router.push('/')
   }, [error, router])
 
-  if (user === null) return <LoadingPageTemplate />
+  if (isLoading || user === null) return <LoadingPageTemplate />
+
+  const PER_PAGE = 10
+  const pageCount = Math.ceil(pokemonSummaries.length / PER_PAGE)
+
+  const paginate = {
+    currentPage,
+    perPage: PER_PAGE,
+    count: pageCount,
+    total: pokemonSummaries.length,
+  }
+
+  const chunkArray = <T,>(array: T[], chunkSize: number) =>
+    Array.from({ length: Math.ceil(array.length / chunkSize) }, (_, index) =>
+      array.slice(index * chunkSize, (index + 1) * chunkSize)
+    )
+
+  const chunkedPokemons = chunkArray(pokemonSummaries, PER_PAGE)
 
   const title =
     authUser?.username === user.username
       ? 'マイページ'
       : `${user.username}さんの投稿`
 
-  return <PokemonTableTemplate title={title} pokemons={pokemonSummaries} />
+  return (
+    <PokemonTableTemplate
+      title={title}
+      pokemons={chunkedPokemons[currentPage - 1]}
+      paginate={paginate}
+    />
+  )
 }

@@ -45,8 +45,8 @@ export type ShowUser = {
 
 export type Paginate = {
   currentPage: number
-  from: number
-  to: number
+  from?: number
+  to?: number
   perPage: number
   count: number
   total: number
