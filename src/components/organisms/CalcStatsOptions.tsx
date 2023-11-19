@@ -164,7 +164,7 @@ export const CalcStatsOptions = memo(function CalcStatsOptions(props: Props) {
       <Grid item xs={12} md={6}>
         <AdCode
           slot="1632034496"
-          style={{ display: 'block', height: '232px' }}
+          style={{ display: 'block', height: '160px', width: '215px' }}
         />
       </Grid>
       <Grid item xs={12}>
