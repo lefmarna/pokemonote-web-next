@@ -42,7 +42,7 @@ export const PokemonTableTemplate = (props: Props) => {
 
   const handleChangePage = (e: ChangeEvent<unknown>, value: number) => {
     const url = createUrlWithParams(pathname, {
-      page: value ? String(value) : null,
+      page: value && value !== 1 ? String(value) : null,
       search: searchText !== '' ? searchText : null,
     })
     router.push(url)
