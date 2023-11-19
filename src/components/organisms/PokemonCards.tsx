@@ -106,7 +106,7 @@ export const PokemonCards = (props: Props) => {
           isLastLine={isLastLine(index)}
           isAdsense
         >
-          <AdCode slot="8228947029" format="fluid" />
+          <AdCode slot="8228947029" format="rectangle" />
         </PokemonCardWrapper>
       </Grid>,
       item,

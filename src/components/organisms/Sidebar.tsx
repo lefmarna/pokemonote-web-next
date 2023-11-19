@@ -170,7 +170,6 @@ export const Sidebar = (props: Props) => {
       <Box sx={{ mx: 'auto' }}>
         <AdCode
           slot="4559543564"
-          format="rectangle"
           style={{
             display: 'inline-block',
             width: '232px',
