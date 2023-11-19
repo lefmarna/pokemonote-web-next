@@ -3,7 +3,6 @@
 import styled from '@emotion/styled'
 import { LoadingButton } from '@mui/lab'
 import {
-  Box,
   Button,
   Card,
   CardActions,
@@ -163,12 +162,11 @@ export const CalcStatsOptions = memo(function CalcStatsOptions(props: Props) {
         </MyCard>
       </Grid>
       <Grid item xs={12} md={6}>
-        <Box sx={{ mx: 'auto' }}>
-          <AdCode
-            slot="1632034496"
-            style={{ display: 'block', height: '160px', width: '215px' }}
-          />
-        </Box>
+        <AdCode
+          slot="1632034496"
+          format="rectangle"
+          style={{ display: 'inline-block', width: '215px', height: '160px' }}
+        />
       </Grid>
       <Grid item xs={12}>
         <MyCard>

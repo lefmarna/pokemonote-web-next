@@ -172,7 +172,7 @@ export const Sidebar = (props: Props) => {
           slot="4559543564"
           format="rectangle"
           style={{
-            display: 'block',
+            display: 'inline-block',
             width: '232px',
             height: '232px',
             marginTop: '12px',
