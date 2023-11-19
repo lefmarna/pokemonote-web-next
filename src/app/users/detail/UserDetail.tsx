@@ -9,7 +9,7 @@ import { useAuthUserState } from '@/store/authUserState'
 import type { User } from '@/types/openapi/schemas'
 import type { PokemonSummary } from '@/types/openapi/schemas'
 
-export const UserShow = () => {
+export const UserDetail = () => {
   const authUser = useAuthUserState()
   const router = useRouter()
   const searchParams = useSearchParams()

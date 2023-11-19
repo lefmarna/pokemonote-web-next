@@ -161,7 +161,7 @@ export const CalcStatsOptions = memo(function CalcStatsOptions(props: Props) {
           </Typography>
         </MyCard>
       </Grid>
-      <Grid item xs={12} md={6} sx={{ p: 1 }}>
+      <Grid item xs={12} md={6}>
         <AdCode slot="1632034496" />
       </Grid>
       <Grid item xs={12}>

@@ -20,7 +20,7 @@ import { SLink } from '@/styles'
 import { requestOpenapi } from '@/utils/helpers'
 import type { PokemonBasicInfo, PokemonSummary } from '@/types/openapi/schemas'
 
-export const PokemonShow = () => {
+export const PokemonDetail = () => {
   const searchParams = useSearchParams()
 
   const router = useRouter()
@@ -83,7 +83,7 @@ export const PokemonShow = () => {
           id: String(id),
         },
       })
-      router.replace(`/users/show/?username=${authUser?.username}`)
+      router.replace(`/users/detail/?username=${authUser?.username}`)
     } catch (error) {
       router.push('/')
     }
@@ -158,7 +158,7 @@ export const PokemonShow = () => {
           投稿者：
           <SLink
             href={{
-              pathname: '/users/show',
+              pathname: '/users/detail',
               query: { username: pokemonSummary.user.username },
             }}
           >

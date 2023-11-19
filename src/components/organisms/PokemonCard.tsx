@@ -19,7 +19,7 @@ export const PokemonCard = memo(function PokemonCard(props: Props) {
   const router = useRouter()
 
   const onClickPokemonName = () => {
-    router.push(`/pokemons/show?id=${pokemon.id}`)
+    router.push(`/pokemons/detail?id=${pokemon.id}`)
   }
 
   const onClickCopyIcon = (event: MouseEvent<HTMLDivElement>) => {
@@ -101,7 +101,7 @@ export const PokemonCard = memo(function PokemonCard(props: Props) {
           投稿者：
           <SLink
             href={{
-              pathname: '/users/show',
+              pathname: '/users/detail',
               query: { username: pokemon.user.username },
             }}
           >
