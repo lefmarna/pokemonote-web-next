@@ -11,7 +11,6 @@ import {
 } from '@mui/material'
 import { Box } from '@mui/system'
 import { useState } from 'react'
-import { AdCode } from '../organisms/AdCode'
 import { Title } from '@/components/molecules/Title'
 import { BaseStatsField } from '@/components/organisms/BaseStatsField'
 import { CalcStatsOptions } from '@/components/organisms/CalcStatsOptions'
@@ -366,9 +365,6 @@ export const CalcStatsTemplate = (props: Props) => {
           </Paper>
         </Box>
       )}
-      <Box sx={{ mx: 'auto' }}>
-        <AdCode slot="4559543564" />
-      </Box>
     </>
   )
 }

@@ -20,6 +20,7 @@ import {
   Typography,
 } from '@mui/material'
 import { memo, useState } from 'react'
+import { AdCode } from '@/components/organisms/AdCode'
 import { useAuthUserState } from '@/store/authUserState'
 import type { NullableStats, Stats } from '@/types/front'
 import type { SelectChangeEvent } from '@mui/material'
@@ -160,8 +161,8 @@ export const CalcStatsOptions = memo(function CalcStatsOptions(props: Props) {
           </Typography>
         </MyCard>
       </Grid>
-      <Grid item xs={12} md={6}>
-        公開
+      <Grid item xs={12} md={6} sx={{ p: 1 }}>
+        <AdCode slot="1632034496" />
       </Grid>
       <Grid item xs={12}>
         <MyCard>
