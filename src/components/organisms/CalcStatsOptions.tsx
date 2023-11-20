@@ -30,8 +30,8 @@ const MyCard = styled('div')`
   height: 100%;
   background-color: #fff;
   color: rgba(0, 0, 0, 0.87);
-  border-radius: 24px;
-  border: thin solid rgba(0, 0, 0, 0.12);
+  border-radius: 12px;
+  border: thin solid rgba(0, 0, 0, 0.24);
   display: block;
   max-width: 100%;
   outline: none;
@@ -152,7 +152,7 @@ export const CalcStatsOptions = memo(function CalcStatsOptions(props: Props) {
       <Grid item xs={12} md={6}>
         <MyCard>
           <MyCardTitle>耐久指数</MyCardTitle>
-          <Typography variant="body1" gutterBottom sx={{ px: 2, pb: 2 }}>
+          <Typography variant="body1" gutterBottom sx={{ px: 2, pb: 1 }}>
             総合：{physicalDurability() + specialDurability()}
             <br />
             物理：{physicalDurability()}
@@ -167,16 +167,15 @@ export const CalcStatsOptions = memo(function CalcStatsOptions(props: Props) {
           format="rectangle"
           style={{
             display: 'inline-block',
-            width: '215px',
-            maxWidth: '215px',
-            height: '160px',
-            maxHeight: '160px',
+            width: '240px',
+            height: '145px',
+            maxHeight: '145px',
           }}
         />
       </Grid>
       <Grid item xs={12}>
         <MyCard>
-          <CardContent>
+          <CardContent sx={{ pb: 0 }}>
             <Typography variant="h5" align="center">
               耐久調整
             </Typography>
@@ -262,7 +261,7 @@ export const CalcStatsOptions = memo(function CalcStatsOptions(props: Props) {
               </Grid>
             </Grid>
           </CardContent>
-          <CardActions>
+          <CardActions sx={{ pt: 0, pb: 1.5 }}>
             <Grid container>
               <Grid item xs={12} sx={{ textAlign: 'center' }}>
                 <Button
