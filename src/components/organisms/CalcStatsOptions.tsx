@@ -287,7 +287,7 @@ export const CalcStatsOptions = memo(function CalcStatsOptions(props: Props) {
         <TextField
           value={description}
           variant="outlined"
-          rows={5}
+          rows={4.5}
           multiline
           fullWidth
           placeholder="ポケモンの説明（例：○○の××確定耐え）"
