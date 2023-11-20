@@ -312,7 +312,7 @@ export const CalcStatsTemplate = (props: Props) => {
                 />
               </Grid>
             ))}
-            <Grid container columns={256} sx={{ mt: 1 }}>
+            <Grid container columns={256} sx={{ mt: 2 }}>
               <Grid item xs={33} textAlign={'center'}>
                 {totalBaseStats()}
               </Grid>
