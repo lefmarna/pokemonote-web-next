@@ -167,6 +167,8 @@ export const CalcStatsOptions = memo(function CalcStatsOptions(props: Props) {
           format="rectangle"
           style={{
             display: 'inline-block',
+            width: '215px',
+            maxWidth: '215px',
             height: '160px',
             maxHeight: '160px',
           }}
