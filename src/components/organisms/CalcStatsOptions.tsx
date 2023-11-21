@@ -162,14 +162,12 @@ export const CalcStatsOptions = memo(function CalcStatsOptions(props: Props) {
           </Typography>
         </MyCard>
       </Grid>
-      <Grid item xs={12} md={6}>
-        <Box sx={{ mx: 'auto' }}>
-          <AdCode
-            slot="1632034496"
-            responsive="true"
-            style={{ display: 'inline-block', width: '212px', height: '145px' }}
-          />
-        </Box>
+      <Grid item xs={12} md={6} sx={{ textAlign: 'center' }}>
+        <AdCode
+          slot="1632034496"
+          responsive="true"
+          style={{ display: 'inline-block', width: '212px', height: '145px' }}
+        />
       </Grid>
       <Grid item xs={12}>
         <MyCard>
