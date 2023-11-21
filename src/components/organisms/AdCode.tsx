@@ -14,8 +14,8 @@ export const AdCode = (props: Props) => {
   const {
     slot,
     style = { display: 'block' },
-    format = 'auto',
-    responsive = 'true',
+    format = undefined,
+    responsive = undefined,
   } = props
 
   useLayoutEffect(() => {
