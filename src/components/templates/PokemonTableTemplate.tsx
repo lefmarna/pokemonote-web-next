@@ -89,10 +89,10 @@ export const PokemonTableTemplate = (props: Props) => {
           onChange={onChangeSearchText}
           onKeyDown={onKeyDownSearchText}
           onBlur={onBlurSearchText}
-          placeholder="Search"
+          placeholder="検索..."
           variant="standard"
           InputProps={{
-            endAdornment: <Search sx={{ color: theme.palette.grey[600] }} />,
+            startAdornment: <Search sx={{ color: theme.palette.grey[600] }} />,
           }}
         />
       </Box>
