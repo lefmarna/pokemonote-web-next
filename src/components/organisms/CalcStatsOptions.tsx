@@ -59,12 +59,14 @@ type Props = {
   description: string
   realNumbers: Stats
   isLoading: boolean
+  isDialog?: boolean
   updateEvs: (newIvs: Partial<NullableStats>) => void
   durabilityAdjustment: (
     calcStyle: string,
     selectDefenseEnhancement: number,
     selectSpDefenseEnhancement: number
   ) => void
+  closeDialog?: () => void
   submit: () => void
   updateDescription: (newDescription: string) => void
 }
@@ -75,8 +77,10 @@ export const CalcStatsOptions = memo(function CalcStatsOptions(props: Props) {
     description,
     realNumbers,
     isLoading,
+    isDialog = false,
     updateEvs,
     durabilityAdjustment,
+    closeDialog,
     submit,
     updateDescription,
   } = props
@@ -147,9 +151,21 @@ export const CalcStatsOptions = memo(function CalcStatsOptions(props: Props) {
   const [isDefenseSelected, setIsDefenseSelected] = useState(false)
   const [isSpDefenseSelected, setIsSpDefenseSelected] = useState(false)
 
+  const onClickCalcDurabilityAdjustmentButton = () => {
+    durabilityAdjustment(
+      calcStyle,
+      selectDefenseEnhancement,
+      selectSpDefenseEnhancement
+    )
+
+    if (closeDialog) {
+      closeDialog()
+    }
+  }
+
   return (
     <Grid container spacing={2}>
-      <Grid item xs={12} md={6}>
+      <Grid item md={6}>
         <MyCard>
           <MyCardTitle>耐久指数</MyCardTitle>
           <Typography variant="body1" gutterBottom sx={{ px: 2, pb: 1 }}>
@@ -161,7 +177,7 @@ export const CalcStatsOptions = memo(function CalcStatsOptions(props: Props) {
           </Typography>
         </MyCard>
       </Grid>
-      <Grid item xs={12} md={6} sx={{ textAlign: 'center' }}>
+      <Grid item md={6} sx={{ textAlign: 'center' }}>
         <AdCode
           slot="1632034496"
           responsive="true"
@@ -263,13 +279,7 @@ export const CalcStatsOptions = memo(function CalcStatsOptions(props: Props) {
                   variant="outlined"
                   color="primary"
                   size="large"
-                  onClick={() =>
-                    durabilityAdjustment(
-                      calcStyle,
-                      selectDefenseEnhancement,
-                      selectSpDefenseEnhancement
-                    )
-                  }
+                  onClick={onClickCalcDurabilityAdjustmentButton}
                 >
                   耐久調整を計算する
                 </Button>
@@ -289,25 +299,27 @@ export const CalcStatsOptions = memo(function CalcStatsOptions(props: Props) {
           onChange={onChangeDescription}
         />
       </Grid>
-      <Grid
-        item
-        xs={12}
-        sx={{ textAlign: 'center' }}
-        display="flex"
-        justifyContent="space-around"
-      >
-        <Button color="error" variant="outlined" onClick={resetEffortValue}>
-          努力値リセット
-        </Button>
-        <LoadingButton
-          variant="contained"
-          onClick={submit}
-          disabled={!authUser}
-          loading={isLoading}
+      {!isDialog && (
+        <Grid
+          item
+          xs={12}
+          sx={{ textAlign: 'center' }}
+          display="flex"
+          justifyContent="space-around"
         >
-          {buttonText}
-        </LoadingButton>
-      </Grid>
+          <Button color="error" variant="outlined" onClick={resetEffortValue}>
+            努力値リセット
+          </Button>
+          <LoadingButton
+            variant="contained"
+            onClick={submit}
+            disabled={!authUser}
+            loading={isLoading}
+          >
+            {buttonText}
+          </LoadingButton>
+        </Grid>
+      )}
     </Grid>
   )
 })
