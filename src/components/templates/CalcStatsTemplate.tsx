@@ -288,15 +288,25 @@ export const CalcStatsTemplate = (props: Props) => {
               updateNature={updateNature}
               updateLevel={updateLevel}
             />
-            {statsKeys.map((statKey) => (
+            {statsKeys.map((statKey, index) => (
               <Grid
+                key={statKey}
                 container
                 columns={256}
-                key={statKey}
                 sx={{
+                  mt: index === 0 ? { xs: 1, sm: 1.25 } : undefined,
                   py: { xs: 1, sm: 1.25 },
-                  ':hover': {
-                    backgroundColor: 'rgba(0, 0, 0, 0.04)',
+                  position: 'relative',
+                  overflow: 'visible',
+                  ':hover::before': {
+                    content: '""',
+                    position: 'absolute',
+                    top: 0,
+                    left: '-12px',
+                    right: '-12px',
+                    bottom: 0,
+                    backgroundColor: '#EEE',
+                    zIndex: -1,
                   },
                 }}
               >
@@ -322,7 +332,7 @@ export const CalcStatsTemplate = (props: Props) => {
                 />
               </Grid>
             ))}
-            <Grid container columns={256} sx={{ mt: { xs: 2, sm: 2.5 } }}>
+            <Grid container columns={256} sx={{ mt: { xs: 1, sm: 1.25 } }}>
               <Grid item xs={33} textAlign={'center'}>
                 {totalBaseStats()}
               </Grid>

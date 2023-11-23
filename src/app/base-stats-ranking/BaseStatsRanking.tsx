@@ -285,7 +285,7 @@ export const BaseStatsRanking = () => {
                 backgroundColor: '#F0F8FF',
               },
               '& .MuiDataGrid-row:hover': {
-                backgroundColor: 'rgba(0, 0, 0, 0.04)',
+                backgroundColor: '#EEE',
               },
               '& .MuiDataGrid-columnHeader:focus': {
                 outline: 'none',
