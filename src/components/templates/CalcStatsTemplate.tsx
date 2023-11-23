@@ -293,7 +293,12 @@ export const CalcStatsTemplate = (props: Props) => {
                 container
                 columns={256}
                 key={statKey}
-                sx={{ mt: { xs: 2, sm: 2.5 } }}
+                sx={{
+                  py: { xs: 1, sm: 1.25 },
+                  ':hover': {
+                    backgroundColor: 'rgba(0, 0, 0, 0.04)',
+                  },
+                }}
               >
                 <BaseStatsField
                   value={pokemon.basicInfo.baseStats[statKey]}
