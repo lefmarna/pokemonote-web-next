@@ -5,8 +5,6 @@ import type {
   User,
 } from '@/types/openapi/schemas'
 
-type NatureName = Nature['name']
-
 type Rank = 'legendary' | 'mythical' | 'mega' | 'sv' | 'NotInPokedex'
 
 export type RankCheckbox = Readonly<{
@@ -43,4 +41,13 @@ export type NullableStats = Nullable<Stats>
 export type ShowUser = {
   user: User
   pokemons: PokemonSummary[]
+}
+
+export type Paginate = {
+  currentPage: number
+  from?: number
+  to?: number
+  perPage: number
+  count: number
+  total: number
 }

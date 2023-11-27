@@ -3,7 +3,7 @@
 import { useRouter, useSearchParams } from 'next/navigation'
 import { noAuthMiddleware } from '@/hocs/noAuthMiddleware'
 import { useAuthUserMutators } from '@/store/authUserState'
-import { requestOpenApi } from '@/utils/helpers'
+import { requestOpenapi } from '@/utils/helpers'
 
 export const RegisterVerify = noAuthMiddleware(() => {
   const router = useRouter()
@@ -11,9 +11,9 @@ export const RegisterVerify = noAuthMiddleware(() => {
 
   const { updateAuthUser } = useAuthUserMutators()
 
-  ;(async () => {
+  const register = async () => {
     try {
-      const response = await requestOpenApi({
+      const response = await requestOpenapi({
         url: '/api/v2/register/verify/{id}',
         method: 'get',
         path: {
@@ -31,7 +31,8 @@ export const RegisterVerify = noAuthMiddleware(() => {
       console.log(error)
     }
     router.push('/')
-  })()
+  }
+  register()
 
   return <div>メール認証中...</div>
 })

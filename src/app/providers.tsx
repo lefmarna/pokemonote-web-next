@@ -44,7 +44,7 @@ export const Providers = ({ children }: Props) => {
 
   return (
     <ThemeProvider theme={theme}>
-      {/* <CssBaseline /> */}
+      <CssBaseline />
       <RecoilRoot>
         <SWRConfig value={swrConfigValue}>{children}</SWRConfig>
       </RecoilRoot>

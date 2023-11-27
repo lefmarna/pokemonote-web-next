@@ -3,9 +3,11 @@
   "language": "en",
   "words": [
     "aboutads",
+    "adsbygoogle",
     "autodocs",
     "axios",
     "commitlint",
+    "gtag",
     "HABCDS",
     "hocs",
     "nextjs",

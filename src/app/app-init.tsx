@@ -11,11 +11,6 @@ import { usePokemonBasicInfosSMutators } from '@/store/pokemonBasicInfosState'
 export const AppInit = () => {
   const { updateAuthUser } = useAuthUserMutators()
 
-  console.log('FRONTEND_BASE_URL')
-  console.log(process.env.NEXT_PUBLIC_FRONTEND_BASE_URL)
-  console.log('BACKEND_BASE_URL')
-  console.log(process.env.NEXT_PUBLIC_BACKEND_BASE_URL)
-
   const { updatePokemonBasicInfos } = usePokemonBasicInfosSMutators()
   const { updateNatures } = useNaturesMutators()
 
@@ -41,10 +36,12 @@ export const AppInit = () => {
   )
 
   useEffect(() => {
-    ;(async () => {
+    const getCsrfCookie = async () => {
       await $axios.get('/sanctum/csrf-cookie')
       setIsCompleteCsrfCookie(true)
-    })()
+    }
+
+    getCsrfCookie()
   }, [])
 
   useEffect(() => {

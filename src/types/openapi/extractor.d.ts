@@ -15,35 +15,14 @@ export type Response<
 export type RequestBody<
   Path extends OpenApiPath,
   Method extends OpenApiMethod<Path>,
-> = paths[Path][Method]['requestBody']['content']['application/json']
-
-export type PathParameter<
-  Path extends OpenApiPath,
-  Method extends OpenApiMethod<Path>,
-> = paths[Path][Method]['parameters']['path']
-
-export type QueryParameter<
-  Path extends OpenApiPath,
-  Method extends OpenApiMethod<Path>,
-> = paths[Path][Method]['parameters']['query']
-
-export type Schema<T extends keyof components['schemas']> =
-  components['schemas'][T]
-
-/**
- * リクエストボディのプロパティを必須と任意の判別を行いつつdataのキーに格納された型情報
- */
-export type RequestBodyProperties<
-  Path extends OpenApiPath,
-  Method extends OpenApiMethod<Path>,
 > = paths[Path][Method] extends {
   requestBody: {
     content: {
-      'application/json': RequestBody<Path, Method>
+      'application/json': infer Data
     }
   }
 }
-  ? { data: RequestBody<Path, Method> }
+  ? { data: Data }
   : paths[Path][Method] extends {
       requestBody?: {
         content: {
@@ -70,13 +49,26 @@ export type RequestBodyProperties<
   ? { data?: FormData }
   : { data?: undefined }
 
+export type PathParameter<
+  Path extends OpenApiPath,
+  Method extends OpenApiMethod<Path>,
+> = paths[Path][Method]['parameters']['path']
+
+export type QueryParameter<
+  Path extends OpenApiPath,
+  Method extends OpenApiMethod<Path>,
+> = paths[Path][Method]['parameters']['query']
+
+export type Schema<T extends keyof components['schemas']> =
+  components['schemas'][T]
+
 /**
  * エンドポイントのpath・queryパラメータを必須と任意の判別を行い、それぞれpath・queryのキーに格納された型情報
  *
  * NOTE: parametersが空のときpathとqueryの型はそれぞれunknownとなるが、運用的にはありえないので問題ない認識
  *
  */
-export type ParameterProperties<
+export type ParameterProperty<
   Path extends OpenApiPath,
   Method extends OpenApiMethod<Path>,
   Params,

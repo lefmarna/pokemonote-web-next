@@ -2,10 +2,10 @@
 
 import { Container } from '@mui/material'
 import { useSearchParams } from 'next/navigation'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Title } from '@/components/molecules/Title'
 import { useAuthUserMutators } from '@/store/authUserState'
-import { requestOpenApi } from '@/utils/helpers'
+import { requestOpenapi } from '@/utils/helpers'
 
 export const SettingsEmailVerify = () => {
   const searchParams = useSearchParams()
@@ -14,29 +14,33 @@ export const SettingsEmailVerify = () => {
 
   const { updateAuthUser } = useAuthUserMutators()
 
-  ;(async () => {
-    try {
-      const response = await requestOpenApi({
-        url: '/api/v2/settings/email/verify/{id}/{encryptedEmail}',
-        method: 'get',
-        path: {
-          userId: searchParams.get('id') ?? '',
-          encryptedEmail: searchParams.get('encryptedEmail') ?? '',
-        },
-        query: {
-          expires: searchParams.get('expires') ?? '',
-          signature: searchParams.get('signature') ?? '',
-        },
-      })
-      updateAuthUser(response.data.data)
-      setIsSuccess(true)
-    } catch (error) {
-      console.log(error)
-      setIsSuccess(false)
-    } finally {
-      setIsConfirm(false)
+  useEffect(() => {
+    const sendUpdateEmailRequest = async () => {
+      try {
+        const response = await requestOpenapi({
+          url: '/api/v2/settings/email/verify/{userId}/{encryptedEmail}',
+          method: 'get',
+          path: {
+            userId: searchParams.get('id') ?? '',
+            encryptedEmail: searchParams.get('encryptedEmail') ?? '',
+          },
+          query: {
+            expires: searchParams.get('expires') ?? '',
+            signature: searchParams.get('signature') ?? '',
+          },
+        })
+        updateAuthUser(response.data.data)
+        setIsSuccess(true)
+      } catch (error) {
+        console.log(error)
+        setIsSuccess(false)
+      } finally {
+        setIsConfirm(false)
+      }
     }
-  })()
+
+    sendUpdateEmailRequest()
+  }, [searchParams, updateAuthUser])
 
   if (isConfirm) return <div>メールアドレスの変更を確認中...</div>
 

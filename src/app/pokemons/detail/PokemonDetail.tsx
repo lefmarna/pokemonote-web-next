@@ -17,10 +17,10 @@ import { LoadingPageTemplate } from '@/components/templates/LoadingPageTemplate'
 import { useAuthUserState } from '@/store/authUserState'
 import { usePokemonBasicInfosState } from '@/store/pokemonBasicInfosState'
 import { SLink } from '@/styles'
-import { requestOpenApi } from '@/utils/helpers'
+import { requestOpenapi } from '@/utils/helpers'
 import type { PokemonBasicInfo, PokemonSummary } from '@/types/openapi/schemas'
 
-export const PokemonShow = () => {
+export const PokemonDetail = () => {
   const searchParams = useSearchParams()
 
   const router = useRouter()
@@ -76,14 +76,14 @@ export const PokemonShow = () => {
 
   const handleDeleteItem = async (id: number) => {
     try {
-      await requestOpenApi({
+      await requestOpenapi({
         url: '/api/v2/pokemons/{id}',
         method: 'delete',
         path: {
           id: String(id),
         },
       })
-      router.replace(`/users/show/?username=${authUser?.username}`)
+      router.replace(`/users/detail/?username=${authUser?.username}`)
     } catch (error) {
       router.push('/')
     }
@@ -158,7 +158,7 @@ export const PokemonShow = () => {
           投稿者：
           <SLink
             href={{
-              pathname: '/users/show',
+              pathname: '/users/detail',
               query: { username: pokemonSummary.user.username },
             }}
           >

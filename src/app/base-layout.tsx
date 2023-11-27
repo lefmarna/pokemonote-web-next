@@ -20,20 +20,20 @@ export const BaseLayout = (props: Props) => {
   const pathname = usePathname()
 
   const isLargeUpScreen = useMediaQueryUp('lg')
-  const [drawer, setDrawer] = useState(isLargeUpScreen)
+  const [open, setOpen] = useState(isLargeUpScreen)
   const [isFirstRender, setIsFirstRender] = useState(true)
   const isInitialization = useIsInitializationState()
 
-  const onCloseDrawer = () => {
-    setDrawer(false)
+  const onClose = () => {
+    setOpen(false)
   }
 
   const toggleDrawer = () => {
-    setDrawer(!drawer)
+    setOpen(!open)
   }
 
   useEffect(() => {
-    setDrawer(isLargeUpScreen)
+    setOpen(isLargeUpScreen)
 
     if (isFirstRender) {
       setIsFirstRender(false)
@@ -41,8 +41,8 @@ export const BaseLayout = (props: Props) => {
   }, [isLargeUpScreen, isFirstRender])
 
   useEffect(() => {
-    setDrawer(isLargeUpScreen)
-  }, [pathname, setDrawer, isLargeUpScreen])
+    setOpen(isLargeUpScreen)
+  }, [pathname, setOpen, isLargeUpScreen])
 
   if (isFirstRender) return null
 
@@ -50,12 +50,11 @@ export const BaseLayout = (props: Props) => {
 
   return (
     <>
-      <Sidebar drawer={drawer} onCloseDrawer={onCloseDrawer} />
+      <Sidebar open={open} onClose={onClose} />
       <Box
         component="main"
         sx={{
-          marginLeft: isLargeUpScreen && drawer ? '260px' : '0px',
-          transition: 'margin-left 225ms cubic-bezier(0.4, 0, 0.2, 1)',
+          marginLeft: isLargeUpScreen && open ? '275.523px' : '0px',
         }}
       >
         <Header toggleDrawer={toggleDrawer} />

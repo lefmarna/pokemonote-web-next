@@ -1,149 +1,121 @@
 'use client'
 
-import DeleteIcon from '@mui/icons-material/Delete'
-import EditIcon from '@mui/icons-material/Edit'
-import { Container, IconButton } from '@mui/material'
-import { DataGrid, jaJP } from '@mui/x-data-grid'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { Search } from '@mui/icons-material'
+import { Box, Container, Grid, Pagination, TextField } from '@mui/material'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useState } from 'react'
-import { PostedPokemon } from '@/components/organisms/PostedPokemon'
-import { useAuthUserState } from '@/store/authUserState'
-import { SLink } from '@/styles'
-import { requestOpenApi } from '@/utils/helpers'
+import { theme } from '@/libs/mui'
+import { Title } from '@/components/molecules/Title'
+import { PokemonCards } from '@/components/organisms/PokemonCards'
+import type { Paginate } from '@/types/front'
 import type { PokemonSummary } from '@/types/openapi/schemas'
-import type { GridRenderCellParams } from '@mui/x-data-grid'
+import type { ChangeEvent, KeyboardEvent } from 'react'
 
 type Props = {
   title: string
   pokemons?: PokemonSummary[]
+  paginate?: Paginate
 }
 
 export const PokemonTableTemplate = (props: Props) => {
-  const { title, pokemons = [] } = props
-
+  const { title, pokemons = [], paginate = undefined } = props
+  const pathname = usePathname()
   const router = useRouter()
+
   const searchParams = useSearchParams()
+  const initSearch = searchParams.get('search')
 
-  const authUser = useAuthUserState()
+  const [searchText, setSearchText] = useState(initSearch ?? '')
+  const isSameSearchText = searchText === (initSearch ?? '')
 
-  const [deletedPokemonIds, setDeletedPokemonIds] = useState<number[]>([])
+  const createUrlWithParams = (
+    pathname: string,
+    params: Record<string, string | null>
+  ): string => {
+    const query = Object.keys(params)
+      .filter((key) => params[key] != null)
+      .map((key) => `${key}=${encodeURIComponent(params[key] as string)}`)
+      .join('&')
 
-  const filteredPokemons = pokemons.filter((pokemon) => {
-    return !deletedPokemonIds.includes(pokemon.id)
-  })
+    return `${pathname}${query ? `?${query}` : ''}`
+  }
 
-  const columns = [
-    {
-      field: 'pokemonName',
-      headerName: 'ポケモン名',
-      flex: 1,
-      renderCell: (params: GridRenderCellParams<PokemonSummary>) => (
-        <SLink
-          href={{
-            pathname: '/pokemons/show',
-            query: { id: params.row.id },
-          }}
-        >
-          {params.row.pokemonName}
-        </SLink>
-      ),
-    },
-    { field: 'level', headerName: 'レベル', flex: 1 },
-    { field: 'natureName', headerName: '性格', flex: 1 },
-    {
-      field: 'stats',
-      headerName: 'ステータス',
-      flex: 1,
-      renderCell: (params: GridRenderCellParams<PokemonSummary>) => (
-        <div>
-          {params.row.stats}
-          <IconButton
-            onClick={() => navigator.clipboard.writeText(params.row.stats)}
-          >
-            <EditIcon />
-          </IconButton>
-        </div>
-      ),
-    },
-    {
-      field: 'username',
-      headerName: '投稿者',
-      flex: 1,
-      renderCell: (params: GridRenderCellParams<PokemonSummary>) =>
-        params.row.user.username === searchParams.get('username') ? (
-          <div>
-            <IconButton
-              onClick={() => router.push(`/pokemons/edit/?id=${params.row.id}`)}
-            >
-              <EditIcon />
-            </IconButton>
-            <IconButton onClick={() => deletePokemon(params.row.id)}>
-              <DeleteIcon />
-            </IconButton>
-          </div>
-        ) : (
-          <SLink
-            href={{
-              pathname: '/users/show',
-              query: { username: params.row.user.username },
-            }}
-          >
-            {params.row.user.username}
-          </SLink>
-        ),
-    },
-  ]
+  const handleChangePage = (e: ChangeEvent<unknown>, value: number) => {
+    const url = createUrlWithParams(pathname, {
+      page: value && value !== 1 ? String(value) : null,
+      search: searchText !== '' ? searchText : null,
+    })
+    router.push(url)
+  }
 
-  const writeToClipboard = (clipText: string): void => {
-    navigator.clipboard.writeText(clipText).catch((e) => {
-      console.error(e)
+  const onChangeSearchText = (e: ChangeEvent<HTMLInputElement>) => {
+    setSearchText(e.target.value)
+  }
+
+  const onKeyDownSearchText = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key !== 'Enter' || e.nativeEvent.isComposing) return
+    if (!(e.target instanceof HTMLInputElement)) return
+    if (isSameSearchText) return
+
+    const url = createUrlWithParams(pathname, {
+      page: '1',
+      search: searchText !== '' ? searchText : null,
+    })
+    router.replace(url, {
+      scroll: false,
     })
   }
 
-  const editItem = (item: PokemonSummary): void => {
-    if (item.user.username === authUser?.username) {
-      router.push(`/pokemons/edit?id=${item.id}`)
-    } else {
-      router.push('/')
-    }
-  }
+  const onBlurSearchText = () => {
+    if (isSameSearchText) return
 
-  const deletePokemon = async (id: number): Promise<void> => {
-    try {
-      await requestOpenApi({
-        url: '/api/v2/pokemons/{id}',
-        method: 'delete',
-        path: {
-          id: String(id),
-        },
-      })
-      // フロント側でもテーブルから削除する必要がある
-      setDeletedPokemonIds((prevDeletedPokemonIds) => [
-        ...prevDeletedPokemonIds,
-        id,
-      ])
-    } catch (error) {
-      console.log(error)
-      router.push('/')
-    }
+    const url = createUrlWithParams(pathname, {
+      page: searchParams.get('page'),
+      search: searchText !== '' ? searchText : null,
+    })
+    router.replace(url, {
+      scroll: false,
+    })
   }
 
   return (
-    <Container>
-      <div>{title}</div>
-      <DataGrid
-        columns={columns}
-        rows={filteredPokemons}
-        sortingOrder={['desc', 'asc']}
-        autoHeight
-        localeText={jaJP.components.MuiDataGrid.defaultProps.localeText}
-      />
-      <PostedPokemon
-        pokemonName="ヒヒダルマ(ダルマ・ガラル)"
-        level={50}
-        natureName="いじっぱり"
-        stats="291(155)-289(119)-264(150)-175(138)-244(177)-201(173)"
-      />
+    <Container disableGutters sx={{ my: 3 }}>
+      <Box sx={{ px: 1.5 }}>
+        <Title text={title} />
+      </Box>
+      <Box sx={{ textAlign: 'right', mb: 2, pr: 2 }}>
+        <TextField
+          value={searchText}
+          onChange={onChangeSearchText}
+          onKeyDown={onKeyDownSearchText}
+          onBlur={onBlurSearchText}
+          placeholder="検索..."
+          variant="standard"
+          InputProps={{
+            startAdornment: <Search sx={{ color: theme.palette.grey[600] }} />,
+          }}
+        />
+      </Box>
+      <Grid container>
+        <PokemonCards pokemons={pokemons} />
+        <Grid
+          item
+          sx={{
+            mt: 2,
+            mx: 'auto',
+          }}
+        >
+          {paginate && (
+            <Pagination
+              color="primary"
+              count={paginate.count}
+              page={paginate.currentPage}
+              onChange={handleChangePage}
+              sx={{ mt: 1 }}
+            />
+          )}
+        </Grid>
+      </Grid>
     </Container>
   )
 }

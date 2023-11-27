@@ -54,7 +54,7 @@ export const StatsTableHeader = memo(function StatsTableHeader(props: Props) {
         setState={onChangePokemonBasicInfo}
         selectedItem={basicInfo}
       />
-      <Grid container sx={{ pt: 2 }}>
+      <Grid container sx={{ pt: { xs: 2, sm: 2.5 } }}>
         <Grid item xs={4}>
           <LvField level={level} updateLevel={updateLevel} />
         </Grid>

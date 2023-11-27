@@ -160,7 +160,7 @@ export const CalcSpeed = () => {
               updateNature={updateNature}
               updateLevel={updateLevel}
             />
-            <Grid container columns={256} sx={{ mt: 2 }}>
+            <Grid container columns={256} sx={{ mt: { xs: 2, sm: 2.5 } }}>
               <BaseStatsField
                 value={pokemon.basicInfo.baseStats.speed}
                 statsInitial={getStatsInitial('speed')}

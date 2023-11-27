@@ -94,7 +94,7 @@ export interface paths {
       }
     }
   }
-  '/api/v2/password/verify/{user_id}': {
+  '/api/v2/password/verify/{userId}': {
     /** パスワード再設定メール検証API */
     get: {
       parameters: {
@@ -106,7 +106,7 @@ export interface paths {
         }
         path: {
           /** @description ユーザーID */
-          id: string
+          userId: string
         }
       }
       responses: {
@@ -136,6 +136,14 @@ export interface paths {
   '/api/v2/pokemons': {
     /** ポケモン一覧API */
     get: {
+      parameters: {
+        query?: {
+          /** @description ページ */
+          page?: string
+          /** @description 検索ワード */
+          search?: string
+        }
+      }
       responses: {
         200: components['responses']['PokemonIndexResponse']
       }
@@ -224,7 +232,7 @@ export interface paths {
       }
     }
   }
-  '/api/v2/settings/email/verify/{id}/{encryptedEmail}': {
+  '/api/v2/settings/email/verify/{userId}/{encryptedEmail}': {
     /** メールアドレス更新用メール検証API */
     get: {
       parameters: {
@@ -900,6 +908,38 @@ export interface components {
         'application/json': {
           /** @description ポケモン一覧 */
           data: components['schemas']['PokemonSummary'][]
+          paginate: {
+            /**
+             * @description 現在のページ数
+             * @example 3
+             */
+            currentPage: number
+            /**
+             * @description 現在のページ
+             * @example 21
+             */
+            from: number
+            /**
+             * @description 現在のページ
+             * @example 21
+             */
+            to: number
+            /**
+             * @description 1ページあたりの件数
+             * @example 10
+             */
+            perPage: number
+            /**
+             * @description 総ページ数
+             * @example 5
+             */
+            count: number
+            /**
+             * @description 総件数
+             * @example 42
+             */
+            total: number
+          }
         }
       }
     }
@@ -1179,6 +1219,8 @@ export interface components {
   headers: never
   pathItems: never
 }
+
+export type $defs = Record<string, never>
 
 export type external = Record<string, never>
 

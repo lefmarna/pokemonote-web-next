@@ -7,8 +7,11 @@ import { PasswordInput } from '@/components/forms/PasswordInput'
 import { Title } from '@/components/molecules/Title'
 import { FormTemplate } from '@/components/templates/FormTemplate'
 import { SLink } from '@/styles'
-import { exceptionErrorToArray, requestOpenApi } from '@/utils/helpers'
+import { exceptionErrorToArray, requestOpenapi } from '@/utils/helpers'
 
+/**
+ * パスワード再設定の申請
+ */
 export const PasswordVerify = () => {
   const searchParams = useSearchParams()
 
@@ -41,13 +44,13 @@ export const PasswordVerify = () => {
   }
 
   useEffect(() => {
-    ;(async () => {
+    const verify = async () => {
       try {
-        await requestOpenApi({
-          url: '/api/v2/password/verify/{user_id}',
+        await requestOpenapi({
+          url: '/api/v2/password/verify/{userId}',
           method: 'get',
           path: {
-            id: searchParams.get('id') ?? '',
+            userId: searchParams.get('id') ?? '',
           },
           query: {
             expires: searchParams.get('expires') ?? '',
@@ -61,13 +64,15 @@ export const PasswordVerify = () => {
       } finally {
         setIsConfirm(false)
       }
-    })()
+    }
+
+    verify()
   }, [searchParams])
 
   const submit = async () => {
     setIsLoading(true)
     try {
-      await requestOpenApi({
+      await requestOpenapi({
         url: '/api/v2/password/reset',
         method: 'put',
         data: resetPasswordParams,

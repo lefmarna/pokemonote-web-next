@@ -8,7 +8,7 @@ import { PasswordInput } from '@/components/forms/PasswordInput'
 import { UsernameInput } from '@/components/forms/UsernameInput'
 import { FormTemplate } from '@/components/templates/FormTemplate'
 import { noAuthMiddleware } from '@/hocs/noAuthMiddleware'
-import { exceptionErrorToArray, requestOpenApi } from '@/utils/helpers'
+import { exceptionErrorToArray, requestOpenapi } from '@/utils/helpers'
 
 export const Register = noAuthMiddleware(() => {
   const router = useRouter()
@@ -33,7 +33,7 @@ export const Register = noAuthMiddleware(() => {
     setIsLoading(true)
 
     try {
-      const response = await requestOpenApi({
+      const response = await requestOpenapi({
         url: '/api/v2/register/tentative',
         method: 'post',
         data: formData,

@@ -8,7 +8,7 @@ import { LoadingPageTemplate } from '@/components/templates/LoadingPageTemplate'
 import { authMiddleware } from '@/hocs/authMiddleware'
 import { useNaturesState } from '@/store/naturesState'
 import { usePokemonBasicInfosState } from '@/store/pokemonBasicInfosState'
-import { requestOpenApi } from '@/utils/helpers'
+import { requestOpenapi } from '@/utils/helpers'
 import type { NullableStats, Pokemon } from '@/types/front'
 import type { Nature, PokemonBasicInfo } from '@/types/openapi/schemas'
 import type { PokemonPostParams } from '@/types/openapi/schemas'
@@ -162,7 +162,7 @@ export const PokemonEdit = authMiddleware(() => {
   const sendPokemon = async (params: PokemonPostParams) => {
     setIsLoading(true)
     try {
-      await requestOpenApi({
+      await requestOpenapi({
         url: '/api/v2/pokemons/{id}',
         method: 'put',
         path: {
@@ -170,7 +170,7 @@ export const PokemonEdit = authMiddleware(() => {
         },
         data: params,
       })
-      router.push(`/pokemons/show?id=${pokemonId}`)
+      router.push(`/pokemons/detail?id=${pokemonId}`)
     } catch (error) {
       console.log(error)
     } finally {

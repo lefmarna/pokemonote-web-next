@@ -1,8 +1,8 @@
 'use client'
 
+import styled from '@emotion/styled'
 import { LoadingButton } from '@mui/lab'
 import {
-  Box,
   Button,
   Card,
   CardActions,
@@ -20,22 +20,53 @@ import {
   Typography,
 } from '@mui/material'
 import { memo, useState } from 'react'
+import { AdCode } from '@/components/organisms/AdCode'
 import { useAuthUserState } from '@/store/authUserState'
 import type { NullableStats, Stats } from '@/types/front'
 import type { SelectChangeEvent } from '@mui/material'
 import type { ChangeEvent } from 'react'
+
+const MyCard = styled('div')`
+  height: 100%;
+  background-color: #fff;
+  color: rgba(0, 0, 0, 0.87);
+  border-radius: 12px;
+  border: thin solid rgba(0, 0, 0, 0.24);
+  display: block;
+  max-width: 100%;
+  outline: none;
+  text-decoration: none;
+  transition-property: box-shadow, opacity;
+  word-wrap: break-word;
+  position: relative;
+  white-space: normal;
+`
+
+const MyCardTitle = styled('div')`
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 1.25rem;
+  font-weight: 500;
+  letter-spacing: 0.0125em;
+  line-height: 2rem;
+  word-break: break-all;
+  padding: 16px;
+`
 
 type Props = {
   buttonText: string
   description: string
   realNumbers: Stats
   isLoading: boolean
+  isDialog?: boolean
   updateEvs: (newIvs: Partial<NullableStats>) => void
   durabilityAdjustment: (
     calcStyle: string,
-    selectDefenceEnhancement: number,
-    selectSpDefenceEnhancement: number
+    selectDefenseEnhancement: number,
+    selectSpDefenseEnhancement: number
   ) => void
+  closeDialog?: () => void
   submit: () => void
   updateDescription: (newDescription: string) => void
 }
@@ -46,24 +77,26 @@ export const CalcStatsOptions = memo(function CalcStatsOptions(props: Props) {
     description,
     realNumbers,
     isLoading,
+    isDialog = false,
     updateEvs,
     durabilityAdjustment,
+    closeDialog,
     submit,
     updateDescription,
   } = props
 
-  const [selectDefenceEnhancement, setSelectDefenceEnhancement] = useState(1)
-  const [selectSpDefenceEnhancement, setSelectSpDefenceEnhancement] =
+  const [selectDefenseEnhancement, setSelectDefenseEnhancement] = useState(1)
+  const [selectSpDefenseEnhancement, setSelectSpDefenseEnhancement] =
     useState(1)
   const [calcStyle, setCalcStyle] = useState('balance')
 
-  const updateSelectDefenceEnhancement = (event: SelectChangeEvent<number>) => {
-    setSelectDefenceEnhancement(Number(event.target.value))
+  const updateSelectDefenseEnhancement = (event: SelectChangeEvent<number>) => {
+    setSelectDefenseEnhancement(Number(event.target.value))
   }
-  const updateSelectSpDefenceEnhancement = (
+  const updateSelectSpDefenseEnhancement = (
     event: SelectChangeEvent<number>
   ) => {
-    setSelectSpDefenceEnhancement(Number(event.target.value))
+    setSelectSpDefenseEnhancement(Number(event.target.value))
   }
 
   const updateCalcStyle = (
@@ -77,7 +110,7 @@ export const CalcStatsOptions = memo(function CalcStatsOptions(props: Props) {
   const physicalDurability = () => {
     return (
       realNumbers.hp *
-      Math.floor(realNumbers.defense * selectDefenceEnhancement)
+      Math.floor(realNumbers.defense * selectDefenseEnhancement)
     )
   }
 
@@ -85,7 +118,7 @@ export const CalcStatsOptions = memo(function CalcStatsOptions(props: Props) {
   const specialDurability = () => {
     return (
       realNumbers.hp *
-      Math.floor(realNumbers.spDefense * selectSpDefenceEnhancement)
+      Math.floor(realNumbers.spDefense * selectSpDefenseEnhancement)
     )
   }
 
@@ -115,27 +148,45 @@ export const CalcStatsOptions = memo(function CalcStatsOptions(props: Props) {
     updateDescription(event.target.value)
   }
 
-  const [isDefenceSelected, setIsDefenceSelected] = useState(false)
-  const [isSpDefenceSelected, setIsSpDefenceSelected] = useState(false)
+  const [isDefenseSelected, setIsDefenseSelected] = useState(false)
+  const [isSpDefenseSelected, setIsSpDefenseSelected] = useState(false)
+
+  const onClickCalcDurabilityAdjustmentButton = () => {
+    durabilityAdjustment(
+      calcStyle,
+      selectDefenseEnhancement,
+      selectSpDefenseEnhancement
+    )
+
+    if (closeDialog) {
+      closeDialog()
+    }
+  }
 
   return (
     <Grid container spacing={2}>
-      <Grid item xs={12} md={6}>
-        <Box>耐久指数</Box>
-        <Typography variant="body1" gutterBottom>
-          総合：{physicalDurability() + specialDurability()}
-          <br />
-          物理：{physicalDurability()}
-          <br />
-          特殊：{specialDurability()}
-        </Typography>
+      <Grid item md={6}>
+        <MyCard>
+          <MyCardTitle>耐久指数</MyCardTitle>
+          <Typography variant="body1" gutterBottom sx={{ px: 2, pb: 1 }}>
+            総合：{physicalDurability() + specialDurability()}
+            <br />
+            物理：{physicalDurability()}
+            <br />
+            特殊：{specialDurability()}
+          </Typography>
+        </MyCard>
       </Grid>
-      <Grid item xs={12} md={6}>
-        公開
+      <Grid item md={6} sx={{ textAlign: 'center' }}>
+        <AdCode
+          slot="1632034496"
+          responsive="true"
+          style={{ display: 'inline-block', width: '212px', height: '145px' }}
+        />
       </Grid>
       <Grid item xs={12}>
-        <Card sx={{ borderRadius: '16px' }}>
-          <CardContent>
+        <MyCard>
+          <CardContent sx={{ pb: 0 }}>
             <Typography variant="h5" align="center">
               耐久調整
             </Typography>
@@ -150,7 +201,7 @@ export const CalcStatsOptions = memo(function CalcStatsOptions(props: Props) {
                       variant="subtitle1"
                       sx={{
                         color: (theme) =>
-                          isDefenceSelected || isSpDefenceSelected
+                          isDefenseSelected || isSpDefenseSelected
                             ? theme.palette.primary.main
                             : 'initial',
                       }}
@@ -160,10 +211,10 @@ export const CalcStatsOptions = memo(function CalcStatsOptions(props: Props) {
                     <FormControl variant="standard" fullWidth sx={{ mt: 1 }}>
                       <InputLabel>防御</InputLabel>
                       <Select
-                        value={selectDefenceEnhancement}
-                        onChange={updateSelectDefenceEnhancement}
-                        onFocus={() => setIsDefenceSelected(true)}
-                        onBlur={() => setIsDefenceSelected(false)}
+                        value={selectDefenseEnhancement}
+                        onChange={updateSelectDefenseEnhancement}
+                        onFocus={() => setIsDefenseSelected(true)}
+                        onBlur={() => setIsDefenseSelected(false)}
                         sx={{ textAlign: 'left' }}
                       >
                         {magnificationItems.map((item) => (
@@ -176,10 +227,10 @@ export const CalcStatsOptions = memo(function CalcStatsOptions(props: Props) {
                     <FormControl variant="standard" fullWidth sx={{ mt: 2 }}>
                       <InputLabel>特防</InputLabel>
                       <Select
-                        value={selectSpDefenceEnhancement}
-                        onChange={updateSelectSpDefenceEnhancement}
-                        onFocus={() => setIsSpDefenceSelected(true)}
-                        onBlur={() => setIsSpDefenceSelected(false)}
+                        value={selectSpDefenseEnhancement}
+                        onChange={updateSelectSpDefenseEnhancement}
+                        onFocus={() => setIsSpDefenseSelected(true)}
+                        onBlur={() => setIsSpDefenseSelected(false)}
                         sx={{ textAlign: 'left' }}
                       >
                         {magnificationItems.map((item) => (
@@ -221,58 +272,54 @@ export const CalcStatsOptions = memo(function CalcStatsOptions(props: Props) {
               </Grid>
             </Grid>
           </CardContent>
-          <CardActions>
+          <CardActions sx={{ pt: 0, pb: 1.5 }}>
             <Grid container>
               <Grid item xs={12} sx={{ textAlign: 'center' }}>
                 <Button
                   variant="outlined"
                   color="primary"
                   size="large"
-                  onClick={() =>
-                    durabilityAdjustment(
-                      calcStyle,
-                      selectDefenceEnhancement,
-                      selectSpDefenceEnhancement
-                    )
-                  }
+                  onClick={onClickCalcDurabilityAdjustmentButton}
                 >
                   耐久調整を計算する
                 </Button>
               </Grid>
             </Grid>
           </CardActions>
-        </Card>
+        </MyCard>
       </Grid>
       <Grid item xs={12}>
         <TextField
           value={description}
           variant="outlined"
-          rows={5}
+          rows={4.5}
           multiline
           fullWidth
           placeholder="ポケモンの説明（例：○○の××確定耐え）"
           onChange={onChangeDescription}
         />
       </Grid>
-      <Grid
-        item
-        xs={12}
-        sx={{ textAlign: 'center' }}
-        display="flex"
-        justifyContent="space-around"
-      >
-        <Button color="error" variant="outlined" onClick={resetEffortValue}>
-          努力値リセット
-        </Button>
-        <LoadingButton
-          variant="contained"
-          onClick={submit}
-          disabled={!authUser}
-          loading={isLoading}
+      {!isDialog && (
+        <Grid
+          item
+          xs={12}
+          sx={{ textAlign: 'center' }}
+          display="flex"
+          justifyContent="space-around"
         >
-          {buttonText}
-        </LoadingButton>
-      </Grid>
+          <Button color="error" variant="outlined" onClick={resetEffortValue}>
+            努力値リセット
+          </Button>
+          <LoadingButton
+            variant="contained"
+            onClick={submit}
+            disabled={!authUser}
+            loading={isLoading}
+          >
+            {buttonText}
+          </LoadingButton>
+        </Grid>
+      )}
     </Grid>
   )
 })

@@ -12,6 +12,7 @@ import {
 import CatchingPokemonIcon from '@mui/icons-material/CatchingPokemon'
 import HomeIcon from '@mui/icons-material/Home'
 import {
+  Box,
   Divider,
   Drawer,
   Icon,
@@ -22,16 +23,17 @@ import {
   ListItemText,
 } from '@mui/material'
 import Link from 'next/link'
+import { AdCode } from './AdCode'
 import { useMediaQueryUp } from '@/hooks/style/useMediaQueries'
 import { useAuthUserState } from '@/store/authUserState'
 
 type Props = {
-  drawer: boolean
-  onCloseDrawer: () => void
+  open: boolean
+  onClose: () => void
 }
 
 export const Sidebar = (props: Props) => {
-  const { drawer, onCloseDrawer } = props
+  const { open, onClose } = props
 
   const authUser = useAuthUserState()
 
@@ -109,17 +111,10 @@ export const Sidebar = (props: Props) => {
 
   return (
     <Drawer
-      open={drawer}
-      onClose={onCloseDrawer}
+      open={open}
+      onClose={onClose}
       anchor="left"
       variant={isLargeUpScreen ? 'persistent' : 'temporary'}
-      sx={{
-        width: '260px',
-        '& .MuiDrawer-paper': {
-          boxSizing: 'border-box',
-          transition: 'width 225ms cubic-bezier(0.4, 0, 0.2, 1)',
-        },
-      }}
     >
       <Divider />
       <ListItem>
@@ -141,7 +136,7 @@ export const Sidebar = (props: Props) => {
         {authUser && (
           <Link
             href={{
-              pathname: '/users/show',
+              pathname: '/users/detail',
               query: { username: authUser.username },
             }}
           >
@@ -172,6 +167,18 @@ export const Sidebar = (props: Props) => {
         ))}
       </List>
       <Divider />
+      <Box sx={{ textAlign: 'center' }}>
+        <AdCode
+          slot="4559543564"
+          format="rectangle"
+          style={{
+            display: 'inline-block',
+            width: '232px',
+            height: '232px',
+            marginTop: '12px',
+          }}
+        />
+      </Box>
       <ListItem>
         <ListItemText primary="Others" />
       </ListItem>
