@@ -86,3 +86,7 @@ endif
 .PHONY: open
 open:
 	devcontainer open
+
+.PHONY: generate-openapi
+generate-openapi:
+	npm run generate-openapi
