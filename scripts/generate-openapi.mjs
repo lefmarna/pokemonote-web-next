@@ -40,8 +40,8 @@ const generateOpenapi = async () => {
     // openapi-typescriptを用いてjsonファイルから型定義ファイルを出力
     await exec('npm run openapi-typescript')
     // NOTE: フォーマット2回しないとクォーテーションが処理しきれないみたいなので…
-    await exec('npm run fix:openapi')
-    await exec('npm run fix:openapi')
+    await exec('npm run format:openapi')
+    await exec('npm run format:openapi')
     console.log('型定義ファイルの生成が完了しました。')
   } catch (error) {
     console.error('エラーが発生しました:', error)
