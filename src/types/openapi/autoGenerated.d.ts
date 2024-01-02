@@ -124,7 +124,14 @@ export interface paths {
     /** ユーザー詳細API */
     get: {
       parameters: {
+        query?: {
+          /** @description ページ */
+          page?: string
+          /** @description 検索ワード */
+          search?: string
+        }
         path: {
+          /** @description ユーザー名 */
           username: string
         }
       }
