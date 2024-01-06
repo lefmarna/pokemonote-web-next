@@ -33,15 +33,15 @@ export const UserDetail = () => {
     if (data === undefined) return
 
     setUser(data.data.user)
-    setPokemonSummaries(data.data.pokemons)
+    setPokemonSummaries(data.data.pokemons.data)
   }, [data])
 
   if (isLoading) return <LoadingPageTemplate />
 
   const paginate = {
-    currentPage,
-    perPage: 10,
-    count: 3,
+    currentPage: data?.data.pokemons.paginate.currentPage ?? 0,
+    perPage: data?.data.pokemons.paginate.perPage ?? 0,
+    count: data?.data.pokemons.paginate.count ?? 0,
     total: pokemonSummaries.length ?? 0,
   }
 
