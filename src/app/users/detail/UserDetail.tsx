@@ -14,9 +14,6 @@ export const UserDetail = () => {
 
   const [user, setUser] = useState<User | null>(null)
   const [pokemonSummaries, setPokemonSummaries] = useState<PokemonSummary[]>([])
-  const currentPage = searchParams.get('page')
-    ? Number(searchParams.get('page'))
-    : 1
 
   const { data, isLoading } = useSWROpenApi({
     url: '/api/v2/users/{username}',
@@ -38,13 +35,6 @@ export const UserDetail = () => {
 
   if (isLoading) return <LoadingPageTemplate />
 
-  const paginate = {
-    currentPage: data?.data.pokemons.paginate.currentPage ?? 0,
-    perPage: data?.data.pokemons.paginate.perPage ?? 0,
-    count: data?.data.pokemons.paginate.count ?? 0,
-    total: pokemonSummaries.length ?? 0,
-  }
-
   const title =
     authUser?.username === user?.username
       ? 'マイページ'
@@ -54,7 +44,7 @@ export const UserDetail = () => {
     <PokemonTableTemplate
       title={title}
       pokemons={pokemonSummaries}
-      paginate={paginate}
+      paginate={data?.data.pokemons.paginate}
     />
   )
 }
