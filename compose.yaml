@@ -16,3 +16,7 @@ services:
       IS_CONTAINER: 'true'
     stdin_open: true
     tty: true
+
+networks:
+  shared-network:
+    external: true
