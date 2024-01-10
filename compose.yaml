@@ -18,8 +18,8 @@ services:
     tty: true
     networks:
       - default
-      - shared-network
+      - pokemonote
 
 networks:
-  shared-network:
+  pokemonote:
     external: true
