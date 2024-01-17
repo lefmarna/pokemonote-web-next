@@ -42,6 +42,8 @@ export const PokemonTableTemplate = (props: Props) => {
 
   const handleChangePage = (e: ChangeEvent<unknown>, value: number) => {
     const url = createUrlWithParams(pathname, {
+      // FIXME usernameはパスパラメータにして、クエリパラメータで管理したくない（責務的にもこのコンポーネントで扱いたくない）
+      username: searchParams.get('username'),
       page: value && value !== 1 ? String(value) : null,
       search: searchText !== '' ? searchText : null,
     })
@@ -58,6 +60,7 @@ export const PokemonTableTemplate = (props: Props) => {
     if (isSameSearchText) return
 
     const url = createUrlWithParams(pathname, {
+      username: searchParams.get('username'),
       page: '1',
       search: searchText !== '' ? searchText : null,
     })
@@ -70,6 +73,7 @@ export const PokemonTableTemplate = (props: Props) => {
     if (isSameSearchText) return
 
     const url = createUrlWithParams(pathname, {
+      username: searchParams.get('username'),
       page: searchParams.get('page'),
       search: searchText !== '' ? searchText : null,
     })

@@ -16,3 +16,10 @@ services:
       IS_CONTAINER: 'true'
     stdin_open: true
     tty: true
+    networks:
+      - default
+      - pokemonote
+
+networks:
+  pokemonote:
+    external: true
