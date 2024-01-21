@@ -102,24 +102,24 @@ export const PokemonTableTemplate = (props: Props) => {
       </Box>
       <Grid container>
         <PokemonCards pokemons={pokemons} />
-        <Grid
-          item
+      </Grid>
+
+      {paginate && (
+        <Box
           sx={{
-            mt: 2,
-            mx: 'auto',
+            display: 'flex',
+            justifyContent: 'center',
+            mt: 3,
           }}
         >
-          {paginate && (
-            <Pagination
-              color="primary"
-              count={paginate.count}
-              page={paginate.currentPage}
-              onChange={handleChangePage}
-              sx={{ mt: 1 }}
-            />
-          )}
-        </Grid>
-      </Grid>
+          <Pagination
+            color="primary"
+            count={paginate.count}
+            page={paginate.currentPage}
+            onChange={handleChangePage}
+          />
+        </Box>
+      )}
     </Container>
   )
 }
