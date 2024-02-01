@@ -30,10 +30,6 @@ export const exceptionErrorToArray = (
  * Axiosのエラーを配列にして返す
  */
 const formatAxiosError = (errorsResponse: AxiosError) => {
-  const errorList: string[] = []
-  if (!errorsResponse) return errorList
-  Object.values(errorsResponse).forEach((errors) => {
-    errorList.push(errors[0])
-  })
-  return errorList
+  if (!errorsResponse) return []
+  return Object.values(errorsResponse).map((errors) => errors[0] as string)
 }
