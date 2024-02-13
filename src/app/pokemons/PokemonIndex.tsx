@@ -11,8 +11,8 @@ export const PokemonIndex = () => {
   const { data, isLoading } = useSWROpenApi({
     url: '/api/v2/pokemons',
     query: {
-      page: searchParams.get('page') ?? undefined,
-      search: searchParams.get('search') ?? undefined,
+      page: searchParams.get('page') ?? '',
+      search: searchParams.get('search') ?? '',
     },
   })
 
