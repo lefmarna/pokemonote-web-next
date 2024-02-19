@@ -12,7 +12,7 @@ export const PokemonIndex = () => {
     url: '/api/v2/pokemons',
     query: {
       page: searchParams.get('page') ?? '',
-      search: searchParams.get('search') ?? '',
+      name: searchParams.get('search') ?? '',
     },
   })
 
