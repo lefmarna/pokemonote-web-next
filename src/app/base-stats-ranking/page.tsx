@@ -1,3 +1,4 @@
+import { Suspense } from 'react'
 import { BaseStatsRanking } from './BaseStatsRanking'
 import { getMetadata } from '@/utils/helpers'
 
@@ -7,5 +8,9 @@ export const metadata = getMetadata(
 )
 
 export default function Page() {
-  return <BaseStatsRanking />
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <BaseStatsRanking />
+    </Suspense>
+  )
 }
