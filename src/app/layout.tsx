@@ -1,5 +1,6 @@
 import './globals.scss'
 import { Inter } from 'next/font/google'
+import { Suspense, type ReactNode } from 'react'
 import { AppInit } from './app-init'
 import { BaseLayout } from './base-layout'
 import { GoogleAdsense } from './google-adsense'
@@ -8,7 +9,6 @@ import { Providers } from './providers'
 import SnackbarComponent from '@/components/organisms/SnackBarComponent'
 import { DEFAULT_META_DESCRIPTION, DEFAULT_META_TITLE } from '@/utils/helpers'
 import type { Metadata } from 'next'
-import type { ReactNode } from 'react'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -50,7 +50,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="ja">
       <GoogleAdsense />
-      <GoogleAnalytics />
+      <Suspense fallback={<div>Loading...</div>}>
+        <GoogleAnalytics />
+      </Suspense>
       <body className={inter.className}>
         <Providers>
           <AppInit />
