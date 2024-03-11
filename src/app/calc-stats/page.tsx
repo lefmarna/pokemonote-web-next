@@ -1,4 +1,3 @@
-import { Suspense } from 'react'
 import { CalcStats } from './CalcStats'
 import { getMetadata } from '@/utils/helpers'
 
@@ -8,9 +7,5 @@ export const metadata = getMetadata(
 )
 
 export default function Page() {
-  return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <CalcStats />
-    </Suspense>
-  )
+  return <CalcStats />
 }
