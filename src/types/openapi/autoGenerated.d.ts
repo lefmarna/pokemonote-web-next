@@ -148,7 +148,7 @@ export interface paths {
           /** @description ページ */
           page?: string
           /** @description 検索ワード */
-          search?: string
+          name?: string
         }
       }
       responses: {

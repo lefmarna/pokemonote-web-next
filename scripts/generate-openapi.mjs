@@ -31,20 +31,17 @@ const generateOpenapi = async () => {
     : process.env.NEXT_PUBLIC_BACKEND_BASE_URL
 
   try {
-    // openapi.jsonファイルをfetchしてくる
     const response = await axios.get('/openapi', {
       baseURL: baseURL,
     })
     await writeFile(tempJsonFile, JSON.stringify(response.data))
 
-    // openapi-typescriptを用いてjsonファイルから型定義ファイルを出力
     await exec('npm run openapi-typescript')
     await exec('npm run fix:openapi')
     console.log('型定義ファイルの生成が完了しました。')
   } catch (error) {
     console.error('エラーが発生しました:', error)
   } finally {
-    // fetchしてきたopenapi.jsonファイルを削除する
     unlink(tempJsonFile)
   }
 }
