@@ -3,7 +3,7 @@ import { Inter } from 'next/font/google'
 import { AppInit } from './app-init'
 import { BaseLayout } from './base-layout'
 import { GoogleAdsense } from './google-adsense'
-// import { GoogleAnalytics } from './google-analytics'
+import { GoogleAnalyticsWrapper } from './google-analytics-wrapper'
 import { Providers } from './providers'
 import SnackbarComponent from '@/components/organisms/SnackBarComponent'
 import { DEFAULT_META_DESCRIPTION, DEFAULT_META_TITLE } from '@/utils/helpers'
@@ -50,9 +50,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="ja">
       <GoogleAdsense />
-      {/* <Suspense fallback={<div>Loading...</div>}> */}
-      {/* <GoogleAnalytics /> */}
-      {/* </Suspense> */}
+      <GoogleAnalyticsWrapper />
       <body className={inter.className}>
         <Providers>
           <AppInit />
