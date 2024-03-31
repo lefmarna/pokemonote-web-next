@@ -1,9 +1,9 @@
 import './globals.scss'
+import { GoogleAnalytics } from '@next/third-parties/google'
 import { Inter } from 'next/font/google'
 import { AppInit } from './app-init'
 import { BaseLayout } from './base-layout'
 import { GoogleAdsense } from './google-adsense'
-import { GoogleAnalyticsWrapper } from './google-analytics-wrapper'
 import { Providers } from './providers'
 import SnackbarComponent from '@/components/organisms/SnackBarComponent'
 import { DEFAULT_META_DESCRIPTION, DEFAULT_META_TITLE } from '@/utils/helpers'
@@ -46,12 +46,16 @@ export const metadata: Metadata = {
     : null),
 }
 
+const GA_TRACKING_ID = process.env.NEXT_PUBLIC_GA_TRACKING_ID
+
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="ja">
       <GoogleAdsense />
-      <GoogleAnalyticsWrapper />
       <body className={inter.className}>
+        {GA_TRACKING_ID !== undefined && (
+          <GoogleAnalytics gaId={GA_TRACKING_ID} />
+        )}
         <Providers>
           <AppInit />
           <BaseLayout>{children}</BaseLayout>
