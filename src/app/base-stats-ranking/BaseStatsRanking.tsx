@@ -305,7 +305,7 @@ export const BaseStatsRanking = () => {
             disableColumnSelector
             disableDensitySelector
             disableRowSelectionOnClick
-            // localeText={jaJP.components?}
+            // localeText={jaJP.components.MuiDataGrid.defaultProps.localeText}
             sortModel={sortModel}
             onSortModelChange={(model) => setSortModel(model)}
           />
