@@ -8,13 +8,13 @@ import {
   FormControlLabel,
   Divider,
 } from '@mui/material'
-// import { jaJP } from '@mui/material/locale'
 import {
   DataGrid,
   GridToolbar,
   getGridNumericOperators,
   getGridStringOperators,
 } from '@mui/x-data-grid'
+import { nlNL } from '@mui/x-data-grid/locales'
 import React, { useMemo, useState } from 'react'
 import { Title } from '@/components/molecules/Title'
 import { useMediaQueryDown } from '@/hooks/style/useMediaQueries'
@@ -305,7 +305,7 @@ export const BaseStatsRanking = () => {
             disableColumnSelector
             disableDensitySelector
             disableRowSelectionOnClick
-            // localeText={jaJP.components.MuiDataGrid.defaultProps.localeText}
+            localeText={nlNL.components.MuiDataGrid.defaultProps.localeText}
             sortModel={sortModel}
             onSortModelChange={(model) => setSortModel(model)}
           />
