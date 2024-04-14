@@ -117,8 +117,9 @@ export const BaseStatsRanking = () => {
       headerName: 'ＨＰ',
       type: 'number',
       minWidth: statsWidth,
-      // valueGetter: (params: GridRenderCellParams<PokemonBasicInfo>) =>
-      //   params.row.baseStats.hp,
+      valueGetter: (_, pokemon: PokemonBasicInfo) => {
+        return pokemon.baseStats.hp
+      },
       filterOperators: filterNumericOperators,
     },
     {
@@ -126,9 +127,9 @@ export const BaseStatsRanking = () => {
       headerName: '攻撃',
       type: 'number',
       minWidth: statsWidth,
-      // valueGetter: (params: GridRenderCellParams<PokemonBasicInfo>) => {
-      //   return isNotShowStats.attack ? '' : params.row.baseStats.attack
-      // },
+      valueGetter: (_, pokemon: PokemonBasicInfo) => {
+        return isNotShowStats.attack ? '' : pokemon.baseStats.attack
+      },
       filterOperators: filterNumericOperators,
     },
     {
@@ -137,8 +138,9 @@ export const BaseStatsRanking = () => {
       type: 'number',
       minWidth: statsWidth,
       filterOperators: filterNumericOperators,
-      // valueGetter: (params: GridRenderCellParams<PokemonBasicInfo>) =>
-      //   params.row.baseStats.defense,
+      valueGetter: (_, pokemon: PokemonBasicInfo) => {
+        return pokemon.baseStats.defense
+      },
     },
     {
       field: 'spAttack',
@@ -146,9 +148,9 @@ export const BaseStatsRanking = () => {
       type: 'number',
       minWidth: statsWidth,
       filterOperators: filterNumericOperators,
-      // valueGetter: (params: GridRenderCellParams<PokemonBasicInfo>) => {
-      //   return isNotShowStats.spAttack ? '' : params.row.baseStats.spAttack
-      // },
+      valueGetter: (_, pokemon: PokemonBasicInfo) => {
+        return isNotShowStats.spAttack ? '' : pokemon.baseStats.spAttack
+      },
     },
     {
       field: 'spDefense',
@@ -156,8 +158,9 @@ export const BaseStatsRanking = () => {
       type: 'number',
       minWidth: statsWidth,
       filterOperators: filterNumericOperators,
-      // valueGetter: (params: GridRenderCellParams<PokemonBasicInfo>) =>
-      //   params.row.baseStats.spDefense,
+      valueGetter: (_, pokemon: PokemonBasicInfo) => {
+        return pokemon.baseStats.spDefense
+      },
     },
     {
       field: 'speed',
@@ -165,9 +168,9 @@ export const BaseStatsRanking = () => {
       type: 'number',
       minWidth: statsWidth,
       filterOperators: filterNumericOperators,
-      // valueGetter: (params: GridRenderCellParams<PokemonBasicInfo>) => {
-      //   return isNotShowStats.speed ? '' : params.row.baseStats.speed
-      // },
+      valueGetter: (_, pokemon: PokemonBasicInfo) => {
+        return isNotShowStats.speed ? '' : pokemon.baseStats.speed
+      },
     },
     {
       field: 'total',
@@ -176,8 +179,9 @@ export const BaseStatsRanking = () => {
       minWidth: statsWidth,
       cellClassName: 'pr-2',
       filterOperators: filterNumericOperators,
-      // valueGetter: (params: GridRenderCellParams<PokemonBasicInfo>) =>
-      //   calcBaseStatsTotal(params.row.baseStats),
+      valueGetter: (_, pokemon: PokemonBasicInfo) => {
+        return calcBaseStatsTotal(pokemon.baseStats)
+      },
     },
   ]
 
