@@ -21,11 +21,7 @@ import { useMediaQueryDown } from '@/hooks/style/useMediaQueries'
 import { usePokemonBasicInfosState } from '@/store/pokemonBasicInfosState'
 import type { RankCheckbox, Stats } from '@/types/front'
 import type { PokemonBasicInfo } from '@/types/openapi/schemas'
-import type {
-  GridSortModel,
-  GridRenderCellParams,
-  GridColDef,
-} from '@mui/x-data-grid'
+import type { GridSortModel, GridColDef } from '@mui/x-data-grid'
 
 export const BaseStatsRanking = () => {
   const pokemonBasicInfos = usePokemonBasicInfosState()
@@ -206,6 +202,51 @@ export const BaseStatsRanking = () => {
     },
   ])
 
+  const localeText = {
+    // Filters toolbar button text
+    toolbarFilters: '絞り込み',
+    toolbarFiltersTooltipShow: '絞り込み条件を開く',
+
+    // Export selector toolbar button text
+    toolbarExport: 'ダウンロード',
+    toolbarExportLabel: 'ダウンロード条件を開く',
+    toolbarExportCSV: 'CSV形式でダウンロードする',
+    toolbarExportExcel: 'Excel形式でダウンロードする',
+
+    // Filter panel text
+    // filterPanelAddFilter: 'Add filter',
+    // filterPanelRemoveAll: 'Remove all',
+    filterPanelDeleteIconLabel: '削除',
+    filterPanelLogicOperator: 'Logic operator',
+    filterPanelOperator: '条件',
+    filterPanelOperatorAnd: 'And',
+    filterPanelOperatorOr: 'Or',
+    filterPanelColumns: '項目',
+    filterPanelInputLabel: '値',
+    filterPanelInputPlaceholder: '',
+
+    // Filter operators text
+    filterOperatorContains: '含む',
+    // filterOperatorEquals: 'equals',
+    // filterOperatorStartsWith: 'starts with',
+    // filterOperatorEndsWith: 'ends with',
+    // filterOperatorIs: 'is',
+    // filterOperatorNot: 'is not',
+    // filterOperatorAfter: 'is after',
+    // filterOperatorOnOrAfter: 'is on or after',
+    // filterOperatorBefore: 'is before',
+    // filterOperatorOnOrBefore: 'is on or before',
+    // filterOperatorIsEmpty: 'is empty',
+    // filterOperatorIsNotEmpty: 'is not empty',
+    // filterOperatorIsAnyOf: 'is any of',
+    'filterOperator=': '一致',
+    'filterOperator!=': '一致しない',
+    'filterOperator>': 'より大きい',
+    'filterOperator>=': '以上',
+    'filterOperator<': 'より小さい',
+    'filterOperator<=': '以下',
+  }
+
   return (
     <Container sx={{ py: 2, px: 1.5 }}>
       <Title text="種族値ランキング（ポケモンSV）" />
@@ -313,8 +354,8 @@ export const BaseStatsRanking = () => {
             disableColumnSelector
             disableDensitySelector
             disableRowSelectionOnClick
-            localeText={nlNL.components.MuiDataGrid.defaultProps.localeText}
             sortModel={sortModel}
+            localeText={localeText}
             onSortModelChange={(model) => setSortModel(model)}
           />
         </Grid>
