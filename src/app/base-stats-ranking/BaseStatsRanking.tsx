@@ -203,6 +203,9 @@ export const BaseStatsRanking = () => {
   ])
 
   const localeText = {
+    // Quick filter toolbar field
+    toolbarQuickFilterPlaceholder: 'ポケモン名で検索',
+
     // Filters toolbar button text
     toolbarFilters: '絞り込み',
     toolbarFiltersTooltipShow: '絞り込み条件を開く',
