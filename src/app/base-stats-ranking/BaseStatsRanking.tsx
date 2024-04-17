@@ -203,6 +203,7 @@ export const BaseStatsRanking = () => {
   ])
 
   const localeText = {
+    noResultsOverlayLabel: 'ポケモンが見つかりませんでした。',
     // Quick filter toolbar field
     toolbarQuickFilterPlaceholder: 'ポケモン名で検索',
 
