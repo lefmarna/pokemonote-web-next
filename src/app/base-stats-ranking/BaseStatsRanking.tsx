@@ -14,7 +14,6 @@ import {
   getGridNumericOperators,
   getGridStringOperators,
 } from '@mui/x-data-grid'
-import { nlNL } from '@mui/x-data-grid/locales'
 import React, { useMemo, useState } from 'react'
 import { Title } from '@/components/molecules/Title'
 import { useMediaQueryDown } from '@/hooks/style/useMediaQueries'
