@@ -20,7 +20,11 @@ import { useMediaQueryDown } from '@/hooks/style/useMediaQueries'
 import { usePokemonBasicInfosState } from '@/store/pokemonBasicInfosState'
 import type { RankCheckbox, Stats } from '@/types/front'
 import type { PokemonBasicInfo } from '@/types/openapi/schemas'
-import type { GridSortModel, GridColDef } from '@mui/x-data-grid'
+import type {
+  GridSortModel,
+  GridColDef,
+  GridLocaleText,
+} from '@mui/x-data-grid'
 
 export const BaseStatsRanking = () => {
   const pokemonBasicInfos = usePokemonBasicInfosState()
@@ -201,7 +205,7 @@ export const BaseStatsRanking = () => {
     },
   ])
 
-  const localeText = {
+  const localeText: Partial<GridLocaleText> = {
     noResultsOverlayLabel: 'ポケモンが見つかりませんでした。',
     // Quick filter toolbar field
     toolbarQuickFilterPlaceholder: 'ポケモン名で検索',
