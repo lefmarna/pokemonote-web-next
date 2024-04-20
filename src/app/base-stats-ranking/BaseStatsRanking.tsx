@@ -207,18 +207,26 @@ export const BaseStatsRanking = () => {
 
   const localeText: Partial<GridLocaleText> = {
     noResultsOverlayLabel: 'ポケモンが見つかりませんでした。',
-    // Quick filter toolbar field
-    toolbarQuickFilterPlaceholder: 'ポケモン名で検索',
 
     // Filters toolbar button text
-    toolbarFilters: '絞り込み',
-    toolbarFiltersTooltipShow: '絞り込み条件を開く',
+    toolbarFilters: 'フィルター',
+    toolbarFiltersLabel: 'フィルター表示',
+    toolbarFiltersTooltipHide: 'フィルター非表示',
+    toolbarFiltersTooltipShow: 'フィルター表示',
+    toolbarFiltersTooltipActive: (count: number) =>
+      `${count}件のフィルターを適用中`,
+
+    // Quick filter toolbar field
+    toolbarQuickFilterPlaceholder: '検索…',
+    toolbarQuickFilterLabel: '検索',
+    toolbarQuickFilterDeleteIconLabel: 'クリア',
 
     // Export selector toolbar button text
-    toolbarExport: 'ダウンロード',
-    toolbarExportLabel: 'ダウンロード条件を開く',
-    toolbarExportCSV: 'CSV形式でダウンロードする',
-    toolbarExportExcel: 'Excel形式でダウンロードする',
+    toolbarExport: 'エクスポート',
+    toolbarExportLabel: 'エクスポート',
+    toolbarExportCSV: 'CSVダウンロード',
+    toolbarExportPrint: '印刷',
+    toolbarExportExcel: 'Excelダウンロード',
 
     // Filter panel text
     // filterPanelAddFilter: 'Add filter',
