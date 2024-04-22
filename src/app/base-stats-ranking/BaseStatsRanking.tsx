@@ -13,15 +13,15 @@ import {
   GridToolbar,
   getGridNumericOperators,
   getGridStringOperators,
-  jaJP,
 } from '@mui/x-data-grid'
+import { jaJP } from '@mui/x-data-grid/locales'
 import React, { useMemo, useState } from 'react'
 import { Title } from '@/components/molecules/Title'
 import { useMediaQueryDown } from '@/hooks/style/useMediaQueries'
 import { usePokemonBasicInfosState } from '@/store/pokemonBasicInfosState'
 import type { RankCheckbox, Stats } from '@/types/front'
 import type { PokemonBasicInfo } from '@/types/openapi/schemas'
-import type { GridSortModel, GridValueGetterParams } from '@mui/x-data-grid'
+import type { GridSortModel, GridColDef } from '@mui/x-data-grid'
 
 export const BaseStatsRanking = () => {
   const pokemonBasicInfos = usePokemonBasicInfosState()
@@ -99,7 +99,7 @@ export const BaseStatsRanking = () => {
   const statsWidth = isSmallDownScreen ? undefined : 115
 
   // DataGridに表示させる内容とオプションの設定
-  const columns = [
+  const columns: GridColDef[] = [
     {
       field: 'name',
       headerName: 'ポケモン名',
@@ -113,8 +113,9 @@ export const BaseStatsRanking = () => {
       headerName: 'ＨＰ',
       type: 'number',
       minWidth: statsWidth,
-      valueGetter: (params: GridValueGetterParams<PokemonBasicInfo>) =>
-        params.row.baseStats.hp,
+      valueGetter: (_, pokemon: PokemonBasicInfo) => {
+        return pokemon.baseStats.hp
+      },
       filterOperators: filterNumericOperators,
     },
     {
@@ -122,8 +123,8 @@ export const BaseStatsRanking = () => {
       headerName: '攻撃',
       type: 'number',
       minWidth: statsWidth,
-      valueGetter: (params: GridValueGetterParams<PokemonBasicInfo>) => {
-        return isNotShowStats.attack ? '' : params.row.baseStats.attack
+      valueGetter: (_, pokemon: PokemonBasicInfo) => {
+        return isNotShowStats.attack ? '' : pokemon.baseStats.attack
       },
       filterOperators: filterNumericOperators,
     },
@@ -133,8 +134,9 @@ export const BaseStatsRanking = () => {
       type: 'number',
       minWidth: statsWidth,
       filterOperators: filterNumericOperators,
-      valueGetter: (params: GridValueGetterParams<PokemonBasicInfo>) =>
-        params.row.baseStats.defense,
+      valueGetter: (_, pokemon: PokemonBasicInfo) => {
+        return pokemon.baseStats.defense
+      },
     },
     {
       field: 'spAttack',
@@ -142,8 +144,8 @@ export const BaseStatsRanking = () => {
       type: 'number',
       minWidth: statsWidth,
       filterOperators: filterNumericOperators,
-      valueGetter: (params: GridValueGetterParams<PokemonBasicInfo>) => {
-        return isNotShowStats.spAttack ? '' : params.row.baseStats.spAttack
+      valueGetter: (_, pokemon: PokemonBasicInfo) => {
+        return isNotShowStats.spAttack ? '' : pokemon.baseStats.spAttack
       },
     },
     {
@@ -152,8 +154,9 @@ export const BaseStatsRanking = () => {
       type: 'number',
       minWidth: statsWidth,
       filterOperators: filterNumericOperators,
-      valueGetter: (params: GridValueGetterParams<PokemonBasicInfo>) =>
-        params.row.baseStats.spDefense,
+      valueGetter: (_, pokemon: PokemonBasicInfo) => {
+        return pokemon.baseStats.spDefense
+      },
     },
     {
       field: 'speed',
@@ -161,8 +164,8 @@ export const BaseStatsRanking = () => {
       type: 'number',
       minWidth: statsWidth,
       filterOperators: filterNumericOperators,
-      valueGetter: (params: GridValueGetterParams<PokemonBasicInfo>) => {
-        return isNotShowStats.speed ? '' : params.row.baseStats.speed
+      valueGetter: (_, pokemon: PokemonBasicInfo) => {
+        return isNotShowStats.speed ? '' : pokemon.baseStats.speed
       },
     },
     {
@@ -172,8 +175,9 @@ export const BaseStatsRanking = () => {
       minWidth: statsWidth,
       cellClassName: 'pr-2',
       filterOperators: filterNumericOperators,
-      valueGetter: (params: GridValueGetterParams<PokemonBasicInfo>) =>
-        calcBaseStatsTotal(params.row.baseStats),
+      valueGetter: (_, pokemon: PokemonBasicInfo) => {
+        return calcBaseStatsTotal(pokemon.baseStats)
+      },
     },
   ]
 
@@ -305,8 +309,8 @@ export const BaseStatsRanking = () => {
             disableColumnSelector
             disableDensitySelector
             disableRowSelectionOnClick
-            localeText={jaJP.components.MuiDataGrid.defaultProps.localeText}
             sortModel={sortModel}
+            localeText={jaJP.components.MuiDataGrid.defaultProps.localeText}
             onSortModelChange={(model) => setSortModel(model)}
           />
         </Grid>
