@@ -284,7 +284,7 @@ export const BaseStatsRanking = () => {
                 minHeight: '109px',
               },
               '& .MuiDataGrid-filler': {
-                height: 0,
+                height: '0 !important',
               },
               '& .MuiDataGrid-toolbarContainer': {
                 mb: 2,
