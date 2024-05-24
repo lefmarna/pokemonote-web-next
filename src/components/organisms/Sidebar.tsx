@@ -23,6 +23,7 @@ import {
   ListItemText,
 } from '@mui/material'
 import Link from 'next/link'
+import { useState, useEffect } from 'react'
 import { AdCode } from './AdCode'
 import { useMediaQueryUp } from '@/hooks/style/useMediaQueries'
 import { useAuthUserState } from '@/store/authUserState'
@@ -109,13 +110,16 @@ export const Sidebar = (props: Props) => {
 
   const isLargeUpScreen = useMediaQueryUp('lg')
 
+  const [drawerVariant, setDrawerVariant] = useState<
+    'persistent' | 'temporary'
+  >(isLargeUpScreen ? 'persistent' : 'temporary')
+
+  useEffect(() => {
+    setDrawerVariant(isLargeUpScreen ? 'persistent' : 'temporary')
+  }, [isLargeUpScreen])
+
   return (
-    <Drawer
-      open={open}
-      onClose={onClose}
-      anchor="left"
-      variant={isLargeUpScreen ? 'persistent' : 'temporary'}
-    >
+    <Drawer open={open} onClose={onClose} anchor="left" variant={drawerVariant}>
       <Divider />
       <ListItem>
         <ListItemText primary="Menu" />

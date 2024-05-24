@@ -21,7 +21,7 @@
     "sourceType": "module"
   },
   "rules": {
-    "@typescript-eslint/no-unused-vars": ["warn"],
+    "@typescript-eslint/no-unused-vars": 1,
     "import/order": [
       "error",
       {
