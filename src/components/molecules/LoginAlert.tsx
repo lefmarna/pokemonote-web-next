@@ -22,14 +22,13 @@ export const LoginAlert = () => {
   }
 
   return (
-    <Container maxWidth="xl" disableGutters>
+    <Container maxWidth="xl" disableGutters sx={{ pt: 1.5, px: 1.5 }}>
       <Alert
-        variant="filled"
+        variant="outlined"
         severity="info"
+        color="warning"
         sx={{
-          justifyContent: 'center',
-          backgroundColor: '#FFA726',
-          color: 'white',
+          color: '#ed6c02',
         }}
       >
         計算結果の保存には、
