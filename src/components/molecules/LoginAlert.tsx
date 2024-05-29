@@ -1,3 +1,5 @@
+'use client'
+
 import styled from '@emotion/styled'
 import Alert from '@mui/material/Alert'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
