@@ -3,8 +3,14 @@
 import { Alert } from '@mui/material'
 import Snackbar from '@mui/material/Snackbar'
 import { useSnackbarMutators, useSnackbarState } from '@/store/snackbarState'
+import type { SxProps, Theme } from '@mui/material'
 
-function SnackbarComponent() {
+type Props = {
+  sx?: SxProps<Theme>
+}
+
+function SnackbarComponent(props: Props) {
+  const { sx = undefined } = props
   const snackbar = useSnackbarState()
 
   const { closeSnackbar } = useSnackbarMutators()
@@ -14,9 +20,12 @@ function SnackbarComponent() {
       open={snackbar.isOpen}
       autoHideDuration={3000}
       onClose={closeSnackbar}
-      anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+      anchorOrigin={snackbar.anchorOrigin}
+      sx={sx}
     >
-      <Alert severity={snackbar.severity}>{snackbar.message}</Alert>
+      <Alert severity={snackbar.severity} variant="filled">
+        {snackbar.message}
+      </Alert>
     </Snackbar>
   )
 }

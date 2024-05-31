@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { Header } from '@/components/organisms/Header'
 import { Sidebar } from '@/components/organisms/Sidebar'
+import SnackbarComponent from '@/components/organisms/SnackBarComponent'
 import { LoadingPageTemplate } from '@/components/templates/LoadingPageTemplate'
 import { useMediaQueryUp } from '@/hooks/style/useMediaQueries'
 import { useIsInitializationState } from '@/store/isInitializationState'
@@ -51,6 +52,7 @@ export const BaseLayout = (props: Props) => {
   return (
     <>
       <Sidebar open={open} onClose={onClose} />
+      <SnackbarComponent />
       <Box
         component="main"
         sx={{

@@ -46,7 +46,10 @@ export const Login = noAuthMiddleware(() => {
 
       updateAuthUser(_authUser)
       setIsShowAlert(true)
-      showSnackBar('ログインしました')
+      showSnackBar('ログインしました', 'success', {
+        vertical: 'top',
+        horizontal: 'center',
+      })
     } catch (error) {
       setErrors(exceptionErrorToArray(error))
       console.log(error)

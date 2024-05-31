@@ -1,11 +1,12 @@
 import { useCallback } from 'react'
 import { atom, useRecoilValue, useSetRecoilState } from 'recoil'
-import type { AlertColor } from '@mui/material'
+import type { AlertColor, SnackbarOrigin } from '@mui/material'
 
 type SnackBar = {
   isOpen: boolean
   message: string
   severity: AlertColor | undefined
+  anchorOrigin: SnackbarOrigin | undefined
 }
 
 export const snackbarRecoilState = atom<SnackBar>({
@@ -14,6 +15,7 @@ export const snackbarRecoilState = atom<SnackBar>({
     isOpen: false,
     message: '',
     severity: undefined,
+    anchorOrigin: undefined,
   },
 })
 
@@ -25,11 +27,19 @@ export const useSnackbarMutators = () => {
   const setSnackbar = useSetRecoilState(snackbarRecoilState)
 
   const showSnackBar = useCallback(
-    (newMessage: string, newSeverity: AlertColor = 'success') => {
+    (
+      message: string,
+      severity: AlertColor = 'success',
+      anchorOrigin: SnackbarOrigin = {
+        vertical: 'bottom',
+        horizontal: 'center',
+      }
+    ) => {
       setSnackbar({
         isOpen: true,
-        message: newMessage,
-        severity: newSeverity,
+        message,
+        severity,
+        anchorOrigin,
       })
     },
     [setSnackbar]
@@ -40,6 +50,7 @@ export const useSnackbarMutators = () => {
       isOpen: false,
       message: '',
       severity: undefined,
+      anchorOrigin: undefined,
     })
   }, [setSnackbar])
 
