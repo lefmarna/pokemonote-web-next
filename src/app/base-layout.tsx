@@ -49,16 +49,15 @@ export const BaseLayout = (props: Props) => {
 
   if (isInitialization === false) return <LoadingPageTemplate />
 
+  const marginLeft = isLargeUpScreen && open ? '275.523px' : '0px'
+
   return (
     <>
       <Sidebar open={open} onClose={onClose} />
-      <SnackbarComponent />
-      <Box
-        component="main"
-        sx={{
-          marginLeft: isLargeUpScreen && open ? '275.523px' : '0px',
-        }}
-      >
+      <Box component="main" sx={{ marginLeft }}>
+        <div>
+          <SnackbarComponent sx={{ width: `calc(100% - ${marginLeft})` }} />
+        </div>
         <Header toggleDrawer={toggleDrawer} />
         {children}
       </Box>
