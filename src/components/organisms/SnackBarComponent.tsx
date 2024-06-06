@@ -1,6 +1,6 @@
 'use client'
 
-import { Alert, Fade, Slide } from '@mui/material'
+import { Alert, Slide } from '@mui/material'
 import Snackbar from '@mui/material/Snackbar'
 import { useSnackbarMutators, useSnackbarState } from '@/store/snackbarState'
 import type { SxProps, Theme } from '@mui/material'
