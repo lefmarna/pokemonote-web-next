@@ -1,16 +1,10 @@
 'use client'
 
-import { Alert, Slide } from '@mui/material'
+import { Box } from '@mui/material'
 import Snackbar from '@mui/material/Snackbar'
 import { useSnackbarMutators, useSnackbarState } from '@/store/snackbarState'
-import type { SxProps, Theme } from '@mui/material'
 
-type Props = {
-  sx?: SxProps<Theme>
-}
-
-function SnackbarComponent(props: Props) {
-  const { sx = undefined } = props
+function SnackbarComponent() {
   const snackbar = useSnackbarState()
 
   const { closeSnackbar } = useSnackbarMutators()
@@ -20,17 +14,11 @@ function SnackbarComponent(props: Props) {
       open={snackbar.isOpen}
       autoHideDuration={3000}
       onClose={closeSnackbar}
-      TransitionComponent={(props) => <Slide {...props} direction="left" />}
-      anchorOrigin={snackbar.anchorOrigin}
-      sx={sx}
+      anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
     >
-      <Alert
-        severity={snackbar.severity}
-        variant="filled"
-        sx={{ width: '100%' }}
-      >
+      <Box bgcolor="success.main" color="white" padding={2}>
         {snackbar.message}
-      </Alert>
+      </Box>
     </Snackbar>
   )
 }

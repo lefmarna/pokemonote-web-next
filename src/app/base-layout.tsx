@@ -55,9 +55,7 @@ export const BaseLayout = (props: Props) => {
     <>
       <Sidebar open={open} onClose={onClose} />
       <Box component="main" sx={{ marginLeft }}>
-        <div>
-          <SnackbarComponent sx={{ width: `calc(100% - ${marginLeft})` }} />
-        </div>
+        <SnackbarComponent />
         <Header toggleDrawer={toggleDrawer} />
         {children}
       </Box>
