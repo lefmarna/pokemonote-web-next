@@ -16,7 +16,14 @@ function SnackbarComponent() {
       onClose={closeSnackbar}
       anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
     >
-      <Box bgcolor="success.main" color="white" padding={2}>
+      <Box
+        bgcolor="success.main"
+        color="white"
+        sx={{
+          px: 2,
+          py: 1,
+        }}
+      >
         {snackbar.message}
       </Box>
     </Snackbar>
