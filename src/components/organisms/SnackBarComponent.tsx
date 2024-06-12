@@ -22,6 +22,7 @@ function SnackbarComponent() {
         sx={{
           px: 2,
           py: 1,
+          borderRadius: '10px',
         }}
       >
         {snackbar.message}
