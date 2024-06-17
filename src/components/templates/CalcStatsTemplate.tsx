@@ -382,7 +382,7 @@ export const CalcStatsTemplate = (props: Props) => {
               <BottomNavigationAction onClick={handleOpen} icon={<Apps />} />
               {authUser && (
                 <BottomNavigationAction
-                  onClick={handleClose}
+                  onClick={submit}
                   icon={<Send color="primary" />}
                 />
               )}
