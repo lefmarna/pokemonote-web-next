@@ -4,12 +4,13 @@ import { Apps, Autorenew, Send } from '@mui/icons-material'
 import {
   BottomNavigation,
   BottomNavigationAction,
+  Box,
   Container,
   Dialog,
   Grid,
   Paper,
+  Typography,
 } from '@mui/material'
-import { Box } from '@mui/system'
 import { useState } from 'react'
 import { Title } from '@/components/molecules/Title'
 import { BaseStatsField } from '@/components/organisms/BaseStatsField'
@@ -223,7 +224,9 @@ export const CalcStatsTemplate = (props: Props) => {
     return isMdDown ? (
       <Dialog open={dialog} onClose={handleClose}>
         <Box sx={{ px: 2, py: 2 }}>
-          <div>オプション</div>
+          <Typography variant="h6" component="div" textAlign="center">
+            オプション
+          </Typography>
           {children}
         </Box>
       </Dialog>
