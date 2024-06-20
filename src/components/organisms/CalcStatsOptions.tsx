@@ -165,7 +165,7 @@ export const CalcStatsOptions = memo(function CalcStatsOptions(props: Props) {
 
   return (
     <Grid container spacing={2}>
-      <Grid item md={6}>
+      <Grid item md={6} mt={2}>
         <MyCard>
           <MyCardTitle>耐久指数</MyCardTitle>
           <Typography variant="body1" gutterBottom sx={{ px: 2, pb: 1 }}>
