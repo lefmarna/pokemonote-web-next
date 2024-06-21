@@ -1,6 +1,7 @@
 'use client'
 
 import { Apps, Autorenew, Send } from '@mui/icons-material'
+import { Close } from '@mui/icons-material'
 import {
   BottomNavigation,
   BottomNavigationAction,
@@ -8,6 +9,7 @@ import {
   Container,
   Dialog,
   Grid,
+  IconButton,
   Paper,
   Typography,
 } from '@mui/material'
@@ -226,6 +228,9 @@ export const CalcStatsTemplate = (props: Props) => {
         <Box sx={{ px: 2, py: 2 }}>
           <Typography variant="h6" component="div" textAlign="center">
             オプション
+            <IconButton>
+              <Close />
+            </IconButton>
           </Typography>
           {children}
         </Box>
