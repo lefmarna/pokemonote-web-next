@@ -8,10 +8,10 @@ import {
   Box,
   Container,
   Dialog,
+  DialogTitle,
   Grid,
   IconButton,
   Paper,
-  Typography,
 } from '@mui/material'
 import { useState } from 'react'
 import { Title } from '@/components/molecules/Title'
@@ -225,15 +225,24 @@ export const CalcStatsTemplate = (props: Props) => {
   const wrapCalcStatsOptions = (children: ReactNode) => {
     return isMdDown ? (
       <Dialog open={dialog} onClose={handleClose}>
-        <Box sx={{ px: 2, py: 2 }}>
-          <Typography variant="h6" component="div" textAlign="center">
-            オプション
-            <IconButton>
+        <Container sx={{ pb: 2 }}>
+          <Box>
+            <DialogTitle textAlign="center">オプション</DialogTitle>
+            <IconButton
+              aria-label="close"
+              onClick={handleClose}
+              sx={{
+                position: 'absolute',
+                right: 8,
+                top: 8,
+                color: (theme) => theme.palette.grey[500],
+              }}
+            >
               <Close />
             </IconButton>
-          </Typography>
+          </Box>
           {children}
-        </Box>
+        </Container>
       </Dialog>
     ) : (
       <Grid item md={9} xs={18}>
