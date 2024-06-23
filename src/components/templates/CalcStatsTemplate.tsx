@@ -224,7 +224,15 @@ export const CalcStatsTemplate = (props: Props) => {
 
   const wrapCalcStatsOptions = (children: ReactNode) => {
     return isMdDown ? (
-      <Dialog open={dialog} onClose={handleClose}>
+      <Dialog
+        open={dialog}
+        onClose={handleClose}
+        PaperProps={{
+          sx: {
+            m: 3,
+          },
+        }}
+      >
         <Container sx={{ pb: 2 }}>
           <Box>
             <DialogTitle textAlign="center">オプション</DialogTitle>

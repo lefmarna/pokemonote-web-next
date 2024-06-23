@@ -187,16 +187,16 @@ export const CalcStatsOptions = memo(function CalcStatsOptions(props: Props) {
       <Grid item xs={12}>
         <MyCard>
           <CardContent sx={{ pb: 0 }}>
-            <Typography variant="h5" align="center">
+            <Typography variant="h6" align="center">
               耐久調整
             </Typography>
             <Typography variant="body2" color="textSecondary" sx={{ mt: 1 }}>
               最も理想的な配分で、余りの努力値をHBDに振り分けます。
             </Typography>
             <Grid container>
-              <Grid item xs={4} sx={{ textAlign: 'center' }}>
-                <Card elevation={0}>
-                  <CardContent>
+              <Grid item xs={3} sx={{ textAlign: 'center' }}>
+                <Card elevation={0} sx={{ px: 0 }}>
+                  <CardContent sx={{ pl: 0 }}>
                     <Typography
                       variant="subtitle1"
                       sx={{
@@ -243,9 +243,9 @@ export const CalcStatsOptions = memo(function CalcStatsOptions(props: Props) {
                   </CardContent>
                 </Card>
               </Grid>
-              <Grid item xs={8} sx={{ textAlign: 'center' }}>
+              <Grid item xs={9} sx={{ textAlign: 'center' }}>
                 <Card elevation={0}>
-                  <CardContent>
+                  <CardContent sx={{ px: 0 }}>
                     <FormControl>
                       <FormLabel id="demo-radio-buttons-group-label">
                         計算スタイル
@@ -259,11 +259,13 @@ export const CalcStatsOptions = memo(function CalcStatsOptions(props: Props) {
                           control={<Radio />}
                           label="バランス - HBD/(B+D)"
                           value="balance"
+                          sx={{ mr: 0 }}
                         />
                         <FormControlLabel
                           control={<Radio />}
                           label="総合耐久 - H=B+D"
                           value="performance"
+                          sx={{ mr: 0 }}
                         />
                       </RadioGroup>
                     </FormControl>
