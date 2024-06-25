@@ -183,8 +183,8 @@ export const CalcStatsOptions = memo(function CalcStatsOptions(props: Props) {
           responsive="true"
           style={{
             display: 'inline-block',
-            width: 'calc((100vw - 224px)',
-            height: '149px',
+            width: 'calc((100vw - 80px) / 2)',
+            height: '145px',
           }}
         />
       </Grid>
