@@ -21,6 +21,7 @@ import {
 } from '@mui/material'
 import { memo, useState } from 'react'
 import { AdCode } from '@/components/organisms/AdCode'
+import { useMediaQueryUp } from '@/hooks/style/useMediaQueries'
 import { useAuthUserState } from '@/store/authUserState'
 import type { NullableStats, Stats } from '@/types/front'
 import type { SelectChangeEvent } from '@mui/material'
@@ -163,6 +164,8 @@ export const CalcStatsOptions = memo(function CalcStatsOptions(props: Props) {
     }
   }
 
+  const isMdUpScreen = useMediaQueryUp('md')
+
   return (
     <Grid container spacing={2}>
       <Grid item md={6} mt={2}>
@@ -183,7 +186,7 @@ export const CalcStatsOptions = memo(function CalcStatsOptions(props: Props) {
           format="rectangle"
           style={{
             display: 'inline-block',
-            width: 'calc((100vw - 80px) / 2)',
+            width: '100%',
             height: '149px',
           }}
         />
