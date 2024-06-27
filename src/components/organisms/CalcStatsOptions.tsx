@@ -164,7 +164,7 @@ export const CalcStatsOptions = memo(function CalcStatsOptions(props: Props) {
     }
   }
 
-  const isMdUpScreen = useMediaQueryUp('md')
+  const isXsUpScreen = useMediaQueryUp('xs')
 
   return (
     <Grid container spacing={2}>
@@ -185,7 +185,7 @@ export const CalcStatsOptions = memo(function CalcStatsOptions(props: Props) {
           slot="1632034496"
           style={{
             display: 'inline-block',
-            width: isMdUpScreen ? '100%' : '129px',
+            width: isXsUpScreen ? '100%' : 'calc(100vw - 222px)',
             height: '125px',
           }}
         />
