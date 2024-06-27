@@ -183,11 +183,10 @@ export const CalcStatsOptions = memo(function CalcStatsOptions(props: Props) {
       <Grid item md={6}>
         <AdCode
           slot="1632034496"
-          format="rectangle"
           style={{
             display: 'inline-block',
-            width: '100%',
-            height: '149px',
+            width: isMdUpScreen ? '100%' : '129px',
+            height: '125px',
           }}
         />
       </Grid>
