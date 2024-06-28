@@ -167,8 +167,8 @@ export const CalcStatsOptions = memo(function CalcStatsOptions(props: Props) {
   const isXsUpScreen = useMediaQueryUp('xs')
 
   return (
-    <Grid container spacing={2}>
-      <Grid item md={6} mt={2}>
+    <Grid container>
+      <Grid item md={6}>
         <MyCard>
           <MyCardTitle>耐久指数</MyCardTitle>
           <Typography variant="body1" gutterBottom sx={{ px: 2, pb: 1 }}>
@@ -185,12 +185,12 @@ export const CalcStatsOptions = memo(function CalcStatsOptions(props: Props) {
           slot="1632034496"
           style={{
             display: 'inline-block',
-            width: isXsUpScreen ? '100%' : 'calc(100vw - 222px)',
-            height: '125px',
+            width: '100%',
+            height: '151px',
           }}
         />
       </Grid>
-      <Grid item xs={12}>
+      <Grid item xs={12} mt={2}>
         <MyCard>
           <CardContent sx={{ pb: 0 }}>
             <Typography variant="h6" align="center">
@@ -296,7 +296,7 @@ export const CalcStatsOptions = memo(function CalcStatsOptions(props: Props) {
           </CardActions>
         </MyCard>
       </Grid>
-      <Grid item xs={12}>
+      <Grid item xs={12} mt={2}>
         <TextField
           value={description}
           variant="outlined"
@@ -314,6 +314,7 @@ export const CalcStatsOptions = memo(function CalcStatsOptions(props: Props) {
           sx={{ textAlign: 'center' }}
           display="flex"
           justifyContent="space-around"
+          mt={2}
         >
           <Button color="error" variant="outlined" onClick={resetEffortValue}>
             努力値リセット
