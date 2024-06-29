@@ -180,7 +180,7 @@ export const CalcStatsOptions = memo(function CalcStatsOptions(props: Props) {
           </Typography>
         </MyCard>
       </Grid>
-      <Grid item md={6} mx="auto">
+      <Grid item md={6} width="calc(100% - 144px)" display="flex" mx="auto">
         <AdCode
           slot="1632034496"
           style={{
