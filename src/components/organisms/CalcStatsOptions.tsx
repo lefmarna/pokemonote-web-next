@@ -21,7 +21,6 @@ import {
 } from '@mui/material'
 import { memo, useState } from 'react'
 import { AdCode } from '@/components/organisms/AdCode'
-import { useMediaQueryUp } from '@/hooks/style/useMediaQueries'
 import { useAuthUserState } from '@/store/authUserState'
 import type { NullableStats, Stats } from '@/types/front'
 import type { SelectChangeEvent } from '@mui/material'
@@ -163,8 +162,6 @@ export const CalcStatsOptions = memo(function CalcStatsOptions(props: Props) {
       closeDialog()
     }
   }
-
-  const isXsUpScreen = useMediaQueryUp('xs')
 
   return (
     <Grid container>
