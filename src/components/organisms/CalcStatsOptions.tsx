@@ -164,7 +164,7 @@ export const CalcStatsOptions = memo(function CalcStatsOptions(props: Props) {
   }
 
   return (
-    <Grid container spacing={2}>
+    <Grid container>
       <Grid item md={6}>
         <MyCard>
           <MyCardTitle>耐久指数</MyCardTitle>
@@ -177,26 +177,29 @@ export const CalcStatsOptions = memo(function CalcStatsOptions(props: Props) {
           </Typography>
         </MyCard>
       </Grid>
-      <Grid item md={6} sx={{ textAlign: 'center' }}>
+      <Grid item md={6} width="calc(100% - 144px)" display="flex" mx="auto">
         <AdCode
           slot="1632034496"
-          responsive="true"
-          style={{ display: 'inline-block', width: '212px', height: '145px' }}
+          style={{
+            display: 'inline-block',
+            width: '100%',
+            height: '151px',
+          }}
         />
       </Grid>
-      <Grid item xs={12}>
+      <Grid item xs={12} mt={2}>
         <MyCard>
           <CardContent sx={{ pb: 0 }}>
-            <Typography variant="h5" align="center">
+            <Typography variant="h6" align="center">
               耐久調整
             </Typography>
             <Typography variant="body2" color="textSecondary" sx={{ mt: 1 }}>
               最も理想的な配分で、余りの努力値をHBDに振り分けます。
             </Typography>
             <Grid container>
-              <Grid item xs={4} sx={{ textAlign: 'center' }}>
-                <Card elevation={0}>
-                  <CardContent>
+              <Grid item xs={3} sx={{ textAlign: 'center' }}>
+                <Card elevation={0} sx={{ px: 0 }}>
+                  <CardContent sx={{ pl: 0 }}>
                     <Typography
                       variant="subtitle1"
                       sx={{
@@ -243,9 +246,9 @@ export const CalcStatsOptions = memo(function CalcStatsOptions(props: Props) {
                   </CardContent>
                 </Card>
               </Grid>
-              <Grid item xs={8} sx={{ textAlign: 'center' }}>
+              <Grid item xs={9} sx={{ textAlign: 'center' }}>
                 <Card elevation={0}>
-                  <CardContent>
+                  <CardContent sx={{ px: 0 }}>
                     <FormControl>
                       <FormLabel id="demo-radio-buttons-group-label">
                         計算スタイル
@@ -259,11 +262,13 @@ export const CalcStatsOptions = memo(function CalcStatsOptions(props: Props) {
                           control={<Radio />}
                           label="バランス - HBD/(B+D)"
                           value="balance"
+                          sx={{ mr: 0 }}
                         />
                         <FormControlLabel
                           control={<Radio />}
                           label="総合耐久 - H=B+D"
                           value="performance"
+                          sx={{ mr: 0 }}
                         />
                       </RadioGroup>
                     </FormControl>
@@ -288,7 +293,7 @@ export const CalcStatsOptions = memo(function CalcStatsOptions(props: Props) {
           </CardActions>
         </MyCard>
       </Grid>
-      <Grid item xs={12}>
+      <Grid item xs={12} mt={2}>
         <TextField
           value={description}
           variant="outlined"
@@ -306,6 +311,7 @@ export const CalcStatsOptions = memo(function CalcStatsOptions(props: Props) {
           sx={{ textAlign: 'center' }}
           display="flex"
           justifyContent="space-around"
+          mt={2}
         >
           <Button color="error" variant="outlined" onClick={resetEffortValue}>
             努力値リセット

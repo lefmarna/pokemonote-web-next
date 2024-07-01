@@ -5,7 +5,6 @@ import { AppInit } from './app-init'
 import { BaseLayout } from './base-layout'
 import { GoogleAdsense } from './google-adsense'
 import { Providers } from './providers'
-import SnackbarComponent from '@/components/organisms/SnackBarComponent'
 import { DEFAULT_META_DESCRIPTION, DEFAULT_META_TITLE } from '@/utils/helpers'
 import type { Metadata } from 'next'
 import type { ReactNode } from 'react'
@@ -59,7 +58,6 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <Providers>
           <AppInit />
           <BaseLayout>{children}</BaseLayout>
-          <SnackbarComponent />
         </Providers>
       </body>
     </html>

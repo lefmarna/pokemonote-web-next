@@ -1,5 +1,6 @@
 'use client'
 
+import { Box } from '@mui/material'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { LoginAlert } from '@/components/molecules/LoginAlert'
@@ -43,7 +44,11 @@ export const CalcStats = () => {
 
   return (
     <div>
-      {!authUser && <LoginAlert />}
+      {!authUser && (
+        <Box sx={{ pt: 1.5, px: 1.5 }}>
+          <LoginAlert />
+        </Box>
+      )}
       <CalcStatsTemplate
         title="ステータス計算機（ポケモンSV）"
         buttonText="投稿する"

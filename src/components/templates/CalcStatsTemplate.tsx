@@ -1,15 +1,18 @@
 'use client'
 
 import { Apps, Autorenew, Send } from '@mui/icons-material'
+import { Close } from '@mui/icons-material'
 import {
   BottomNavigation,
   BottomNavigationAction,
+  Box,
   Container,
   Dialog,
+  DialogTitle,
   Grid,
+  IconButton,
   Paper,
 } from '@mui/material'
-import { Box } from '@mui/system'
 import { useState } from 'react'
 import { Title } from '@/components/molecules/Title'
 import { BaseStatsField } from '@/components/organisms/BaseStatsField'
@@ -221,11 +224,33 @@ export const CalcStatsTemplate = (props: Props) => {
 
   const wrapCalcStatsOptions = (children: ReactNode) => {
     return isMdDown ? (
-      <Dialog open={dialog} onClose={handleClose}>
-        <Box sx={{ px: 2, py: 2 }}>
-          <div>オプション</div>
+      <Dialog
+        open={dialog}
+        onClose={handleClose}
+        PaperProps={{
+          sx: {
+            m: 3,
+          },
+        }}
+      >
+        <Container sx={{ pb: 2 }}>
+          <Box>
+            <DialogTitle textAlign="center">オプション</DialogTitle>
+            <IconButton
+              aria-label="close"
+              onClick={handleClose}
+              sx={{
+                position: 'absolute',
+                right: 8,
+                top: 8,
+                color: (theme) => theme.palette.grey[500],
+              }}
+            >
+              <Close />
+            </IconButton>
+          </Box>
           {children}
-        </Box>
+        </Container>
       </Dialog>
     ) : (
       <Grid item md={9} xs={18}>
@@ -382,7 +407,7 @@ export const CalcStatsTemplate = (props: Props) => {
               <BottomNavigationAction onClick={handleOpen} icon={<Apps />} />
               {authUser && (
                 <BottomNavigationAction
-                  onClick={handleClose}
+                  onClick={submit}
                   icon={<Send color="primary" />}
                 />
               )}

@@ -4,7 +4,6 @@ import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { EmailInput } from '@/components/forms/EmailInput'
 import { PasswordInput } from '@/components/forms/PasswordInput'
-import { MessageAlert } from '@/components/organisms/MessageAlert'
 import { FormTemplate } from '@/components/templates/FormTemplate'
 import { noAuthMiddleware } from '@/hocs/noAuthMiddleware'
 import { useAuthUserMutators } from '@/store/authUserState'
@@ -14,7 +13,6 @@ import { exceptionErrorToArray, requestOpenapi } from '@/utils/helpers'
 export const Login = noAuthMiddleware(() => {
   const router = useRouter()
   const { updateAuthUser } = useAuthUserMutators()
-  const [isShowAlert, setIsShowAlert] = useState(false)
 
   const [isLoading, setIsLoading] = useState(false)
   const [errors, setErrors] = useState<string[]>()
@@ -45,8 +43,10 @@ export const Login = noAuthMiddleware(() => {
       }
 
       updateAuthUser(_authUser)
-      setIsShowAlert(true)
-      showSnackBar('ログインしました')
+      showSnackBar('ログインしました', 'success', {
+        vertical: 'top',
+        horizontal: 'center',
+      })
     } catch (error) {
       setErrors(exceptionErrorToArray(error))
       console.log(error)
@@ -79,7 +79,6 @@ export const Login = noAuthMiddleware(() => {
         <EmailInput value={email} setValue={setEmail} required />
         <PasswordInput value={password} setValue={setPassword} required />
       </FormTemplate>
-      <MessageAlert open={isShowAlert} setOpen={setIsShowAlert} />
     </>
   )
 })

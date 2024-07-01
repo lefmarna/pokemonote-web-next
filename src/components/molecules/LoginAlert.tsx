@@ -1,6 +1,7 @@
+'use client'
+
 import styled from '@emotion/styled'
 import Alert from '@mui/material/Alert'
-import Container from '@mui/material/Container'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useRememberRouteMutators } from '@/store/rememberRouteState'
 
@@ -22,20 +23,17 @@ export const LoginAlert = () => {
   }
 
   return (
-    <Container maxWidth="xl" disableGutters>
-      <Alert
-        variant="filled"
-        severity="info"
-        sx={{
-          justifyContent: 'center',
-          backgroundColor: '#FFA726',
-          color: 'white',
-        }}
-      >
-        計算結果の保存には、
-        <LoginText onClick={goToLoginPage}>ログイン</LoginText>
-        が必要です。
-      </Alert>
-    </Container>
+    <Alert
+      variant="outlined"
+      severity="info"
+      color="warning"
+      sx={{
+        color: '#ed6c02',
+      }}
+    >
+      計算結果の保存には、
+      <LoginText onClick={goToLoginPage}>ログイン</LoginText>
+      が必要です。
+    </Alert>
   )
 }

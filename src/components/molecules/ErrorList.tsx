@@ -1,3 +1,5 @@
+'use client'
+
 import { List, ListItem, ListItemText } from '@mui/material'
 import { memo } from 'react'
 import type { SxProps } from '@mui/material'

@@ -1,6 +1,6 @@
 'use client'
 
-import { Alert } from '@mui/material'
+import { Box, Slide } from '@mui/material'
 import Snackbar from '@mui/material/Snackbar'
 import { useSnackbarMutators, useSnackbarState } from '@/store/snackbarState'
 
@@ -14,9 +14,21 @@ function SnackbarComponent() {
       open={snackbar.isOpen}
       autoHideDuration={3000}
       onClose={closeSnackbar}
-      anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+      anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+      TransitionComponent={Slide}
     >
-      <Alert severity={snackbar.severity}>{snackbar.message}</Alert>
+      <Box
+        bgcolor="success.main"
+        color="white"
+        sx={{
+          px: 2,
+          py: 1,
+          borderRadius: '10px',
+          boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
+        }}
+      >
+        {snackbar.message}
+      </Box>
     </Snackbar>
   )
 }
